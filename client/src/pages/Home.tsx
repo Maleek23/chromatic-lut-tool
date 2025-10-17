@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { UploadZone } from "@/components/UploadZone";
 import { ComparisonSlider } from "@/components/ComparisonSlider";
 import { ColorStatistics } from "@/components/ColorStatistics";
+import { HistogramVisualization } from "@/components/HistogramVisualization";
 import { LutControls } from "@/components/LutControls";
 import { DownloadSection } from "@/components/DownloadSection";
 import { PresetSelector } from "@/components/PresetSelector";
@@ -395,6 +396,8 @@ export default function Home() {
                 {/* Sidebar */}
                 <div className="space-y-6">
                   <ColorStatistics analysis={analysis} />
+                  
+                  <HistogramVisualization rgbHistogram={analysis.rgbHistogram} />
                   
                   <PresetSelector
                     selectedPresetId={selectedPresetId}
