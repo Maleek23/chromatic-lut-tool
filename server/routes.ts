@@ -90,20 +90,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const { imageData, gridSize, intensity, format, advancedControls, presetId, precision, exportPreview } = validationResult.data;
+      const { imageData, gridSize, intensity, format, advancedControls, precision, exportPreview } = validationResult.data;
 
       // Convert base64 to buffer
       const base64Data = imageData.replace(/^data:image\/\w+;base64,/, "");
       const imageBuffer = Buffer.from(base64Data, "base64");
 
-      // Get controls from preset if provided
-      let controls = advancedControls;
-      if (presetId && !controls) {
-        const preset = getPresetById(presetId);
-        if (preset) {
-          controls = preset.controls;
-        }
-      }
+      const controls = advancedControls;
 
       // Generate LUT with precision metadata
       const lutData = await generateLUT(
@@ -116,8 +109,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       );
 
       const timestamp = new Date().toISOString().split("T")[0];
-      const presetSuffix = presetId ? `_${presetId}` : '';
-      const filename = `color_grade_${timestamp}${presetSuffix}_${gridSize}x${gridSize}x${gridSize}.${format}`;
+      const filename = `color_grade_${timestamp}_${gridSize}x${gridSize}x${gridSize}.${format}`;
 
       // Generate preview image if requested
       let previewData: string | undefined;
@@ -144,20 +136,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Batch preview endpoint
   app.post("/api/batch-preview", async (req, res) => {
     try {
-      const { images, gridSize, intensity, advancedControls, presetId } = req.body;
+      const { images, gridSize, intensity, advancedControls } = req.body;
 
       if (!images || !Array.isArray(images) || images.length === 0) {
         return res.status(400).json({ error: "No images provided" });
       }
 
-      // Get controls from preset if provided
-      let controls = advancedControls;
-      if (presetId && !controls) {
-        const preset = getPresetById(presetId);
-        if (preset) {
-          controls = preset.controls;
-        }
-      }
+      const controls = advancedControls;
 
       // Process each image
       const previews = await Promise.all(
@@ -218,20 +203,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const { images, gridSize, intensity, format, advancedControls, presetId, precision, exportPreview } = validationResult.data;
+      const { images, gridSize, intensity, format, advancedControls, precision, exportPreview } = validationResult.data;
 
-      // Get controls from preset if provided
-      let controls = advancedControls;
-      if (presetId && !controls) {
-        const preset = getPresetById(presetId);
-        if (preset) {
-          controls = preset.controls;
-        }
-      }
+      const controls = advancedControls;
 
       const zip = new JSZip();
       const timestamp = new Date().toISOString().split("T")[0];
-      const presetSuffix = presetId ? `_${presetId}` : '';
 
       // Generate LUT for each image
       await Promise.all(
@@ -250,7 +227,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             );
 
             const imageName = img.name.replace(/\.[^/.]+$/, ""); // Remove extension
-            const filename = `${imageName}_${timestamp}${presetSuffix}.${format}`;
+            const filename = `${imageName}_${timestamp}.${format}`;
             zip.file(filename, lutData);
 
             // Add preview image if requested
@@ -258,7 +235,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
               const { getLUTMap } = await import("./utils/lutGenerator");
               const lutMap = await getLUTMap(imageBuffer, parseInt(gridSize), controls);
               const previewBuffer = await applyLUTToImage(imageBuffer, lutMap, parseInt(gridSize), intensity);
-              const previewFilename = `${imageName}_${timestamp}${presetSuffix}_preview.jpg`;
+              const previewFilename = `${imageName}_${timestamp}_preview.jpg`;
               zip.file(previewFilename, previewBuffer);
             }
           } catch (error) {

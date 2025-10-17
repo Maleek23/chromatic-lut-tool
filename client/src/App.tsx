@@ -6,7 +6,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { NavBar } from "@/components/NavBar";
 import Landing from "@/pages/Landing";
-import Tool from "@/pages/Tool";
+import Convert from "@/pages/Convert";
+import Analyze from "@/pages/Analyze";
+import Optimize from "@/pages/Optimize";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -15,7 +17,9 @@ function Router() {
       <NavBar />
       <Switch>
         <Route path="/" component={Landing} />
-        <Route path="/tool" component={Tool} />
+        <Route path="/convert" component={Convert} />
+        <Route path="/analyze" component={Analyze} />
+        <Route path="/optimize" component={Optimize} />
         <Route component={NotFound} />
       </Switch>
     </>

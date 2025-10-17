@@ -23,7 +23,7 @@ export default function Landing() {
           </div>
 
           <div className="flex gap-4 justify-center">
-            <Link href="/tool">
+            <Link href="/convert">
               <Button size="lg" data-testid="button-get-started">
                 <Sparkles className="w-4 h-4 mr-2" />
                 Launch ColorKit

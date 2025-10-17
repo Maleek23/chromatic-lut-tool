@@ -30,13 +30,31 @@ export function NavBar() {
               Home
             </Button>
           </Link>
-          <Link href="/tool">
+          <Link href="/convert">
             <Button 
-              variant={location === "/tool" ? "default" : "ghost"} 
+              variant={location === "/convert" ? "default" : "ghost"} 
               size="sm"
-              data-testid="nav-tool"
+              data-testid="nav-convert"
             >
-              Tool
+              Convert
+            </Button>
+          </Link>
+          <Link href="/analyze">
+            <Button 
+              variant={location === "/analyze" ? "default" : "ghost"} 
+              size="sm"
+              data-testid="nav-analyze"
+            >
+              Analyze
+            </Button>
+          </Link>
+          <Link href="/optimize">
+            <Button 
+              variant={location === "/optimize" ? "default" : "ghost"} 
+              size="sm"
+              data-testid="nav-optimize"
+            >
+              Optimize
             </Button>
           </Link>
           <Button
