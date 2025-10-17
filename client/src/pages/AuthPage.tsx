@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Film, Sparkles } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Film, Sparkles, Check, Zap } from "lucide-react";
 
 export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
@@ -148,38 +149,69 @@ export default function AuthPage() {
         </div>
       </div>
 
-      {/* Right Column - Hero */}
-      <div className="hidden lg:flex items-center justify-center bg-accent p-12">
-        <div className="max-w-md space-y-6 text-center">
-          <Sparkles className="w-16 h-16 mx-auto text-primary" />
-          <h2 className="text-3xl font-bold">Professional LUT Tools</h2>
-          <p className="text-lg text-muted-foreground">
-            Convert, analyze, and optimize your color grading files with precision.
-            Access professional presets and advanced features.
-          </p>
-          <div className="space-y-3 text-left">
-            <div className="flex items-start gap-3">
-              <div className="w-2 h-2 rounded-full bg-primary mt-2" />
-              <div>
-                <h3 className="font-medium">Convert LUTs</h3>
-                <p className="text-sm text-muted-foreground">Switch between .cube and .3dl formats</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="w-2 h-2 rounded-full bg-primary mt-2" />
-              <div>
-                <h3 className="font-medium">Analyze Quality</h3>
-                <p className="text-sm text-muted-foreground">Detect banding and invalid points</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="w-2 h-2 rounded-full bg-primary mt-2" />
-              <div>
-                <h3 className="font-medium">Optimize Files</h3>
-                <p className="text-sm text-muted-foreground">Smooth transitions and fix issues</p>
-              </div>
-            </div>
+      {/* Right Column - Plan Benefits */}
+      <div className="hidden lg:flex flex-col items-center justify-center bg-accent p-12">
+        <div className="max-w-md space-y-8">
+          <div className="text-center">
+            <Sparkles className="w-16 h-16 mx-auto text-primary mb-4" />
+            <h2 className="text-3xl font-bold">Choose Your Plan</h2>
+            <p className="text-muted-foreground mt-2">
+              Start free, upgrade when you need more
+            </p>
           </div>
+
+          {/* Free Plan Card */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle>Free Tier</CardTitle>
+                <Badge variant="outline">Current</Badge>
+              </div>
+              <CardDescription>Perfect for getting started</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="flex items-start gap-2">
+                <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                <span className="text-sm">LUT format conversion (.cube ↔ .3dl)</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                <span className="text-sm">Quality analysis & banding detection</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                <span className="text-sm">No credit card required</span>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Pro Plan Teaser */}
+          <Card className="border-primary">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  Pro Tier
+                  <Zap className="w-5 h-5 text-primary" />
+                </CardTitle>
+                <Badge>$15/mo</Badge>
+              </div>
+              <CardDescription>Unlock professional features (coming soon)</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="flex items-start gap-2">
+                <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                <span className="text-sm">Professional preset LUT library</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                <span className="text-sm">Save unlimited custom presets</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                <span className="text-sm">Advanced optimization & batch processing</span>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
