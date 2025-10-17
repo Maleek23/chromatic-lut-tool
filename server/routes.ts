@@ -3,7 +3,8 @@ import { createServer, type Server } from "http";
 import multer from "multer";
 import { analyzeImage } from "./utils/colorAnalysis";
 import { generateLUT, applyLUTToImage } from "./utils/lutGenerator";
-import { lutGenerationSchema } from "@shared/schema";
+import { lutGenerationSchema, extendedLutGenerationSchema } from "@shared/schema";
+import { getPresetById } from "@shared/presets";
 
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -37,7 +38,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Generate preview with LUT applied
   app.post("/api/preview", async (req, res) => {
     try {
-      const { imageData, gridSize, intensity } = req.body;
+      const { imageData, gridSize, intensity, advancedControls, presetId } = req.body;
 
       if (!imageData || !gridSize || intensity === undefined) {
         return res.status(400).json({ error: "Missing parameters" });
@@ -47,13 +48,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const base64Data = imageData.replace(/^data:image\/\w+;base64,/, "");
       const imageBuffer = Buffer.from(base64Data, "base64");
 
+      // Get controls from preset if provided
+      let controls = advancedControls;
+      if (presetId && !controls) {
+        const preset = getPresetById(presetId);
+        if (preset) {
+          controls = preset.controls;
+        }
+      }
+
       // Check cache or generate new LUT map
-      const cacheKey = `${imageData.substring(0, 100)}_${gridSize}`;
+      const cacheKey = `${imageData.substring(0, 100)}_${gridSize}_${JSON.stringify(controls)}`;
       let lutData = lutCache.get(cacheKey);
 
       if (!lutData) {
         const { getLUTMap } = await import("./utils/lutGenerator");
-        const lutMap = await getLUTMap(imageBuffer, parseInt(gridSize));
+        const lutMap = await getLUTMap(imageBuffer, parseInt(gridSize), controls);
         lutData = { map: lutMap, gridSize: parseInt(gridSize) };
         lutCache.set(cacheKey, lutData);
       }
@@ -78,7 +88,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Generate LUT endpoint
   app.post("/api/generate-lut", async (req, res) => {
     try {
-      const validationResult = lutGenerationSchema.safeParse(req.body);
+      const validationResult = extendedLutGenerationSchema.safeParse(req.body);
 
       if (!validationResult.success) {
         return res.status(400).json({ 
@@ -87,22 +97,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const { imageData, gridSize, intensity, format } = validationResult.data;
+      const { imageData, gridSize, intensity, format, advancedControls, presetId } = validationResult.data;
 
       // Convert base64 to buffer
       const base64Data = imageData.replace(/^data:image\/\w+;base64,/, "");
       const imageBuffer = Buffer.from(base64Data, "base64");
+
+      // Get controls from preset if provided
+      let controls = advancedControls;
+      if (presetId && !controls) {
+        const preset = getPresetById(presetId);
+        if (preset) {
+          controls = preset.controls;
+        }
+      }
 
       // Generate LUT
       const lutData = await generateLUT(
         imageBuffer,
         parseInt(gridSize),
         intensity,
-        format
+        format,
+        controls
       );
 
       const timestamp = new Date().toISOString().split("T")[0];
-      const filename = `color_grade_${timestamp}_${gridSize}x${gridSize}x${gridSize}.${format}`;
+      const presetSuffix = presetId ? `_${presetId}` : '';
+      const filename = `color_grade_${timestamp}${presetSuffix}_${gridSize}x${gridSize}x${gridSize}.${format}`;
 
       res.json({
         lutData,

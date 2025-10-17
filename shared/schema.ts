@@ -37,3 +37,50 @@ export const lutResponseSchema = z.object({
 });
 
 export type LutResponse = z.infer<typeof lutResponseSchema>;
+
+// Advanced Color Controls Schema
+export const advancedControlsSchema = z.object({
+  shadows: z.object({
+    brightness: z.number().min(-100).max(100).default(0),
+    saturation: z.number().min(-100).max(100).default(0),
+    hue: z.number().min(-180).max(180).default(0),
+  }).default({ brightness: 0, saturation: 0, hue: 0 }),
+  midtones: z.object({
+    brightness: z.number().min(-100).max(100).default(0),
+    saturation: z.number().min(-100).max(100).default(0),
+    hue: z.number().min(-180).max(180).default(0),
+  }).default({ brightness: 0, saturation: 0, hue: 0 }),
+  highlights: z.object({
+    brightness: z.number().min(-100).max(100).default(0),
+    saturation: z.number().min(-100).max(100).default(0),
+    hue: z.number().min(-180).max(180).default(0),
+  }).default({ brightness: 0, saturation: 0, hue: 0 }),
+  temperature: z.number().min(-100).max(100).default(0),
+  tint: z.number().min(-100).max(100).default(0),
+  splitToning: z.object({
+    shadowColor: z.string().default("#000000"),
+    highlightColor: z.string().default("#ffffff"),
+    balance: z.number().min(0).max(100).default(50),
+  }).default({ shadowColor: "#000000", highlightColor: "#ffffff", balance: 50 }),
+});
+
+export type AdvancedControls = z.infer<typeof advancedControlsSchema>;
+
+// Preset Schema
+export const presetSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string().optional(),
+  controls: advancedControlsSchema,
+  intensity: z.number().min(0).max(100).default(100),
+  isCustom: z.boolean().default(false),
+  thumbnail: z.string().optional(),
+});
+
+export type Preset = z.infer<typeof presetSchema>;
+
+// Extended LUT Generation with Advanced Controls
+export const extendedLutGenerationSchema = lutGenerationSchema.extend({
+  advancedControls: advancedControlsSchema.optional(),
+  presetId: z.string().optional(),
+});

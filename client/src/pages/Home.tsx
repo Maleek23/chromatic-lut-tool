@@ -5,9 +5,12 @@ import { ComparisonSlider } from "@/components/ComparisonSlider";
 import { ColorStatistics } from "@/components/ColorStatistics";
 import { LutControls } from "@/components/LutControls";
 import { DownloadSection } from "@/components/DownloadSection";
+import { PresetSelector } from "@/components/PresetSelector";
+import { AdvancedControls } from "@/components/AdvancedControls";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import type { LutAnalysis, LutResponse } from "@shared/schema";
+import type { LutAnalysis, LutResponse, AdvancedControls as AdvancedControlsType } from "@shared/schema";
+import { getPresetById } from "@shared/presets";
 
 export default function Home() {
   const { toast } = useToast();
@@ -22,6 +25,21 @@ export default function Home() {
   
   const [isGenerating, setIsGenerating] = useState(false);
   const [lutResult, setLutResult] = useState<LutResponse | null>(null);
+
+  // Advanced controls and presets
+  const [selectedPresetId, setSelectedPresetId] = useState<string>("");
+  const [advancedControls, setAdvancedControls] = useState<AdvancedControlsType>({
+    shadows: { brightness: 0, saturation: 0, hue: 0 },
+    midtones: { brightness: 0, saturation: 0, hue: 0 },
+    highlights: { brightness: 0, saturation: 0, hue: 0 },
+    temperature: 0,
+    tint: 0,
+    splitToning: {
+      shadowColor: "#000000",
+      highlightColor: "#ffffff",
+      balance: 50,
+    },
+  });
 
   const handleImageUpload = async (file: File) => {
     const reader = new FileReader();
@@ -45,7 +63,7 @@ export default function Home() {
         setAnalysis(data);
         
         // Generate initial preview
-        await updatePreview(imageData, gridSize, intensity);
+        await updatePreview(imageData, gridSize, intensity, advancedControls, selectedPresetId);
       } catch (error) {
         console.error("Analysis error:", error);
         toast({
@@ -60,7 +78,13 @@ export default function Home() {
     reader.readAsDataURL(file);
   };
 
-  const updatePreview = async (imageData: string, gs: string, int: number) => {
+  const updatePreview = async (
+    imageData: string, 
+    gs: string, 
+    int: number,
+    controls?: AdvancedControlsType,
+    presetId?: string
+  ) => {
     try {
       const response = await fetch("/api/preview", {
         method: "POST",
@@ -69,6 +93,8 @@ export default function Home() {
           imageData,
           gridSize: gs,
           intensity: int,
+          advancedControls: controls,
+          presetId,
         }),
       });
 
@@ -85,14 +111,54 @@ export default function Home() {
   const handleIntensityChange = (value: number) => {
     setIntensity(value);
     if (uploadedImage) {
-      updatePreview(uploadedImage, gridSize, value);
+      updatePreview(uploadedImage, gridSize, value, advancedControls, selectedPresetId);
     }
   };
 
   const handleGridSizeChange = (value: "17" | "33" | "65") => {
     setGridSize(value);
     if (uploadedImage) {
-      updatePreview(uploadedImage, value, intensity);
+      updatePreview(uploadedImage, value, intensity, advancedControls, selectedPresetId);
+    }
+  };
+
+  const handlePresetSelect = (presetId: string) => {
+    setSelectedPresetId(presetId);
+    if (presetId) {
+      const preset = getPresetById(presetId);
+      if (preset) {
+        setAdvancedControls(preset.controls);
+        setIntensity(preset.intensity);
+        if (uploadedImage) {
+          updatePreview(uploadedImage, gridSize, preset.intensity, preset.controls, presetId);
+        }
+      }
+    } else {
+      // Reset to defaults when no preset selected
+      const defaultControls: AdvancedControlsType = {
+        shadows: { brightness: 0, saturation: 0, hue: 0 },
+        midtones: { brightness: 0, saturation: 0, hue: 0 },
+        highlights: { brightness: 0, saturation: 0, hue: 0 },
+        temperature: 0,
+        tint: 0,
+        splitToning: {
+          shadowColor: "#000000",
+          highlightColor: "#ffffff",
+          balance: 50,
+        },
+      };
+      setAdvancedControls(defaultControls);
+      if (uploadedImage) {
+        updatePreview(uploadedImage, gridSize, intensity, defaultControls, "");
+      }
+    }
+  };
+
+  const handleAdvancedControlsChange = (controls: AdvancedControlsType) => {
+    setAdvancedControls(controls);
+    setSelectedPresetId(""); // Clear preset when manually adjusting
+    if (uploadedImage) {
+      updatePreview(uploadedImage, gridSize, intensity, controls, "");
     }
   };
 
@@ -109,6 +175,8 @@ export default function Home() {
           gridSize,
           intensity,
           format,
+          advancedControls,
+          presetId: selectedPresetId,
         }),
       });
 
@@ -140,6 +208,19 @@ export default function Home() {
     setIntensity(100);
     setGridSize("33");
     setFormat("cube");
+    setSelectedPresetId("");
+    setAdvancedControls({
+      shadows: { brightness: 0, saturation: 0, hue: 0 },
+      midtones: { brightness: 0, saturation: 0, hue: 0 },
+      highlights: { brightness: 0, saturation: 0, hue: 0 },
+      temperature: 0,
+      tint: 0,
+      splitToning: {
+        shadowColor: "#000000",
+        highlightColor: "#ffffff",
+        balance: 50,
+      },
+    });
   };
 
   return (
@@ -181,6 +262,21 @@ export default function Home() {
                 {/* Sidebar */}
                 <div className="space-y-6">
                   <ColorStatistics analysis={analysis} />
+                  
+                  <PresetSelector
+                    selectedPresetId={selectedPresetId}
+                    onSelectPreset={handlePresetSelect}
+                    currentSettings={{
+                      controls: advancedControls,
+                      intensity,
+                    }}
+                  />
+                  
+                  <AdvancedControls
+                    controls={advancedControls}
+                    onChange={handleAdvancedControlsChange}
+                  />
+                  
                   <LutControls
                     intensity={intensity}
                     onIntensityChange={handleIntensityChange}
