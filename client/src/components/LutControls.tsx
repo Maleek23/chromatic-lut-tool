@@ -15,6 +15,7 @@ interface LutControlsProps {
   onFormatChange: (value: "cube" | "3dl") => void;
   onGenerate: () => void;
   isGenerating: boolean;
+  hideGenerate?: boolean;
 }
 
 export function LutControls({
@@ -26,6 +27,7 @@ export function LutControls({
   onFormatChange,
   onGenerate,
   isGenerating,
+  hideGenerate = false,
 }: LutControlsProps) {
   return (
     <Card>
@@ -95,25 +97,27 @@ export function LutControls({
         </div>
 
         {/* Generate Button */}
-        <Button
-          className="w-full"
-          size="lg"
-          onClick={onGenerate}
-          disabled={isGenerating}
-          data-testid="button-generate"
-        >
-          {isGenerating ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Generating LUT...
-            </>
-          ) : (
-            <>
-              <Sparkles className="w-4 h-4 mr-2" />
-              Generate LUT
-            </>
-          )}
-        </Button>
+        {!hideGenerate && (
+          <Button
+            className="w-full"
+            size="lg"
+            onClick={onGenerate}
+            disabled={isGenerating}
+            data-testid="button-generate"
+          >
+            {isGenerating ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Generating LUT...
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-4 h-4 mr-2" />
+                Generate LUT
+              </>
+            )}
+          </Button>
+        )}
       </CardContent>
     </Card>
   );

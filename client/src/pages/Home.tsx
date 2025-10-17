@@ -7,18 +7,29 @@ import { LutControls } from "@/components/LutControls";
 import { DownloadSection } from "@/components/DownloadSection";
 import { PresetSelector } from "@/components/PresetSelector";
 import { AdvancedControls } from "@/components/AdvancedControls";
-import { Loader2 } from "lucide-react";
+import { BatchProcessor } from "@/components/BatchProcessor";
+import { Loader2, Image as ImageIcon, Images } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import type { LutAnalysis, LutResponse, AdvancedControls as AdvancedControlsType } from "@shared/schema";
+import type { LutAnalysis, LutResponse, AdvancedControls as AdvancedControlsType, BatchImage } from "@shared/schema";
 import { getPresetById } from "@shared/presets";
 
 export default function Home() {
   const { toast } = useToast();
+  
+  // Mode state
+  const [mode, setMode] = useState<"single" | "batch">("single");
+  
+  // Single mode state
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState<LutAnalysis | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   
+  // Batch mode state
+  const [batchImages, setBatchImages] = useState<BatchImage[]>([]);
+  
+  // Shared state
   const [intensity, setIntensity] = useState(100);
   const [gridSize, setGridSize] = useState<"17" | "33" | "65">("33");
   const [format, setFormat] = useState<"cube" | "3dl">("cube");
@@ -42,6 +53,11 @@ export default function Home() {
   });
 
   const handleImageUpload = async (file: File) => {
+    if (mode === "batch") {
+      handleBatchImageUpload(file);
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = async (e) => {
       const imageData = e.target?.result as string;
@@ -76,6 +92,45 @@ export default function Home() {
       }
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleBatchImageUpload = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const imageData = e.target?.result as string;
+      const newImage: BatchImage = {
+        id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        name: file.name,
+        imageData,
+      };
+      setBatchImages(prev => [...prev, newImage]);
+      toast({
+        title: "Image Added",
+        description: `${file.name} added to batch`,
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleRemoveBatchImage = (id: string) => {
+    setBatchImages(prev => prev.filter(img => img.id !== id));
+  };
+
+  const handleClearBatch = () => {
+    setBatchImages([]);
+    toast({
+      title: "Batch Cleared",
+      description: "All images removed from batch",
+    });
+  };
+
+  const handleModeToggle = () => {
+    const newMode = mode === "single" ? "batch" : "single";
+    setMode(newMode);
+    toast({
+      title: "Mode Changed",
+      description: `Switched to ${newMode} mode`,
+    });
   };
 
   const updatePreview = async (
@@ -228,7 +283,74 @@ export default function Home() {
       <Header />
 
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-12">
-        {!uploadedImage ? (
+        {/* Mode Toggle */}
+        <div className="flex justify-center mb-8">
+          <div className="inline-flex rounded-lg border p-1 gap-1">
+            <Button
+              variant={mode === "single" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => mode === "batch" && handleModeToggle()}
+              data-testid="button-single-mode"
+            >
+              <ImageIcon className="h-4 w-4 mr-2" />
+              Single Image
+            </Button>
+            <Button
+              variant={mode === "batch" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => mode === "single" && handleModeToggle()}
+              data-testid="button-batch-mode"
+            >
+              <Images className="h-4 w-4 mr-2" />
+              Batch Processing
+            </Button>
+          </div>
+        </div>
+
+        {mode === "batch" ? (
+          <div className="space-y-8">
+            <UploadZone onImageUpload={handleImageUpload} isAnalyzing={false} multiple />
+            
+            <BatchProcessor
+              images={batchImages}
+              onRemoveImage={handleRemoveBatchImage}
+              onClearAll={handleClearBatch}
+              gridSize={gridSize}
+              intensity={intensity}
+              format={format}
+              advancedControls={advancedControls}
+              selectedPresetId={selectedPresetId}
+            />
+            
+            {/* Shared Controls for Batch */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <PresetSelector
+                selectedPresetId={selectedPresetId}
+                onSelectPreset={handlePresetSelect}
+                currentSettings={{
+                  controls: advancedControls,
+                  intensity,
+                }}
+              />
+              <AdvancedControls
+                controls={advancedControls}
+                onChange={handleAdvancedControlsChange}
+              />
+            </div>
+
+            <LutControls
+              intensity={intensity}
+              onIntensityChange={handleIntensityChange}
+              gridSize={gridSize}
+              onGridSizeChange={handleGridSizeChange}
+              format={format}
+              onFormatChange={setFormat}
+              onGenerate={handleGenerateLut}
+              isGenerating={isGenerating}
+              hideGenerate
+            />
+          </div>
+        ) : !uploadedImage ? (
           <UploadZone onImageUpload={handleImageUpload} isAnalyzing={isAnalyzing} />
         ) : (
           <div className="space-y-8">

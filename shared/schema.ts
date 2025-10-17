@@ -84,3 +84,25 @@ export const extendedLutGenerationSchema = lutGenerationSchema.extend({
   advancedControls: advancedControlsSchema.optional(),
   presetId: z.string().optional(),
 });
+
+// Batch Image Schema
+export const batchImageSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  imageData: z.string(), // base64 encoded image
+  previewData: z.string().optional(), // preview with LUT applied
+});
+
+export type BatchImage = z.infer<typeof batchImageSchema>;
+
+// Batch LUT Request Schema
+export const batchLutRequestSchema = z.object({
+  images: z.array(batchImageSchema),
+  gridSize: z.enum(["17", "33", "65"]),
+  intensity: z.number().min(0).max(100),
+  format: z.enum(["cube", "3dl"]),
+  advancedControls: advancedControlsSchema.optional(),
+  presetId: z.string().optional(),
+});
+
+export type BatchLutRequest = z.infer<typeof batchLutRequestSchema>;

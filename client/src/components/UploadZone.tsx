@@ -5,9 +5,10 @@ import { Badge } from "@/components/ui/badge";
 interface UploadZoneProps {
   onImageUpload: (file: File) => void;
   isAnalyzing: boolean;
+  multiple?: boolean;
 }
 
-export function UploadZone({ onImageUpload, isAnalyzing }: UploadZoneProps) {
+export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: UploadZoneProps) {
   const [isDragging, setIsDragging] = useState(false);
 
   const handleDrop = useCallback(
@@ -15,12 +16,16 @@ export function UploadZone({ onImageUpload, isAnalyzing }: UploadZoneProps) {
       e.preventDefault();
       setIsDragging(false);
 
-      const file = e.dataTransfer.files[0];
-      if (file && file.type.startsWith("image/")) {
-        onImageUpload(file);
+      const files = Array.from(e.dataTransfer.files);
+      const imageFiles = files.filter(file => file.type.startsWith("image/"));
+      
+      if (multiple) {
+        imageFiles.forEach(file => onImageUpload(file));
+      } else if (imageFiles[0]) {
+        onImageUpload(imageFiles[0]);
       }
     },
-    [onImageUpload]
+    [onImageUpload, multiple]
   );
 
   const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
@@ -35,12 +40,15 @@ export function UploadZone({ onImageUpload, isAnalyzing }: UploadZoneProps) {
 
   const handleFileSelect = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (file) {
-        onImageUpload(file);
+      const files = e.target.files ? Array.from(e.target.files) : [];
+      
+      if (multiple) {
+        files.forEach(file => onImageUpload(file));
+      } else if (files[0]) {
+        onImageUpload(files[0]);
       }
     },
-    [onImageUpload]
+    [onImageUpload, multiple]
   );
 
   return (
@@ -68,6 +76,7 @@ export function UploadZone({ onImageUpload, isAnalyzing }: UploadZoneProps) {
         onChange={handleFileSelect}
         className="hidden"
         disabled={isAnalyzing}
+        multiple={multiple}
         data-testid="input-file"
       />
 
@@ -78,10 +87,10 @@ export function UploadZone({ onImageUpload, isAnalyzing }: UploadZoneProps) {
 
         <div className="text-center space-y-2">
           <h3 className="text-2xl font-semibold">
-            {isAnalyzing ? "Analyzing image..." : "Upload an image"}
+            {isAnalyzing ? "Analyzing image..." : multiple ? "Upload images" : "Upload an image"}
           </h3>
           <p className="text-muted-foreground">
-            Drag and drop or click to select
+            Drag and drop or click to select{multiple ? " (multiple files supported)" : ""}
           </p>
         </div>
 

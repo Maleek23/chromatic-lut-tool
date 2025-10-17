@@ -1,9 +1,10 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import multer from "multer";
+import JSZip from "jszip";
 import { analyzeImage } from "./utils/colorAnalysis";
 import { generateLUT, applyLUTToImage } from "./utils/lutGenerator";
-import { lutGenerationSchema, extendedLutGenerationSchema } from "@shared/schema";
+import { lutGenerationSchema, extendedLutGenerationSchema, batchLutRequestSchema } from "@shared/schema";
 import { getPresetById } from "@shared/presets";
 
 const upload = multer({ storage: multer.memoryStorage() });
@@ -134,6 +135,135 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("LUT generation error:", error);
       res.status(500).json({ error: "Failed to generate LUT" });
+    }
+  });
+
+  // Batch preview endpoint
+  app.post("/api/batch-preview", async (req, res) => {
+    try {
+      const { images, gridSize, intensity, advancedControls, presetId } = req.body;
+
+      if (!images || !Array.isArray(images) || images.length === 0) {
+        return res.status(400).json({ error: "No images provided" });
+      }
+
+      // Get controls from preset if provided
+      let controls = advancedControls;
+      if (presetId && !controls) {
+        const preset = getPresetById(presetId);
+        if (preset) {
+          controls = preset.controls;
+        }
+      }
+
+      // Process each image
+      const previews = await Promise.all(
+        images.map(async (img: any) => {
+          try {
+            const base64Data = img.imageData.replace(/^data:image\/\w+;base64,/, "");
+            const imageBuffer = Buffer.from(base64Data, "base64");
+
+            // Get or create LUT map
+            const cacheKey = `${img.id}_${gridSize}_${JSON.stringify(controls)}`;
+            let lutData = lutCache.get(cacheKey);
+
+            if (!lutData) {
+              const { getLUTMap } = await import("./utils/lutGenerator");
+              const lutMap = await getLUTMap(imageBuffer, parseInt(gridSize), controls);
+              lutData = { map: lutMap, gridSize: parseInt(gridSize) };
+              lutCache.set(cacheKey, lutData);
+            }
+
+            // Apply LUT to create preview
+            const previewBuffer = await applyLUTToImage(
+              imageBuffer,
+              lutData.map,
+              lutData.gridSize,
+              parseInt(intensity)
+            );
+
+            return {
+              id: img.id,
+              previewData: `data:image/jpeg;base64,${previewBuffer.toString("base64")}`,
+            };
+          } catch (error) {
+            console.error(`Preview error for image ${img.id}:`, error);
+            return {
+              id: img.id,
+              previewData: img.imageData, // fallback to original
+            };
+          }
+        })
+      );
+
+      res.json({ previews });
+    } catch (error) {
+      console.error("Batch preview error:", error);
+      res.status(500).json({ error: "Failed to generate batch previews" });
+    }
+  });
+
+  // Batch download endpoint
+  app.post("/api/batch-download", async (req, res) => {
+    try {
+      const validationResult = batchLutRequestSchema.safeParse(req.body);
+
+      if (!validationResult.success) {
+        return res.status(400).json({ 
+          error: "Invalid request", 
+          details: validationResult.error 
+        });
+      }
+
+      const { images, gridSize, intensity, format, advancedControls, presetId } = validationResult.data;
+
+      // Get controls from preset if provided
+      let controls = advancedControls;
+      if (presetId && !controls) {
+        const preset = getPresetById(presetId);
+        if (preset) {
+          controls = preset.controls;
+        }
+      }
+
+      const zip = new JSZip();
+      const timestamp = new Date().toISOString().split("T")[0];
+      const presetSuffix = presetId ? `_${presetId}` : '';
+
+      // Generate LUT for each image
+      await Promise.all(
+        images.map(async (img, index) => {
+          try {
+            const base64Data = img.imageData.replace(/^data:image\/\w+;base64,/, "");
+            const imageBuffer = Buffer.from(base64Data, "base64");
+
+            const lutData = await generateLUT(
+              imageBuffer,
+              parseInt(gridSize),
+              intensity,
+              format,
+              controls
+            );
+
+            const imageName = img.name.replace(/\.[^/.]+$/, ""); // Remove extension
+            const filename = `${imageName}_${timestamp}${presetSuffix}.${format}`;
+            zip.file(filename, lutData);
+          } catch (error) {
+            console.error(`LUT generation error for image ${img.id}:`, error);
+          }
+        })
+      );
+
+      // Generate ZIP file
+      const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
+
+      // Send ZIP file
+      res.setHeader("Content-Type", "application/zip");
+      res.setHeader("Content-Disposition", `attachment; filename="lut_batch_${timestamp}.zip"`);
+      res.send(zipBuffer);
+    } catch (error) {
+      console.error("Batch download error:", error);
+      res.status(500).json({ error: "Failed to generate batch download" });
     }
   });
 
