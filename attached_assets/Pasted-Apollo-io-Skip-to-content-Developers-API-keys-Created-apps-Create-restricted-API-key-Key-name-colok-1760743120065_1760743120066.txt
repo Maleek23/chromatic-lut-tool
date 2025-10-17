@@ -1,0 +1,145 @@
+Apollo.io
+Skip to content
+Developers
+API keys
+Created apps
+Create restricted API key
+
+Key name
+colokit
+Resource type
+Permissions
+Core
+View documentation
+Apple Pay Domains
+Balance
+Balance Transfers
+Balance transaction sources
+Charges
+Confirmation token
+Confirmation token (client)
+Customer session
+Customers
+Disputes
+Ephemeral keys
+Events
+Files
+Funding Instructions
+Payment Intents
+Payment Method Domains
+Payment Methods
+Payouts
+Products
+Setup Intents
+Shipping Rates
+Sources
+Test clocks
+Tokens
+Checkout
+View documentation
+Checkout Sessions
+Billing
+View documentation
+Alerts
+Billable Items
+Coupons
+Credit balances
+Credit grants
+Credit notes
+Customer portal
+Entitlements
+Features
+Invoices
+Meter Event Adjustments
+Meter Events
+Meters
+Prices
+Promotion Codes
+Quote
+Subscriptions
+Tax IDs
+Tax Rates
+Usage Records
+Connect
+View documentation
+Account Links
+Application Fees
+Login Links
+Top-ups
+Transfers
+Orders
+Orders
+SKUs
+Issuing
+View documentation
+Authorizations
+Cardholders
+Cards
+Disputes
+Issuing Settlement
+Token Network Data
+Tokens
+Transactions
+Reporting
+View documentation
+Report Runs and Report Types
+Sigma
+View documentation
+Sigma API Permission
+Financial Connections
+View documentation
+Financial Connections
+All webhook
+View documentation
+Webhook Endpoints
+Stripe CLI permissions
+Debugging tools
+Payment Links
+View documentation
+Payment Links
+Terminal
+View documentation
+Configurations
+Connection Tokens
+Locations
+Onboarding links
+Readers
+Stripe Apps
+View documentation
+Secrets
+Tax
+View documentation
+Tax Calculations and Transactions
+Tax Settings and Registrations
+Radar
+View documentation
+Reviews
+Climate
+View documentation
+Climate Orders
+Cancel
+
+Create key
+You must select at least one permission
+Navigated to Developers – New business sandbox – Stripe [Test]
+Sandbox
+You're testing in a sandbox—your place to experiment with Stripe functionality.
+Switch to live account
+
+New business sandbox
+New business
+Home
+Balances
+Transactions
+Customers
+Product catalog
+Products
+Payments
+Billing
+Reporting
+More
+Search
+Sandboxes are the new way to test. Learn more
+
+Setup guide
+Developers
