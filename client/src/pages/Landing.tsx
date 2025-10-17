@@ -1,7 +1,8 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Sparkles, RefreshCw, BarChart3, Download } from "lucide-react";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Sparkles, RefreshCw, BarChart3, Download, Check } from "lucide-react";
 
 export default function Landing() {
   return (
@@ -113,6 +114,147 @@ export default function Landing() {
                   Download in any format ready for production
                 </p>
               </div>
+            </div>
+          </div>
+
+          {/* Pricing */}
+          <div className="mt-20 space-y-8">
+            <div className="text-center space-y-2">
+              <h2 className="text-3xl font-bold">Choose Your Plan</h2>
+              <p className="text-muted-foreground">
+                Start free, upgrade when you need advanced features
+              </p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-6">
+              {/* Free Tier */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Free</CardTitle>
+                  <CardDescription>For getting started</CardDescription>
+                  <div className="mt-4">
+                    <span className="text-3xl font-bold">$0</span>
+                    <span className="text-muted-foreground">/forever</span>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <div className="flex items-start gap-2">
+                      <Check className="w-5 h-5 text-primary mt-0.5" />
+                      <span className="text-sm">LUT format conversion (.cube ↔ .3dl)</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-5 h-5 text-primary mt-0.5" />
+                      <span className="text-sm">LUT quality analysis</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-5 h-5 text-primary mt-0.5" />
+                      <span className="text-sm">Detect banding & invalid points</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-5 h-5 text-primary mt-0.5" />
+                      <span className="text-sm">No account required</span>
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <Link href="/convert" className="w-full">
+                    <Button variant="outline" className="w-full" data-testid="button-free-plan">
+                      Get Started Free
+                    </Button>
+                  </Link>
+                </CardFooter>
+              </Card>
+
+              {/* Pro Tier */}
+              <Card className="border-primary">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <CardTitle>Pro</CardTitle>
+                    <Badge>Popular</Badge>
+                  </div>
+                  <CardDescription>For professional colorists</CardDescription>
+                  <div className="mt-4">
+                    <span className="text-3xl font-bold">$15</span>
+                    <span className="text-muted-foreground">/month</span>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <div className="flex items-start gap-2">
+                      <Check className="w-5 h-5 text-primary mt-0.5" />
+                      <span className="text-sm">Everything in Free</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-5 h-5 text-primary mt-0.5" />
+                      <span className="text-sm">Professional preset LUTs (coming soon)</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-5 h-5 text-primary mt-0.5" />
+                      <span className="text-sm">Save custom presets (coming soon)</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-5 h-5 text-primary mt-0.5" />
+                      <span className="text-sm">Advanced optimization (coming soon)</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-5 h-5 text-primary mt-0.5" />
+                      <span className="text-sm">Batch processing (coming soon)</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-5 h-5 text-primary mt-0.5" />
+                      <span className="text-sm">Priority support (coming soon)</span>
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <Link href="/auth" className="w-full">
+                    <Button className="w-full" data-testid="button-pro-plan">
+                      Upgrade to Pro
+                    </Button>
+                  </Link>
+                </CardFooter>
+              </Card>
+
+              {/* Studio Tier */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Studio</CardTitle>
+                  <CardDescription>For teams and studios</CardDescription>
+                  <div className="mt-4">
+                    <span className="text-3xl font-bold">Custom</span>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <div className="flex items-start gap-2">
+                      <Check className="w-5 h-5 text-primary mt-0.5" />
+                      <span className="text-sm">Everything in Pro</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-5 h-5 text-primary mt-0.5" />
+                      <span className="text-sm">Video LUT processing (planned)</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-5 h-5 text-primary mt-0.5" />
+                      <span className="text-sm">API access (planned)</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-5 h-5 text-primary mt-0.5" />
+                      <span className="text-sm">Team collaboration (planned)</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-5 h-5 text-primary mt-0.5" />
+                      <span className="text-sm">Dedicated support (planned)</span>
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <Button variant="outline" className="w-full" disabled data-testid="button-studio-plan">
+                    Coming Soon
+                  </Button>
+                </CardFooter>
+              </Card>
             </div>
           </div>
         </div>
