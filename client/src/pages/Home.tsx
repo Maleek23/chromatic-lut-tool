@@ -6,9 +6,11 @@ import { ColorStatistics } from "@/components/ColorStatistics";
 import { LutControls } from "@/components/LutControls";
 import { DownloadSection } from "@/components/DownloadSection";
 import { Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import type { LutAnalysis, LutResponse } from "@shared/schema";
 
 export default function Home() {
+  const { toast } = useToast();
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState<LutAnalysis | null>(null);
@@ -41,14 +43,57 @@ export default function Home() {
 
         const data: LutAnalysis = await response.json();
         setAnalysis(data);
-        setPreviewImage(imageData);
+        
+        // Generate initial preview
+        await updatePreview(imageData, gridSize, intensity);
       } catch (error) {
         console.error("Analysis error:", error);
+        toast({
+          title: "Analysis Failed",
+          description: "Failed to analyze the image. Please try again.",
+          variant: "destructive",
+        });
       } finally {
         setIsAnalyzing(false);
       }
     };
     reader.readAsDataURL(file);
+  };
+
+  const updatePreview = async (imageData: string, gs: string, int: number) => {
+    try {
+      const response = await fetch("/api/preview", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          imageData,
+          gridSize: gs,
+          intensity: int,
+        }),
+      });
+
+      if (!response.ok) throw new Error("Preview failed");
+
+      const data = await response.json();
+      setPreviewImage(data.previewImage);
+    } catch (error) {
+      console.error("Preview error:", error);
+      setPreviewImage(imageData); // Fallback to original
+    }
+  };
+
+  const handleIntensityChange = (value: number) => {
+    setIntensity(value);
+    if (uploadedImage) {
+      updatePreview(uploadedImage, gridSize, value);
+    }
+  };
+
+  const handleGridSizeChange = (value: "17" | "33" | "65") => {
+    setGridSize(value);
+    if (uploadedImage) {
+      updatePreview(uploadedImage, value, intensity);
+    }
   };
 
   const handleGenerateLut = async () => {
@@ -71,8 +116,17 @@ export default function Home() {
 
       const data: LutResponse = await response.json();
       setLutResult(data);
+      toast({
+        title: "LUT Generated!",
+        description: "Your color grading LUT is ready to download.",
+      });
     } catch (error) {
       console.error("Generation error:", error);
+      toast({
+        title: "Generation Failed",
+        description: "Failed to generate LUT. Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setIsGenerating(false);
     }
@@ -129,9 +183,9 @@ export default function Home() {
                   <ColorStatistics analysis={analysis} />
                   <LutControls
                     intensity={intensity}
-                    onIntensityChange={setIntensity}
+                    onIntensityChange={handleIntensityChange}
                     gridSize={gridSize}
-                    onGridSizeChange={setGridSize}
+                    onGridSizeChange={handleGridSizeChange}
                     format={format}
                     onFormatChange={setFormat}
                     onGenerate={handleGenerateLut}

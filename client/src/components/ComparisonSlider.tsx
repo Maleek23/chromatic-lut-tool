@@ -71,12 +71,13 @@ export function ComparisonSlider({
         className="absolute inset-0 overflow-hidden"
         style={{ width: `${sliderPosition}%` }}
       >
-        <img
-          src={originalImage}
-          alt="Original"
-          className="w-full h-full object-contain"
-          style={{ width: "100vw", maxWidth: containerRef.current?.clientWidth }}
-        />
+        <div className="relative w-full h-full">
+          <img
+            src={originalImage}
+            alt="Original"
+            className="absolute inset-0 w-full h-full object-contain"
+          />
+        </div>
       </div>
 
       {/* Slider Handle */}

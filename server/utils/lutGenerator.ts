@@ -6,143 +6,136 @@ interface RGB {
   b: number;
 }
 
+interface ColorTransform {
+  brightnessShift: number;
+  contrastFactor: number;
+  saturationFactor: number;
+  colorShifts: { r: number; g: number; b: number };
+}
+
+// Fast LUT generation using simple color transforms derived from image analysis
 export async function generateLUT(
   imageBuffer: Buffer,
   gridSize: number,
   intensity: number,
   format: "cube" | "3dl"
 ): Promise<string> {
-  // Analyze the image to create a color mapping
-  const colorMap = await buildColorMap(imageBuffer, gridSize);
+  // Analyze image to derive color transform
+  const transform = await deriveColorTransform(imageBuffer);
 
-  // Apply intensity
-  const adjustedMap = applyIntensity(colorMap, intensity / 100);
+  // Build LUT using the transform
+  const lutMap = buildLUTFromTransform(transform, gridSize, intensity / 100);
 
   // Generate LUT file content
   if (format === "cube") {
-    return generateCubeLUT(adjustedMap, gridSize);
+    return generateCubeLUT(lutMap, gridSize);
   } else {
-    return generate3dlLUT(adjustedMap, gridSize);
+    return generate3dlLUT(lutMap, gridSize);
   }
 }
 
-async function buildColorMap(
-  imageBuffer: Buffer,
-  gridSize: number
-): Promise<Map<string, RGB>> {
+async function deriveColorTransform(imageBuffer: Buffer): Promise<ColorTransform> {
   const image = sharp(imageBuffer);
-  
-  // Resize to manageable size for analysis
   const { data, info } = await image
-    .resize(400, 400, { fit: "inside" })
+    .resize(100, 100, { fit: "inside" })
     .raw()
     .toBuffer({ resolveWithObject: true });
 
-  const colorMap = new Map<string, RGB>();
+  let totalR = 0, totalG = 0, totalB = 0;
+  let totalBrightness = 0;
+  const pixelCount = data.length / info.channels;
 
-  // Sample the image and build a color transformation map
-  for (let r = 0; r < gridSize; r++) {
-    for (let g = 0; g < gridSize; g++) {
-      for (let b = 0; b < gridSize; b++) {
-        const inputR = Math.round((r / (gridSize - 1)) * 255);
-        const inputG = Math.round((g / (gridSize - 1)) * 255);
-        const inputB = Math.round((b / (gridSize - 1)) * 255);
-
-        // Find similar colors in the image and average their transformations
-        const outputColor = findClosestColorTransform(
-          data,
-          info.channels,
-          inputR,
-          inputG,
-          inputB
-        );
-
-        const key = `${r},${g},${b}`;
-        colorMap.set(key, outputColor);
-      }
-    }
-  }
-
-  return colorMap;
-}
-
-function findClosestColorTransform(
-  data: Buffer,
-  channels: number,
-  targetR: number,
-  targetG: number,
-  targetB: number
-): RGB {
-  let closestR = targetR;
-  let closestG = targetG;
-  let closestB = targetB;
-  let minDistance = Infinity;
-  let count = 0;
-  let sumR = 0;
-  let sumG = 0;
-  let sumB = 0;
-
-  // Sample pixels to find color transformation
-  const sampleSize = Math.min(1000, data.length / channels);
-  const step = Math.floor((data.length / channels) / sampleSize);
-
-  for (let i = 0; i < data.length; i += step * channels) {
+  // Fast single pass analysis
+  for (let i = 0; i < data.length; i += info.channels) {
     const r = data[i];
     const g = data[i + 1];
     const b = data[i + 2];
 
-    const distance = Math.sqrt(
-      Math.pow(r - targetR, 2) +
-        Math.pow(g - targetG, 2) +
-        Math.pow(b - targetB, 2)
-    );
-
-    if (distance < 50) {
-      sumR += r;
-      sumG += g;
-      sumB += b;
-      count++;
-    }
-
-    if (distance < minDistance) {
-      minDistance = distance;
-      closestR = r;
-      closestG = g;
-      closestB = b;
-    }
+    totalR += r;
+    totalG += g;
+    totalB += b;
+    totalBrightness += Math.max(r, g, b);
   }
 
-  if (count > 0) {
-    return {
-      r: sumR / count,
-      g: sumG / count,
-      b: sumB / count,
-    };
-  }
+  const avgR = totalR / pixelCount;
+  const avgG = totalG / pixelCount;
+  const avgB = totalB / pixelCount;
+  const avgBrightness = totalBrightness / pixelCount;
 
-  return { r: closestR, g: closestG, b: closestB };
+  // Derive simple color transforms
+  return {
+    brightnessShift: (avgBrightness - 128) / 255,
+    contrastFactor: 1.0 + (avgBrightness / 255 - 0.5) * 0.3,
+    saturationFactor: 1.0 + ((avgR + avgG + avgB) / (3 * 255) - 0.5) * 0.2,
+    colorShifts: {
+      r: (avgR - 128) / 512,
+      g: (avgG - 128) / 512,
+      b: (avgB - 128) / 512,
+    },
+  };
 }
 
-function applyIntensity(
-  colorMap: Map<string, RGB>,
+function buildLUTFromTransform(
+  transform: ColorTransform,
+  gridSize: number,
   intensity: number
 ): Map<string, RGB> {
-  const adjusted = new Map<string, RGB>();
+  const lutMap = new Map<string, RGB>();
 
-  colorMap.forEach((output, key) => {
-    const [r, g, b] = key.split(",").map(Number);
-    const inputR = (r / (Math.cbrt(colorMap.size) - 1)) * 255;
-    const inputG = (g / (Math.cbrt(colorMap.size) - 1)) * 255;
-    const inputB = (b / (Math.cbrt(colorMap.size) - 1)) * 255;
+  for (let r = 0; r < gridSize; r++) {
+    for (let g = 0; g < gridSize; g++) {
+      for (let b = 0; b < gridSize; b++) {
+        const inputR = (r / (gridSize - 1)) * 255;
+        const inputG = (g / (gridSize - 1)) * 255;
+        const inputB = (b / (gridSize - 1)) * 255;
 
-    adjusted.set(key, {
-      r: inputR + (output.r - inputR) * intensity,
-      g: inputG + (output.g - inputG) * intensity,
-      b: inputB + (output.b - inputB) * intensity,
-    });
-  });
+        // Apply color transform
+        const transformed = applyTransform(
+          { r: inputR, g: inputG, b: inputB },
+          transform
+        );
 
-  return adjusted;
+        // Blend with original based on intensity
+        const key = `${r},${g},${b}`;
+        lutMap.set(key, {
+          r: inputR + (transformed.r - inputR) * intensity,
+          g: inputG + (transformed.g - inputG) * intensity,
+          b: inputB + (transformed.b - inputB) * intensity,
+        });
+      }
+    }
+  }
+
+  return lutMap;
+}
+
+function applyTransform(color: RGB, transform: ColorTransform): RGB {
+  // Apply brightness and contrast
+  let r = color.r;
+  let g = color.g;
+  let b = color.b;
+
+  // Contrast
+  r = ((r / 255 - 0.5) * transform.contrastFactor + 0.5) * 255;
+  g = ((g / 255 - 0.5) * transform.contrastFactor + 0.5) * 255;
+  b = ((b / 255 - 0.5) * transform.contrastFactor + 0.5) * 255;
+
+  // Brightness
+  r += transform.brightnessShift * 50;
+  g += transform.brightnessShift * 50;
+  b += transform.brightnessShift * 50;
+
+  // Color shifts
+  r += transform.colorShifts.r * 100;
+  g += transform.colorShifts.g * 100;
+  b += transform.colorShifts.b * 100;
+
+  // Clamp to valid range
+  return {
+    r: Math.max(0, Math.min(255, r)),
+    g: Math.max(0, Math.min(255, g)),
+    b: Math.max(0, Math.min(255, b)),
+  };
 }
 
 function generateCubeLUT(colorMap: Map<string, RGB>, gridSize: number): string {
@@ -193,4 +186,57 @@ function generate3dlLUT(colorMap: Map<string, RGB>, gridSize: number): string {
   }
 
   return lut;
+}
+
+// Apply LUT to image for preview
+export async function applyLUTToImage(
+  imageBuffer: Buffer,
+  lutMap: Map<string, RGB>,
+  gridSize: number,
+  intensity: number
+): Promise<Buffer> {
+  const image = sharp(imageBuffer);
+  const { data, info } = await image.raw().toBuffer({ resolveWithObject: true });
+
+  const processedData = Buffer.from(data);
+
+  // Apply LUT transformation to each pixel
+  for (let i = 0; i < data.length; i += info.channels) {
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+
+    // Map input RGB to grid coordinates
+    const rIdx = Math.round((r / 255) * (gridSize - 1));
+    const gIdx = Math.round((g / 255) * (gridSize - 1));
+    const bIdx = Math.round((b / 255) * (gridSize - 1));
+
+    const key = `${rIdx},${gIdx},${bIdx}`;
+    const transformed = lutMap.get(key) || { r, g, b };
+
+    // Apply transformation
+    processedData[i] = Math.round(r + (transformed.r - r) * (intensity / 100));
+    processedData[i + 1] = Math.round(g + (transformed.g - g) * (intensity / 100));
+    processedData[i + 2] = Math.round(b + (transformed.b - b) * (intensity / 100));
+  }
+
+  // Convert back to image
+  return sharp(processedData, {
+    raw: {
+      width: info.width,
+      height: info.height,
+      channels: info.channels,
+    },
+  })
+    .jpeg()
+    .toBuffer();
+}
+
+// Get cached or generate LUT map
+export async function getLUTMap(
+  imageBuffer: Buffer,
+  gridSize: number
+): Promise<Map<string, RGB>> {
+  const transform = await deriveColorTransform(imageBuffer);
+  return buildLUTFromTransform(transform, gridSize, 1.0);
 }
