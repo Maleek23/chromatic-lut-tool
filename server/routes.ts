@@ -293,7 +293,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Convert LUT format endpoint
-  app.post("/api/lut/convert", upload.single("file"), async (req, res) => {
+  app.post("/api/lut/convert", dynamicRateLimiter, upload.single("file"), async (req, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ error: "No file uploaded" });
@@ -302,9 +302,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const content = req.file.buffer.toString('utf-8');
       const sourceFormat = req.body.sourceFormat as 'cube' | '3dl' | undefined;
       const targetFormat = req.body.targetFormat as 'cube' | '3dl';
+      const gridSize = req.body.gridSize ? parseInt(req.body.gridSize) : undefined;
 
       if (!targetFormat) {
         return res.status(400).json({ error: "Target format required" });
+      }
+
+      // Backend tier validation for grid size resampling (Pro feature)
+      if (gridSize) {
+        // Grid size resampling requires authentication and Pro tier
+        if (!req.user) {
+          return res.status(401).json({
+            error: "Authentication required for grid size resampling",
+            upgradeRequired: true
+          });
+        }
+
+        const { hasTier } = await import("./middleware/tierGuard");
+        if (!hasTier(req.user.tier, "pro")) {
+          return res.status(403).json({
+            error: "Grid size resampling requires Pro tier",
+            upgradeRequired: true,
+            requiredTier: "pro"
+          });
+        }
+
+        // Validate grid size values
+        if (![17, 33, 65].includes(gridSize)) {
+          return res.status(400).json({ error: "Invalid grid size. Must be 17, 33, or 65" });
+        }
       }
 
       // Parse source LUT
@@ -317,13 +343,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Convert to target format
-      const converted = convertLUT(parsed, targetFormat);
+      // Convert to target format with optional grid size resampling
+      const converted = convertLUT(parsed, targetFormat, gridSize);
+
+      // Track usage if user is authenticated
+      if (req.user) {
+        const { storage } = await import("./storage");
+        await storage.incrementConversions(req.user.id);
+      }
 
       // Generate filename
       const originalName = req.file.originalname.replace(/\.[^/.]+$/, "");
       const timestamp = new Date().toISOString().split("T")[0];
-      const filename = `${originalName}_converted_${timestamp}.${targetFormat}`;
+      const gridSuffix = gridSize ? `_${gridSize}` : "";
+      const filename = `${originalName}_converted${gridSuffix}_${timestamp}.${targetFormat}`;
 
       // Send as download
       res.setHeader("Content-Type", "text/plain");
@@ -424,14 +457,129 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Dashboard stats endpoint - returns usage and saved preset count
   app.get("/api/dashboard/stats", requireAuth, async (req, res) => {
     try {
-      // For now, return basic stats
-      // In the future, we'll query presets from database
+      if (!req.user) {
+        return res.status(401).json({ error: "Authentication required" });
+      }
+
+      const { storage } = await import("./storage");
+      const savedPresets = await storage.getUserPresetCount(req.user.id);
+      
       res.json({
-        savedPresets: 0, // TODO: Query from database when presets feature is built
+        savedPresets,
       });
     } catch (error) {
       console.error("Dashboard stats error:", error);
       res.status(500).json({ error: "Failed to fetch dashboard stats" });
+    }
+  });
+
+  // Preset Management Routes
+  
+  // Get user's saved presets
+  app.get("/api/presets", requireAuth, async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ error: "Authentication required" });
+      }
+
+      const { storage } = await import("./storage");
+      const presets = await storage.getUserPresets(req.user.id);
+      
+      res.json({ presets });
+    } catch (error) {
+      console.error("Get presets error:", error);
+      res.status(500).json({ error: "Failed to fetch presets" });
+    }
+  });
+
+  // Save a new preset
+  app.post("/api/presets", requireAuth, upload.single("file"), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "No file uploaded" });
+      }
+
+      if (!req.user) {
+        return res.status(401).json({ error: "Authentication required" });
+      }
+
+      const user = req.user;
+      const { USAGE_LIMITS } = await import("./middleware/validation");
+      const { storage } = await import("./storage");
+      
+      // Check preset limit for free tier
+      if (user.tier === "free") {
+        const currentPresetCount = await storage.getUserPresetCount(user.id);
+        if (currentPresetCount >= USAGE_LIMITS.free.savedPresets) {
+          return res.status(403).json({
+            error: "Preset limit reached",
+            upgradeRequired: true,
+            limit: USAGE_LIMITS.free.savedPresets
+          });
+        }
+      }
+
+      const name = req.body.name || `Preset ${new Date().toISOString()}`;
+      const content = req.file.buffer.toString('utf-8');
+      const format = req.body.format as 'cube' | '3dl' | undefined;
+      
+      const parsed = parseLUT(content, format);
+
+      if (parsed.errors.length > 0) {
+        return res.status(400).json({
+          error: "Invalid LUT file",
+          details: parsed.errors
+        });
+      }
+
+      // Save to database
+      const preset = await storage.createPreset({
+        userId: user.id,
+        name,
+        description: req.body.description || null,
+        lutData: content,
+        format: parsed.format,
+        isPublic: false,
+      });
+
+      res.json({
+        message: "Preset saved successfully",
+        preset: {
+          id: preset.id,
+          name: preset.name,
+          format: preset.format,
+          createdAt: preset.createdAt
+        }
+      });
+    } catch (error) {
+      console.error("Save preset error:", error);
+      res.status(500).json({ error: "Failed to save preset" });
+    }
+  });
+
+  // Delete a preset
+  app.delete("/api/presets/:id", requireAuth, async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ error: "Authentication required" });
+      }
+
+      const presetId = parseInt(req.params.id);
+      if (isNaN(presetId)) {
+        return res.status(400).json({ error: "Invalid preset ID" });
+      }
+
+      const { storage } = await import("./storage");
+      const deleted = await storage.deletePreset(presetId, req.user.id);
+      
+      if (!deleted) {
+        return res.status(404).json({ error: "Preset not found" });
+      }
+
+      res.json({ message: "Preset deleted successfully" });
+    } catch (error) {
+      console.error("Delete preset error:", error);
+      res.status(500).json({ error: "Failed to delete preset" });
     }
   });
 

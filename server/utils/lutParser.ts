@@ -339,12 +339,24 @@ export function parseLUT(content: string, format?: 'cube' | '3dl'): ParsedLUT {
 }
 
 /**
- * Convert LUT from one format to another
+ * Convert LUT from one format to another, with optional resampling
  */
-export function convertLUT(parsedLUT: ParsedLUT, targetFormat: 'cube' | '3dl'): string {
+export function convertLUT(parsedLUT: ParsedLUT, targetFormat: 'cube' | '3dl', targetSize?: number): string {
+  let lut = parsedLUT.lut;
+
+  // Resample if target size is specified and different
+  if (targetSize && targetSize !== lut.size) {
+    const resampledData = resampleLUT(lut, targetSize);
+    lut = {
+      ...lut,
+      size: targetSize,
+      data: resampledData,
+    };
+  }
+
   if (targetFormat === 'cube') {
-    return toCubeFormat(parsedLUT.lut);
+    return toCubeFormat(lut);
   } else {
-    return to3dlFormat(parsedLUT.lut);
+    return to3dlFormat(lut);
   }
 }

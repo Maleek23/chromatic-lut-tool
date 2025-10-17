@@ -3,8 +3,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Upload, Download, RefreshCw, CheckCircle, AlertCircle } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Upload, Download, RefreshCw, CheckCircle, AlertCircle, Crown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/use-auth";
 import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
 import demoImageBefore from "@assets/stock_images/cinematic_film_scene_3b85db8f.jpg";
 import demoImageAfter from "@assets/stock_images/cinematic_film_scene_1a3fcc2b.jpg";
@@ -22,9 +24,13 @@ interface ParseResult {
 export default function Convert() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [outputFormat, setOutputFormat] = useState<"cube" | "3dl">("cube");
+  const [gridSize, setGridSize] = useState<string>("auto");
   const [isConverting, setIsConverting] = useState(false);
   const [parseResult, setParseResult] = useState<ParseResult | null>(null);
   const { toast } = useToast();
+  const { user } = useAuth();
+  
+  const isPro = user && (user.tier === "pro" || user.tier === "studio");
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -105,6 +111,11 @@ export default function Convert() {
       const formData = new FormData();
       formData.append("file", uploadedFile);
       formData.append("targetFormat", outputFormat);
+      
+      // Add grid size for resampling if Pro user selected a specific size
+      if (gridSize !== "auto") {
+        formData.append("gridSize", gridSize);
+      }
       
       const response = await fetch("/api/lut/convert", {
         method: "POST",
@@ -236,6 +247,34 @@ export default function Convert() {
                   <SelectItem value="3dl">.3dl (Autodesk)</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+
+            {/* Grid Size Selector (Pro Feature) */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-medium">Grid Size</label>
+                {isPro && <Badge variant="default" className="text-xs"><Crown className="w-3 h-3 mr-1" />Pro</Badge>}
+              </div>
+              <Select 
+                value={gridSize} 
+                onValueChange={setGridSize}
+                disabled={!isPro}
+              >
+                <SelectTrigger data-testid="select-grid-size">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="auto">Auto (keep original)</SelectItem>
+                  <SelectItem value="17">17×17×17 (Standard)</SelectItem>
+                  <SelectItem value="33">33×33×33 (High Quality)</SelectItem>
+                  <SelectItem value="65">65×65×65 (Ultra Quality)</SelectItem>
+                </SelectContent>
+              </Select>
+              {!isPro && (
+                <p className="text-xs text-muted-foreground">
+                  Upgrade to Pro to resample LUTs with custom grid sizes
+                </p>
+              )}
             </div>
 
             {/* Convert Button */}
