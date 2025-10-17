@@ -4,6 +4,7 @@ import multer from "multer";
 import JSZip from "jszip";
 import { analyzeImage } from "./utils/colorAnalysis";
 import { generateLUT, applyLUTToImage } from "./utils/lutGenerator";
+import { parseLUT, convertLUT, type ParsedLUT } from "./utils/lutParser";
 import { lutGenerationSchema, extendedLutGenerationSchema, batchLutRequestSchema } from "@shared/schema";
 import { setupAuth } from "./auth";
 
@@ -259,6 +260,162 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Batch download error:", error);
       res.status(500).json({ error: "Failed to generate batch download" });
+    }
+  });
+
+  // Parse LUT file endpoint
+  app.post("/api/lut/parse", upload.single("file"), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "No file uploaded" });
+      }
+
+      const content = req.file.buffer.toString('utf-8');
+      const format = req.body.format as 'cube' | '3dl' | undefined;
+      
+      const parsed = parseLUT(content, format);
+
+      res.json({
+        success: parsed.errors.length === 0,
+        format: parsed.format,
+        size: parsed.lut.size,
+        title: parsed.lut.title,
+        errors: parsed.errors,
+        warnings: parsed.warnings,
+        dataPoints: parsed.lut.data.length
+      });
+    } catch (error) {
+      console.error("LUT parse error:", error);
+      res.status(500).json({ error: "Failed to parse LUT file" });
+    }
+  });
+
+  // Convert LUT format endpoint
+  app.post("/api/lut/convert", upload.single("file"), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "No file uploaded" });
+      }
+
+      const content = req.file.buffer.toString('utf-8');
+      const sourceFormat = req.body.sourceFormat as 'cube' | '3dl' | undefined;
+      const targetFormat = req.body.targetFormat as 'cube' | '3dl';
+
+      if (!targetFormat) {
+        return res.status(400).json({ error: "Target format required" });
+      }
+
+      // Parse source LUT
+      const parsed = parseLUT(content, sourceFormat);
+
+      if (parsed.errors.length > 0) {
+        return res.status(400).json({
+          error: "Invalid LUT file",
+          details: parsed.errors
+        });
+      }
+
+      // Convert to target format
+      const converted = convertLUT(parsed, targetFormat);
+
+      // Generate filename
+      const originalName = req.file.originalname.replace(/\.[^/.]+$/, "");
+      const timestamp = new Date().toISOString().split("T")[0];
+      const filename = `${originalName}_converted_${timestamp}.${targetFormat}`;
+
+      // Send as download
+      res.setHeader("Content-Type", "text/plain");
+      res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+      res.send(converted);
+    } catch (error) {
+      console.error("LUT conversion error:", error);
+      res.status(500).json({ error: "Failed to convert LUT file" });
+    }
+  });
+
+  // Analyze LUT quality endpoint
+  app.post("/api/lut/analyze", upload.single("file"), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "No file uploaded" });
+      }
+
+      const content = req.file.buffer.toString('utf-8');
+      const format = req.body.format as 'cube' | '3dl' | undefined;
+      
+      const parsed = parseLUT(content, format);
+
+      if (parsed.errors.length > 0) {
+        return res.status(400).json({
+          error: "Invalid LUT file",
+          details: parsed.errors
+        });
+      }
+
+      // Analyze quality issues
+      const analysis = {
+        format: parsed.format,
+        size: parsed.lut.size,
+        title: parsed.lut.title,
+        totalPoints: parsed.lut.data.length,
+        errors: parsed.errors,
+        warnings: parsed.warnings,
+        quality: {
+          hasInvalidPoints: false,
+          outOfRangeCount: 0,
+          bandingDetected: false,
+          maxValue: 0,
+          minValue: 1,
+          avgValue: 0
+        }
+      };
+
+      // Check for invalid points and out-of-range values
+      let sum = 0;
+      for (const [r, g, b] of parsed.lut.data) {
+        const values = [r, g, b];
+        
+        for (const v of values) {
+          sum += v;
+          
+          if (v < 0 || v > 1) {
+            analysis.quality.hasInvalidPoints = true;
+            analysis.quality.outOfRangeCount++;
+          }
+          
+          if (v > analysis.quality.maxValue) {
+            analysis.quality.maxValue = v;
+          }
+          if (v < analysis.quality.minValue) {
+            analysis.quality.minValue = v;
+          }
+        }
+      }
+
+      analysis.quality.avgValue = sum / (parsed.lut.data.length * 3);
+
+      // Simple banding detection: check for repeated consecutive values
+      let bandingScore = 0;
+      for (let i = 1; i < parsed.lut.data.length; i++) {
+        const prev = parsed.lut.data[i - 1];
+        const curr = parsed.lut.data[i];
+        
+        if (
+          Math.abs(prev[0] - curr[0]) < 0.001 &&
+          Math.abs(prev[1] - curr[1]) < 0.001 &&
+          Math.abs(prev[2] - curr[2]) < 0.001
+        ) {
+          bandingScore++;
+        }
+      }
+      
+      // If more than 10% of consecutive points are identical, consider it banding
+      analysis.quality.bandingDetected = bandingScore > parsed.lut.data.length * 0.1;
+
+      res.json(analysis);
+    } catch (error) {
+      console.error("LUT analysis error:", error);
+      res.status(500).json({ error: "Failed to analyze LUT file" });
     }
   });
 
