@@ -12,6 +12,7 @@ import Convert from "@/pages/Convert";
 import Analyze from "@/pages/Analyze";
 import Optimize from "@/pages/Optimize";
 import AuthPage from "@/pages/AuthPage";
+import Dashboard from "@/pages/Dashboard";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -23,6 +24,7 @@ function Router() {
         <Route path="/convert" component={Convert} />
         <Route path="/analyze" component={Analyze} />
         <Route path="/optimize" component={Optimize} />
+        <Route path="/dashboard" component={Dashboard} />
         <Route path="/auth" component={AuthPage} />
         <Route component={NotFound} />
       </Switch>

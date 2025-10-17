@@ -61,6 +61,18 @@ export function NavBar() {
             </Button>
           </Link>
 
+          {user && (
+            <Link href="/dashboard">
+              <Button 
+                variant={location === "/dashboard" ? "default" : "ghost"} 
+                size="sm"
+                data-testid="nav-dashboard"
+              >
+                Dashboard
+              </Button>
+            </Link>
+          )}
+
           {user ? (
             <>
               <div className="flex items-center gap-2 px-3" data-testid="user-info">

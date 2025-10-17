@@ -7,6 +7,8 @@ import { generateLUT, applyLUTToImage } from "./utils/lutGenerator";
 import { parseLUT, convertLUT, type ParsedLUT } from "./utils/lutParser";
 import { lutGenerationSchema, extendedLutGenerationSchema, batchLutRequestSchema } from "@shared/schema";
 import { setupAuth } from "./auth";
+import { requireAuth, requireTier } from "./middleware/tierGuard";
+import { dynamicRateLimiter } from "./middleware/rateLimiter";
 
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -416,6 +418,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("LUT analysis error:", error);
       res.status(500).json({ error: "Failed to analyze LUT file" });
+    }
+  });
+
+  // Dashboard stats endpoint - returns usage and saved preset count
+  app.get("/api/dashboard/stats", requireAuth, async (req, res) => {
+    try {
+      // For now, return basic stats
+      // In the future, we'll query presets from database
+      res.json({
+        savedPresets: 0, // TODO: Query from database when presets feature is built
+      });
+    } catch (error) {
+      console.error("Dashboard stats error:", error);
+      res.status(500).json({ error: "Failed to fetch dashboard stats" });
     }
   });
 
