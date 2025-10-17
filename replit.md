@@ -2,7 +2,7 @@
 
 ## Overview
 
-LUT Maker is a professional color grading tool that allows users to analyze images and generate Look-Up Tables (LUTs) for video and photo editing. Users can upload images, view detailed color analysis, preview LUT effects in real-time, and download professional .cube or .3dl LUT files. The application features a sophisticated dark-mode interface inspired by professional creative tools like Adobe Lightroom and Capture One.
+LUT Maker is a professional color grading tool that allows users to analyze images and generate Look-Up Tables (LUTs) for video and photo editing. The simplified workflow guides users from upload → analysis → adjustment → generation. Users can view detailed color analysis, preview LUT effects in real-time with automatic updates, and download professional .cube or .3dl LUT files. The application features a clean, modern interface with dark mode support.
 
 ## User Preferences
 
@@ -15,28 +15,33 @@ Preferred communication style: Simple, everyday language.
 **Framework**: React 18+ with TypeScript and Vite as the build tool
 
 **Routing**: Wouter for lightweight client-side routing
+- Landing page at `/` - introduces the tool and its features
+- Tool page at `/tool` - main application interface
+- Navigation bar for seamless page switching
 
 **State Management**: 
-- React Query (TanStack Query) for server state management and API caching
 - Local React state for UI interactions
 - Custom context providers for theme management
+- Debounced auto-preview updates when controls change
 
 **UI Components**:
 - Radix UI primitives for accessible, unstyled components
 - shadcn/ui component library built on top of Radix UI
-- Custom components for domain-specific features (ComparisonSlider, ColorStatistics, LutControls, UploadZone)
+- Custom components: ComparisonSlider, ColorStatistics, HistogramVisualization, LutControls, UploadZone, AdvancedControls
+- NavBar component with theme toggle
+- Simplified single-page workflow (removed batch processing and presets)
 
 **Styling**:
 - Tailwind CSS for utility-first styling
 - CSS variables for theming (light/dark mode support)
-- Custom design system following professional photography tool aesthetics
-- Inter font for UI, JetBrains Mono for technical data
-- Color-neutral dark background (220 15% 8%) for accurate color preview
+- Clean, modern design with professional aesthetics
+- Tooltips on technical controls for user guidance
 
 **Design Patterns**:
 - Component composition with Radix UI's Slot pattern
 - Controlled components for form inputs
-- Custom hooks for reusable logic (useToast, useIsMobile, useTheme)
+- Custom hooks for reusable logic (useToast, useTheme)
+- Real-time preview updates with debouncing (300ms delay)
 
 ### Backend Architecture
 
