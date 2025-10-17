@@ -4,15 +4,21 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import Home from "@/pages/Home";
+import { NavBar } from "@/components/NavBar";
+import Landing from "@/pages/Landing";
+import Tool from "@/pages/Tool";
 import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route component={NotFound} />
-    </Switch>
+    <>
+      <NavBar />
+      <Switch>
+        <Route path="/" component={Landing} />
+        <Route path="/tool" component={Tool} />
+        <Route component={NotFound} />
+      </Switch>
+    </>
   );
 }
 

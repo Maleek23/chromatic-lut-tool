@@ -15,7 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import type { LutAnalysis, LutResponse, AdvancedControls as AdvancedControlsType, BatchImage } from "@shared/schema";
 import { getPresetById } from "@shared/presets";
 
-export default function Home() {
+export default function Tool() {
   const { toast } = useToast();
   
   // Mode state
