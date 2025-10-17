@@ -296,7 +296,17 @@ function applyZoneAdjustment(
 }
 
 function generateCubeLUT(colorMap: Map<string, RGB>, gridSize: number): string {
-  let lut = `# LUT size\nLUT_3D_SIZE ${gridSize}\n\n`;
+  // DaVinci Resolve compatible .cube format with proper headers
+  const timestamp = new Date().toISOString();
+  let lut = `# Created by LUT Maker
+# Generated: ${timestamp}
+# LUT 3D size
+LUT_3D_SIZE ${gridSize}
+# Domain
+DOMAIN_MIN 0.0 0.0 0.0
+DOMAIN_MAX 1.0 1.0 1.0
+
+`;
 
   for (let b = 0; b < gridSize; b++) {
     for (let g = 0; g < gridSize; g++) {
@@ -321,7 +331,17 @@ function generateCubeLUT(colorMap: Map<string, RGB>, gridSize: number): string {
 }
 
 function generate3dlLUT(colorMap: Map<string, RGB>, gridSize: number): string {
-  let lut = `3DMESH\nMesh ${gridSize} ${gridSize} ${gridSize}\n\n`;
+  // Autodesk/Lustre .3dl format with proper headers
+  const timestamp = new Date().toISOString();
+  let lut = `# Created by LUT Maker
+# Generated: ${timestamp}
+# Format: Autodesk Color Management 3D LUT
+# Input: RGB
+# Output: RGB
+3DMESH
+Mesh ${gridSize} ${gridSize} ${gridSize}
+
+`;
 
   for (let b = 0; b < gridSize; b++) {
     for (let g = 0; g < gridSize; g++) {

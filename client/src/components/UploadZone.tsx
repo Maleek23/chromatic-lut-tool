@@ -72,7 +72,7 @@ export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: Upl
       <input
         id="file-input"
         type="file"
-        accept="image/jpeg,image/png,image/heic,image/webp"
+        accept="image/jpeg,image/jpg,image/png,image/heic,image/heif,image/webp,image/tiff,image/tif"
         onChange={handleFileSelect}
         className="hidden"
         disabled={isAnalyzing}
@@ -94,7 +94,7 @@ export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: Upl
           </p>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2 justify-center">
           <Badge variant="secondary" className="font-mono text-xs">
             JPG
           </Badge>
@@ -106,6 +106,9 @@ export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: Upl
           </Badge>
           <Badge variant="secondary" className="font-mono text-xs">
             WEBP
+          </Badge>
+          <Badge variant="secondary" className="font-mono text-xs">
+            TIFF
           </Badge>
         </div>
       </div>
