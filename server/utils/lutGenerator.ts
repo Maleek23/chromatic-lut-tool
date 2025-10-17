@@ -99,7 +99,8 @@ export async function generateLUT(
   gridSize: number,
   intensity: number,
   format: "cube" | "3dl",
-  advancedControls?: AdvancedControls
+  advancedControls?: AdvancedControls,
+  precision: string = "10"
 ): Promise<string> {
   const transform = await deriveColorTransform(imageBuffer);
   const lutMap = buildLUTFromTransform(
@@ -110,9 +111,9 @@ export async function generateLUT(
   );
 
   if (format === "cube") {
-    return generateCubeLUT(lutMap, gridSize);
+    return generateCubeLUT(lutMap, gridSize, precision);
   } else {
-    return generate3dlLUT(lutMap, gridSize);
+    return generate3dlLUT(lutMap, gridSize, precision);
   }
 }
 
@@ -295,11 +296,12 @@ function applyZoneAdjustment(
   return hslToRgb(hsl);
 }
 
-function generateCubeLUT(colorMap: Map<string, RGB>, gridSize: number): string {
+function generateCubeLUT(colorMap: Map<string, RGB>, gridSize: number, precision: string = "10"): string {
   // DaVinci Resolve compatible .cube format with proper headers
   const timestamp = new Date().toISOString();
   let lut = `# Created by LUT Maker
 # Generated: ${timestamp}
+# Precision: ${precision}-bit
 # LUT 3D size
 LUT_3D_SIZE ${gridSize}
 # Domain
@@ -330,11 +332,12 @@ DOMAIN_MAX 1.0 1.0 1.0
   return lut;
 }
 
-function generate3dlLUT(colorMap: Map<string, RGB>, gridSize: number): string {
+function generate3dlLUT(colorMap: Map<string, RGB>, gridSize: number, precision: string = "10"): string {
   // Autodesk/Lustre .3dl format with proper headers
   const timestamp = new Date().toISOString();
   let lut = `# Created by LUT Maker
 # Generated: ${timestamp}
+# Precision: ${precision}-bit
 # Format: Autodesk Color Management 3D LUT
 # Input: RGB
 # Output: RGB

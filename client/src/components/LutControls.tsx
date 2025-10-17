@@ -3,6 +3,7 @@ import { Slider } from "@/components/ui/slider";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Sparkles, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -13,6 +14,10 @@ interface LutControlsProps {
   onGridSizeChange: (value: "17" | "33" | "65") => void;
   format: "cube" | "3dl";
   onFormatChange: (value: "cube" | "3dl") => void;
+  precision: "8" | "10" | "12";
+  onPrecisionChange: (value: "8" | "10" | "12") => void;
+  exportPreview: boolean;
+  onExportPreviewChange: (value: boolean) => void;
   onGenerate: () => void;
   isGenerating: boolean;
   hideGenerate?: boolean;
@@ -25,6 +30,10 @@ export function LutControls({
   onGridSizeChange,
   format,
   onFormatChange,
+  precision,
+  onPrecisionChange,
+  exportPreview,
+  onExportPreviewChange,
   onGenerate,
   isGenerating,
   hideGenerate = false,
@@ -94,6 +103,37 @@ export function LutControls({
               <SelectItem value="3dl">.3dl (Autodesk)</SelectItem>
             </SelectContent>
           </Select>
+        </div>
+
+        {/* Precision Selector */}
+        <div className="space-y-3">
+          <Label htmlFor="precision">Color Precision</Label>
+          <Select value={precision} onValueChange={(value) => onPrecisionChange(value as "8" | "10" | "12")}>
+            <SelectTrigger id="precision" data-testid="select-precision">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="8">8-bit (256 colors/channel)</SelectItem>
+              <SelectItem value="10">10-bit (1024 colors/channel)</SelectItem>
+              <SelectItem value="12">12-bit (4096 colors/channel)</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Export Preview Checkbox */}
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="export-preview"
+            checked={exportPreview}
+            onCheckedChange={onExportPreviewChange}
+            data-testid="checkbox-export-preview"
+          />
+          <Label 
+            htmlFor="export-preview" 
+            className="font-normal cursor-pointer text-sm"
+          >
+            Export preview image with LUT
+          </Label>
         </div>
 
         {/* Generate Button */}

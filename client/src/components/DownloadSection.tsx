@@ -8,6 +8,7 @@ interface DownloadSectionProps {
   lutData: string;
   defaultFilename: string;
   format: string;
+  previewData?: string;
   onReset: () => void;
 }
 
@@ -15,6 +16,7 @@ export function DownloadSection({
   lutData,
   defaultFilename,
   format,
+  previewData,
   onReset,
 }: DownloadSectionProps) {
   const [filename, setFilename] = useState(defaultFilename);
@@ -29,6 +31,17 @@ export function DownloadSection({
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  };
+
+  const handleDownloadPreview = () => {
+    if (!previewData) return;
+    const a = document.createElement("a");
+    a.href = previewData;
+    const previewFilename = filename.replace(/\.[^/.]+$/, "_preview.jpg");
+    a.download = previewFilename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   };
 
   return (
@@ -55,23 +68,36 @@ export function DownloadSection({
           />
         </div>
 
-        <div className="flex gap-2">
-          <Button
-            className="flex-1"
-            onClick={handleDownload}
-            data-testid="button-download"
-          >
-            <Download className="w-4 h-4 mr-2" />
-            Download LUT
-          </Button>
-          <Button
-            variant="outline"
-            onClick={onReset}
-            data-testid="button-reset"
-          >
-            <RotateCcw className="w-4 h-4 mr-2" />
-            New Image
-          </Button>
+        <div className="space-y-2">
+          <div className="flex gap-2">
+            <Button
+              className="flex-1"
+              onClick={handleDownload}
+              data-testid="button-download"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Download LUT
+            </Button>
+            <Button
+              variant="outline"
+              onClick={onReset}
+              data-testid="button-reset"
+            >
+              <RotateCcw className="w-4 h-4 mr-2" />
+              New Image
+            </Button>
+          </div>
+          {previewData && (
+            <Button
+              variant="secondary"
+              className="w-full"
+              onClick={handleDownloadPreview}
+              data-testid="button-download-preview"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Download Preview Image
+            </Button>
+          )}
         </div>
       </CardContent>
     </Card>

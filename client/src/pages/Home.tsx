@@ -33,6 +33,8 @@ export default function Home() {
   const [intensity, setIntensity] = useState(100);
   const [gridSize, setGridSize] = useState<"17" | "33" | "65">("33");
   const [format, setFormat] = useState<"cube" | "3dl">("cube");
+  const [precision, setPrecision] = useState<"8" | "10" | "12">("10");
+  const [exportPreview, setExportPreview] = useState(false);
   
   const [isGenerating, setIsGenerating] = useState(false);
   const [lutResult, setLutResult] = useState<LutResponse | null>(null);
@@ -230,6 +232,8 @@ export default function Home() {
           gridSize,
           intensity,
           format,
+          precision,
+          exportPreview,
           advancedControls,
           presetId: selectedPresetId,
         }),
@@ -241,7 +245,7 @@ export default function Home() {
       setLutResult(data);
       toast({
         title: "LUT Generated!",
-        description: "Your color grading LUT is ready to download.",
+        description: `Your color grading LUT is ready to download${exportPreview ? ' with preview image' : ''}.`,
       });
     } catch (error) {
       console.error("Generation error:", error);
@@ -318,6 +322,8 @@ export default function Home() {
               gridSize={gridSize}
               intensity={intensity}
               format={format}
+              precision={precision}
+              exportPreview={exportPreview}
               advancedControls={advancedControls}
               selectedPresetId={selectedPresetId}
             />
@@ -345,6 +351,10 @@ export default function Home() {
               onGridSizeChange={handleGridSizeChange}
               format={format}
               onFormatChange={setFormat}
+              precision={precision}
+              onPrecisionChange={setPrecision}
+              exportPreview={exportPreview}
+              onExportPreviewChange={setExportPreview}
               onGenerate={handleGenerateLut}
               isGenerating={isGenerating}
               hideGenerate
@@ -376,6 +386,7 @@ export default function Home() {
                       lutData={lutResult.lutData}
                       defaultFilename={lutResult.filename}
                       format={lutResult.format}
+                      previewData={lutResult.previewData}
                       onReset={handleReset}
                     />
                   )}
@@ -406,6 +417,10 @@ export default function Home() {
                     onGridSizeChange={handleGridSizeChange}
                     format={format}
                     onFormatChange={setFormat}
+                    precision={precision}
+                    onPrecisionChange={setPrecision}
+                    exportPreview={exportPreview}
+                    onExportPreviewChange={setExportPreview}
                     onGenerate={handleGenerateLut}
                     isGenerating={isGenerating}
                   />

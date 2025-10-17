@@ -13,6 +13,8 @@ interface BatchProcessorProps {
   gridSize: string;
   intensity: number;
   format: string;
+  precision: string;
+  exportPreview: boolean;
   advancedControls: any;
   selectedPresetId: string;
 }
@@ -24,6 +26,8 @@ export function BatchProcessor({
   gridSize,
   intensity,
   format,
+  precision,
+  exportPreview,
   advancedControls,
   selectedPresetId,
 }: BatchProcessorProps) {
@@ -90,6 +94,8 @@ export function BatchProcessor({
           gridSize,
           intensity,
           format,
+          precision,
+          exportPreview,
           advancedControls,
           presetId: selectedPresetId,
         }),

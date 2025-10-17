@@ -24,6 +24,8 @@ export const lutGenerationSchema = z.object({
   gridSize: z.enum(["17", "33", "65"]),
   intensity: z.number().min(0).max(100),
   format: z.enum(["cube", "3dl"]),
+  precision: z.enum(["8", "10", "12"]).default("10"),
+  exportPreview: z.boolean().default(false),
 });
 
 export type LutGenerationRequest = z.infer<typeof lutGenerationSchema>;
@@ -34,6 +36,7 @@ export const lutResponseSchema = z.object({
   filename: z.string(),
   format: z.string(),
   gridSize: z.string(),
+  previewData: z.string().optional(), // base64 preview image if exportPreview was true
 });
 
 export type LutResponse = z.infer<typeof lutResponseSchema>;
@@ -83,6 +86,8 @@ export type Preset = z.infer<typeof presetSchema>;
 export const extendedLutGenerationSchema = lutGenerationSchema.extend({
   advancedControls: advancedControlsSchema.optional(),
   presetId: z.string().optional(),
+  precision: z.enum(["8", "10", "12"]).default("10"),
+  exportPreview: z.boolean().default(false),
 });
 
 // Batch Image Schema
@@ -101,6 +106,8 @@ export const batchLutRequestSchema = z.object({
   gridSize: z.enum(["17", "33", "65"]),
   intensity: z.number().min(0).max(100),
   format: z.enum(["cube", "3dl"]),
+  precision: z.enum(["8", "10", "12"]).default("10"),
+  exportPreview: z.boolean().default(false),
   advancedControls: advancedControlsSchema.optional(),
   presetId: z.string().optional(),
 });

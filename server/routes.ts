@@ -98,7 +98,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const { imageData, gridSize, intensity, format, advancedControls, presetId } = validationResult.data;
+      const { imageData, gridSize, intensity, format, advancedControls, presetId, precision, exportPreview } = validationResult.data;
 
       // Convert base64 to buffer
       const base64Data = imageData.replace(/^data:image\/\w+;base64,/, "");
@@ -113,24 +113,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
 
-      // Generate LUT
+      // Generate LUT with precision metadata
       const lutData = await generateLUT(
         imageBuffer,
         parseInt(gridSize),
         intensity,
         format,
-        controls
+        controls,
+        precision
       );
 
       const timestamp = new Date().toISOString().split("T")[0];
       const presetSuffix = presetId ? `_${presetId}` : '';
       const filename = `color_grade_${timestamp}${presetSuffix}_${gridSize}x${gridSize}x${gridSize}.${format}`;
 
+      // Generate preview image if requested
+      let previewData: string | undefined;
+      if (exportPreview) {
+        const { getLUTMap } = await import("./utils/lutGenerator");
+        const lutMap = await getLUTMap(imageBuffer, parseInt(gridSize), controls);
+        const previewBuffer = await applyLUTToImage(imageBuffer, lutMap, parseInt(gridSize), intensity);
+        previewData = `data:image/jpeg;base64,${previewBuffer.toString("base64")}`;
+      }
+
       res.json({
         lutData,
         filename,
         format,
         gridSize,
+        previewData,
       });
     } catch (error) {
       console.error("LUT generation error:", error);
@@ -215,7 +226,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const { images, gridSize, intensity, format, advancedControls, presetId } = validationResult.data;
+      const { images, gridSize, intensity, format, advancedControls, presetId, precision, exportPreview } = validationResult.data;
 
       // Get controls from preset if provided
       let controls = advancedControls;
@@ -242,12 +253,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
               parseInt(gridSize),
               intensity,
               format,
-              controls
+              controls,
+              precision
             );
 
             const imageName = img.name.replace(/\.[^/.]+$/, ""); // Remove extension
             const filename = `${imageName}_${timestamp}${presetSuffix}.${format}`;
             zip.file(filename, lutData);
+
+            // Add preview image if requested
+            if (exportPreview) {
+              const { getLUTMap } = await import("./utils/lutGenerator");
+              const lutMap = await getLUTMap(imageBuffer, parseInt(gridSize), controls);
+              const previewBuffer = await applyLUTToImage(imageBuffer, lutMap, parseInt(gridSize), intensity);
+              const previewFilename = `${imageName}_${timestamp}${presetSuffix}_preview.jpg`;
+              zip.file(previewFilename, previewBuffer);
+            }
           } catch (error) {
             console.error(`LUT generation error for image ${img.id}:`, error);
           }
