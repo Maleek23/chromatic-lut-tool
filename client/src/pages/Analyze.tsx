@@ -4,6 +4,9 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Upload, CheckCircle, AlertCircle, AlertTriangle, Info } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
+import demoImageBefore from "@assets/stock_images/cinematic_film_scene_3b85db8f.jpg";
+import demoImageAfter from "@assets/stock_images/cinematic_film_scene_1a3fcc2b.jpg";
 
 interface QualityInfo {
   hasInvalidPoints: boolean;
@@ -256,6 +259,24 @@ export default function Analyze() {
               )}
             </>
           )}
+
+          {/* Demo Section */}
+          <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>LUT Impact Visualization</CardTitle>
+              <CardDescription>
+                See how color grading LUTs transform your footage
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <BeforeAfterSlider
+                beforeImage={demoImageBefore}
+                afterImage={demoImageAfter}
+                beforeLabel="Original Footage"
+                afterLabel="With LUT Applied"
+              />
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

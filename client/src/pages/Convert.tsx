@@ -5,6 +5,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Upload, Download, RefreshCw, CheckCircle, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
+import demoImageBefore from "@assets/stock_images/cinematic_film_scene_3b85db8f.jpg";
+import demoImageAfter from "@assets/stock_images/cinematic_film_scene_1a3fcc2b.jpg";
 
 interface ParseResult {
   success: boolean;
@@ -260,6 +263,24 @@ export default function Convert() {
                 File validation failed. Please upload a valid LUT file.
               </p>
             )}
+          </CardContent>
+        </Card>
+
+        {/* Demo Section */}
+        <Card className="mt-8">
+          <CardHeader>
+            <CardTitle>See LUTs in Action</CardTitle>
+            <CardDescription>
+              Compare before and after applying color grading LUTs
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <BeforeAfterSlider
+              beforeImage={demoImageBefore}
+              afterImage={demoImageAfter}
+              beforeLabel="Original Footage"
+              afterLabel="With LUT Applied"
+            />
           </CardContent>
         </Card>
       </div>

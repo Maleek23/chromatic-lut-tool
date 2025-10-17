@@ -3,15 +3,26 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, RefreshCw, BarChart3, Download, Check } from "lucide-react";
+import heroImage from "@assets/stock_images/professional_cinemat_68ec6f25.jpg";
 
 export default function Landing() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Hero Section */}
-      <section className="flex-1 flex items-center justify-center px-6 py-20">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
+      <section className="relative flex-1 flex items-center justify-center px-6 py-20 overflow-hidden">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={heroImage} 
+            alt="Professional color grading studio" 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/90 to-background/95" />
+        </div>
+
+        <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
           <div className="space-y-4">
-            <div className="inline-block px-4 py-2 bg-primary/10 rounded-full mb-4">
+            <div className="inline-block px-4 py-2 bg-primary/10 backdrop-blur-sm rounded-full mb-4 border border-primary/20">
               <span className="text-sm font-medium text-primary">by Untitled</span>
             </div>
             <h1 className="text-5xl font-bold tracking-tight">
