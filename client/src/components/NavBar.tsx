@@ -1,11 +1,14 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Droplets, Moon, Sun } from "lucide-react";
+import { Droplets, Moon, Sun, LogIn, LogOut, User } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
+import { useAuth } from "@/hooks/use-auth";
+import { Badge } from "@/components/ui/badge";
 
 export function NavBar() {
   const [location] = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const { user, logoutMutation } = useAuth();
 
   return (
     <nav className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
@@ -57,6 +60,35 @@ export function NavBar() {
               Optimize
             </Button>
           </Link>
+
+          {user ? (
+            <>
+              <div className="flex items-center gap-2 px-3" data-testid="user-info">
+                <User className="w-4 h-4" />
+                <span className="text-sm">{user.username}</span>
+                <Badge variant="secondary" className="text-xs uppercase">
+                  {user.tier}
+                </Badge>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => logoutMutation.mutate()}
+                data-testid="button-logout"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            </>
+          ) : (
+            <Link href="/auth">
+              <Button size="sm" data-testid="button-login">
+                <LogIn className="w-4 h-4 mr-2" />
+                Login
+              </Button>
+            </Link>
+          )}
+
           <Button
             variant="ghost"
             size="icon"

@@ -1,23 +1,31 @@
+// Reference: blueprint:javascript_auth_all_persistance
 import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
+import session from "express-session";
+import createMemoryStore from "memorystore";
 
-// modify the interface with any CRUD methods
-// you might need
+const MemoryStore = createMemoryStore(session);
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
+  getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  sessionStore: session.Store;
 }
 
 export class MemStorage implements IStorage {
-  private users: Map<string, User>;
+  private users: Map<number, User>;
+  private nextId: number;
+  public sessionStore: session.Store;
 
   constructor() {
     this.users = new Map();
+    this.nextId = 1;
+    this.sessionStore = new MemoryStore({
+      checkPeriod: 86400000, // 24 hours
+    });
   }
 
-  async getUser(id: string): Promise<User | undefined> {
+  async getUser(id: number): Promise<User | undefined> {
     return this.users.get(id);
   }
 
@@ -28,8 +36,16 @@ export class MemStorage implements IStorage {
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
+    const id = this.nextId++;
+    const user: User = {
+      ...insertUser,
+      id,
+      tier: insertUser.tier || "free",
+      email: insertUser.email || null,
+      stripeCustomerId: null,
+      stripeSubscriptionId: null,
+      createdAt: new Date(),
+    };
     this.users.set(id, user);
     return user;
   }

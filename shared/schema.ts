@@ -1,4 +1,48 @@
 import { z } from "zod";
+import { pgTable, text, serial, timestamp, integer, boolean } from "drizzle-orm/pg-core";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+
+// User Schema
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  username: text("username").notNull().unique(),
+  password: text("password").notNull(),
+  email: text("email"),
+  tier: text("tier").notNull().default("free"), // 'free', 'pro', 'studio'
+  stripeCustomerId: text("stripe_customer_id"),
+  stripeSubscriptionId: text("stripe_subscription_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertUserSchema = createInsertSchema(users).omit({
+  id: true,
+  createdAt: true,
+  stripeCustomerId: true,
+  stripeSubscriptionId: true,
+});
+
+export type InsertUser = z.infer<typeof insertUserSchema>;
+export type User = typeof users.$inferSelect;
+
+// Preset Table Schema (for user-saved presets)
+export const presets = pgTable("presets", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  name: text("name").notNull(),
+  description: text("description"),
+  lutData: text("lut_data").notNull(), // Serialized LUT file content
+  format: text("format").notNull(), // 'cube' or '3dl'
+  isPublic: boolean("is_public").notNull().default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertPresetSchema = createInsertSchema(presets).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertPreset = z.infer<typeof insertPresetSchema>;
+export type SavedPreset = typeof presets.$inferSelect;
 
 // LUT Analysis Response Schema
 export const lutAnalysisSchema = z.object({

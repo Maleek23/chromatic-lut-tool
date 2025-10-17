@@ -5,6 +5,7 @@ import JSZip from "jszip";
 import { analyzeImage } from "./utils/colorAnalysis";
 import { generateLUT, applyLUTToImage } from "./utils/lutGenerator";
 import { lutGenerationSchema, extendedLutGenerationSchema, batchLutRequestSchema } from "@shared/schema";
+import { setupAuth } from "./auth";
 
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -12,6 +13,10 @@ const upload = multer({ storage: multer.memoryStorage() });
 const lutCache = new Map<string, { map: Map<string, any>, gridSize: number }>();
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Reference: blueprint:javascript_auth_all_persistance
+  // Sets up /api/register, /api/login, /api/logout, /api/user
+  setupAuth(app);
+
   // Analyze image endpoint
   app.post("/api/analyze", async (req, res) => {
     try {
