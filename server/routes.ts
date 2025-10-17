@@ -301,11 +301,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const content = req.file.buffer.toString('utf-8');
       const sourceFormat = req.body.sourceFormat as 'cube' | '3dl' | undefined;
-      const targetFormat = req.body.targetFormat as 'cube' | '3dl';
+      // Normalize target format (remove leading dot if present)
+      const targetFormatRaw = req.body.targetFormat;
+      const targetFormat = (targetFormatRaw?.startsWith('.') 
+        ? targetFormatRaw.substring(1) 
+        : targetFormatRaw) as 'cube' | '3dl';
       const gridSize = req.body.gridSize ? parseInt(req.body.gridSize) : undefined;
 
-      if (!targetFormat) {
-        return res.status(400).json({ error: "Target format required" });
+      if (!targetFormat || !['cube', '3dl'].includes(targetFormat)) {
+        return res.status(400).json({ error: "Target format required (cube or 3dl)" });
       }
 
       // Backend tier validation for grid size resampling (Pro feature)
@@ -343,8 +347,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      console.log(`[DEBUG] Parsed LUT size: ${parsed.lut.size}, Target format: ${targetFormat}, Grid size param: ${gridSize}`);
+
       // Convert to target format with optional grid size resampling
       const converted = convertLUT(parsed, targetFormat, gridSize);
+      
+      // Count data lines to verify output size
+      const dataLines = converted.split('\n').filter(l => l.trim() && /^[\d\.\-\s]+$/.test(l.trim())).length;
+      console.log(`[DEBUG] Converted LUT has ${dataLines} data lines`);
 
       // Track usage if user is authenticated
       if (req.user) {
