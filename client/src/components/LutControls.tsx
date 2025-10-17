@@ -4,8 +4,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Sparkles, Loader2 } from "lucide-react";
+import { Sparkles, Loader2, HelpCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface LutControlsProps {
   intensity: number;
@@ -65,7 +66,17 @@ export function LutControls({
 
         {/* Grid Size */}
         <div className="space-y-3">
-          <Label>Grid Size</Label>
+          <div className="flex items-center gap-2">
+            <Label>Grid Size</Label>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <HelpCircle className="w-3.5 h-3.5 text-muted-foreground cursor-help" />
+              </TooltipTrigger>
+              <TooltipContent side="right" className="max-w-xs">
+                <p>Number of color points in the LUT. Higher values create smoother gradients but larger files.</p>
+              </TooltipContent>
+            </Tooltip>
+          </div>
           <RadioGroup
             value={gridSize}
             onValueChange={(value) => onGridSizeChange(value as "17" | "33" | "65")}
@@ -93,7 +104,17 @@ export function LutControls({
 
         {/* Format Selector */}
         <div className="space-y-3">
-          <Label htmlFor="format">Output Format</Label>
+          <div className="flex items-center gap-2">
+            <Label htmlFor="format">Output Format</Label>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <HelpCircle className="w-3.5 h-3.5 text-muted-foreground cursor-help" />
+              </TooltipTrigger>
+              <TooltipContent side="right" className="max-w-xs">
+                <p>.cube is widely supported (DaVinci Resolve, Premiere). .3dl works with Autodesk and Lustre.</p>
+              </TooltipContent>
+            </Tooltip>
+          </div>
           <Select value={format} onValueChange={(value) => onFormatChange(value as "cube" | "3dl")}>
             <SelectTrigger id="format" data-testid="select-format">
               <SelectValue />
@@ -107,7 +128,17 @@ export function LutControls({
 
         {/* Precision Selector */}
         <div className="space-y-3">
-          <Label htmlFor="precision">Color Precision</Label>
+          <div className="flex items-center gap-2">
+            <Label htmlFor="precision">Color Precision</Label>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <HelpCircle className="w-3.5 h-3.5 text-muted-foreground cursor-help" />
+              </TooltipTrigger>
+              <TooltipContent side="right" className="max-w-xs">
+                <p>Higher bit depth reduces banding and preserves subtle color transitions. Use 10-bit or 12-bit for professional work.</p>
+              </TooltipContent>
+            </Tooltip>
+          </div>
           <Select value={precision} onValueChange={(value) => onPrecisionChange(value as "8" | "10" | "12")}>
             <SelectTrigger id="precision" data-testid="select-precision">
               <SelectValue />
@@ -134,6 +165,14 @@ export function LutControls({
           >
             Export preview image with LUT
           </Label>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <HelpCircle className="w-3.5 h-3.5 text-muted-foreground cursor-help" />
+            </TooltipTrigger>
+            <TooltipContent side="right" className="max-w-xs">
+              <p>Download a preview image showing the LUT effect alongside the LUT file for reference.</p>
+            </TooltipContent>
+          </Tooltip>
         </div>
 
         {/* Generate Button */}

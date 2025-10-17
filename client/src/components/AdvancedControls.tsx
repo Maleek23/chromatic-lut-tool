@@ -3,7 +3,8 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Settings2, Palette } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Settings2, Palette, HelpCircle } from "lucide-react";
 import type { AdvancedControls as AdvancedControlsType } from "@shared/schema";
 
 interface AdvancedControlsProps {
@@ -225,7 +226,17 @@ export function AdvancedControls({ controls, onChange }: AdvancedControlsProps) 
           {/* Temperature */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label className="text-xs">Temperature</Label>
+              <div className="flex items-center gap-1.5">
+                <Label className="text-xs">Temperature</Label>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="w-3 h-3 text-muted-foreground cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent side="right" className="max-w-xs">
+                    <p>Shift colors toward warm (orange/yellow) or cool (blue) tones.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
               <span className="text-xs font-mono" data-testid="value-temperature">
                 {controls.temperature}
               </span>
@@ -247,7 +258,17 @@ export function AdvancedControls({ controls, onChange }: AdvancedControlsProps) 
           {/* Tint */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label className="text-xs">Tint</Label>
+              <div className="flex items-center gap-1.5">
+                <Label className="text-xs">Tint</Label>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="w-3 h-3 text-muted-foreground cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent side="right" className="max-w-xs">
+                    <p>Adjust the green-magenta color balance to remove color casts.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
               <span className="text-xs font-mono" data-testid="value-tint">
                 {controls.tint}
               </span>
@@ -271,6 +292,14 @@ export function AdvancedControls({ controls, onChange }: AdvancedControlsProps) 
             <div className="flex items-center gap-2">
               <Palette className="w-3 h-3" />
               <Label className="text-xs font-semibold">Split Toning</Label>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <HelpCircle className="w-3 h-3 text-muted-foreground cursor-help" />
+                </TooltipTrigger>
+                <TooltipContent side="right" className="max-w-xs">
+                  <p>Add different colors to shadows and highlights separately for creative toning effects.</p>
+                </TooltipContent>
+              </Tooltip>
             </div>
             <div className="space-y-2">
               <Label className="text-xs text-muted-foreground">Shadow Color</Label>
