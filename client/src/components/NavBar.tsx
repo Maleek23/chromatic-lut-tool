@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Palette, Moon, Sun } from "lucide-react";
+import { Droplets, Moon, Sun } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
 
 export function NavBar() {
@@ -12,8 +12,11 @@ export function NavBar() {
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/">
           <Button variant="ghost" className="gap-2 hover-elevate" data-testid="button-home">
-            <Palette className="w-5 h-5 text-primary" />
-            <span className="font-semibold">LUT Maker</span>
+            <Droplets className="w-5 h-5 text-primary" />
+            <div className="flex flex-col items-start leading-none">
+              <span className="font-semibold">ColorKit</span>
+              <span className="text-xs text-muted-foreground">by Untitled</span>
+            </div>
           </Button>
         </Link>
 

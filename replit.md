@@ -1,8 +1,10 @@
-# LUT Maker
+# ColorKit by Untitled
 
 ## Overview
 
-LUT Maker is a professional color grading tool that allows users to analyze images and generate Look-Up Tables (LUTs) for video and photo editing. The simplified workflow guides users from upload → analysis → adjustment → generation. Users can view detailed color analysis, preview LUT effects in real-time with automatic updates, and download professional .cube or .3dl LUT files. The application features a clean, modern interface with dark mode support.
+ColorKit is a professional LUT conversion and optimization toolkit for cinematographers and colorists. The application allows users to upload existing .cube and .3dl LUT files, analyze them for quality issues (banding, invalid points), optimize and clean transitions, and convert between different LUT formats. Built for professional workflows with DaVinci Resolve, Premiere Pro, and other color grading software.
+
+**Brand**: ColorKit by Untitled (Leekshotit Photography/Untitled Agency)
 
 ## User Preferences
 

@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Sparkles, Image, Download, Sliders } from "lucide-react";
+import { Sparkles, RefreshCw, BarChart3, Download } from "lucide-react";
 
 export default function Landing() {
   return (
@@ -10,12 +10,15 @@ export default function Landing() {
       <section className="flex-1 flex items-center justify-center px-6 py-20">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <div className="space-y-4">
+            <div className="inline-block px-4 py-2 bg-primary/10 rounded-full mb-4">
+              <span className="text-sm font-medium text-primary">by Untitled</span>
+            </div>
             <h1 className="text-5xl font-bold tracking-tight">
-              Professional LUT Generator
+              ColorKit
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Analyze any image and generate professional color grading LUTs for your video editing workflow. 
-              Works with DaVinci Resolve, Premiere Pro, and more.
+              Professional LUT conversion and optimization toolkit. Convert between formats, 
+              detect banding, smooth transitions, and optimize your color grading files.
             </p>
           </div>
 
@@ -23,7 +26,7 @@ export default function Landing() {
             <Link href="/tool">
               <Button size="lg" data-testid="button-get-started">
                 <Sparkles className="w-4 h-4 mr-2" />
-                Get Started
+                Launch ColorKit
               </Button>
             </Link>
           </div>
@@ -33,11 +36,11 @@ export default function Landing() {
             <Card>
               <CardContent className="pt-6 space-y-2">
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mx-auto">
-                  <Image className="w-6 h-6 text-primary" />
+                  <RefreshCw className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="font-semibold">Upload & Analyze</h3>
+                <h3 className="font-semibold">Convert LUTs</h3>
                 <p className="text-sm text-muted-foreground">
-                  Upload any image and our tool analyzes the color profile, histograms, and tonal distribution.
+                  Seamlessly convert between .cube, .3dl, and other LUT formats. Works with DaVinci Resolve, Premiere, and more.
                 </p>
               </CardContent>
             </Card>
@@ -45,11 +48,11 @@ export default function Landing() {
             <Card>
               <CardContent className="pt-6 space-y-2">
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mx-auto">
-                  <Sliders className="w-6 h-6 text-primary" />
+                  <BarChart3 className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="font-semibold">Fine-Tune Controls</h3>
+                <h3 className="font-semibold">Analyze & Detect</h3>
                 <p className="text-sm text-muted-foreground">
-                  Adjust temperature, tint, shadows, midtones, and highlights to craft your perfect look.
+                  Automatically detect banding, invalid cube points, and visualize tone curves for quality control.
                 </p>
               </CardContent>
             </Card>
@@ -57,11 +60,11 @@ export default function Landing() {
             <Card>
               <CardContent className="pt-6 space-y-2">
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mx-auto">
-                  <Download className="w-6 h-6 text-primary" />
+                  <Sparkles className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="font-semibold">Download LUTs</h3>
+                <h3 className="font-semibold">Optimize & Clean</h3>
                 <p className="text-sm text-muted-foreground">
-                  Export professional .cube or .3dl files ready to use in any video editor.
+                  Smooth transitions, fix banding artifacts, and export optimized LUTs ready for production.
                 </p>
               </CardContent>
             </Card>
@@ -75,9 +78,9 @@ export default function Landing() {
                 <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
                   1
                 </div>
-                <h3 className="font-semibold">Upload Image</h3>
+                <h3 className="font-semibold">Upload LUT</h3>
                 <p className="text-sm text-muted-foreground">
-                  Choose a reference image with the color grade you want
+                  Drop your .cube or .3dl LUT file
                 </p>
               </div>
 
@@ -85,9 +88,9 @@ export default function Landing() {
                 <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
                   2
                 </div>
-                <h3 className="font-semibold">Analyze Colors</h3>
+                <h3 className="font-semibold">Analyze</h3>
                 <p className="text-sm text-muted-foreground">
-                  Our tool extracts color data and tonal information
+                  Detect banding, invalid points, and quality issues
                 </p>
               </div>
 
@@ -95,9 +98,9 @@ export default function Landing() {
                 <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
                   3
                 </div>
-                <h3 className="font-semibold">Adjust Settings</h3>
+                <h3 className="font-semibold">Optimize</h3>
                 <p className="text-sm text-muted-foreground">
-                  Fine-tune the look with advanced color controls
+                  Clean, smooth, and fix your LUT automatically
                 </p>
               </div>
 
@@ -105,9 +108,9 @@ export default function Landing() {
                 <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
                   4
                 </div>
-                <h3 className="font-semibold">Generate LUT</h3>
+                <h3 className="font-semibold">Convert & Export</h3>
                 <p className="text-sm text-muted-foreground">
-                  Download your professional LUT file and apply to videos
+                  Download in any format ready for production
                 </p>
               </div>
             </div>
@@ -118,7 +121,7 @@ export default function Landing() {
       {/* Footer */}
       <footer className="border-t py-6 px-6">
         <div className="max-w-4xl mx-auto text-center text-sm text-muted-foreground">
-          <p>Professional color grading made simple</p>
+          <p>ColorKit by Untitled • Professional LUT tools for cinematographers</p>
         </div>
       </footer>
     </div>

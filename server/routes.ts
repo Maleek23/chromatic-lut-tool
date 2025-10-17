@@ -5,7 +5,6 @@ import JSZip from "jszip";
 import { analyzeImage } from "./utils/colorAnalysis";
 import { generateLUT, applyLUTToImage } from "./utils/lutGenerator";
 import { lutGenerationSchema, extendedLutGenerationSchema, batchLutRequestSchema } from "@shared/schema";
-import { getPresetById } from "@shared/presets";
 
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -39,7 +38,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Generate preview with LUT applied
   app.post("/api/preview", async (req, res) => {
     try {
-      const { imageData, gridSize, intensity, advancedControls, presetId } = req.body;
+      const { imageData, gridSize, intensity, advancedControls } = req.body;
 
       if (!imageData || !gridSize || intensity === undefined) {
         return res.status(400).json({ error: "Missing parameters" });
@@ -49,14 +48,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const base64Data = imageData.replace(/^data:image\/\w+;base64,/, "");
       const imageBuffer = Buffer.from(base64Data, "base64");
 
-      // Get controls from preset if provided
-      let controls = advancedControls;
-      if (presetId && !controls) {
-        const preset = getPresetById(presetId);
-        if (preset) {
-          controls = preset.controls;
-        }
-      }
+      const controls = advancedControls;
 
       // Check cache or generate new LUT map
       const cacheKey = `${imageData.substring(0, 100)}_${gridSize}_${JSON.stringify(controls)}`;
