@@ -1,36 +1,23 @@
-import { useState } from "react";
-import { Header } from "@/components/Header";
+import { useState, useEffect } from "react";
 import { UploadZone } from "@/components/UploadZone";
 import { ComparisonSlider } from "@/components/ComparisonSlider";
 import { ColorStatistics } from "@/components/ColorStatistics";
 import { HistogramVisualization } from "@/components/HistogramVisualization";
 import { LutControls } from "@/components/LutControls";
 import { DownloadSection } from "@/components/DownloadSection";
-import { PresetSelector } from "@/components/PresetSelector";
 import { AdvancedControls } from "@/components/AdvancedControls";
-import { BatchProcessor } from "@/components/BatchProcessor";
-import { Loader2, Image as ImageIcon, Images } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import type { LutAnalysis, LutResponse, AdvancedControls as AdvancedControlsType, BatchImage } from "@shared/schema";
-import { getPresetById } from "@shared/presets";
+import type { LutAnalysis, LutResponse, AdvancedControls as AdvancedControlsType } from "@shared/schema";
 
 export default function Tool() {
   const { toast } = useToast();
   
-  // Mode state
-  const [mode, setMode] = useState<"single" | "batch">("single");
-  
-  // Single mode state
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState<LutAnalysis | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   
-  // Batch mode state
-  const [batchImages, setBatchImages] = useState<BatchImage[]>([]);
-  
-  // Shared state
   const [intensity, setIntensity] = useState(100);
   const [gridSize, setGridSize] = useState<"17" | "33" | "65">("33");
   const [format, setFormat] = useState<"cube" | "3dl">("cube");
@@ -40,8 +27,6 @@ export default function Tool() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [lutResult, setLutResult] = useState<LutResponse | null>(null);
 
-  // Advanced controls and presets
-  const [selectedPresetId, setSelectedPresetId] = useState<string>("");
   const [advancedControls, setAdvancedControls] = useState<AdvancedControlsType>({
     shadows: { brightness: 0, saturation: 0, hue: 0 },
     midtones: { brightness: 0, saturation: 0, hue: 0 },
@@ -56,197 +41,117 @@ export default function Tool() {
   });
 
   const handleImageUpload = async (file: File) => {
-    if (mode === "batch") {
-      handleBatchImageUpload(file);
-      return;
-    }
+    setIsAnalyzing(true);
+    setLutResult(null);
+    setPreviewImage(null);
 
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const imageData = e.target?.result as string;
-      setUploadedImage(imageData);
-      setIsAnalyzing(true);
-      setAnalysis(null);
-      setLutResult(null);
+    const formData = new FormData();
+    formData.append("image", file);
 
-      try {
-        const response = await fetch("/api/analyze", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ imageData }),
-        });
-
-        if (!response.ok) throw new Error("Analysis failed");
-
-        const data: LutAnalysis = await response.json();
-        setAnalysis(data);
-        
-        // Generate initial preview
-        await updatePreview(imageData, gridSize, intensity, advancedControls, selectedPresetId);
-      } catch (error) {
-        console.error("Analysis error:", error);
-        toast({
-          title: "Analysis Failed",
-          description: "Failed to analyze the image. Please try again.",
-          variant: "destructive",
-        });
-      } finally {
-        setIsAnalyzing(false);
-      }
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleBatchImageUpload = (file: File) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const imageData = e.target?.result as string;
-      const newImage: BatchImage = {
-        id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-        name: file.name,
-        imageData,
-      };
-      setBatchImages(prev => [...prev, newImage]);
-      toast({
-        title: "Image Added",
-        description: `${file.name} added to batch`,
-      });
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleRemoveBatchImage = (id: string) => {
-    setBatchImages(prev => prev.filter(img => img.id !== id));
-  };
-
-  const handleClearBatch = () => {
-    setBatchImages([]);
-    toast({
-      title: "Batch Cleared",
-      description: "All images removed from batch",
-    });
-  };
-
-  const handleModeToggle = () => {
-    const newMode = mode === "single" ? "batch" : "single";
-    setMode(newMode);
-    toast({
-      title: "Mode Changed",
-      description: `Switched to ${newMode} mode`,
-    });
-  };
-
-  const updatePreview = async (
-    imageData: string, 
-    gs: string, 
-    int: number,
-    controls?: AdvancedControlsType,
-    presetId?: string
-  ) => {
     try {
-      const response = await fetch("/api/preview", {
+      const response = await fetch("/api/analyze", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          imageData,
-          gridSize: gs,
-          intensity: int,
-          advancedControls: controls,
-          presetId,
-        }),
+        body: formData,
       });
 
-      if (!response.ok) throw new Error("Preview failed");
+      if (!response.ok) {
+        throw new Error("Analysis failed");
+      }
 
       const data = await response.json();
-      setPreviewImage(data.previewImage);
-    } catch (error) {
-      console.error("Preview error:", error);
-      setPreviewImage(imageData); // Fallback to original
-    }
-  };
-
-  const handleIntensityChange = (value: number) => {
-    setIntensity(value);
-    if (uploadedImage) {
-      updatePreview(uploadedImage, gridSize, value, advancedControls, selectedPresetId);
-    }
-  };
-
-  const handleGridSizeChange = (value: "17" | "33" | "65") => {
-    setGridSize(value);
-    if (uploadedImage) {
-      updatePreview(uploadedImage, value, intensity, advancedControls, selectedPresetId);
-    }
-  };
-
-  const handlePresetSelect = (presetId: string) => {
-    setSelectedPresetId(presetId);
-    if (presetId) {
-      const preset = getPresetById(presetId);
-      if (preset) {
-        setAdvancedControls(preset.controls);
-        setIntensity(preset.intensity);
-        if (uploadedImage) {
-          updatePreview(uploadedImage, gridSize, preset.intensity, preset.controls, presetId);
-        }
-      }
-    } else {
-      // Reset to defaults when no preset selected
-      const defaultControls: AdvancedControlsType = {
-        shadows: { brightness: 0, saturation: 0, hue: 0 },
-        midtones: { brightness: 0, saturation: 0, hue: 0 },
-        highlights: { brightness: 0, saturation: 0, hue: 0 },
-        temperature: 0,
-        tint: 0,
-        splitToning: {
-          shadowColor: "#000000",
-          highlightColor: "#ffffff",
-          balance: 50,
-        },
+      const reader = new FileReader();
+      
+      reader.onloadend = () => {
+        setUploadedImage(reader.result as string);
+        setAnalysis(data);
+        toast({
+          title: "Analysis Complete",
+          description: "Color profile extracted successfully",
+        });
       };
-      setAdvancedControls(defaultControls);
-      if (uploadedImage) {
-        updatePreview(uploadedImage, gridSize, intensity, defaultControls, "");
-      }
+      
+      reader.readAsDataURL(file);
+    } catch (error) {
+      console.error("Upload error:", error);
+      toast({
+        title: "Upload Failed",
+        description: "Failed to analyze image. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAnalyzing(false);
     }
   };
 
   const handleAdvancedControlsChange = (controls: AdvancedControlsType) => {
     setAdvancedControls(controls);
-    setSelectedPresetId(""); // Clear preset when manually adjusting
-    if (uploadedImage) {
-      updatePreview(uploadedImage, gridSize, intensity, controls, "");
-    }
   };
 
+  // Auto-update preview when controls change
+  useEffect(() => {
+    if (!uploadedImage || !analysis) return;
+
+    const updatePreview = async () => {
+      const formData = new FormData();
+      
+      const blob = await (await fetch(uploadedImage)).blob();
+      formData.append("image", blob);
+      formData.append("intensity", intensity.toString());
+      formData.append("gridSize", gridSize);
+      formData.append("controls", JSON.stringify(advancedControls));
+
+      try {
+        const response = await fetch("/api/preview", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setPreviewImage(data.preview);
+        }
+      } catch (error) {
+        console.error("Preview error:", error);
+      }
+    };
+
+    const debounce = setTimeout(() => {
+      updatePreview();
+    }, 300);
+
+    return () => clearTimeout(debounce);
+  }, [intensity, advancedControls, uploadedImage, analysis, gridSize]);
+
   const handleGenerateLut = async () => {
-    if (!uploadedImage) return;
+    if (!uploadedImage || !analysis) return;
 
     setIsGenerating(true);
+
+    const formData = new FormData();
+    const blob = await (await fetch(uploadedImage)).blob();
+    formData.append("image", blob);
+    formData.append("intensity", intensity.toString());
+    formData.append("gridSize", gridSize);
+    formData.append("format", format);
+    formData.append("precision", precision);
+    formData.append("exportPreview", exportPreview.toString());
+    formData.append("controls", JSON.stringify(advancedControls));
+
     try {
-      const response = await fetch("/api/generate-lut", {
+      const response = await fetch("/api/generate", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          imageData: uploadedImage,
-          gridSize,
-          intensity,
-          format,
-          precision,
-          exportPreview,
-          advancedControls,
-          presetId: selectedPresetId,
-        }),
+        body: formData,
       });
 
-      if (!response.ok) throw new Error("LUT generation failed");
+      if (!response.ok) {
+        throw new Error("LUT generation failed");
+      }
 
-      const data: LutResponse = await response.json();
+      const data = await response.json();
       setLutResult(data);
       toast({
-        title: "LUT Generated!",
-        description: `Your color grading LUT is ready to download${exportPreview ? ' with preview image' : ''}.`,
+        title: "LUT Generated",
+        description: "Your LUT file is ready for download",
       });
     } catch (error) {
       console.error("Generation error:", error);
@@ -268,7 +173,8 @@ export default function Tool() {
     setIntensity(100);
     setGridSize("33");
     setFormat("cube");
-    setSelectedPresetId("");
+    setPrecision("10");
+    setExportPreview(false);
     setAdvancedControls({
       shadows: { brightness: 0, saturation: 0, hue: 0 },
       midtones: { brightness: 0, saturation: 0, hue: 0 },
@@ -285,84 +191,17 @@ export default function Tool() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-12">
-        {/* Mode Toggle */}
-        <div className="flex justify-center mb-8">
-          <div className="inline-flex rounded-lg border p-1 gap-1">
-            <Button
-              variant={mode === "single" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => mode === "batch" && handleModeToggle()}
-              data-testid="button-single-mode"
-            >
-              <ImageIcon className="h-4 w-4 mr-2" />
-              Single Image
-            </Button>
-            <Button
-              variant={mode === "batch" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => mode === "single" && handleModeToggle()}
-              data-testid="button-batch-mode"
-            >
-              <Images className="h-4 w-4 mr-2" />
-              Batch Processing
-            </Button>
-          </div>
-        </div>
-
-        {mode === "batch" ? (
-          <div className="space-y-8">
-            <UploadZone onImageUpload={handleImageUpload} isAnalyzing={false} multiple />
-            
-            <BatchProcessor
-              images={batchImages}
-              onRemoveImage={handleRemoveBatchImage}
-              onClearAll={handleClearBatch}
-              gridSize={gridSize}
-              intensity={intensity}
-              format={format}
-              precision={precision}
-              exportPreview={exportPreview}
-              advancedControls={advancedControls}
-              selectedPresetId={selectedPresetId}
-            />
-            
-            {/* Shared Controls for Batch */}
-            <div className="grid md:grid-cols-2 gap-6">
-              <PresetSelector
-                selectedPresetId={selectedPresetId}
-                onSelectPreset={handlePresetSelect}
-                currentSettings={{
-                  controls: advancedControls,
-                  intensity,
-                }}
-              />
-              <AdvancedControls
-                controls={advancedControls}
-                onChange={handleAdvancedControlsChange}
-              />
+        {!uploadedImage ? (
+          <div className="max-w-2xl mx-auto">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold mb-2">Upload Your Reference Image</h1>
+              <p className="text-muted-foreground">
+                Choose an image with the color grade you want to capture
+              </p>
             </div>
-
-            <LutControls
-              intensity={intensity}
-              onIntensityChange={handleIntensityChange}
-              gridSize={gridSize}
-              onGridSizeChange={handleGridSizeChange}
-              format={format}
-              onFormatChange={setFormat}
-              precision={precision}
-              onPrecisionChange={setPrecision}
-              exportPreview={exportPreview}
-              onExportPreviewChange={setExportPreview}
-              onGenerate={handleGenerateLut}
-              isGenerating={isGenerating}
-              hideGenerate
-            />
+            <UploadZone onImageUpload={handleImageUpload} isAnalyzing={isAnalyzing} />
           </div>
-        ) : !uploadedImage ? (
-          <UploadZone onImageUpload={handleImageUpload} isAnalyzing={isAnalyzing} />
         ) : (
           <div className="space-y-8">
             {/* Analysis Dashboard */}
@@ -399,15 +238,6 @@ export default function Tool() {
                   
                   <HistogramVisualization rgbHistogram={analysis.rgbHistogram} />
                   
-                  <PresetSelector
-                    selectedPresetId={selectedPresetId}
-                    onSelectPreset={handlePresetSelect}
-                    currentSettings={{
-                      controls: advancedControls,
-                      intensity,
-                    }}
-                  />
-                  
                   <AdvancedControls
                     controls={advancedControls}
                     onChange={handleAdvancedControlsChange}
@@ -415,9 +245,9 @@ export default function Tool() {
                   
                   <LutControls
                     intensity={intensity}
-                    onIntensityChange={handleIntensityChange}
+                    onIntensityChange={setIntensity}
                     gridSize={gridSize}
-                    onGridSizeChange={handleGridSizeChange}
+                    onGridSizeChange={setGridSize}
                     format={format}
                     onFormatChange={setFormat}
                     precision={precision}
@@ -433,15 +263,6 @@ export default function Tool() {
           </div>
         )}
       </main>
-
-      <footer className="border-t border-border mt-16 py-8">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 text-center text-sm text-muted-foreground">
-          <p>
-            Supports .cube and .3dl formats • Compatible with Adobe Premiere,
-            Final Cut Pro, DaVinci Resolve
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
