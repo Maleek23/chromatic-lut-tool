@@ -7,6 +7,8 @@ import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
 import { User as SelectUser } from "@shared/schema";
+import { validatePassword } from "./middleware/validation";
+import { authRateLimiter } from "./middleware/rateLimiter";
 
 declare global {
   namespace Express {
@@ -76,10 +78,19 @@ export function setupAuth(app: Express) {
     return sanitized;
   };
 
-  app.post("/api/register", async (req, res, next) => {
+  app.post("/api/register", authRateLimiter, async (req, res, next) => {
     const existingUser = await storage.getUserByUsername(req.body.username);
     if (existingUser) {
-      return res.status(400).send("Username already exists");
+      return res.status(400).json({ error: "Username already exists" });
+    }
+
+    // Validate password complexity
+    const passwordValidation = validatePassword(req.body.password);
+    if (!passwordValidation.valid) {
+      return res.status(400).json({ 
+        error: "Password does not meet requirements",
+        details: passwordValidation.errors 
+      });
     }
 
     const user = await storage.createUser({
@@ -93,7 +104,7 @@ export function setupAuth(app: Express) {
     });
   });
 
-  app.post("/api/login", passport.authenticate("local"), (req, res) => {
+  app.post("/api/login", authRateLimiter, passport.authenticate("local"), (req, res) => {
     if (!req.user) return res.sendStatus(401);
     res.status(200).json(sanitizeUser(req.user));
   });
