@@ -197,12 +197,12 @@ export default function Dashboard() {
             className="h-auto py-4 flex flex-col items-start gap-2"
             asChild
           >
-            <Link href="/convert">
+            <Link href="/tools">
               <TrendingUp className="w-5 h-5" />
               <div>
                 <div className="font-semibold">Convert LUT</div>
                 <div className="text-xs text-muted-foreground">
-                  .cube ↔ .3dl format conversion
+                  .cube ↔ .3dl ↔ .lut conversion
                 </div>
               </div>
             </Link>
@@ -214,7 +214,7 @@ export default function Dashboard() {
             className="h-auto py-4 flex flex-col items-start gap-2"
             asChild
           >
-            <Link href="/analyze">
+            <Link href="/tools">
               <FileImage className="w-5 h-5" />
               <div>
                 <div className="font-semibold">Analyze Quality</div>
@@ -233,7 +233,7 @@ export default function Dashboard() {
             asChild={isPro}
           >
             {isPro ? (
-              <Link href="/presets">
+              <Link href="/generate">
                 <Bookmark className="w-5 h-5" />
                 <div>
                   <div className="font-semibold">My Presets</div>

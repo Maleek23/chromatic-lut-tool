@@ -7,10 +7,19 @@ import { LutControls } from "@/components/LutControls";
 import { DownloadSection } from "@/components/DownloadSection";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/use-auth";
+import { useLocation } from "wouter";
 import type { LutAnalysis, LutResponse } from "@shared/schema";
 
 export default function Tool() {
   const { toast } = useToast();
+  const { user } = useAuth();
+  const [, navigate] = useLocation();
+
+  if (!user) {
+    navigate("/auth");
+    return null;
+  }
   
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);

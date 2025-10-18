@@ -16,7 +16,7 @@ export default function AuthPage() {
   const [registerData, setRegisterData] = useState({ username: "", password: "", email: "" });
 
   if (user) {
-    return <Redirect to="/convert" />;
+    return <Redirect to="/generate" />;
   }
 
   const handleLogin = (e: React.FormEvent) => {

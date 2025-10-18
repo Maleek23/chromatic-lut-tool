@@ -4,9 +4,18 @@ import { RefreshCw, BarChart3, Zap } from "lucide-react";
 import Convert from "@/pages/Convert";
 import Analyze from "@/pages/Analyze";
 import Optimize from "@/pages/Optimize";
+import { useAuth } from "@/hooks/use-auth";
+import { useLocation } from "wouter";
 
 export default function Tools() {
   const [activeTab, setActiveTab] = useState("convert");
+  const { user } = useAuth();
+  const [, navigate] = useLocation();
+
+  if (!user) {
+    navigate("/auth");
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">

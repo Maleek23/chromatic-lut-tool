@@ -59,7 +59,7 @@ export default function Landing() {
 
           {/* CTA */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link href="/generate">
+            <Link href="/auth">
               <Button size="lg" className="text-base px-8 group relative overflow-hidden" data-testid="button-get-started">
                 <span className="absolute inset-0 bg-gradient-to-r from-primary via-chart-2 to-primary bg-[length:200%_100%] animate-[shimmer_3s_linear_infinite] opacity-0 group-hover:opacity-100 transition-opacity" />
                 <span className="relative flex items-center">
@@ -68,7 +68,7 @@ export default function Landing() {
                 </span>
               </Button>
             </Link>
-            <Link href="/tools">
+            <Link href="/auth">
               <Button size="lg" variant="outline" className="text-base px-8 backdrop-blur-sm" data-testid="button-explore-tools">
                 Explore Tools
                 <ArrowRight className="w-5 h-5 ml-2" />
@@ -196,7 +196,7 @@ export default function Landing() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Link href="/generate" className="w-full">
+                <Link href="/auth" className="w-full">
                   <Button variant="outline" size="lg" className="w-full" data-testid="button-free-plan">
                     Get Started Free
                   </Button>
