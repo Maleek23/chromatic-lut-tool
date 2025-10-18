@@ -409,19 +409,19 @@ export default function Landing() {
       {/* Pricing Section */}
       <section className="px-4 sm:px-6 py-12 sm:py-16 bg-gradient-to-b from-muted/30 to-background relative overflow-hidden">
         {/* Film strip decoration */}
-        <div className="absolute left-0 top-0 bottom-0 w-8 opacity-5">
+        <div className="absolute left-0 -top-16 bottom-0 w-8 opacity-5">
           {[...Array(20)].map((_, i) => (
             <div key={i} className="h-12 border-2 border-foreground mb-2" />
           ))}
         </div>
-        <div className="absolute right-0 top-0 bottom-0 w-8 opacity-5">
+        <div className="absolute right-0 -top-16 bottom-0 w-8 opacity-5">
           {[...Array(20)].map((_, i) => (
             <div key={i} className="h-12 border-2 border-foreground mb-2" />
           ))}
         </div>
 
-        <div className="max-w-6xl mx-auto space-y-8 relative z-10">
-          <div className="text-center space-y-3 px-4">
+        <div className="max-w-6xl mx-auto space-y-8 relative z-10 px-4">
+          <div className="text-center space-y-3">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Choose Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-chart-2 to-chart-3">Tier</span></h2>
             <p className="text-sm sm:text-base md:text-lg text-muted-foreground">
               Each tier unlocks powerful tools. Start free, upgrade when you're ready.
