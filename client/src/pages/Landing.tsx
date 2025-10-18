@@ -426,7 +426,7 @@ export default function Landing() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Free Tier */}
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
               <CardHeader className="space-y-3 pb-6">
