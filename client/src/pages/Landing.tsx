@@ -35,189 +35,221 @@ export default function Landing() {
   // If user is logged in, show dashboard
   if (user) {
     return (
-      <div className="container mx-auto p-6 max-w-7xl">
-        {/* Dashboard Header */}
-        <div className="flex items-start justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold mb-2">Dashboard</h1>
-            <p className="text-muted-foreground">
-              Welcome back, <span className="font-medium">{user.username}</span>
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <Badge 
-              data-testid="badge-user-tier"
-              variant={isPro ? "default" : "secondary"}
-              className="text-sm px-3 py-1"
-            >
-              {isStudio ? (
-                <><Crown className="w-3 h-3 mr-1" /> Studio</>
-              ) : isPro ? (
-                <><Zap className="w-3 h-3 mr-1" /> Pro</>
-              ) : (
-                "Free"
-              )}
-            </Badge>
-            {!isPro && (
-              <Button 
-                data-testid="button-upgrade-header"
-                asChild
-              >
-                <Link href="/upgrade">
-                  <ArrowUpCircle className="w-4 h-4 mr-2" />
-                  Upgrade to Pro
-                </Link>
-              </Button>
-            )}
-          </div>
+      <div className="min-h-screen relative overflow-hidden">
+        {/* Animated background similar to landing */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
+          <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
+          <div className="absolute bottom-1/3 left-1/4 w-[400px] h-[400px] bg-chart-2/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
+          <div className="absolute inset-0 opacity-[0.015] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuNSIvPjwvc3ZnPg==')]" />
         </div>
 
-        {/* Free tier upgrade prompt */}
-        {!isPro && (
-          <Card className="mb-6 border-primary/20 bg-gradient-to-r from-primary/5 to-primary/10">
+        <div className="container mx-auto p-6 max-w-7xl relative z-10">
+          {/* Dashboard Header with gradient */}
+          <div className="flex flex-col md:flex-row md:items-start justify-between mb-8 gap-4">
+            <div>
+              <h1 className="text-4xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
+                Dashboard
+              </h1>
+              <p className="text-muted-foreground text-lg">
+                Welcome back, <span className="font-semibold text-foreground">{user.username}</span>
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <Badge 
+                data-testid="badge-user-tier"
+                variant={isPro ? "default" : "secondary"}
+                className={`text-sm px-4 py-2 ${isPro ? 'bg-gradient-to-r from-primary to-chart-2 text-primary-foreground border-0' : ''}`}
+              >
+                {isStudio ? (
+                  <><Crown className="w-4 h-4 mr-1.5" /> Studio</>
+                ) : isPro ? (
+                  <><Zap className="w-4 h-4 mr-1.5" /> Pro</>
+                ) : (
+                  "Free Tier"
+                )}
+              </Badge>
+              {!isPro && (
+                <Button 
+                  data-testid="button-upgrade-header"
+                  className="bg-gradient-to-r from-primary to-chart-2 hover:opacity-90"
+                  asChild
+                >
+                  <Link href="/upgrade">
+                    <ArrowUpCircle className="w-4 h-4 mr-2" />
+                    Upgrade to Pro
+                  </Link>
+                </Button>
+              )}
+            </div>
+          </div>
+
+          {/* Free tier upgrade prompt with enhanced design */}
+          {!isPro && (
+            <Card className="mb-8 border-primary/30 bg-gradient-to-r from-primary/10 via-chart-2/10 to-chart-3/10 backdrop-blur-sm relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-chart-2/5 animate-pulse" style={{ animationDuration: '3s' }} />
+              <CardHeader className="relative">
+                <CardTitle className="flex items-center gap-2 text-xl">
+                  <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-chart-2/20">
+                    <Zap className="w-5 h-5 text-primary" />
+                  </div>
+                  Unlock Pro Features
+                </CardTitle>
+                <CardDescription className="text-base">
+                  Get unlimited grid sizes, all formats, full analysis, unlimited preset saving, and priority support for just $12/month
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="relative">
+                <Button data-testid="button-upgrade-card" className="bg-gradient-to-r from-primary to-chart-2 hover:opacity-90" asChild>
+                  <Link href="/upgrade">
+                    <Crown className="w-4 h-4 mr-2" />
+                    Upgrade to Pro — $12/month
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Usage Stats Grid with enhanced cards */}
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
+            {/* LUT Generation */}
+            <Card data-testid="card-conversions" className="hover-elevate transition-all duration-300 border-primary/20 bg-gradient-to-br from-background to-primary/5 backdrop-blur-sm relative overflow-hidden group">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-chart-2 to-primary" />
+              <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  LUT Generation
+                </CardTitle>
+                <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-chart-2/20 group-hover:scale-110 transition-transform">
+                  <TrendingUp className="h-4 w-4 text-primary" />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-foreground to-primary" data-testid="text-conversions-count">
+                  {user.conversionsThisMonth || 0}
+                </div>
+                <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+                  <Check className="w-3 h-3 text-primary" />
+                  Unlimited for all users
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Format Conversion */}
+            <Card data-testid="card-previews" className="hover-elevate transition-all duration-300 border-chart-2/20 bg-gradient-to-br from-background to-chart-2/5 backdrop-blur-sm relative overflow-hidden group">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-chart-2 via-chart-3 to-chart-2" />
+              <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Format Conversions
+                </CardTitle>
+                <div className="p-2 rounded-lg bg-gradient-to-br from-chart-2/20 to-chart-3/20 group-hover:scale-110 transition-transform">
+                  <FileImage className="h-4 w-4 text-chart-2" />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-foreground to-chart-2" data-testid="text-previews-count">
+                  {user.previewsToday || 0}
+                </div>
+                <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+                  <Check className="w-3 h-3 text-chart-2" />
+                  Unlimited for all users
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Saved Presets */}
+            <Card data-testid="card-presets" className={`hover-elevate transition-all duration-300 ${isPro ? 'border-chart-3/20 bg-gradient-to-br from-background to-chart-3/5' : 'border-muted-foreground/20 bg-gradient-to-br from-background to-muted/50'} backdrop-blur-sm relative overflow-hidden group`}>
+              <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${isPro ? 'from-chart-3 via-primary to-chart-3' : 'from-muted-foreground to-muted-foreground/50'}`} />
+              <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Saved Presets
+                </CardTitle>
+                <div className={`p-2 rounded-lg ${isPro ? 'bg-gradient-to-br from-chart-3/20 to-primary/20' : 'bg-muted'} group-hover:scale-110 transition-transform`}>
+                  <Bookmark className={`h-4 w-4 ${isPro ? 'text-chart-3' : 'text-muted-foreground'}`} />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className={`text-3xl font-bold text-transparent bg-clip-text ${isPro ? 'bg-gradient-to-r from-foreground to-chart-3' : 'bg-gradient-to-r from-muted-foreground to-muted-foreground/50'}`} data-testid="text-presets-count">
+                  {stats?.savedPresets || 0}
+                </div>
+                <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+                  {isPro ? (
+                    <>
+                      <Check className="w-3 h-3 text-chart-3" />
+                      Unlimited storage
+                    </>
+                  ) : (
+                    <>
+                      <AlertCircle className="w-3 h-3" />
+                      Pro feature only
+                    </>
+                  )}
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Quick Actions with enhanced design */}
+          <Card className="backdrop-blur-sm bg-background/80 border-primary/10">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Zap className="w-5 h-5 text-primary" />
-                Unlock Pro Features
+              <CardTitle className="text-2xl flex items-center gap-2">
+                <Sparkles className="w-6 h-6 text-primary" />
+                Quick Actions
               </CardTitle>
-              <CardDescription>
-                Get unlimited grid sizes, all formats, full analysis, unlimited preset saving, and priority support for $12/month
+              <CardDescription className="text-base">
+                Jump right into your workflow
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <Button data-testid="button-upgrade-card" asChild>
-                <Link href="/upgrade">
-                  <Crown className="w-4 h-4 mr-2" />
-                  Upgrade to Pro
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
-        )}
+            <CardContent className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <Link href="/generate">
+                <Card className="h-full hover-elevate active-elevate-2 cursor-pointer transition-all duration-300 border-primary/30 bg-gradient-to-br from-background to-primary/5 group">
+                  <CardContent className="pt-6 pb-6 flex flex-col items-start gap-3">
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-primary/20 to-chart-2/20 group-hover:scale-110 transition-transform">
+                      <Sparkles className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-lg mb-1">Generate LUT</div>
+                      <div className="text-sm text-muted-foreground">
+                        Image → LUT conversion
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
 
-        {/* Usage Stats Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
-          {/* LUT Generation */}
-          <Card data-testid="card-conversions">
-            <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                LUT Generation
-              </CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold" data-testid="text-conversions-count">
-                {user.conversionsThisMonth || 0}
-              </div>
-              <p className="text-xs text-muted-foreground mt-2">
-                Unlimited for all users
-              </p>
-            </CardContent>
-          </Card>
+              <Link href="/tools">
+                <Card className="h-full hover-elevate active-elevate-2 cursor-pointer transition-all duration-300 border-chart-2/30 bg-gradient-to-br from-background to-chart-2/5 group">
+                  <CardContent className="pt-6 pb-6 flex flex-col items-start gap-3">
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-chart-2/20 to-chart-3/20 group-hover:scale-110 transition-transform">
+                      <TrendingUp className="w-6 h-6 text-chart-2" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-lg mb-1">Convert LUT</div>
+                      <div className="text-sm text-muted-foreground">
+                        .cube ↔ .3dl ↔ .lut conversion
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
 
-          {/* Format Conversion */}
-          <Card data-testid="card-previews">
-            <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Format Conversions
-              </CardTitle>
-              <FileImage className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold" data-testid="text-previews-count">
-                {user.previewsToday || 0}
-              </div>
-              <p className="text-xs text-muted-foreground mt-2">
-                Unlimited for all users
-              </p>
-            </CardContent>
-          </Card>
-
-          {/* Saved Presets */}
-          <Card data-testid="card-presets">
-            <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Saved Presets
-              </CardTitle>
-              <Bookmark className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold" data-testid="text-presets-count">
-                {stats?.savedPresets || 0}
-              </div>
-              <p className="text-xs text-muted-foreground mt-2">
-                {isPro ? "Unlimited storage" : (
-                  <span className="flex items-center gap-1">
-                    <AlertCircle className="w-3 h-3" />
-                    Pro feature only
-                  </span>
-                )}
-              </p>
+              <Link href="/tools">
+                <Card className="h-full hover-elevate active-elevate-2 cursor-pointer transition-all duration-300 border-chart-3/30 bg-gradient-to-br from-background to-chart-3/5 group">
+                  <CardContent className="pt-6 pb-6 flex flex-col items-start gap-3">
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-chart-3/20 to-primary/20 group-hover:scale-110 transition-transform">
+                      <FileImage className="w-6 h-6 text-chart-3" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-lg mb-1">Analyze Quality</div>
+                      <div className="text-sm text-muted-foreground">
+                        Check for banding and issues
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
             </CardContent>
           </Card>
         </div>
-
-        {/* Quick Actions */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-            <CardDescription>
-              Jump right into your workflow
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <Button
-              data-testid="button-generate"
-              variant="outline"
-              className="h-auto py-4 flex flex-col items-start gap-2"
-              asChild
-            >
-              <Link href="/generate">
-                <Sparkles className="w-5 h-5" />
-                <div>
-                  <div className="font-semibold">Generate LUT</div>
-                  <div className="text-xs text-muted-foreground">
-                    Image → LUT conversion
-                  </div>
-                </div>
-              </Link>
-            </Button>
-
-            <Button
-              data-testid="button-convert"
-              variant="outline"
-              className="h-auto py-4 flex flex-col items-start gap-2"
-              asChild
-            >
-              <Link href="/tools">
-                <TrendingUp className="w-5 h-5" />
-                <div>
-                  <div className="font-semibold">Convert LUT</div>
-                  <div className="text-xs text-muted-foreground">
-                    .cube ↔ .3dl ↔ .lut conversion
-                  </div>
-                </div>
-              </Link>
-            </Button>
-
-            <Button
-              data-testid="button-analyze"
-              variant="outline"
-              className="h-auto py-4 flex flex-col items-start gap-2"
-              asChild
-            >
-              <Link href="/tools">
-                <FileImage className="w-5 h-5" />
-                <div>
-                  <div className="font-semibold">Analyze Quality</div>
-                  <div className="text-xs text-muted-foreground">
-                    Check for banding and issues
-                  </div>
-                </div>
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
       </div>
     );
   }
