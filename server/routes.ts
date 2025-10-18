@@ -72,7 +72,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Generate preview with LUT applied
   app.post("/api/preview", async (req, res) => {
     try {
-      const { imageData, gridSize, intensity, advancedControls } = req.body;
+      const { imageData, gridSize, intensity } = req.body;
 
       if (!imageData || !gridSize || intensity === undefined) {
         return res.status(400).json({ error: "Missing parameters" });
@@ -82,15 +82,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const base64Data = imageData.replace(/^data:image\/\w+;base64,/, "");
       const imageBuffer = Buffer.from(base64Data, "base64");
 
-      const controls = advancedControls;
-
-      // Check cache or generate new LUT map
-      const cacheKey = `${imageData.substring(0, 100)}_${gridSize}_${JSON.stringify(controls)}`;
+      // Check cache or generate new LUT map (no advanced controls for image-to-LUT)
+      const cacheKey = `${imageData.substring(0, 100)}_${gridSize}`;
       let lutData = lutCache.get(cacheKey);
 
       if (!lutData) {
         const { getLUTMap } = await import("./utils/lutGenerator");
-        const lutMap = await getLUTMap(imageBuffer, parseInt(gridSize), controls);
+        const lutMap = await getLUTMap(imageBuffer, parseInt(gridSize));
         lutData = { map: lutMap, gridSize: parseInt(gridSize) };
         lutCache.set(cacheKey, lutData);
       }
@@ -124,21 +122,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const { imageData, gridSize, intensity, format, advancedControls, precision, exportPreview } = validationResult.data;
+      const { imageData, gridSize, intensity, format, precision, exportPreview } = validationResult.data;
 
       // Convert base64 to buffer
       const base64Data = imageData.replace(/^data:image\/\w+;base64,/, "");
       const imageBuffer = Buffer.from(base64Data, "base64");
 
-      const controls = advancedControls;
-
-      // Generate LUT with precision metadata
+      // Generate LUT from image analysis (no manual controls)
       const lutData = await generateLUT(
         imageBuffer,
         parseInt(gridSize),
         intensity,
         format,
-        controls,
+        undefined, // No advanced controls - extract from image
         precision
       );
 
@@ -149,7 +145,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let previewData: string | undefined;
       if (exportPreview) {
         const { getLUTMap } = await import("./utils/lutGenerator");
-        const lutMap = await getLUTMap(imageBuffer, parseInt(gridSize), controls);
+        const lutMap = await getLUTMap(imageBuffer, parseInt(gridSize));
         const previewBuffer = await applyLUTToImage(imageBuffer, lutMap, parseInt(gridSize), intensity);
         previewData = `data:image/jpeg;base64,${previewBuffer.toString("base64")}`;
       }

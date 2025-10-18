@@ -117,44 +117,103 @@ export async function generateLUT(
   }
 }
 
+interface ZoneColorData {
+  avgR: number;
+  avgG: number;
+  avgB: number;
+  saturation: number;
+  count: number;
+}
+
 async function deriveColorTransform(imageBuffer: Buffer): Promise<ColorTransform> {
   const image = sharp(imageBuffer);
   const { data, info } = await image
-    .resize(100, 100, { fit: "inside" })
+    .resize(200, 200, { fit: "inside" })
     .raw()
     .toBuffer({ resolveWithObject: true });
 
-  let totalR = 0,
-    totalG = 0,
-    totalB = 0;
-  let totalBrightness = 0;
-  const pixelCount = data.length / info.channels;
+  // Separate pixels into tonal zones
+  const shadows: RGB[] = [];
+  const midtones: RGB[] = [];
+  const highlights: RGB[] = [];
 
   for (let i = 0; i < data.length; i += info.channels) {
     const r = data[i];
     const g = data[i + 1];
     const b = data[i + 2];
-
-    totalR += r;
-    totalG += g;
-    totalB += b;
-    totalBrightness += Math.max(r, g, b);
+    
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    
+    if (luminance < 0.33) {
+      shadows.push({ r, g, b });
+    } else if (luminance < 0.67) {
+      midtones.push({ r, g, b });
+    } else {
+      highlights.push({ r, g, b });
+    }
   }
 
-  const avgR = totalR / pixelCount;
-  const avgG = totalG / pixelCount;
-  const avgB = totalB / pixelCount;
-  const avgBrightness = totalBrightness / pixelCount;
+  // Analyze color characteristics in each zone
+  const shadowData = analyzeZone(shadows);
+  const midtoneData = analyzeZone(midtones);
+  const highlightData = analyzeZone(highlights);
+
+  // Calculate overall color shifts weighted by zone importance
+  const totalPixels = shadows.length + midtones.length + highlights.length;
+  const shadowWeight = shadows.length / totalPixels;
+  const midtoneWeight = midtones.length / totalPixels;
+  const highlightWeight = highlights.length / totalPixels;
+
+  // Weighted average color shifts
+  const avgR = shadowData.avgR * shadowWeight + midtoneData.avgR * midtoneWeight + highlightData.avgR * highlightWeight;
+  const avgG = shadowData.avgG * shadowWeight + midtoneData.avgG * midtoneWeight + highlightData.avgG * highlightWeight;
+  const avgB = shadowData.avgB * shadowWeight + midtoneData.avgB * midtoneWeight + highlightData.avgB * highlightWeight;
+
+  // Calculate saturation factor based on zone analysis
+  const avgSaturation = shadowData.saturation * shadowWeight + midtoneData.saturation * midtoneWeight + highlightData.saturation * highlightWeight;
+
+  // Detect color temperature bias
+  const rToB = avgR / Math.max(avgB, 1);
+  const temperatureShift = (rToB - 1.0) * 0.3; // Positive = warm, negative = cool
 
   return {
-    brightnessShift: (avgBrightness - 128) / 255,
-    contrastFactor: 1.0 + (avgBrightness / 255 - 0.5) * 0.3,
-    saturationFactor: 1.0 + ((avgR + avgG + avgB) / (3 * 255) - 0.5) * 0.2,
+    brightnessShift: (avgR + avgG + avgB) / 3 / 255 - 0.5,
+    contrastFactor: 1.0 + (highlightData.avgR + highlightData.avgG + highlightData.avgB) / 3 / 255 - (shadowData.avgR + shadowData.avgG + shadowData.avgB) / 3 / 255,
+    saturationFactor: avgSaturation,
     colorShifts: {
-      r: (avgR - 128) / 512,
-      g: (avgG - 128) / 512,
-      b: (avgB - 128) / 512,
+      r: (avgR - 128) / 255 * 0.3,
+      g: (avgG - 128) / 255 * 0.3,
+      b: (avgB - 128) / 255 * 0.3,
     },
+  };
+}
+
+function analyzeZone(pixels: RGB[]): ZoneColorData {
+  if (pixels.length === 0) {
+    return { avgR: 128, avgG: 128, avgB: 128, saturation: 1.0, count: 0 };
+  }
+
+  let totalR = 0, totalG = 0, totalB = 0;
+  let totalSaturation = 0;
+
+  for (const pixel of pixels) {
+    totalR += pixel.r;
+    totalG += pixel.g;
+    totalB += pixel.b;
+
+    // Calculate saturation for this pixel
+    const max = Math.max(pixel.r, pixel.g, pixel.b);
+    const min = Math.min(pixel.r, pixel.g, pixel.b);
+    const sat = max === 0 ? 0 : (max - min) / max;
+    totalSaturation += sat;
+  }
+
+  return {
+    avgR: totalR / pixels.length,
+    avgG: totalG / pixels.length,
+    avgB: totalB / pixels.length,
+    saturation: 1.0 + (totalSaturation / pixels.length - 0.5) * 0.4,
+    count: pixels.length,
   };
 }
 
@@ -201,25 +260,41 @@ function applyTransform(color: RGB, transform: ColorTransform): RGB {
   let g = color.g;
   let b = color.b;
 
-  // Contrast
-  r = ((r / 255 - 0.5) * transform.contrastFactor + 0.5) * 255;
-  g = ((g / 255 - 0.5) * transform.contrastFactor + 0.5) * 255;
-  b = ((b / 255 - 0.5) * transform.contrastFactor + 0.5) * 255;
+  // Calculate luminance of input color to determine zone
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
 
-  // Brightness
-  r += transform.brightnessShift * 50;
-  g += transform.brightnessShift * 50;
-  b += transform.brightnessShift * 50;
+  // Apply contrast based on luminance zone
+  // Shadows get less contrast, highlights get more
+  const contrastMultiplier = luminance < 0.33 ? 0.7 : luminance > 0.67 ? 1.3 : 1.0;
+  const effectiveContrast = transform.contrastFactor * contrastMultiplier;
+  
+  r = ((r / 255 - 0.5) * effectiveContrast + 0.5) * 255;
+  g = ((g / 255 - 0.5) * effectiveContrast + 0.5) * 255;
+  b = ((b / 255 - 0.5) * effectiveContrast + 0.5) * 255;
 
-  // Color shifts
-  r += transform.colorShifts.r * 100;
-  g += transform.colorShifts.g * 100;
-  b += transform.colorShifts.b * 100;
+  // Apply brightness shift - stronger in shadows, weaker in highlights
+  const brightnessMultiplier = luminance < 0.33 ? 1.2 : luminance > 0.67 ? 0.8 : 1.0;
+  const effectiveBrightness = transform.brightnessShift * brightnessMultiplier;
+  
+  r += effectiveBrightness * 60;
+  g += effectiveBrightness * 60;
+  b += effectiveBrightness * 60;
+
+  // Apply color shifts - zone-specific
+  const colorShiftStrength = luminance < 0.33 ? 120 : luminance > 0.67 ? 80 : 100;
+  r += transform.colorShifts.r * colorShiftStrength;
+  g += transform.colorShifts.g * colorShiftStrength;
+  b += transform.colorShifts.b * colorShiftStrength;
+
+  // Apply saturation
+  const hsl = rgbToHsl({ r, g, b });
+  hsl.s *= transform.saturationFactor;
+  const result = hslToRgb(hsl);
 
   return {
-    r: Math.max(0, Math.min(255, r)),
-    g: Math.max(0, Math.min(255, g)),
-    b: Math.max(0, Math.min(255, b)),
+    r: Math.max(0, Math.min(255, result.r)),
+    g: Math.max(0, Math.min(255, result.g)),
+    b: Math.max(0, Math.min(255, result.b)),
   };
 }
 

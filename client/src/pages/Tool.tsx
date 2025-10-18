@@ -5,10 +5,9 @@ import { ColorStatistics } from "@/components/ColorStatistics";
 import { HistogramVisualization } from "@/components/HistogramVisualization";
 import { LutControls } from "@/components/LutControls";
 import { DownloadSection } from "@/components/DownloadSection";
-import { AdvancedControls } from "@/components/AdvancedControls";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import type { LutAnalysis, LutResponse, AdvancedControls as AdvancedControlsType } from "@shared/schema";
+import type { LutAnalysis, LutResponse } from "@shared/schema";
 
 export default function Tool() {
   const { toast } = useToast();
@@ -28,19 +27,6 @@ export default function Tool() {
   
   const [isGenerating, setIsGenerating] = useState(false);
   const [lutResult, setLutResult] = useState<LutResponse | null>(null);
-
-  const [advancedControls, setAdvancedControls] = useState<AdvancedControlsType>({
-    shadows: { brightness: 0, saturation: 0, hue: 0 },
-    midtones: { brightness: 0, saturation: 0, hue: 0 },
-    highlights: { brightness: 0, saturation: 0, hue: 0 },
-    temperature: 0,
-    tint: 0,
-    splitToning: {
-      shadowColor: "#000000",
-      highlightColor: "#ffffff",
-      balance: 50,
-    },
-  });
 
   const handleImageUpload = async (file: File) => {
     setIsAnalyzing(true);
@@ -87,10 +73,6 @@ export default function Tool() {
     reader.readAsDataURL(file);
   };
 
-  const handleAdvancedControlsChange = (controls: AdvancedControlsType) => {
-    setAdvancedControls(controls);
-  };
-
   // Auto-update preview when controls change
   useEffect(() => {
     if (!uploadedImage || !analysis) return;
@@ -106,7 +88,6 @@ export default function Tool() {
             imageData: uploadedImage,
             intensity,
             gridSize,
-            advancedControls,
           }),
         });
 
@@ -124,7 +105,7 @@ export default function Tool() {
     }, 300);
 
     return () => clearTimeout(debounce);
-  }, [intensity, advancedControls, uploadedImage, analysis, gridSize]);
+  }, [intensity, uploadedImage, analysis, gridSize]);
 
   const handleGenerateLut = async () => {
     if (!uploadedImage || !analysis) return;
@@ -144,7 +125,6 @@ export default function Tool() {
           format,
           precision,
           exportPreview,
-          advancedControls,
           lutType,
           lutPurpose,
         }),
@@ -184,18 +164,6 @@ export default function Tool() {
     setExportPreview(false);
     setLutType("creative");
     setLutPurpose("look");
-    setAdvancedControls({
-      shadows: { brightness: 0, saturation: 0, hue: 0 },
-      midtones: { brightness: 0, saturation: 0, hue: 0 },
-      highlights: { brightness: 0, saturation: 0, hue: 0 },
-      temperature: 0,
-      tint: 0,
-      splitToning: {
-        shadowColor: "#000000",
-        highlightColor: "#ffffff",
-        balance: 50,
-      },
-    });
   };
 
   return (
@@ -246,11 +214,6 @@ export default function Tool() {
                   <ColorStatistics analysis={analysis} />
                   
                   <HistogramVisualization rgbHistogram={analysis.rgbHistogram} />
-                  
-                  <AdvancedControls
-                    controls={advancedControls}
-                    onChange={handleAdvancedControlsChange}
-                  />
                   
                   <LutControls
                     intensity={intensity}
