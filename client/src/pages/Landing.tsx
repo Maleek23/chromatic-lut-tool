@@ -22,10 +22,12 @@ export default function Landing() {
 
         <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
           <div className="space-y-4">
-            <h1 className="text-6xl font-bold tracking-tight mb-4">
-              <span className="text-foreground">UN</span>
-              <span className="text-primary text-7xl mx-1">/</span>
-              <span className="text-foreground">TITLD</span>
+            <h1 className="text-6xl font-bold tracking-tight mb-4 group cursor-default inline-block">
+              <span className="inline-block text-foreground transition-all duration-700 ease-out group-hover:-translate-x-2">UN</span>
+              <span className="inline-block text-primary text-7xl mx-1 transition-all duration-700 ease-out group-hover:scale-125 group-hover:mx-3">
+                /
+              </span>
+              <span className="inline-block text-foreground transition-all duration-700 ease-out group-hover:translate-x-2">TITLD</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Professional LUT conversion and optimization toolkit. Convert between formats, 
