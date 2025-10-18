@@ -407,7 +407,7 @@ export default function Landing() {
         </div>
 
         {/* Pricing Section - positioned at the divider */}
-        <div className="max-w-6xl mx-auto space-y-8 relative z-10 px-4 mt-20">
+        <div className="max-w-7xl mx-auto space-y-8 relative z-10 px-4 mt-20">
           {/* Film strip divider borders */}
           <div className="absolute left-0 top-0 w-8 h-16 opacity-5">
             {[...Array(3)].map((_, i) => (
