@@ -260,7 +260,7 @@ export default function Landing() {
   return (
     <div className="min-h-screen flex flex-col overflow-hidden">
       {/* Hero Section */}
-      <section className="relative flex-1 flex items-center justify-center px-4 sm:px-6 py-16 sm:py-24 md:py-32">
+      <section className="relative flex-1 flex items-center justify-center px-4 sm:px-6 py-12 sm:py-16 md:py-20">
         {/* Animated gradient background */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           {/* Base gradient */}
@@ -325,7 +325,7 @@ export default function Landing() {
           </div>
 
           {/* Core Tools Overview */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 pt-12 px-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 pt-8 px-4">
             <Card className="border-primary/20 hover-elevate bg-card/80 backdrop-blur-sm transition-all duration-300 group">
               <CardContent className="pt-8 pb-6 space-y-4">
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/10 to-chart-2/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-primary/20">
@@ -375,8 +375,18 @@ export default function Landing() {
             </Card>
           </div>
 
+          {/* Learn More Button */}
+          <div className="mt-8 flex justify-center">
+            <Button variant="outline" size="lg" className="backdrop-blur-sm" asChild>
+              <Link href="/tools">
+                <Lightbulb className="w-5 h-5 mr-2" />
+                Learn More About Our Tools
+              </Link>
+            </Button>
+          </div>
+
           {/* Color spectrum visualization */}
-          <div className="mt-16 relative">
+          <div className="mt-8 relative">
             <div className="flex gap-1 justify-center h-20 items-end opacity-40">
               {[...Array(32)].map((_, i) => (
                 <div
@@ -397,7 +407,7 @@ export default function Landing() {
       </section>
 
       {/* Pricing Section */}
-      <section className="px-4 sm:px-6 py-16 sm:py-24 bg-gradient-to-b from-muted/30 to-background relative overflow-hidden">
+      <section className="px-4 sm:px-6 py-12 sm:py-16 bg-gradient-to-b from-muted/30 to-background relative overflow-hidden">
         {/* Film strip decoration */}
         <div className="absolute left-0 top-0 bottom-0 w-8 opacity-5">
           {[...Array(20)].map((_, i) => (
@@ -410,7 +420,7 @@ export default function Landing() {
           ))}
         </div>
 
-        <div className="max-w-6xl mx-auto space-y-12 relative z-10">
+        <div className="max-w-6xl mx-auto space-y-8 relative z-10">
           <div className="text-center space-y-3 px-4">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Choose Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-chart-2 to-chart-3">Tier</span></h2>
             <p className="text-sm sm:text-base md:text-lg text-muted-foreground">
@@ -516,9 +526,9 @@ export default function Landing() {
             </Card>
 
             {/* Pro Tier */}
-            <Card className="border-primary shadow-lg shadow-primary/10 sm:scale-105 hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 relative overflow-hidden">
+            <Card className="border-primary shadow-lg shadow-primary/10 sm:scale-105 hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 relative">
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-chart-2 to-chart-3" />
-              <Badge className="absolute -top-2 right-4 bg-gradient-to-r from-primary to-chart-2 text-white text-[10px] px-2 py-0.5 border-0">Most Popular</Badge>
+              <Badge className="absolute top-3 right-4 bg-gradient-to-r from-primary to-chart-2 text-white text-[10px] px-2 py-0.5 border-0">Most Popular</Badge>
               
               <CardHeader className="space-y-3 pb-6">
                 <div>
