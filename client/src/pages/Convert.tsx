@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Upload, Download, RefreshCw, CheckCircle, AlertCircle, Crown, Bookmark } from "lucide-react";
+import { Upload, Download, RefreshCw, CheckCircle, AlertCircle, Crown, Bookmark, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
@@ -55,7 +55,6 @@ export default function Convert() {
       setUploadedFile(file);
       setParseResult(null);
       
-      // Parse the file to validate it
       const formData = new FormData();
       formData.append("file", file);
       
@@ -89,7 +88,6 @@ export default function Convert() {
             variant: "destructive",
           });
           
-          // Set a failed parse result
           setParseResult({
             success: false,
             format: "unknown",
@@ -129,7 +127,6 @@ export default function Convert() {
       formData.append("file", uploadedFile);
       formData.append("targetFormat", outputFormat);
       
-      // Add grid size for resampling if Pro user selected a specific size
       if (gridSize !== "auto") {
         formData.append("gridSize", gridSize);
       }
@@ -140,13 +137,11 @@ export default function Convert() {
       });
 
       if (response.ok) {
-        // Download the converted file
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
         
-        // Get filename from Content-Disposition header
         const contentDisposition = response.headers.get("Content-Disposition");
         const filenameMatch = contentDisposition?.match(/filename="(.+)"/);
         const filename = filenameMatch ? filenameMatch[1] : `converted.${outputFormat}`;
@@ -197,11 +192,9 @@ export default function Convert() {
       const blob = await response.blob();
       const filename = `${presetName.replace(/[^a-zA-Z0-9]/g, '_')}.${presetFormat}`;
       
-      // Create a File object from the blob to use in the upload form
       const file = new File([blob], filename, { type: blob.type });
       setUploadedFile(file);
       
-      // Parse the file immediately
       const formData = new FormData();
       formData.append("file", file);
       
@@ -224,7 +217,7 @@ export default function Convert() {
       const result = await parseResponse.json();
       
       if (!result.success) {
-        setParseResult(result); // Set the failed result to reflect error state in UI
+        setParseResult(result);
         toast({
           title: "Invalid preset",
           description: result.error || "The preset file is not a valid LUT",
@@ -234,8 +227,6 @@ export default function Convert() {
       }
       
       setParseResult(result);
-      
-      // Switch to upload tab to show the loaded preset
       setActiveTab("upload");
       
       toast({
@@ -294,235 +285,265 @@ export default function Convert() {
   };
 
   return (
-    <div className="min-h-screen bg-background py-12">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-3">Convert LUTs</h1>
-          <p className="text-muted-foreground">
-            Convert between .cube, .3dl formats and more
-          </p>
-        </div>
+    <div className="max-w-5xl mx-auto space-y-8">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted/50 backdrop-blur-sm">
+          <TabsTrigger value="upload" data-testid="tab-upload" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-chart-2 data-[state=active]:text-primary-foreground">
+            <Upload className="w-4 h-4 mr-2" />
+            Upload LUT
+          </TabsTrigger>
+          <TabsTrigger value="presets" data-testid="tab-presets" disabled={!user} className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-chart-2 data-[state=active]:to-chart-3 data-[state=active]:text-primary-foreground">
+            <Bookmark className="w-4 h-4 mr-2" />
+            My Presets {!user && "(Login Required)"}
+          </TabsTrigger>
+        </TabsList>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="upload" data-testid="tab-upload">
-              <Upload className="w-4 h-4 mr-2" />
-              Upload LUT
-            </TabsTrigger>
-            <TabsTrigger value="presets" data-testid="tab-presets" disabled={!user}>
-              <Bookmark className="w-4 h-4 mr-2" />
-              My Presets {!user && "(Login Required)"}
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="upload">
-            <Card>
-              <CardHeader>
-                <CardTitle>Upload LUT File</CardTitle>
-                <CardDescription>
-                  Upload .cube, .3dl, or media files (.png, .jpg, .mp4)
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-            {parseResult && (
-              <Alert variant={parseResult.success ? "default" : "destructive"}>
-                {parseResult.success ? (
-                  <CheckCircle className="h-4 w-4" />
-                ) : (
-                  <AlertCircle className="h-4 w-4" />
-                )}
-                <AlertDescription>
-                  {parseResult.success ? (
-                    <>
-                      Valid {parseResult.format.toUpperCase()} file - {parseResult.size}x{parseResult.size}x{parseResult.size} grid ({parseResult.dataPoints} points)
-                      {parseResult.warnings.length > 0 && (
-                        <div className="mt-2 text-sm text-muted-foreground">
-                          Warnings: {parseResult.warnings.join(", ")}
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <>Invalid LUT: {parseResult.errors.join(", ")}</>
-                  )}
-                </AlertDescription>
-              </Alert>
-            )}
-            {/* Upload Zone */}
-            <div className="border-2 border-dashed rounded-lg p-12 text-center hover-elevate">
-              <input
-                type="file"
-                accept=".cube,.3dl,.png,.jpg,.jpeg,.mp4,.mov,.avi"
-                onChange={handleFileUpload}
-                className="hidden"
-                id="lut-upload"
-                data-testid="input-lut-file"
-              />
-              <label htmlFor="lut-upload" className="cursor-pointer">
-                <Upload className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-                {uploadedFile ? (
-                  <div>
-                    <p className="font-medium">{uploadedFile.name}</p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {(uploadedFile.size / 1024).toFixed(2)} KB
-                    </p>
-                  </div>
-                ) : (
-                  <div>
-                    <p className="font-medium">Drop file or click to browse</p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      LUTs (.cube, .3dl) • Images (.png, .jpg) • Videos (.mp4, .mov, .avi)
-                    </p>
-                  </div>
-                )}
-              </label>
-            </div>
-
-            {/* Output Format */}
-            <div className="space-y-3">
-              <label className="text-sm font-medium">Output Format</label>
-              <Select value={outputFormat} onValueChange={(v) => setOutputFormat(v as "cube" | "3dl")}>
-                <SelectTrigger data-testid="select-output-format">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="cube">.cube (Standard)</SelectItem>
-                  <SelectItem value="3dl">.3dl (Autodesk)</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Grid Size Selector (Pro Feature) */}
-            <div className="space-y-3">
+        <TabsContent value="upload">
+          <Card className="border-primary/30 bg-background/50 backdrop-blur-sm hover-elevate transition-all duration-300">
+            <CardHeader>
               <div className="flex items-center gap-2">
-                <label className="text-sm font-medium">Grid Size</label>
-                {isPro && <Badge variant="default" className="text-xs"><Crown className="w-3 h-3 mr-1" />Pro</Badge>}
+                <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-chart-2/20">
+                  <RefreshCw className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <CardTitle>Upload LUT File</CardTitle>
+                  <CardDescription>
+                    Convert between .cube and .3dl formats
+                  </CardDescription>
+                </div>
               </div>
-              <Select 
-                value={gridSize} 
-                onValueChange={setGridSize}
-                disabled={!isPro}
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {parseResult && (
+                <Alert variant={parseResult.success ? "default" : "destructive"} className="border-l-4">
+                  {parseResult.success ? (
+                    <CheckCircle className="h-4 w-4" />
+                  ) : (
+                    <AlertCircle className="h-4 w-4" />
+                  )}
+                  <AlertDescription>
+                    {parseResult.success ? (
+                      <>
+                        <span className="font-semibold">Valid {parseResult.format.toUpperCase()} file</span> - {parseResult.size}×{parseResult.size}×{parseResult.size} grid ({parseResult.dataPoints.toLocaleString()} points)
+                        {parseResult.warnings.length > 0 && (
+                          <div className="mt-2 text-sm text-muted-foreground">
+                            Warnings: {parseResult.warnings.join(", ")}
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <>Invalid LUT: {parseResult.errors.join(", ")}</>
+                    )}
+                  </AlertDescription>
+                </Alert>
+              )}
+
+              {/* Upload Zone */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-chart-2/20 to-chart-3/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative border-2 border-dashed rounded-lg p-12 text-center hover-elevate bg-background">
+                  <input
+                    type="file"
+                    accept=".cube,.3dl"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                    id="lut-upload"
+                    data-testid="input-lut-file"
+                  />
+                  <label htmlFor="lut-upload" className="cursor-pointer">
+                    <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary/10 to-chart-2/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <Upload className="w-8 h-8 text-primary" />
+                    </div>
+                    {uploadedFile ? (
+                      <div>
+                        <p className="font-semibold text-lg">{uploadedFile.name}</p>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {(uploadedFile.size / 1024).toFixed(2)} KB
+                        </p>
+                      </div>
+                    ) : (
+                      <div>
+                        <p className="font-semibold text-lg mb-2">Drop LUT file or click to browse</p>
+                        <p className="text-sm text-muted-foreground">
+                          Supports .cube and .3dl formats
+                        </p>
+                      </div>
+                    )}
+                  </label>
+                </div>
+              </div>
+
+              {/* Output Format */}
+              <div className="space-y-3">
+                <label className="text-sm font-semibold flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-primary" />
+                  Output Format
+                </label>
+                <Select value={outputFormat} onValueChange={(v) => setOutputFormat(v as "cube" | "3dl")}>
+                  <SelectTrigger data-testid="select-output-format" className="bg-muted/30">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="cube">.cube (Standard)</SelectItem>
+                    <SelectItem value="3dl">.3dl (Autodesk)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Grid Size Selector (Pro Feature) */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-semibold">Grid Size</label>
+                  {isPro ? (
+                    <Badge className="bg-gradient-to-r from-primary to-chart-2 text-primary-foreground border-0">
+                      <Crown className="w-3 h-3 mr-1" />Pro
+                    </Badge>
+                  ) : (
+                    <Badge variant="outline">
+                      <Crown className="w-3 h-3 mr-1" />Pro Feature
+                    </Badge>
+                  )}
+                </div>
+                <Select 
+                  value={gridSize} 
+                  onValueChange={setGridSize}
+                  disabled={!isPro}
+                >
+                  <SelectTrigger data-testid="select-grid-size" className="bg-muted/30">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="auto">Auto (keep original)</SelectItem>
+                    <SelectItem value="17">17×17×17 (Standard)</SelectItem>
+                    <SelectItem value="33">33×33×33 (High Quality)</SelectItem>
+                    <SelectItem value="65">65×65×65 (Ultra Quality)</SelectItem>
+                  </SelectContent>
+                </Select>
+                {!isPro && (
+                  <p className="text-xs text-muted-foreground">
+                    Upgrade to Pro to resample LUTs with custom grid sizes
+                  </p>
+                )}
+              </div>
+
+              {/* Convert Button */}
+              <Button 
+                className="w-full bg-gradient-to-r from-primary to-chart-2 hover:opacity-90 transition-opacity" 
+                size="lg"
+                onClick={handleConvert}
+                disabled={!uploadedFile || isConverting || !parseResult?.success}
+                data-testid="button-convert"
               >
-                <SelectTrigger data-testid="select-grid-size">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="auto">Auto (keep original)</SelectItem>
-                  <SelectItem value="17">17×17×17 (Standard)</SelectItem>
-                  <SelectItem value="33">33×33×33 (High Quality)</SelectItem>
-                  <SelectItem value="65">65×65×65 (Ultra Quality)</SelectItem>
-                </SelectContent>
-              </Select>
-              {!isPro && (
-                <p className="text-xs text-muted-foreground">
-                  Upgrade to Pro to resample LUTs with custom grid sizes
+                {isConverting ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                    Converting...
+                  </>
+                ) : (
+                  <>
+                    <Download className="w-4 h-4 mr-2" />
+                    Convert LUT
+                  </>
+                )}
+              </Button>
+              {uploadedFile && !parseResult?.success && (
+                <p className="text-sm text-destructive text-center">
+                  File validation failed. Please upload a valid LUT file.
                 </p>
               )}
-            </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-            {/* Convert Button */}
-            <Button 
-              className="w-full" 
-              size="lg"
-              onClick={handleConvert}
-              disabled={!uploadedFile || isConverting || !parseResult?.success}
-              data-testid="button-convert"
-            >
-              {isConverting ? (
-                <>
-                  <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                  Converting...
-                </>
+        <TabsContent value="presets">
+          <Card className="border-chart-2/30 bg-background/50 backdrop-blur-sm">
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-chart-2/20 to-chart-3/20">
+                  <Bookmark className="w-5 h-5 text-chart-2" />
+                </div>
+                <div>
+                  <CardTitle>My Saved Presets</CardTitle>
+                  <CardDescription>
+                    Load and download your saved LUT presets
+                  </CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              {!presets || presets.length === 0 ? (
+                <div className="text-center py-12">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-chart-2/10 to-chart-3/10 flex items-center justify-center">
+                    <Bookmark className="w-8 h-8 text-muted-foreground" />
+                  </div>
+                  <p className="text-muted-foreground">
+                    No saved presets yet. Convert a LUT and save it from the dashboard.
+                  </p>
+                </div>
               ) : (
-                <>
-                  <Download className="w-4 h-4 mr-2" />
-                  Convert LUT
-                </>
+                <div className="space-y-3">
+                  {presets.map((preset) => (
+                    <Card key={preset.id} className={`hover-elevate transition-all duration-300 ${selectedPreset === preset.id ? 'border-primary ring-2 ring-primary/20' : ''}`}>
+                      <CardContent className="flex items-center justify-between gap-3 p-4">
+                        <div className="flex-1">
+                          <h3 className="font-semibold">{preset.name}</h3>
+                          <p className="text-sm text-muted-foreground">
+                            {preset.format.toUpperCase()} • {new Date(preset.createdAt).toLocaleDateString()}
+                          </p>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            onClick={() => handleApplyPreset(preset.id, preset.name, preset.format)}
+                            data-testid={`button-apply-preset-${preset.id}`}
+                            className="bg-gradient-to-r from-primary to-chart-2"
+                          >
+                            <Upload className="w-4 h-4 mr-2" />
+                            Apply
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleDownloadPreset(preset.id)}
+                            data-testid={`button-download-preset-${preset.id}`}
+                          >
+                            <Download className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
               )}
-            </Button>
-            {uploadedFile && !parseResult?.success && (
-              <p className="text-sm text-destructive text-center">
-                File validation failed. Please upload a valid LUT file.
-              </p>
-            )}
-          </CardContent>
-        </Card>
-          </TabsContent>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
 
-          <TabsContent value="presets">
-            <Card>
-              <CardHeader>
-                <CardTitle>My Saved Presets</CardTitle>
-                <CardDescription>
-                  Load and download your saved LUT presets
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {!presets || presets.length === 0 ? (
-                  <div className="text-center py-12">
-                    <Bookmark className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-                    <p className="text-muted-foreground">
-                      No saved presets yet. Convert a LUT and save it from the dashboard.
-                    </p>
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    {presets.map((preset) => (
-                      <Card key={preset.id} className={`hover-elevate ${selectedPreset === preset.id ? 'border-primary' : ''}`}>
-                        <CardContent className="flex items-center justify-between gap-3 p-4">
-                          <div className="flex-1">
-                            <h3 className="font-medium">{preset.name}</h3>
-                            <p className="text-sm text-muted-foreground">
-                              {preset.format.toUpperCase()} • {new Date(preset.createdAt).toLocaleDateString()}
-                            </p>
-                          </div>
-                          <div className="flex gap-2">
-                            <Button
-                              size="sm"
-                              variant="default"
-                              onClick={() => handleApplyPreset(preset.id, preset.name, preset.format)}
-                              data-testid={`button-apply-preset-${preset.id}`}
-                            >
-                              <Upload className="w-4 h-4 mr-2" />
-                              Apply
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => handleDownloadPreset(preset.id)}
-                              data-testid={`button-download-preset-${preset.id}`}
-                            >
-                              <Download className="w-4 h-4 mr-2" />
-                              Download
-                            </Button>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-
-        {/* Demo Section */}
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle>See LUTs in Action</CardTitle>
-            <CardDescription>
-              Compare before and after applying color grading LUTs
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <BeforeAfterSlider
-              beforeImage={demoImageBefore}
-              afterImage={demoImageAfter}
-              beforeLabel="Original Footage"
-              afterLabel="With LUT Applied"
-            />
-          </CardContent>
-        </Card>
-      </div>
+      {/* Demo Section */}
+      <Card className="border-chart-3/30 bg-background/50 backdrop-blur-sm hover-elevate transition-all duration-300">
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <div className="p-2 rounded-lg bg-gradient-to-br from-chart-3/20 to-primary/20">
+              <Sparkles className="w-5 h-5 text-chart-3" />
+            </div>
+            <div>
+              <CardTitle>See LUTs in Action</CardTitle>
+              <CardDescription>
+                Compare before and after applying color grading LUTs
+              </CardDescription>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <BeforeAfterSlider
+            beforeImage={demoImageBefore}
+            afterImage={demoImageAfter}
+            beforeLabel="Original Footage"
+            afterLabel="With LUT Applied"
+          />
+        </CardContent>
+      </Card>
     </div>
   );
 }
