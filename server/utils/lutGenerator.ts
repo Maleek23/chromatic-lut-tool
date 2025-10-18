@@ -128,9 +128,14 @@ interface ZoneColorData {
 }
 
 async function deriveColorTransform(imageBuffer: Buffer): Promise<ColorTransform> {
-  const image = sharp(imageBuffer);
-  const { data, info } = await image
-    .resize(200, 200, { fit: "inside" })
+  // Single-pass processing: decode, resize, and extract pixels efficiently
+  const { data, info } = await sharp(imageBuffer, {
+    failOn: 'none',
+    limitInputPixels: 268402689, // Max 16384x16384 pixels
+  })
+    .resize(200, 200, { fit: "inside", withoutEnlargement: true })
+    .toColorspace('srgb') // Ensure consistent color space
+    .removeAlpha()
     .raw()
     .toBuffer({ resolveWithObject: true });
 
@@ -500,8 +505,15 @@ export async function applyLUTToImage(
   gridSize: number,
   intensity: number
 ): Promise<Buffer> {
-  const image = sharp(imageBuffer);
-  const { data, info } = await image.raw().toBuffer({ resolveWithObject: true });
+  // Single-pass decode with security limits
+  const { data, info } = await sharp(imageBuffer, {
+    failOn: 'none',
+    limitInputPixels: 268402689, // Max 16384x16384 pixels
+  })
+    .toColorspace('srgb') // Ensure consistent color space
+    .removeAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
 
   const processedData = Buffer.from(data);
 

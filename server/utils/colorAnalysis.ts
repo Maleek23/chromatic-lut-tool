@@ -13,15 +13,22 @@ interface ColorInfo {
 }
 
 export async function analyzeImage(imageBuffer: Buffer) {
-  // Resize image for faster processing
-  const image = sharp(imageBuffer);
-  const metadata = await image.metadata();
-  
-  // Get raw pixel data
-  const { data, info } = await image
-    .resize(200, 200, { fit: "inside" })
-    .raw()
-    .toBuffer({ resolveWithObject: true });
+  try {
+    // Single-pass processing: decode, normalize format, resize, and extract pixels
+    // failOn: 'none' tolerates minor corruption; limitInputPixels prevents DoS
+    const { data, info } = await sharp(imageBuffer, {
+      failOn: 'none',
+      limitInputPixels: 268402689, // Max 16384x16384 pixels (reasonable ceiling)
+    })
+      .resize(200, 200, { fit: "inside", withoutEnlargement: true })
+      .toColorspace('srgb') // Ensure consistent color space for all inputs
+      .removeAlpha() // Remove alpha channel for consistent RGB processing
+      .raw()
+      .toBuffer({ resolveWithObject: true });
+    
+    if (!data || data.length === 0) {
+      throw new Error("Failed to process image data");
+    }
 
   const pixels: RGB[] = [];
   for (let i = 0; i < data.length; i += info.channels) {
@@ -41,12 +48,19 @@ export async function analyzeImage(imageBuffer: Buffer) {
   // Calculate average brightness and saturation
   const stats = calculateColorStats(pixels);
 
-  return {
-    dominantColors,
-    averageBrightness: stats.brightness,
-    averageSaturation: stats.saturation,
-    rgbHistogram,
-  };
+    return {
+      dominantColors,
+      averageBrightness: stats.brightness,
+      averageSaturation: stats.saturation,
+      rgbHistogram,
+    };
+  } catch (error) {
+    // Provide more context for debugging
+    if (error instanceof Error) {
+      throw new Error(`Image analysis failed: ${error.message}`);
+    }
+    throw new Error('Image analysis failed: Unknown error');
+  }
 }
 
 function extractDominantColors(pixels: RGB[], count: number): ColorInfo[] {

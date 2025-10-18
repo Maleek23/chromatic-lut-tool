@@ -1,7 +1,7 @@
-# Chromatic by UN/TITLD
+# CHROMA by UN/TITLD
 
 ## Overview
-Chromatic is a professional toolkit for cinematographers and colorists, providing comprehensive LUT (Look-Up Table) conversion, generation, and analysis. It offers industry-standard support for all major LUT formats with free unlimited access to core features. The flagship Image-to-LUT generator authentically extracts color science from reference images, while conversion and analysis tools ensure quality and compatibility across professional color grading software.
+CHROMA is a professional toolkit for cinematographers and colorists, providing comprehensive LUT (Look-Up Table) conversion, generation, and analysis. It offers industry-standard support for all major LUT formats with free unlimited access to core features. The flagship Image-to-LUT generator authentically extracts color science from reference images, while conversion and analysis tools ensure quality and compatibility across professional color grading software.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.

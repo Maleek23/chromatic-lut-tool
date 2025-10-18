@@ -284,7 +284,7 @@ export default function Landing() {
                   lineHeight: '1.1',
                   letterSpacing: '-0.02em'
                 }}>
-              CHROMATIC
+              CHROMA
             </h1>
             
             <div className="flex items-center justify-center gap-0 text-sm font-medium text-muted-foreground group cursor-default">
@@ -603,7 +603,7 @@ export default function Landing() {
       {/* Footer */}
       <footer className="border-t py-8 px-6 bg-background">
         <div className="max-w-6xl mx-auto text-center text-sm text-muted-foreground">
-          <p>Chromatic by UN/TITLD • Professional LUT tools for cinematographers and colorists</p>
+          <p>CHROMA by UN/TITLD • Professional LUT tools for cinematographers and colorists</p>
         </div>
       </footer>
     </div>

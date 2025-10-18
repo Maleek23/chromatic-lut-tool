@@ -53,13 +53,13 @@ export default function AuthPage() {
                 {/* Chromatic aberration effect on title */}
                 <h1 className="text-6xl md:text-7xl font-bold tracking-tight relative">
                   <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-red-500/30 via-transparent to-transparent blur-sm translate-x-[-3px]">
-                    CHROMATIC
+                    CHROMA
                   </span>
                   <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-transparent via-transparent to-blue-500/30 blur-sm translate-x-[3px]">
-                    CHROMATIC
+                    CHROMA
                   </span>
                   <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
-                    CHROMATIC
+                    CHROMA
                   </span>
                 </h1>
               </div>
