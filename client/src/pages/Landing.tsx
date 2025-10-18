@@ -22,15 +22,13 @@ export default function Landing() {
 
         <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
           <div className="space-y-4">
-            <h1 className="text-6xl font-bold tracking-tight mb-4 group cursor-default inline-block">
-              <span className="inline-block text-foreground transition-all duration-700 ease-in-out group-hover:translate-x-3 group-hover:opacity-50">UN</span>
-              <span className="inline-block text-primary text-7xl mx-1 transition-all duration-700 ease-in-out group-hover:scale-150 group-hover:rotate-180 group-hover:drop-shadow-[0_0_12px_rgba(var(--primary),0.5)]">
-                /
-              </span>
-              <span className="inline-block text-foreground transition-all duration-700 ease-in-out group-hover:-translate-x-3 group-hover:opacity-50">TITLD</span>
+            <h1 className="text-7xl font-bold tracking-tight mb-2">
+              CHROMATIC
             </h1>
-            <div className="inline-block px-4 py-1 bg-primary/10 backdrop-blur-sm rounded-full border border-primary/20 mb-2">
-              <span className="text-sm font-medium text-primary">CHROMATIC</span>
+            <div className="flex items-center justify-center gap-0 text-sm font-medium text-muted-foreground group cursor-default mb-4">
+              <span className="transition-all duration-700 ease-in-out group-hover:translate-x-4 group-hover:opacity-0 group-hover:scale-0">by UN</span>
+              <span className="text-primary mx-1 text-lg transition-all duration-700 ease-in-out group-hover:scale-200 group-hover:rotate-[360deg] group-hover:drop-shadow-[0_0_20px_rgba(var(--primary),0.8)]">/</span>
+              <span className="transition-all duration-700 ease-in-out group-hover:-translate-x-4 group-hover:opacity-0 group-hover:scale-0">TITLD</span>
             </div>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Professional LUT conversion and optimization toolkit. Convert between formats, 

@@ -35,14 +35,14 @@ export default function AuthPage() {
       <div className="flex items-center justify-center p-8">
         <div className="w-full max-w-md space-y-6">
           <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight mb-2 group cursor-default inline-block">
-              <span className="inline-block text-foreground transition-all duration-700 ease-in-out group-hover:translate-x-2 group-hover:opacity-50">UN</span>
-              <span className="inline-block text-primary text-5xl mx-0.5 transition-all duration-700 ease-in-out group-hover:scale-125 group-hover:rotate-180">
-                /
-              </span>
-              <span className="inline-block text-foreground transition-all duration-700 ease-in-out group-hover:-translate-x-2 group-hover:opacity-50">TITLD</span>
+            <h1 className="text-5xl font-bold tracking-tight mb-2">
+              CHROMATIC
             </h1>
-            <p className="text-sm font-medium text-primary mb-2">CHROMATIC</p>
+            <div className="flex items-center justify-center gap-0 text-xs font-medium text-muted-foreground group cursor-default mb-3">
+              <span className="transition-all duration-700 ease-in-out group-hover:translate-x-3 group-hover:opacity-0 group-hover:scale-0">by UN</span>
+              <span className="text-primary mx-0.5 text-sm transition-all duration-700 ease-in-out group-hover:scale-150 group-hover:rotate-[360deg]">/</span>
+              <span className="transition-all duration-700 ease-in-out group-hover:-translate-x-3 group-hover:opacity-0 group-hover:scale-0">TITLD</span>
+            </div>
             <p className="text-muted-foreground">
               Professional LUT toolkit for colorists
             </p>

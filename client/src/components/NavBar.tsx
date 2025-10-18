@@ -14,13 +14,14 @@ export function NavBar() {
     <nav className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/">
-          <Button variant="ghost" className="hover-elevate px-3 group" data-testid="button-home">
-            <div className="flex items-center gap-0 font-bold text-xl tracking-tight">
-              <span className="text-foreground transition-all duration-500 ease-in-out group-hover:translate-x-1 group-hover:opacity-60">UN</span>
-              <span className="text-primary text-2xl mx-0.5 transition-all duration-500 ease-in-out group-hover:scale-125 group-hover:rotate-180">
-                /
-              </span>
-              <span className="text-foreground transition-all duration-500 ease-in-out group-hover:-translate-x-1 group-hover:opacity-60">TITLD</span>
+          <Button variant="ghost" className="hover-elevate px-3" data-testid="button-home">
+            <div className="flex flex-col items-start leading-none">
+              <span className="font-bold text-xl">CHROMATIC</span>
+              <div className="flex items-center gap-0 text-[10px] font-medium text-muted-foreground group">
+                <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by UN</span>
+                <span className="text-primary mx-0.5 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rotate-180">/</span>
+                <span className="transition-all duration-500 ease-in-out group-hover:-translate-x-2 group-hover:opacity-0 group-hover:scale-50">TITLD</span>
+              </div>
             </div>
           </Button>
         </Link>
