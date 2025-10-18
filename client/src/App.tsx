@@ -11,7 +11,6 @@ import Landing from "@/pages/Landing";
 import Generate from "@/pages/Tool";
 import Tools from "@/pages/Tools";
 import AuthPage from "@/pages/AuthPage";
-import Dashboard from "@/pages/Dashboard";
 import Upgrade from "@/pages/Upgrade";
 import NotFound from "@/pages/not-found";
 
@@ -23,7 +22,6 @@ function Router() {
         <Route path="/" component={Landing} />
         <Route path="/generate" component={Generate} />
         <Route path="/tools" component={Tools} />
-        <Route path="/dashboard" component={Dashboard} />
         <Route path="/upgrade" component={Upgrade} />
         <Route path="/auth" component={AuthPage} />
         <Route component={NotFound} />
