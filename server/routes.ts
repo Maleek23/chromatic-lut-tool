@@ -10,6 +10,7 @@ import { lutGenerationSchema, extendedLutGenerationSchema, batchLutRequestSchema
 import { setupAuth } from "./auth";
 import { requireAuth, requireTier } from "./middleware/tierGuard";
 import { dynamicRateLimiter } from "./middleware/rateLimiter";
+import { hasFeature, canConvert } from "./middleware/validation";
 
 // Configure multer with file validation
 const upload = multer({ 
@@ -98,7 +99,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
                 name: "Chromatic Pro",
                 description: "Unlimited preset saving, priority support, and advanced features",
               },
-              unit_amount: 1500, // $15.00
+              unit_amount: 1200, // $12.00
               recurring: {
                 interval: "month",
               },
@@ -305,7 +306,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Generate LUT endpoint
-  app.post("/api/generate-lut", async (req, res) => {
+  app.post("/api/generate-lut", requireAuth, async (req, res) => {
     try {
       const validationResult = extendedLutGenerationSchema.safeParse(req.body);
 
@@ -317,6 +318,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const { imageData, gridSize, intensity, format, precision, exportPreview } = validationResult.data;
+
+      const userTier = req.user!.tier as "free" | "pro" | "studio";
+
+      // Tier validation for grid size
+      if (!hasFeature(userTier, "gridSize", gridSize)) {
+        return res.status(403).json({
+          error: `Grid size ${gridSize}×${gridSize}×${gridSize} requires Pro tier. Free tier is limited to 17×17×17.`,
+          upgradeRequired: true,
+          requiredTier: "pro"
+        });
+      }
+
+      // Tier validation for output format
+      if (!hasFeature(userTier, "outputFormat", format)) {
+        return res.status(403).json({
+          error: `Export format .${format} requires Pro tier. Free tier can only export .cube format.`,
+          upgradeRequired: true,
+          requiredTier: "pro"
+        });
+      }
 
       // Convert base64 to buffer
       const base64Data = imageData.replace(/^data:image\/\w+;base64,/, "");
@@ -416,7 +437,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Batch download endpoint
-  app.post("/api/batch-download", async (req, res) => {
+  app.post("/api/batch-download", requireAuth, async (req, res) => {
     try {
       const validationResult = batchLutRequestSchema.safeParse(req.body);
 
@@ -428,6 +449,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const { images, gridSize, intensity, format, advancedControls, precision, exportPreview } = validationResult.data;
+
+      const userTier = req.user!.tier as "free" | "pro" | "studio";
+
+      // Tier validation for grid size
+      if (!hasFeature(userTier, "gridSize", gridSize)) {
+        return res.status(403).json({
+          error: `Grid size ${gridSize}×${gridSize}×${gridSize} requires Pro tier. Free tier is limited to 17×17×17.`,
+          upgradeRequired: true,
+          requiredTier: "pro"
+        });
+      }
+
+      // Tier validation for output format
+      if (!hasFeature(userTier, "outputFormat", format)) {
+        return res.status(403).json({
+          error: `Export format .${format} requires Pro tier. Free tier can only export .cube format.`,
+          upgradeRequired: true,
+          requiredTier: "pro"
+        });
+      }
 
       const controls = advancedControls;
 
@@ -509,7 +550,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Convert LUT format endpoint
-  app.post("/api/lut/convert", dynamicRateLimiter, upload.single("file"), async (req, res) => {
+  app.post("/api/lut/convert", requireAuth, dynamicRateLimiter, upload.single("file"), async (req, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ error: "No file uploaded" });
@@ -528,18 +569,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Target format required (cube, 3dl, or lut)" });
       }
 
+      // Parse source LUT first to detect actual format
+      const parsed = parseLUT(content, sourceFormat);
+
+      if (parsed.errors.length > 0) {
+        return res.status(400).json({
+          error: "Invalid LUT file",
+          details: parsed.errors
+        });
+      }
+
+      // Tier validation for conversion direction
+      const userTier = req.user!.tier as "free" | "pro" | "studio";
+      const actualSourceFormat = parsed.format;
+      if (!canConvert(userTier, actualSourceFormat, targetFormat)) {
+        return res.status(403).json({
+          error: `Converting .${actualSourceFormat} → .${targetFormat} requires Pro tier. Free tier can only convert .cube → .3dl`,
+          upgradeRequired: true,
+          requiredTier: "pro"
+        });
+      }
+
       // Backend tier validation for grid size resampling (Pro feature)
       if (gridSize) {
-        // Grid size resampling requires authentication and Pro tier
-        if (!req.user) {
-          return res.status(401).json({
-            error: "Authentication required for grid size resampling",
-            upgradeRequired: true
-          });
-        }
-
         const { hasTier } = await import("./middleware/tierGuard");
-        if (!hasTier(req.user.tier, "pro")) {
+        if (!hasTier(userTier, "pro")) {
           return res.status(403).json({
             error: "Grid size resampling requires Pro tier",
             upgradeRequired: true,
@@ -553,30 +607,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
 
-      // Parse source LUT
-      const parsed = parseLUT(content, sourceFormat);
-
-      if (parsed.errors.length > 0) {
-        return res.status(400).json({
-          error: "Invalid LUT file",
-          details: parsed.errors
-        });
-      }
-
-      console.log(`[DEBUG] Parsed LUT size: ${parsed.lut.size}, Target format: ${targetFormat}, Grid size param: ${gridSize}`);
-
       // Convert to target format with optional grid size resampling
       const converted = convertLUT(parsed, targetFormat, gridSize);
-      
-      // Count data lines to verify output size
-      const dataLines = converted.split('\n').filter(l => l.trim() && /^[\d\.\-\s]+$/.test(l.trim())).length;
-      console.log(`[DEBUG] Converted LUT has ${dataLines} data lines`);
 
-      // Track usage if user is authenticated
-      if (req.user) {
-        const { storage } = await import("./storage");
-        await storage.incrementConversions(req.user.id);
-      }
+      // Track usage
+      const { storage } = await import("./storage");
+      await storage.incrementConversions(req.user!.id);
 
       // Generate filename
       const originalName = req.file.originalname.replace(/\.[^/.]+$/, "");
@@ -781,17 +817,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const user = req.user;
-      const { USAGE_LIMITS } = await import("./middleware/validation");
+      const { TIER_FEATURES } = await import("./middleware/validation");
       const { storage } = await import("./storage");
       
       // Check preset limit for free tier
       if (user.tier === "free") {
         const currentPresetCount = await storage.getUserPresetCount(user.id);
-        if (currentPresetCount >= USAGE_LIMITS.free.savedPresets) {
+        if (currentPresetCount >= TIER_FEATURES.free.savedPresets) {
           return res.status(403).json({
-            error: "Preset limit reached",
+            error: "Free tier cannot save presets. Upgrade to Pro for unlimited preset saving.",
             upgradeRequired: true,
-            limit: USAGE_LIMITS.free.savedPresets
+            limit: TIER_FEATURES.free.savedPresets,
+            requiredTier: "pro"
           });
         }
       }
