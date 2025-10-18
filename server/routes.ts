@@ -55,9 +55,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "No image data provided" });
       }
 
+      // Validate base64 format
+      if (!imageData.startsWith('data:image/')) {
+        return res.status(400).json({ error: "Invalid image data format" });
+      }
+
       // Convert base64 to buffer
       const base64Data = imageData.replace(/^data:image\/\w+;base64,/, "");
       const imageBuffer = Buffer.from(base64Data, "base64");
+
+      // Validate buffer size (max 25MB)
+      const MAX_SIZE = 25 * 1024 * 1024;
+      if (imageBuffer.length > MAX_SIZE) {
+        return res.status(400).json({ error: "Image too large. Maximum size is 25MB" });
+      }
+
+      // Validate minimum size
+      if (imageBuffer.length < 100) {
+        return res.status(400).json({ error: "Invalid or corrupted image data" });
+      }
 
       // Analyze the image
       const analysis = await analyzeImage(imageBuffer);
@@ -65,7 +81,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(analysis);
     } catch (error) {
       console.error("Analysis error:", error);
-      res.status(500).json({ error: "Failed to analyze image" });
+      const message = error instanceof Error ? error.message : "Failed to analyze image";
+      res.status(500).json({ error: message });
     }
   });
 
@@ -75,7 +92,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { imageData, gridSize, intensity } = req.body;
 
       if (!imageData || !gridSize || intensity === undefined) {
-        return res.status(400).json({ error: "Missing parameters" });
+        return res.status(400).json({ error: "Missing required parameters: imageData, gridSize, and intensity are required" });
+      }
+
+      // Validate parameters
+      const validGridSizes = ["17", "33", "65"];
+      if (!validGridSizes.includes(String(gridSize))) {
+        return res.status(400).json({ error: "Invalid grid size. Must be 17, 33, or 65" });
+      }
+
+      if (intensity < 0 || intensity > 100) {
+        return res.status(400).json({ error: "Invalid intensity. Must be between 0 and 100" });
       }
 
       // Convert base64 to buffer
@@ -106,7 +133,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ previewImage: previewBase64 });
     } catch (error) {
       console.error("Preview error:", error);
-      res.status(500).json({ error: "Failed to generate preview" });
+      const message = error instanceof Error ? error.message : "Failed to generate preview";
+      res.status(500).json({ error: message });
     }
   });
 
