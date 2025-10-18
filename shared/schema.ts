@@ -136,6 +136,8 @@ export const extendedLutGenerationSchema = lutGenerationSchema.extend({
   presetId: z.string().optional(),
   precision: z.enum(["8", "10", "12"]).default("10"),
   exportPreview: z.boolean().default(false),
+  lutType: z.enum(["creative", "technical", "cinematic", "neutral"]).default("creative"),
+  lutPurpose: z.enum(["color-correction", "look", "grading", "matching"]).default("look"),
 });
 
 // Batch Image Schema

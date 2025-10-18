@@ -23,6 +23,8 @@ export default function Tool() {
   const [format, setFormat] = useState<"cube" | "3dl">("cube");
   const [precision, setPrecision] = useState<"8" | "10" | "12">("10");
   const [exportPreview, setExportPreview] = useState(false);
+  const [lutType, setLutType] = useState<"creative" | "technical" | "cinematic" | "neutral">("creative");
+  const [lutPurpose, setLutPurpose] = useState<"color-correction" | "look" | "grading" | "matching">("look");
   
   const [isGenerating, setIsGenerating] = useState(false);
   const [lutResult, setLutResult] = useState<LutResponse | null>(null);
@@ -45,42 +47,44 @@ export default function Tool() {
     setLutResult(null);
     setPreviewImage(null);
 
-    const formData = new FormData();
-    formData.append("image", file);
+    const reader = new FileReader();
+    
+    reader.onloadend = async () => {
+      const imageData = reader.result as string;
+      setUploadedImage(imageData);
 
-    try {
-      const response = await fetch("/api/analyze", {
-        method: "POST",
-        body: formData,
-      });
+      try {
+        const response = await fetch("/api/analyze", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ imageData }),
+        });
 
-      if (!response.ok) {
-        throw new Error("Analysis failed");
-      }
+        if (!response.ok) {
+          throw new Error("Analysis failed");
+        }
 
-      const data = await response.json();
-      const reader = new FileReader();
-      
-      reader.onloadend = () => {
-        setUploadedImage(reader.result as string);
+        const data = await response.json();
         setAnalysis(data);
         toast({
           title: "Analysis Complete",
           description: "Color profile extracted successfully",
         });
-      };
-      
-      reader.readAsDataURL(file);
-    } catch (error) {
-      console.error("Upload error:", error);
-      toast({
-        title: "Upload Failed",
-        description: "Failed to analyze image. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsAnalyzing(false);
-    }
+      } catch (error) {
+        console.error("Upload error:", error);
+        toast({
+          title: "Upload Failed",
+          description: "Failed to analyze image. Please try again.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsAnalyzing(false);
+      }
+    };
+    
+    reader.readAsDataURL(file);
   };
 
   const handleAdvancedControlsChange = (controls: AdvancedControlsType) => {
@@ -92,23 +96,23 @@ export default function Tool() {
     if (!uploadedImage || !analysis) return;
 
     const updatePreview = async () => {
-      const formData = new FormData();
-      
-      const blob = await (await fetch(uploadedImage)).blob();
-      formData.append("image", blob);
-      formData.append("intensity", intensity.toString());
-      formData.append("gridSize", gridSize);
-      formData.append("controls", JSON.stringify(advancedControls));
-
       try {
         const response = await fetch("/api/preview", {
           method: "POST",
-          body: formData,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            imageData: uploadedImage,
+            intensity,
+            gridSize,
+            advancedControls,
+          }),
         });
 
         if (response.ok) {
           const data = await response.json();
-          setPreviewImage(data.preview);
+          setPreviewImage(data.previewImage);
         }
       } catch (error) {
         console.error("Preview error:", error);
@@ -127,20 +131,23 @@ export default function Tool() {
 
     setIsGenerating(true);
 
-    const formData = new FormData();
-    const blob = await (await fetch(uploadedImage)).blob();
-    formData.append("image", blob);
-    formData.append("intensity", intensity.toString());
-    formData.append("gridSize", gridSize);
-    formData.append("format", format);
-    formData.append("precision", precision);
-    formData.append("exportPreview", exportPreview.toString());
-    formData.append("controls", JSON.stringify(advancedControls));
-
     try {
-      const response = await fetch("/api/generate", {
+      const response = await fetch("/api/generate-lut", {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          imageData: uploadedImage,
+          intensity,
+          gridSize,
+          format,
+          precision,
+          exportPreview,
+          advancedControls,
+          lutType,
+          lutPurpose,
+        }),
       });
 
       if (!response.ok) {
@@ -175,6 +182,8 @@ export default function Tool() {
     setFormat("cube");
     setPrecision("10");
     setExportPreview(false);
+    setLutType("creative");
+    setLutPurpose("look");
     setAdvancedControls({
       shadows: { brightness: 0, saturation: 0, hue: 0 },
       midtones: { brightness: 0, saturation: 0, hue: 0 },
@@ -195,9 +204,9 @@ export default function Tool() {
         {!uploadedImage ? (
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold mb-2">Upload Your Reference Image</h1>
+              <h1 className="text-3xl font-bold mb-2" data-testid="heading-generator">Image to LUT Generator</h1>
               <p className="text-muted-foreground">
-                Choose an image with the color grade you want to capture
+                Analyze any image to extract its color grading and generate a professional LUT file
               </p>
             </div>
             <UploadZone onImageUpload={handleImageUpload} isAnalyzing={isAnalyzing} />
@@ -254,6 +263,10 @@ export default function Tool() {
                     onPrecisionChange={setPrecision}
                     exportPreview={exportPreview}
                     onExportPreviewChange={setExportPreview}
+                    lutType={lutType}
+                    onLutTypeChange={setLutType}
+                    lutPurpose={lutPurpose}
+                    onLutPurposeChange={setLutPurpose}
                     onGenerate={handleGenerateLut}
                     isGenerating={isGenerating}
                   />
