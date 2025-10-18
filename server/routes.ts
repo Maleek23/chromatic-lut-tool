@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import multer from "multer";
 import JSZip from "jszip";
+import sharp from "sharp";
 import Stripe from "stripe";
 import { analyzeImage } from "./utils/colorAnalysis";
 import { generateLUT, applyLUTToImage } from "./utils/lutGenerator";
@@ -894,6 +895,113 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Delete preset error:", error);
       res.status(500).json({ error: "Failed to delete preset" });
+    }
+  });
+
+  // Upload avatar
+  app.post("/api/profile/avatar", requireAuth, upload.single("avatar"), async (req, res) => {
+    try {
+      if (!req.user || !req.file) {
+        return res.status(400).json({ error: "No file uploaded" });
+      }
+
+      // Resize and optimize avatar (200x200)
+      const optimizedBuffer = await sharp(req.file.buffer)
+        .resize(200, 200, { fit: 'cover', position: 'center' })
+        .jpeg({ quality: 90 })
+        .toBuffer();
+
+      // Convert to base64 data URL for storage
+      const avatarUrl = `data:image/jpeg;base64,${optimizedBuffer.toString('base64')}`;
+
+      const { storage } = await import("./storage");
+      await storage.updateUserProfile(req.user.id, { avatarUrl });
+
+      res.json({ avatarUrl });
+    } catch (error) {
+      console.error("Avatar upload error:", error);
+      res.status(500).json({ error: "Failed to upload avatar" });
+    }
+  });
+
+  // Upload banner
+  app.post("/api/profile/banner", requireAuth, upload.single("banner"), async (req, res) => {
+    try {
+      if (!req.user || !req.file) {
+        return res.status(400).json({ error: "No file uploaded" });
+      }
+
+      // Resize and optimize banner (1200x300)
+      const optimizedBuffer = await sharp(req.file.buffer)
+        .resize(1200, 300, { fit: 'cover', position: 'center' })
+        .jpeg({ quality: 85 })
+        .toBuffer();
+
+      // Convert to base64 data URL for storage
+      const bannerUrl = `data:image/jpeg;base64,${optimizedBuffer.toString('base64')}`;
+
+      const { storage } = await import("./storage");
+      await storage.updateUserProfile(req.user.id, { bannerUrl });
+
+      res.json({ bannerUrl });
+    } catch (error) {
+      console.error("Banner upload error:", error);
+      res.status(500).json({ error: "Failed to upload banner" });
+    }
+  });
+
+  // Update profile info
+  app.patch("/api/profile", requireAuth, async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ error: "Authentication required" });
+      }
+
+      const { bio, website, twitter, instagram, linkedin } = req.body;
+      
+      const updates: any = {};
+      if (bio !== undefined) updates.bio = bio;
+      if (website !== undefined) updates.website = website;
+      if (twitter !== undefined) updates.twitter = twitter;
+      if (instagram !== undefined) updates.instagram = instagram;
+      if (linkedin !== undefined) updates.linkedin = linkedin;
+
+      const { storage } = await import("./storage");
+      await storage.updateUserProfile(req.user.id, updates);
+
+      res.json({ message: "Profile updated successfully" });
+    } catch (error) {
+      console.error("Profile update error:", error);
+      res.status(500).json({ error: "Failed to update profile" });
+    }
+  });
+
+  // Get user profile by username
+  app.get("/api/profile/:username", async (req, res) => {
+    try {
+      const { storage } = await import("./storage");
+      const user = await storage.getUserByUsername(req.params.username);
+      
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      // Return public profile data only
+      res.json({
+        username: user.username,
+        tier: user.tier,
+        avatarUrl: user.avatarUrl,
+        bannerUrl: user.bannerUrl,
+        bio: user.bio,
+        website: user.website,
+        twitter: user.twitter,
+        instagram: user.instagram,
+        linkedin: user.linkedin,
+        createdAt: user.createdAt,
+      });
+    } catch (error) {
+      console.error("Get profile error:", error);
+      res.status(500).json({ error: "Failed to get profile" });
     }
   });
 

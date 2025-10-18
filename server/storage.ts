@@ -17,6 +17,7 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   updateUserTier(userId: number, tier: string, expiresAt: Date | null): Promise<User | undefined>;
   updateUserStripeInfo(userId: number, customerId: string, subscriptionId: string): Promise<User | undefined>;
+  updateUserProfile(userId: number, updates: Partial<Pick<User, 'avatarUrl' | 'bannerUrl' | 'bio' | 'website' | 'twitter' | 'instagram' | 'linkedin'>>): Promise<User | undefined>;
   incrementConversions(userId: number): Promise<void>;
   incrementPreviews(userId: number): Promise<void>;
   resetMonthlyLimits(userId: number): Promise<void>;
@@ -100,6 +101,15 @@ export class MemStorage implements IStorage {
     
     user.stripeCustomerId = customerId;
     user.stripeSubscriptionId = subscriptionId;
+    this.users.set(userId, user);
+    return user;
+  }
+
+  async updateUserProfile(userId: number, updates: Partial<Pick<User, 'avatarUrl' | 'bannerUrl' | 'bio' | 'website' | 'twitter' | 'instagram' | 'linkedin'>>): Promise<User | undefined> {
+    const user = this.users.get(userId);
+    if (!user) return undefined;
+    
+    Object.assign(user, updates);
     this.users.set(userId, user);
     return user;
   }
@@ -215,6 +225,15 @@ export class PostgresStorage implements IStorage {
     const [user] = await db
       .update(users)
       .set({ stripeCustomerId: customerId, stripeSubscriptionId: subscriptionId })
+      .where(eq(users.id, userId))
+      .returning();
+    return user;
+  }
+
+  async updateUserProfile(userId: number, updates: Partial<Pick<User, 'avatarUrl' | 'bannerUrl' | 'bio' | 'website' | 'twitter' | 'instagram' | 'linkedin'>>): Promise<User | undefined> {
+    const [user] = await db
+      .update(users)
+      .set(updates)
       .where(eq(users.id, userId))
       .returning();
     return user;
