@@ -60,11 +60,11 @@ export default function Landing() {
           {/* CTA */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/auth">
-              <Button size="lg" className="text-base px-8 group relative overflow-hidden" data-testid="button-get-started">
+              <Button size="lg" className="text-base px-8 group relative overflow-hidden" data-testid="button-get-started-free">
                 <span className="absolute inset-0 bg-gradient-to-r from-primary via-chart-2 to-primary bg-[length:200%_100%] animate-[shimmer_3s_linear_infinite] opacity-0 group-hover:opacity-100 transition-opacity" />
                 <span className="relative flex items-center">
                   <Sparkles className="w-5 h-5 mr-2" />
-                  Generate Your First LUT
+                  Get Started — Free Forever
                 </span>
               </Button>
             </Link>
@@ -97,7 +97,7 @@ export default function Landing() {
                 </div>
                 <h3 className="font-semibold text-lg">Convert & Analyze</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Convert between .cube and .3dl formats. Detect banding, invalid points, and quality issues
+                  Convert between formats and analyze LUT quality with professional-grade tools
                 </p>
               </CardContent>
             </Card>
@@ -109,7 +109,7 @@ export default function Landing() {
                 </div>
                 <h3 className="font-semibold text-lg">Pro Features</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Save unlimited presets, batch processing, Lightroom-style presets, and advanced optimization
+                  Unlimited presets, all formats, full grid sizes, and advanced batch processing
                 </p>
               </CardContent>
             </Card>
@@ -154,7 +154,7 @@ export default function Landing() {
           <div className="text-center space-y-3">
             <h2 className="text-4xl font-bold">Simple, Transparent Pricing</h2>
             <p className="text-lg text-muted-foreground">
-              Start free, upgrade when you need more power
+              Perfect for creators exploring color grading
             </p>
           </div>
           
@@ -163,8 +163,10 @@ export default function Landing() {
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
               <CardHeader className="space-y-4 pb-8">
                 <div>
-                  <CardTitle className="text-2xl">Free</CardTitle>
-                  <CardDescription className="mt-2">Full-featured, forever free</CardDescription>
+                  <CardTitle className="text-2xl flex items-center gap-2">
+                    <span className="text-3xl">🟩</span> Free
+                  </CardTitle>
+                  <CardDescription className="mt-2">Perfect for creators exploring color grading</CardDescription>
                 </div>
                 <div>
                   <span className="text-5xl font-bold">$0</span>
@@ -175,30 +177,34 @@ export default function Landing() {
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Unlimited image to LUT generation</span>
+                    <span className="text-sm">Image → LUT generation (standard quality)</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">LUT format conversion (.cube ↔ .3dl ↔ .lut)</span>
+                    <span className="text-sm">Basic LUT conversions (.cube → .3dl)</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Quality analysis & banding detection</span>
+                    <span className="text-sm">Standard grid size (17×17×17)</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Grid sizes (17x17x17, 33x33x33, 65x65x65)</span>
+                    <span className="text-sm">Banding detection (preview only)</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">All export formats & precision options</span>
+                    <span className="text-sm">Export in .cube format</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                    <span className="text-sm">Community access & feedback forum</span>
                   </div>
                 </div>
               </CardContent>
               <CardFooter>
                 <Link href="/auth" className="w-full">
                   <Button variant="outline" size="lg" className="w-full" data-testid="button-free-plan">
-                    Get Started Free
+                    Get Started — Free Forever
                   </Button>
                 </Link>
               </CardFooter>
@@ -212,14 +218,19 @@ export default function Landing() {
               <CardHeader className="space-y-4 pb-8">
                 <div className="flex items-start justify-between">
                   <div>
-                    <CardTitle className="text-2xl">Pro</CardTitle>
-                    <CardDescription className="mt-2">For professional colorists</CardDescription>
+                    <CardTitle className="text-2xl flex items-center gap-2">
+                      <span className="text-3xl">🟨</span> Pro
+                    </CardTitle>
+                    <CardDescription className="mt-2">For professional colorists and creators</CardDescription>
                   </div>
                   <Badge className="bg-gradient-to-r from-primary to-chart-2 text-primary-foreground border-0">Popular</Badge>
                 </div>
                 <div>
-                  <span className="text-5xl font-bold">$15</span>
+                  <span className="text-5xl font-bold">$12</span>
                   <span className="text-muted-foreground text-lg ml-2">/month</span>
+                  <div className="mt-2">
+                    <span className="text-sm text-muted-foreground">or $99/year</span>
+                  </div>
                 </div>
               </CardHeader>
               <CardContent className="space-y-4 pb-8">
@@ -230,11 +241,23 @@ export default function Landing() {
                   </div>
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                    <span className="text-sm">Unlimited grid sizes (17×17×17 → 65×65×65)</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                    <span className="text-sm">All LUT format conversions (.cube ↔ .3dl ↔ .lut)</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                    <span className="text-sm">Full-quality analysis & precision exports</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                     <span className="text-sm">Save & organize unlimited presets</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Access preset library dashboard</span>
+                    <span className="text-sm">Preset library dashboard</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
@@ -246,7 +269,7 @@ export default function Landing() {
                   </div>
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Priority email support</span>
+                    <span className="text-sm">Priority support</span>
                   </div>
                 </div>
               </CardContent>
@@ -259,42 +282,33 @@ export default function Landing() {
               </CardFooter>
             </Card>
 
-            {/* Studio Tier */}
+            {/* Studio Tier (Coming Soon) */}
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
               <CardHeader className="space-y-4 pb-8">
                 <div>
-                  <CardTitle className="text-2xl">Studio</CardTitle>
-                  <CardDescription className="mt-2">For teams & studios</CardDescription>
+                  <CardTitle className="text-2xl flex items-center gap-2">
+                    <span className="text-3xl">🧠</span> Studio
+                  </CardTitle>
+                  <CardDescription className="mt-2">For agencies or YouTube colorists</CardDescription>
                 </div>
                 <div>
-                  <span className="text-5xl font-bold">Custom</span>
+                  <span className="text-5xl font-bold">$25</span>
+                  <span className="text-muted-foreground text-lg ml-2">/month</span>
                 </div>
               </CardHeader>
               <CardContent className="space-y-4 pb-8">
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-muted-foreground/40 mt-0.5 shrink-0" />
-                    <span className="text-sm text-muted-foreground font-medium">Everything in Pro, plus:</span>
+                    <span className="text-sm text-muted-foreground">Custom branded LUTs</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-muted-foreground/40 mt-0.5 shrink-0" />
-                    <span className="text-sm text-muted-foreground">Video LUT processing (planned)</span>
+                    <span className="text-sm text-muted-foreground">Team preset sharing</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-muted-foreground/40 mt-0.5 shrink-0" />
-                    <span className="text-sm text-muted-foreground">Full API access (planned)</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground/40 mt-0.5 shrink-0" />
-                    <span className="text-sm text-muted-foreground">Team collaboration (planned)</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground/40 mt-0.5 shrink-0" />
-                    <span className="text-sm text-muted-foreground">Priority support (planned)</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground/40 mt-0.5 shrink-0" />
-                    <span className="text-sm text-muted-foreground">Custom integrations (planned)</span>
+                    <span className="text-sm text-muted-foreground">Early access to experimental AI grading features</span>
                   </div>
                 </div>
               </CardContent>

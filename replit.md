@@ -89,10 +89,10 @@ Preferred communication style: Simple, everyday language.
 - **UI/UX**: Cinematic color grading aesthetic with gradient effects, animated color orbs, film grain overlays, chromatic aberration on headings, backdrop blur cards, and professional visual hierarchy.
 - **Navigation Architecture**: Hub-and-spoke model with Image-to-LUT generation (`/generate`) as the main entry point, utility tools consolidated on `/tools` page with tabs, and user workspace on `/dashboard`. Streamlined navigation: Home | Generate | Tools | Dashboard.
 - **Pricing Strategy**: 
-    - **Free Tier**: All core features unlimited (image to LUT, conversion between all formats, analysis, all grid sizes, all precisions). No usage limits or watermarks.
-    - **Pro Tier ($15/month)**: Adds preset saving/organization, dashboard access, Lightroom-style presets (coming), batch processing (coming), priority support.
-    - **Studio Tier (Custom pricing)**: All Pro features plus video LUT processing, .aml multilayer support, API access, team collaboration, custom integrations, dedicated support.
-    - Signup encouraged for preset management and tracking, but not required for core functionality.
+    - **Free Tier ($0/forever)**: Standard quality features - Image→LUT generation (17×17×17 grid), basic conversions (.cube→.3dl), banding detection (preview only), export in .cube format, community access. Perfect for creators exploring color grading.
+    - **Pro Tier ($12/month or $99/year)**: Everything in Free plus - Unlimited grid sizes (17×17×17→65×65×65), all format conversions (.cube↔.3dl↔.lut), full-quality analysis & precision exports, save & organize unlimited presets, preset library dashboard, Lightroom-style presets (coming), batch processing (coming), priority support.
+    - **Studio Add-on ($25/month, coming soon)**: For agencies or YouTube colorists - Custom branded LUTs, team preset sharing, early access to experimental AI grading features.
+    - Authentication required for all features. Stripe integration handles Pro subscriptions with automatic tier upgrades via webhooks.
 - **Technical Implementations**: 
   - Image-to-LUT generation uses authentic color science extraction with zone-based analysis
   - All LUT operations use industry-standard blue-fastest indexing (index = r×size² + g×size + b)
@@ -100,11 +100,11 @@ Preferred communication style: Simple, everyday language.
   - Server-side validation enforced for all LUT operations
   - Real-time preview with intensity control
 - **Feature Specifications**:
-    - **Image to LUT**: Authentic color extraction, zone-based analysis (shadows/midtones/highlights), intensity control (0-100%), grid size selection (17/33/65), format output (.cube/.3dl/.lut), precision (8/10/12-bit), optional preview generation.
-    - **LUT Conversion**: Multi-format support (.cube ↔ .3dl ↔ .lut), grid resampling with trilinear interpolation, format auto-detection, precision preservation.
-    - **LUT Analysis**: Quality scoring, banding detection algorithm, invalid point detection, out-of-range value reporting, RGB statistics (min/max/avg), format validation.
-    - **Authentication**: Username/password with bcrypt hashing, session management, tier-based feature access.
-    - **Preset Management**: Unlimited preset saving (Pro tier), organize by project/style, apply to conversion, download in any format, metadata tracking.
+    - **Image to LUT**: Authentic color extraction, zone-based analysis (shadows/midtones/highlights), intensity control (0-100%), grid size selection (Free: 17 only, Pro: 17/33/65), format output (Free: .cube only, Pro: .cube/.3dl/.lut), precision (8/10/12-bit), optional preview generation.
+    - **LUT Conversion**: Format support (Free: .cube→.3dl basic, Pro: .cube↔.3dl↔.lut full), grid resampling with trilinear interpolation (Pro only for all sizes), format auto-detection, precision preservation.
+    - **LUT Analysis**: Quality scoring, banding detection (Free: preview only, Pro: full analysis), invalid point detection, out-of-range value reporting, RGB statistics (min/max/avg), format validation.
+    - **Authentication**: Username/password with bcrypt hashing, session management, tier-based feature access enforced at middleware level.
+    - **Preset Management**: Preset saving (Free: 0, Pro: unlimited), organize by project/style, apply to conversion, download in any format, metadata tracking.
 
 ## External Dependencies
 

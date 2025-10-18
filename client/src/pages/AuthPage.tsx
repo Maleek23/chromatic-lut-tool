@@ -99,7 +99,7 @@ export default function AuthPage() {
                 <Card className="border-muted/50 bg-card/80 backdrop-blur-sm shadow-2xl">
                   <CardHeader>
                     <CardTitle className="text-2xl">Start Free Forever</CardTitle>
-                    <CardDescription>Unlimited core features. No credit card required.</CardDescription>
+                    <CardDescription>No credit card required. Start creating now.</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <form onSubmit={handleRegister} className="space-y-4">
@@ -237,11 +237,11 @@ export default function AuthPage() {
               </div>
               <h2 className="text-4xl font-bold mb-3">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
-                  Professional Toolkit
+                  Free Toolkit
                 </span>
               </h2>
               <p className="text-muted-foreground text-lg">
-                Everything included in your free account
+                Included with your free account
               </p>
             </div>
 
@@ -252,7 +252,7 @@ export default function AuthPage() {
                   <Sparkles className="w-6 h-6 text-primary" />
                   Free Forever
                 </CardTitle>
-                <CardDescription className="text-base">No limits on core features</CardDescription>
+                <CardDescription className="text-base">No limits on essentials</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-start gap-3">
@@ -260,8 +260,8 @@ export default function AuthPage() {
                     <Check className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <p className="font-semibold">Unlimited Image to LUT</p>
-                    <p className="text-sm text-muted-foreground">Extract authentic color science from any image</p>
+                    <p className="font-semibold">Image to LUT Generation</p>
+                    <p className="text-sm text-muted-foreground">Standard quality (17×17×17)</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -269,8 +269,8 @@ export default function AuthPage() {
                     <Check className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <p className="font-semibold">Unlimited Format Conversion</p>
-                    <p className="text-sm text-muted-foreground">.cube ↔ .3dl ↔ .lut with any grid size</p>
+                    <p className="font-semibold">Basic Format Conversion</p>
+                    <p className="text-sm text-muted-foreground">.cube → .3dl conversions</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -278,8 +278,8 @@ export default function AuthPage() {
                     <Check className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <p className="font-semibold">Unlimited Quality Analysis</p>
-                    <p className="text-sm text-muted-foreground">Detect banding, validation, and metrics</p>
+                    <p className="font-semibold">Banding Detection</p>
+                    <p className="text-sm text-muted-foreground">Preview quality analysis</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -287,8 +287,8 @@ export default function AuthPage() {
                     <Check className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <p className="font-semibold">All Grid Sizes & Precisions</p>
-                    <p className="text-sm text-muted-foreground">17×17×17, 33×33×33, 65×65×65 in 8/10/12-bit</p>
+                    <p className="font-semibold">Export in .cube Format</p>
+                    <p className="text-sm text-muted-foreground">All precision options (8/10/12-bit)</p>
                   </div>
                 </div>
               </CardContent>
@@ -304,24 +304,30 @@ export default function AuthPage() {
                   <Zap className="w-6 h-6 text-primary" />
                   <CardTitle className="text-2xl">Unlock Pro</CardTitle>
                 </div>
-                <CardDescription className="text-base">$15/month for power users</CardDescription>
+                <CardDescription className="text-base">
+                  $12/month or $99/year for power users
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3 relative">
+                <div className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                  <span className="text-sm font-medium">All grid sizes (17×17×17 → 65×65×65)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                  <span className="text-sm font-medium">All format conversions (.cube ↔ .3dl ↔ .lut)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                  <span className="text-sm font-medium">Full-quality analysis & precision exports</span>
+                </div>
                 <div className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-primary flex-shrink-0" />
                   <span className="text-sm font-medium">Unlimited preset saving & organization</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-primary flex-shrink-0" />
-                  <span className="text-sm font-medium">Dashboard workspace</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-primary flex-shrink-0" />
-                  <span className="text-sm font-medium">Batch processing (coming soon)</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-primary flex-shrink-0" />
-                  <span className="text-sm font-medium">Priority email support</span>
+                  <span className="text-sm font-medium">Priority support</span>
                 </div>
               </CardContent>
             </Card>

@@ -87,10 +87,10 @@ export default function Dashboard() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Zap className="w-5 h-5 text-primary" />
-              Unlock Preset Saving with Pro
+              Unlock Pro Features
             </CardTitle>
             <CardDescription>
-              Save unlimited LUTs, organize your preset library, and get priority support for $15/month
+              Get unlimited grid sizes, all formats, full analysis, unlimited preset saving, and priority support for $12/month
             </CardDescription>
           </CardHeader>
           <CardContent>
