@@ -35,13 +35,14 @@ export default function AuthPage() {
       <div className="flex items-center justify-center p-8">
         <div className="w-full max-w-md space-y-6">
           <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight mb-4 group cursor-default inline-block">
-              <span className="inline-block text-foreground transition-all duration-700 ease-out group-hover:-translate-x-1.5">UN</span>
-              <span className="inline-block text-primary text-5xl mx-0.5 transition-all duration-700 ease-out group-hover:scale-115 group-hover:mx-2">
+            <h1 className="text-4xl font-bold tracking-tight mb-2 group cursor-default inline-block">
+              <span className="inline-block text-foreground transition-all duration-700 ease-in-out group-hover:translate-x-2 group-hover:opacity-50">UN</span>
+              <span className="inline-block text-primary text-5xl mx-0.5 transition-all duration-700 ease-in-out group-hover:scale-125 group-hover:rotate-180">
                 /
               </span>
-              <span className="inline-block text-foreground transition-all duration-700 ease-out group-hover:translate-x-1.5">TITLD</span>
+              <span className="inline-block text-foreground transition-all duration-700 ease-in-out group-hover:-translate-x-2 group-hover:opacity-50">TITLD</span>
             </h1>
+            <p className="text-sm font-medium text-primary mb-2">CHROMATIC</p>
             <p className="text-muted-foreground">
               Professional LUT toolkit for colorists
             </p>

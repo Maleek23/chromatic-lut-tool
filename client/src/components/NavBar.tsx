@@ -16,11 +16,11 @@ export function NavBar() {
         <Link href="/">
           <Button variant="ghost" className="hover-elevate px-3 group" data-testid="button-home">
             <div className="flex items-center gap-0 font-bold text-xl tracking-tight">
-              <span className="text-foreground transition-all duration-500 ease-out group-hover:-translate-x-1">UN</span>
-              <span className="text-primary text-2xl mx-0.5 transition-all duration-500 ease-out group-hover:scale-110 group-hover:mx-1.5">
+              <span className="text-foreground transition-all duration-500 ease-in-out group-hover:translate-x-1 group-hover:opacity-60">UN</span>
+              <span className="text-primary text-2xl mx-0.5 transition-all duration-500 ease-in-out group-hover:scale-125 group-hover:rotate-180">
                 /
               </span>
-              <span className="text-foreground transition-all duration-500 ease-out group-hover:translate-x-1">TITLD</span>
+              <span className="text-foreground transition-all duration-500 ease-in-out group-hover:-translate-x-1 group-hover:opacity-60">TITLD</span>
             </div>
           </Button>
         </Link>

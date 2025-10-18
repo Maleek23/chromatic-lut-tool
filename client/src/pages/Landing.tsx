@@ -23,12 +23,15 @@ export default function Landing() {
         <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
           <div className="space-y-4">
             <h1 className="text-6xl font-bold tracking-tight mb-4 group cursor-default inline-block">
-              <span className="inline-block text-foreground transition-all duration-700 ease-out group-hover:-translate-x-2">UN</span>
-              <span className="inline-block text-primary text-7xl mx-1 transition-all duration-700 ease-out group-hover:scale-125 group-hover:mx-3">
+              <span className="inline-block text-foreground transition-all duration-700 ease-in-out group-hover:translate-x-3 group-hover:opacity-50">UN</span>
+              <span className="inline-block text-primary text-7xl mx-1 transition-all duration-700 ease-in-out group-hover:scale-150 group-hover:rotate-180 group-hover:drop-shadow-[0_0_12px_rgba(var(--primary),0.5)]">
                 /
               </span>
-              <span className="inline-block text-foreground transition-all duration-700 ease-out group-hover:translate-x-2">TITLD</span>
+              <span className="inline-block text-foreground transition-all duration-700 ease-in-out group-hover:-translate-x-3 group-hover:opacity-50">TITLD</span>
             </h1>
+            <div className="inline-block px-4 py-1 bg-primary/10 backdrop-blur-sm rounded-full border border-primary/20 mb-2">
+              <span className="text-sm font-medium text-primary">CHROMATIC</span>
+            </div>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Professional LUT conversion and optimization toolkit. Convert between formats, 
               detect banding, smooth transitions, and optimize your color grading files.
