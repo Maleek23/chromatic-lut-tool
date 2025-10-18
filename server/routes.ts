@@ -13,6 +13,13 @@ import { requireAuth, requireTier } from "./middleware/tierGuard";
 import { dynamicRateLimiter } from "./middleware/rateLimiter";
 import { hasFeature, canConvert } from "./middleware/validation";
 
+// Helper to normalize format strings for file extensions
+const EXTENSION_MAP = {
+  cube: ".cube",
+  "3dl": ".3dl",
+  lut: ".lut"
+} as const;
+
 // Configure multer with file validation
 const upload = multer({ 
   storage: multer.memoryStorage(),
@@ -351,7 +358,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         imageBuffer,
         parseInt(gridSize),
         intensity,
-        format,
+        EXTENSION_MAP[format as keyof typeof EXTENSION_MAP] || ".cube",
         undefined, // No advanced controls - extract from image
         precision
       );
@@ -490,7 +497,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
               imageBuffer,
               parseInt(gridSize),
               intensity,
-              format,
+              EXTENSION_MAP[format as keyof typeof EXTENSION_MAP] || ".cube",
               controls,
               precision
             );

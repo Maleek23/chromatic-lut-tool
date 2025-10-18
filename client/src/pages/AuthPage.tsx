@@ -7,12 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Check, Zap, Film, Sparkles, Palette } from "lucide-react";
+import { Check, Zap, Film, Sparkles, Palette, Crown, ArrowRight } from "lucide-react";
 
 export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
   const [loginData, setLoginData] = useState({ username: "", password: "" });
-  const [registerData, setRegisterData] = useState({ username: "", password: "", email: "" });
+  const [registerData, setRegisterData] = useState({ username: "", password: "", email: "", tier: "free" });
 
   if (user) {
     return <Redirect to="/generate" />;
@@ -87,11 +87,84 @@ export default function AuthPage() {
               <TabsContent value="register" className="mt-6">
                 <Card className="border-muted/50 bg-card/80 backdrop-blur-sm shadow-2xl">
                   <CardHeader>
-                    <CardTitle className="text-2xl">Start Free Forever</CardTitle>
-                    <CardDescription>No credit card required. Start creating now.</CardDescription>
+                    <CardTitle className="text-2xl">Choose Your Tier</CardTitle>
+                    <CardDescription>Select a plan and create your account</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <form onSubmit={handleRegister} className="space-y-4">
+                      {/* Tier Selection */}
+                      <div className="space-y-3">
+                        <Label>Select Your Plan</Label>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div
+                            onClick={() => setRegisterData({ ...registerData, tier: "free" })}
+                            data-testid="tier-card-free"
+                            className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                              registerData.tier === "free"
+                                ? "border-primary bg-primary/5"
+                                : "border-muted hover:border-muted-foreground/50"
+                            }`}
+                          >
+                            <div className="flex items-center gap-2 mb-2">
+                              <Sparkles className="w-4 h-4 text-primary" />
+                              <span className="font-semibold">Free</span>
+                            </div>
+                            <p className="text-xs text-muted-foreground">$0/forever</p>
+                            <p className="text-xs text-muted-foreground mt-1">Image to LUT, basic tools</p>
+                          </div>
+
+                          <div
+                            onClick={() => setRegisterData({ ...registerData, tier: "creator" })}
+                            data-testid="tier-card-creator"
+                            className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                              registerData.tier === "creator"
+                                ? "border-blue-500 bg-blue-500/5"
+                                : "border-muted hover:border-muted-foreground/50"
+                            }`}
+                          >
+                            <div className="flex items-center gap-2 mb-2">
+                              <ArrowRight className="w-4 h-4 text-blue-500" />
+                              <span className="font-semibold">Creator</span>
+                            </div>
+                            <p className="text-xs text-muted-foreground">$7/month</p>
+                            <p className="text-xs text-muted-foreground mt-1">+ Converter, 33×33 grid</p>
+                          </div>
+
+                          <div
+                            onClick={() => setRegisterData({ ...registerData, tier: "pro" })}
+                            data-testid="tier-card-pro"
+                            className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                              registerData.tier === "pro"
+                                ? "border-purple-500 bg-purple-500/5"
+                                : "border-muted hover:border-muted-foreground/50"
+                            }`}
+                          >
+                            <div className="flex items-center gap-2 mb-2">
+                              <Zap className="w-4 h-4 text-purple-500" />
+                              <span className="font-semibold">Pro</span>
+                            </div>
+                            <p className="text-xs text-muted-foreground">$12/month</p>
+                            <p className="text-xs text-muted-foreground mt-1">All tools, unlimited</p>
+                          </div>
+
+                          <div
+                            data-testid="tier-card-studio-disabled"
+                            className="p-4 rounded-lg border-2 border-muted opacity-50 cursor-not-allowed"
+                          >
+                            <div className="flex items-center gap-2 mb-2">
+                              <Crown className="w-4 h-4 text-yellow-500" />
+                              <span className="font-semibold">Studio</span>
+                            </div>
+                            <p className="text-xs text-muted-foreground">Coming Soon</p>
+                            <p className="text-xs text-muted-foreground mt-1">Team features</p>
+                          </div>
+                        </div>
+                        {registerData.tier !== "free" && (
+                          <p className="text-xs text-muted-foreground bg-muted/50 p-3 rounded-lg">
+                            💳 You'll be redirected to payment after signup
+                          </p>
+                        )}
+                      </div>
                       <div className="space-y-2">
                         <Label htmlFor="register-username">Username</Label>
                         <Input

@@ -95,8 +95,19 @@ export function setupAuth(app: Express) {
       });
     }
 
+    // Validate tier selection
+    const tier = req.body.tier || "free";
+    const allowedTiers = ["free", "creator", "pro"];
+    if (!allowedTiers.includes(tier)) {
+      return res.status(400).json({ 
+        error: "Invalid tier selection",
+        details: "Studio tier is coming soon. Please choose Free, Creator, or Pro." 
+      });
+    }
+
     const user = await storage.createUser({
       ...req.body,
+      tier,
       password: await hashPassword(req.body.password),
     });
 
