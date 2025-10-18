@@ -36,6 +36,13 @@ export const insertUserSchema = createInsertSchema(users).omit({
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 
+// Session Table Schema (for express-session)
+export const session = pgTable("session", {
+  sid: text("sid").primaryKey(),
+  sess: text("sess").notNull(),
+  expire: timestamp("expire").notNull(),
+});
+
 // Preset Table Schema (for user-saved presets)
 export const presets = pgTable("presets", {
   id: serial("id").primaryKey(),
