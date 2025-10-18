@@ -375,18 +375,8 @@ export default function Landing() {
             </Card>
           </div>
 
-          {/* Learn More Button */}
-          <div className="mt-8 flex justify-center">
-            <Button variant="outline" size="lg" className="backdrop-blur-sm" asChild>
-              <Link href="/tools">
-                <Lightbulb className="w-5 h-5 mr-2" />
-                Learn More About Our Tools
-              </Link>
-            </Button>
-          </div>
-
           {/* Color spectrum visualization */}
-          <div className="mt-24 relative">
+          <div className="mt-16 relative">
             <div className="flex gap-1 justify-center h-20 items-end opacity-40">
               {[...Array(32)].map((_, i) => (
                 <div
