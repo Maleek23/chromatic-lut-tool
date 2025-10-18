@@ -444,7 +444,11 @@ export default function Landing() {
                   </div>
                   <div className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs text-muted-foreground">17×17×17 grid, .cube format</span>
+                    <span className="text-xs text-muted-foreground">17×17×17 grid</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                    <span className="text-xs text-muted-foreground">.cube format only</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
@@ -481,12 +485,8 @@ export default function Landing() {
               <CardContent className="space-y-3 pb-6">
                 <div className="space-y-2">
                   <div className="flex items-start gap-2">
-                    <Sparkles className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold">Image to LUT Generator</span>
-                  </div>
-                  <div className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs text-muted-foreground">Up to 33×33×33 grid</span>
+                    <span className="text-xs font-semibold">Everything in Free</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <ArrowRight className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
@@ -494,7 +494,15 @@ export default function Landing() {
                   </div>
                   <div className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs text-muted-foreground">20-30 presets, priority queue</span>
+                    <span className="text-xs text-muted-foreground">Up to 33×33×33 grid</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                    <span className="text-xs text-muted-foreground">20-30 presets</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                    <span className="text-xs text-muted-foreground">Priority queue</span>
                   </div>
                 </div>
               </CardContent>
@@ -533,16 +541,8 @@ export default function Landing() {
               <CardContent className="space-y-3 pb-6">
                 <div className="space-y-2">
                   <div className="flex items-start gap-2">
-                    <Sparkles className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold">Image to LUT Generator</span>
-                  </div>
-                  <div className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs text-muted-foreground">All grids (→65×65×65), all formats</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <ArrowRight className="w-4 h-4 text-chart-2 mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold">+ LUT Converter</span>
+                    <span className="text-xs font-semibold">Everything in Creator</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <TrendingUp className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
@@ -554,7 +554,15 @@ export default function Landing() {
                   </div>
                   <div className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs text-muted-foreground">Unlimited presets, batch processing</span>
+                    <span className="text-xs text-muted-foreground">All grids (→65×65×65)</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                    <span className="text-xs text-muted-foreground">All formats (.cube/.3dl/.lut)</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                    <span className="text-xs text-muted-foreground">Unlimited presets</span>
                   </div>
                 </div>
               </CardContent>
@@ -597,6 +605,10 @@ export default function Landing() {
                   <div className="flex items-start gap-2">
                     <Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" />
                     <span className="text-xs font-semibold text-yellow-600 dark:text-yellow-500">Team sharing</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" />
+                    <span className="text-xs font-semibold text-yellow-600 dark:text-yellow-500">Batch processing</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" />
