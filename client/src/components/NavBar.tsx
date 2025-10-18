@@ -92,7 +92,7 @@ export function NavBar() {
         <Link href="/">
           <Button variant="ghost" className="hover-elevate px-2 sm:px-3" data-testid="button-home">
             <div className="flex items-center gap-2 sm:gap-3">
-              <img src={logoImage} alt="Chroma" className="w-7 h-7 sm:w-8 sm:h-8" />
+              <img src={logoImage} alt="Chroma" className="w-11 h-11 sm:w-12 sm:h-12" />
               <div className="flex flex-col items-start leading-none">
                 <span className="font-bold text-lg sm:text-xl tracking-tight">CHROMA</span>
                 <div className="hidden sm:flex items-center gap-0 text-[10px] font-medium text-muted-foreground group">
