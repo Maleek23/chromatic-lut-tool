@@ -30,14 +30,14 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Animated gradient background */}
-      <div className="absolute inset-0 z-0">
+      {/* Animated gradient background - matching landing page */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
         
-        {/* Animated color orbs */}
-        <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '8s' }} />
+        {/* Animated color orbs - matching landing page timing */}
+        <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
         <div className="absolute bottom-1/3 left-1/4 w-[400px] h-[400px] bg-chart-2/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
-        <div className="absolute top-1/2 right-1/3 w-[350px] h-[350px] bg-chart-3/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '10s', animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-chart-3/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '2s' }} />
         
         {/* Film grain overlay */}
         <div className="absolute inset-0 opacity-[0.015] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuNSIvPjwvc3ZnPg==')]" />
@@ -47,31 +47,20 @@ export default function AuthPage() {
         {/* Left Column - Forms */}
         <div className="flex items-center justify-center p-8">
           <div className="w-full max-w-md space-y-8">
-            {/* Cinematic Header */}
-            <div className="text-center space-y-6">
-              <div className="relative inline-block">
-                {/* Chromatic aberration effect on title */}
-                <h1 className="text-6xl md:text-7xl font-bold tracking-tight relative">
-                  <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-red-500/30 via-transparent to-transparent blur-sm translate-x-[-3px]">
-                    CHROMA
-                  </span>
-                  <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-transparent via-transparent to-blue-500/30 blur-sm translate-x-[3px]">
-                    CHROMA
-                  </span>
-                  <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
-                    CHROMA
-                  </span>
-                </h1>
-              </div>
+            {/* Branding Header - matching landing page */}
+            <div className="text-center space-y-4">
+              <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
+                CHROMA
+              </h1>
               
               <div className="flex items-center justify-center gap-0 text-sm font-medium text-muted-foreground group cursor-default">
-                <span className="transition-all duration-700 ease-in-out group-hover:translate-x-4 group-hover:opacity-0 group-hover:scale-0">by UN</span>
-                <span className="text-primary mx-1 text-lg transition-all duration-700 ease-in-out group-hover:scale-150 group-hover:rotate-[360deg]">/</span>
-                <span className="transition-all duration-700 ease-in-out group-hover:-translate-x-4 group-hover:opacity-0 group-hover:scale-0">TITLD</span>
+                <span className="transition-all duration-700 ease-in-out group-hover:translate-x-4 group-hover:opacity-0">by UN</span>
+                <span className="text-primary mx-1 text-lg transition-all duration-700 ease-in-out group-hover:scale-150 group-hover:rotate-180">/</span>
+                <span className="transition-all duration-700 ease-in-out group-hover:-translate-x-4 group-hover:opacity-0">TITLD</span>
               </div>
               
-              <p className="text-muted-foreground text-lg">
-                Professional LUT toolkit for <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-chart-2 to-chart-3 font-semibold">cinematographers</span> and <span className="text-transparent bg-clip-text bg-gradient-to-r from-chart-3 via-chart-2 to-primary font-semibold">colorists</span>
+              <p className="text-muted-foreground text-base max-w-md mx-auto">
+                Extract <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-chart-2 to-chart-3 font-semibold">authentic color grading</span> from any reference image
               </p>
             </div>
 
