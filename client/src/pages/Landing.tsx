@@ -407,7 +407,7 @@ export default function Landing() {
         </div>
 
         {/* Pricing Section - positioned at the divider */}
-        <div className="max-w-6xl mx-auto space-y-8 relative z-10 px-4 mt-16">
+        <div className="max-w-6xl mx-auto space-y-8 relative z-10 px-4 mt-32">
           {/* Film strip divider borders */}
           <div className="absolute left-0 top-0 w-8 h-16 opacity-5">
             {[...Array(3)].map((_, i) => (
@@ -419,7 +419,7 @@ export default function Landing() {
               <div key={i} className="h-12 border-2 border-foreground mb-2" />
             ))}
           </div>
-          <div className="text-center space-y-3">
+          <div className="text-center space-y-3 pt-8">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Choose Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-chart-2 to-chart-3">Tier</span></h2>
             <p className="text-sm sm:text-base md:text-lg text-muted-foreground">
               Each tier unlocks powerful tools. Start free, upgrade when you're ready.
