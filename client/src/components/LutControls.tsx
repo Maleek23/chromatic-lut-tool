@@ -19,10 +19,6 @@ interface LutControlsProps {
   onPrecisionChange: (value: "8" | "10" | "12") => void;
   exportPreview: boolean;
   onExportPreviewChange: (value: boolean) => void;
-  lutType: "creative" | "technical" | "cinematic" | "neutral";
-  onLutTypeChange: (value: "creative" | "technical" | "cinematic" | "neutral") => void;
-  lutPurpose: "color-correction" | "look" | "grading" | "matching";
-  onLutPurposeChange: (value: "color-correction" | "look" | "grading" | "matching") => void;
   onGenerate: () => void;
   isGenerating: boolean;
   hideGenerate?: boolean;
@@ -39,10 +35,6 @@ export function LutControls({
   onPrecisionChange,
   exportPreview,
   onExportPreviewChange,
-  lutType,
-  onLutTypeChange,
-  lutPurpose,
-  onLutPurposeChange,
   onGenerate,
   isGenerating,
   hideGenerate = false,
@@ -51,60 +43,11 @@ export function LutControls({
     <Card>
       <CardHeader className="space-y-0 pb-4">
         <CardTitle className="text-lg">LUT Generation Settings</CardTitle>
+        <p className="text-xs text-muted-foreground mt-2">
+          Authentic color extraction from your reference image
+        </p>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* LUT Type */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <Label htmlFor="lut-type">LUT Type</Label>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <HelpCircle className="w-3.5 h-3.5 text-muted-foreground cursor-help" />
-              </TooltipTrigger>
-              <TooltipContent side="right" className="max-w-xs">
-                <p>Creative: Stylized looks • Technical: Accurate color science • Cinematic: Film-like grades • Neutral: Minimal color shift</p>
-              </TooltipContent>
-            </Tooltip>
-          </div>
-          <Select value={lutType} onValueChange={(value) => onLutTypeChange(value as "creative" | "technical" | "cinematic" | "neutral")}>
-            <SelectTrigger id="lut-type" data-testid="select-lut-type">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="creative">Creative</SelectItem>
-              <SelectItem value="technical">Technical</SelectItem>
-              <SelectItem value="cinematic">Cinematic</SelectItem>
-              <SelectItem value="neutral">Neutral</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* LUT Purpose */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <Label htmlFor="lut-purpose">LUT Purpose</Label>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <HelpCircle className="w-3.5 h-3.5 text-muted-foreground cursor-help" />
-              </TooltipTrigger>
-              <TooltipContent side="right" className="max-w-xs">
-                <p>Color Correction: Fix white balance • Look: Creative style • Grading: Final color treatment • Matching: Match reference footage</p>
-              </TooltipContent>
-            </Tooltip>
-          </div>
-          <Select value={lutPurpose} onValueChange={(value) => onLutPurposeChange(value as "color-correction" | "look" | "grading" | "matching")}>
-            <SelectTrigger id="lut-purpose" data-testid="select-lut-purpose">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="color-correction">Color Correction</SelectItem>
-              <SelectItem value="look">Creative Look</SelectItem>
-              <SelectItem value="grading">Final Grading</SelectItem>
-              <SelectItem value="matching">Reference Matching</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
         {/* Intensity Slider */}
         <div className="space-y-3">
           <div className="flex justify-between items-center">

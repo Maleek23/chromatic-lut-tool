@@ -22,8 +22,6 @@ export default function Tool() {
   const [format, setFormat] = useState<"cube" | "3dl">("cube");
   const [precision, setPrecision] = useState<"8" | "10" | "12">("10");
   const [exportPreview, setExportPreview] = useState(false);
-  const [lutType, setLutType] = useState<"creative" | "technical" | "cinematic" | "neutral">("creative");
-  const [lutPurpose, setLutPurpose] = useState<"color-correction" | "look" | "grading" | "matching">("look");
   
   const [isGenerating, setIsGenerating] = useState(false);
   const [lutResult, setLutResult] = useState<LutResponse | null>(null);
@@ -167,8 +165,6 @@ export default function Tool() {
           format,
           precision,
           exportPreview,
-          lutType,
-          lutPurpose,
         }),
       });
 
@@ -206,8 +202,6 @@ export default function Tool() {
     setFormat("cube");
     setPrecision("10");
     setExportPreview(false);
-    setLutType("creative");
-    setLutPurpose("look");
   };
 
   return (
@@ -341,10 +335,6 @@ export default function Tool() {
                     onPrecisionChange={setPrecision}
                     exportPreview={exportPreview}
                     onExportPreviewChange={setExportPreview}
-                    lutType={lutType}
-                    onLutTypeChange={setLutType}
-                    lutPurpose={lutPurpose}
-                    onLutPurposeChange={setLutPurpose}
                     onGenerate={handleGenerateLut}
                     isGenerating={isGenerating}
                   />
