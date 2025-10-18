@@ -586,7 +586,8 @@ export default function Landing() {
             </Card>
 
             {/* Studio Tier */}
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-yellow-500/20">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-yellow-500/20 relative opacity-90">
+              <Badge className="absolute top-3 right-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-[10px] px-2 py-0.5 border-0">Coming Soon</Badge>
               <CardHeader className="space-y-3 pb-6">
                 <div>
                   <CardTitle className="text-xl flex items-center gap-2">
@@ -627,11 +628,9 @@ export default function Landing() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Link href="/upgrade" className="w-full">
-                  <Button className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:opacity-90" data-testid="button-studio-plan">
-                    Upgrade
-                  </Button>
-                </Link>
+                <Button disabled className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 opacity-60 cursor-not-allowed" data-testid="button-studio-plan">
+                  Coming Soon
+                </Button>
               </CardFooter>
             </Card>
           </div>
