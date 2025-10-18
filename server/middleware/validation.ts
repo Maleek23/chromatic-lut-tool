@@ -25,6 +25,7 @@ export function validatePassword(password: string): { valid: boolean; errors: st
 // File size limits based on tier (in bytes)
 export const FILE_SIZE_LIMITS = {
   free: 5 * 1024 * 1024, // 5MB
+  creator: 25 * 1024 * 1024, // 25MB
   pro: 50 * 1024 * 1024, // 50MB
   studio: 500 * 1024 * 1024, // 500MB
 };
@@ -49,10 +50,49 @@ export const TIER_FEATURES = {
     },
     
     // Presets
-    savedPresets: 0, // Cannot save presets
+    savedPresets: 3, // 1-3 presets saved
     
     // Batch
     batchSize: 1,
+    
+    // Special Features
+    folderOrganization: false,
+    priorityQueue: false,
+    lightroomPresets: false,
+    customBranding: false,
+    teamSharing: false,
+    aiGrading: false,
+  },
+  creator: {
+    // Creator/Plus tier ($6-7/mo)
+    gridSizes: ["17", "33"], // Up to 33x33x33
+    outputFormats: ["cube"], // Still .cube only
+    precision: ["8", "10", "12"],
+    
+    // Conversion - Same as free
+    conversionSourceFormats: ["cube"],
+    conversionDestFormats: ["3dl"],
+    
+    // Analysis
+    analysisFeatures: {
+      bandingDetection: true,
+      fullAnalysis: false,
+      qualityMetrics: false,
+    },
+    
+    // Presets
+    savedPresets: 30, // 20-30 presets
+    
+    // Batch
+    batchSize: 3, // Small batch
+    
+    // Special Features
+    folderOrganization: true,
+    priorityQueue: true,
+    lightroomPresets: true, // Early access
+    customBranding: false,
+    teamSharing: false,
+    aiGrading: false,
   },
   pro: {
     // LUT Generation
@@ -75,10 +115,18 @@ export const TIER_FEATURES = {
     savedPresets: Infinity, // Unlimited presets
     
     // Batch
-    batchSize: 10,
+    batchSize: 10, // Batch processing
+    
+    // Special Features
+    folderOrganization: true,
+    priorityQueue: true,
+    lightroomPresets: true,
+    customBranding: false,
+    teamSharing: false,
+    aiGrading: false,
   },
   studio: {
-    // Everything in Pro, plus:
+    // Everything in Pro, plus enterprise features
     gridSizes: ["17", "33", "65"],
     outputFormats: ["cube", "3dl", "lut"],
     precision: ["8", "10", "12"],
@@ -91,11 +139,19 @@ export const TIER_FEATURES = {
     },
     savedPresets: Infinity,
     batchSize: Infinity,
+    
+    // Special Features
+    folderOrganization: true,
+    priorityQueue: true,
+    lightroomPresets: true,
+    customBranding: true, // Custom branded LUTs
+    teamSharing: true, // Team preset sharing
+    aiGrading: true, // AI grading features
   },
 };
 
 // Helper to check if a feature is available for a tier
-export function hasFeature(tier: "free" | "pro" | "studio", feature: string, value?: string): boolean {
+export function hasFeature(tier: "free" | "creator" | "pro" | "studio", feature: string, value?: string): boolean {
   const features = TIER_FEATURES[tier];
   
   if (feature === "gridSize") {
@@ -122,7 +178,7 @@ export function hasFeature(tier: "free" | "pro" | "studio", feature: string, val
 }
 
 // Helper to validate conversion is allowed for tier
-export function canConvert(tier: "free" | "pro" | "studio", sourceFormat: string, destFormat: string): boolean {
+export function canConvert(tier: "free" | "creator" | "pro" | "studio", sourceFormat: string, destFormat: string): boolean {
   const features = TIER_FEATURES[tier];
   return features.conversionSourceFormats.includes(sourceFormat) && 
          features.conversionDestFormats.includes(destFormat);

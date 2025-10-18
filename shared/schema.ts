@@ -8,8 +8,8 @@ export const users = pgTable("users", {
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
   email: text("email"),
-  tier: text("tier").notNull().default("free"), // 'free', 'pro', 'studio'
-  tierExpiresAt: timestamp("tier_expires_at"), // Null for free tier, set for pro/studio
+  tier: text("tier").notNull().default("free"), // 'free', 'creator', 'pro', 'studio'
+  tierExpiresAt: timestamp("tier_expires_at"), // Null for free tier, set for paid tiers
   stripeCustomerId: text("stripe_customer_id"),
   stripeSubscriptionId: text("stripe_subscription_id"),
   conversionsThisMonth: integer("conversions_this_month").notNull().default(0),

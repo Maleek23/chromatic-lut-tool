@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { User } from "@shared/schema";
 
-export type Tier = "free" | "pro" | "studio";
+export type Tier = "free" | "creator" | "pro" | "studio";
 
 const TIER_HIERARCHY: Record<Tier, number> = {
   free: 0,
-  pro: 1,
-  studio: 2,
+  creator: 1,
+  pro: 2,
+  studio: 3,
 };
 
 export function hasTier(userTier: string, requiredTier: Tier): boolean {
