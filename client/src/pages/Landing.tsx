@@ -258,7 +258,7 @@ export default function Landing() {
   return (
     <div className="min-h-screen flex flex-col overflow-hidden">
       {/* Hero Section */}
-      <section className="relative flex-1 flex items-center justify-center px-6 py-32">
+      <section className="relative flex-1 flex items-center justify-center px-4 sm:px-6 py-16 sm:py-24 md:py-32">
         {/* Animated gradient background */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           {/* Base gradient */}
@@ -277,7 +277,7 @@ export default function Landing() {
           {/* Brand with chromatic effect */}
           <div className="space-y-3">
             <div className="relative inline-block">
-              <h1 className="text-7xl md:text-8xl font-bold tracking-tight relative">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight relative">
                 <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-red-500/20 via-transparent to-transparent blur-sm translate-x-[-2px]">
                   CHROMATIC
                 </span>
@@ -300,8 +300,8 @@ export default function Landing() {
           </div>
 
           {/* Value Prop with color accent */}
-          <div className="relative">
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <div className="relative px-4">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               Extract <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-chart-2 to-chart-3 font-semibold">authentic color grading</span> from any reference image. 
               Professional LUT generation for colorists and cinematographers.
             </p>
