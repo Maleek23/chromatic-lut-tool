@@ -325,50 +325,50 @@ export default function Landing() {
           </div>
 
           {/* Core Tools Overview */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 pt-8 px-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 pt-8 px-4">
             <Card className="border-primary/20 hover-elevate bg-card/80 backdrop-blur-sm transition-all duration-300 group">
-              <CardContent className="pt-8 pb-6 space-y-4">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/10 to-chart-2/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-primary/20">
-                  <Sparkles className="w-7 h-7 text-primary" />
+              <CardContent className="pt-5 pb-4 space-y-2">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/10 to-chart-2/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-primary/20">
+                  <Sparkles className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className="font-semibold text-lg">Image to LUT Generator</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <h3 className="font-semibold text-base">Image to LUT Generator</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">
                   Extract color grading from any reference image
                 </p>
               </CardContent>
             </Card>
 
             <Card className="border-chart-2/20 hover-elevate bg-card/80 backdrop-blur-sm transition-all duration-300 group">
-              <CardContent className="pt-8 pb-6 space-y-4">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-chart-2/10 to-chart-3/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-chart-2/20">
-                  <ArrowRight className="w-7 h-7 text-chart-2" />
+              <CardContent className="pt-5 pb-4 space-y-2">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-chart-2/10 to-chart-3/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-chart-2/20">
+                  <ArrowRight className="w-5 h-5 text-chart-2" />
                 </div>
-                <h3 className="font-semibold text-lg">LUT Converter</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <h3 className="font-semibold text-base">LUT Converter</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">
                   Convert between .cube, .3dl, and .lut formats
                 </p>
               </CardContent>
             </Card>
 
             <Card className="border-chart-3/20 hover-elevate bg-card/80 backdrop-blur-sm transition-all duration-300 group">
-              <CardContent className="pt-8 pb-6 space-y-4">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-chart-3/10 to-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-chart-3/20">
-                  <TrendingUp className="w-7 h-7 text-chart-3" />
+              <CardContent className="pt-5 pb-4 space-y-2">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-chart-3/10 to-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-chart-3/20">
+                  <TrendingUp className="w-5 h-5 text-chart-3" />
                 </div>
-                <h3 className="font-semibold text-lg">LUT Analyzer</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <h3 className="font-semibold text-base">LUT Analyzer</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">
                   Quality scoring and banding detection
                 </p>
               </CardContent>
             </Card>
 
             <Card className="border-primary/30 hover-elevate bg-card/80 backdrop-blur-sm transition-all duration-300 group">
-              <CardContent className="pt-8 pb-6 space-y-4">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/10 to-chart-2/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-primary/30">
-                  <Zap className="w-7 h-7 text-primary" />
+              <CardContent className="pt-5 pb-4 space-y-2">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/10 to-chart-2/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-primary/30">
+                  <Zap className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className="font-semibold text-lg">LUT Optimizer</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <h3 className="font-semibold text-base">LUT Optimizer</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">
                   Remove invalid points and optimize LUTs
                 </p>
               </CardContent>
@@ -407,7 +407,7 @@ export default function Landing() {
         </div>
 
         {/* Pricing Section - positioned at the divider */}
-        <div className="max-w-6xl mx-auto space-y-8 relative z-10 px-4 mt-32">
+        <div className="max-w-6xl mx-auto space-y-8 relative z-10 px-4 mt-20">
           {/* Film strip divider borders */}
           <div className="absolute left-0 top-0 w-8 h-16 opacity-5">
             {[...Array(3)].map((_, i) => (
