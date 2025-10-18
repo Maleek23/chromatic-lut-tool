@@ -24,13 +24,13 @@ const upload = multer({
       'video/x-msvideo'       // .avi
     ];
     
-    const allowedExtensions = ['.cube', '.3dl', '.png', '.jpg', '.jpeg', '.mp4', '.mov', '.avi'];
+    const allowedExtensions = ['.cube', '.3dl', '.lut', '.png', '.jpg', '.jpeg', '.mp4', '.mov', '.avi'];
     const ext = file.originalname.toLowerCase().substring(file.originalname.lastIndexOf('.'));
     
     if (allowedMimeTypes.includes(file.mimetype) || allowedExtensions.includes(ext)) {
       cb(null, true);
     } else {
-      cb(new Error(`Unsupported file type: ${file.mimetype}. Supported: .cube, .3dl, .png, .jpg, .mp4, .mov, .avi`));
+      cb(new Error(`Unsupported file type: ${file.mimetype}. Supported: .cube, .3dl, .lut, .png, .jpg, .mp4, .mov, .avi`));
     }
   },
   limits: {
@@ -350,16 +350,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const content = req.file.buffer.toString('utf-8');
-      const sourceFormat = req.body.sourceFormat as 'cube' | '3dl' | undefined;
+      const sourceFormat = req.body.sourceFormat as 'cube' | '3dl' | 'lut' | undefined;
       // Normalize target format (remove leading dot if present)
       const targetFormatRaw = req.body.targetFormat;
       const targetFormat = (targetFormatRaw?.startsWith('.') 
         ? targetFormatRaw.substring(1) 
-        : targetFormatRaw) as 'cube' | '3dl';
+        : targetFormatRaw) as 'cube' | '3dl' | 'lut';
       const gridSize = req.body.gridSize ? parseInt(req.body.gridSize) : undefined;
 
-      if (!targetFormat || !['cube', '3dl'].includes(targetFormat)) {
-        return res.status(400).json({ error: "Target format required (cube or 3dl)" });
+      if (!targetFormat || !['cube', '3dl', 'lut'].includes(targetFormat)) {
+        return res.status(400).json({ error: "Target format required (cube, 3dl, or lut)" });
       }
 
       // Backend tier validation for grid size resampling (Pro feature)

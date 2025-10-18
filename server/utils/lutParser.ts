@@ -12,7 +12,7 @@ export interface LUTData {
 }
 
 export interface ParsedLUT {
-  format: 'cube' | '3dl';
+  format: 'cube' | '3dl' | 'lut';
   lut: LUTData;
   errors: string[];
   warnings: string[];
@@ -295,15 +295,111 @@ function trilinearInterpolate(lut: LUTData, r: number, g: number, b: number): nu
 }
 
 /**
+ * Parse 1D LUT file
+ * Format specification:
+ * - Simple per-channel lookup (R, G, B independent)
+ * - Typically 256 or 1024 entries
+ * - RGB triplets, one per line (normalized 0-1)
+ */
+export function parse1DLUT(content: string): ParsedLUT {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+  const lines = content.split('\n').map(l => l.trim());
+  
+  let title: string | undefined;
+  const data: number[][] = [];
+
+  for (const line of lines) {
+    // Skip empty lines and comments
+    if (!line || line.startsWith('#')) {
+      // Check for title in comments
+      if (line.startsWith('# Title:') || line.startsWith('#Title:')) {
+        title = line.replace(/^#\s*Title:\s*/i, '').trim();
+      }
+      continue;
+    }
+
+    // Parse RGB data
+    const values = line.split(/\s+/).map(Number);
+    if (values.length === 3 && !values.some(isNaN)) {
+      data.push(values);
+    }
+  }
+
+  // Determine size (typically 256 or 1024)
+  const size = data.length;
+  
+  // Validate size is a reasonable 1D LUT size
+  if (size < 2 || size > 65536) {
+    errors.push(`Invalid 1D LUT size: ${size}. Expected between 2 and 65536 entries.`);
+  }
+
+  // Validate RGB values
+  for (let i = 0; i < data.length; i++) {
+    const [r, g, b] = data[i];
+    if (r < 0 || r > 1 || g < 0 || g > 1 || b < 0 || b > 1) {
+      warnings.push(`RGB value out of range [0,1] at line ${i}: [${r}, ${g}, ${b}]`);
+    }
+  }
+
+  return {
+    format: 'lut',
+    lut: {
+      title,
+      domainMin: [0, 0, 0],
+      domainMax: [1, 1, 1],
+      size,
+      data
+    },
+    errors,
+    warnings
+  };
+}
+
+/**
+ * Convert 1D LUT data to .lut format string
+ */
+export function to1DLUTFormat(lut: LUTData): string {
+  let output = '# 1D LUT\n';
+  
+  if (lut.title) {
+    output += `# Title: ${lut.title}\n`;
+  }
+  
+  output += `# Size: ${lut.size}\n\n`;
+  
+  // For 3D LUT, we need to extract per-channel curves
+  // Use diagonal (where R=G=B) as the 1D curve
+  if (lut.data.length === lut.size * lut.size * lut.size) {
+    // This is a 3D LUT, extract diagonal for 1D conversion
+    for (let i = 0; i < lut.size; i++) {
+      const idx = i * lut.size * lut.size + i * lut.size + i; // diagonal index
+      const [r, g, b] = lut.data[idx];
+      output += `${r.toFixed(6)} ${g.toFixed(6)} ${b.toFixed(6)}\n`;
+    }
+  } else {
+    // Already a 1D LUT
+    for (const [r, g, b] of lut.data) {
+      output += `${r.toFixed(6)} ${g.toFixed(6)} ${b.toFixed(6)}\n`;
+    }
+  }
+  
+  return output;
+}
+
+/**
  * Auto-detect LUT format from file content
  */
-export function detectLUTFormat(content: string): 'cube' | '3dl' | null {
+export function detectLUTFormat(content: string): 'cube' | '3dl' | 'lut' | null {
   const lines = content.split('\n');
   
   for (const line of lines) {
     const trimmed = line.trim();
     if (trimmed.startsWith('LUT_3D_SIZE') || trimmed.startsWith('TITLE')) {
       return 'cube';
+    }
+    if (trimmed.startsWith('3DMESH') || trimmed.startsWith('Mesh')) {
+      return '3dl';
     }
   }
   
@@ -313,39 +409,61 @@ export function detectLUTFormat(content: string): 'cube' | '3dl' | null {
     return '3dl';
   }
   
+  // Count data lines to determine if it's a 1D or 3D LUT
+  const dataLines = lines.filter(l => {
+    const trimmed = l.trim();
+    if (!trimmed || trimmed.startsWith('#')) return false;
+    const values = trimmed.split(/\s+/).map(Number);
+    return values.length === 3 && !values.some(isNaN);
+  });
+  
+  // If we have a perfect cube (size^3), it's likely a 3D LUT without headers
+  const count = dataLines.length;
+  const cubeRoot = Math.round(Math.cbrt(count));
+  if (cubeRoot * cubeRoot * cubeRoot === count && count > 1000) {
+    return 'cube'; // Probably a headerless .cube
+  }
+  
+  // Otherwise, likely a 1D LUT (256, 1024, etc.)
+  if (count >= 2 && count <= 65536) {
+    return 'lut';
+  }
+  
   return null;
 }
 
 /**
  * Parse LUT file with auto-detection
  */
-export function parseLUT(content: string, format?: 'cube' | '3dl'): ParsedLUT {
+export function parseLUT(content: string, format?: 'cube' | '3dl' | 'lut'): ParsedLUT {
   const detectedFormat = format || detectLUTFormat(content);
   
   if (!detectedFormat) {
     return {
       format: 'cube',
       lut: { domainMin: [0, 0, 0], domainMax: [1, 1, 1], size: 0, data: [] },
-      errors: ['Could not detect LUT format. File must be .cube or .3dl format.'],
+      errors: ['Could not detect LUT format. File must be .cube, .3dl, or .lut format.'],
       warnings: []
     };
   }
   
   if (detectedFormat === 'cube') {
     return parseCubeLUT(content);
-  } else {
+  } else if (detectedFormat === '3dl') {
     return parse3dlLUT(content);
+  } else {
+    return parse1DLUT(content);
   }
 }
 
 /**
  * Convert LUT from one format to another, with optional resampling
  */
-export function convertLUT(parsedLUT: ParsedLUT, targetFormat: 'cube' | '3dl', targetSize?: number): string {
+export function convertLUT(parsedLUT: ParsedLUT, targetFormat: 'cube' | '3dl' | 'lut', targetSize?: number): string {
   let lut = parsedLUT.lut;
 
-  // Resample if target size is specified and different
-  if (targetSize && targetSize !== lut.size) {
+  // For 3D LUT formats, resample if target size is specified and different
+  if (targetFormat !== 'lut' && targetSize && targetSize !== lut.size) {
     const resampledData = resampleLUT(lut, targetSize);
     lut = {
       ...lut,
@@ -356,7 +474,9 @@ export function convertLUT(parsedLUT: ParsedLUT, targetFormat: 'cube' | '3dl', t
 
   if (targetFormat === 'cube') {
     return toCubeFormat(lut);
-  } else {
+  } else if (targetFormat === '3dl') {
     return to3dlFormat(lut);
+  } else {
+    return to1DLUTFormat(lut);
   }
 }

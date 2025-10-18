@@ -1,7 +1,7 @@
-# ColorKit by Untitled
+# Chromatic by UN/TITLD
 
 ## Overview
-ColorKit is a professional toolkit for cinematographers and colorists, focused on LUT (Look-Up Table) conversion and analysis. It offers free tools for converting LUT files between .cube and .3dl formats and analyzing them for quality issues like banding and invalid points. The project aims to provide professional-grade features for color grading workflows, with a vision to expand into advanced functionalities like a professional preset library, custom preset saving, advanced optimization, batch processing, video LUT processing, and API access for team collaboration.
+Chromatic is a professional toolkit for cinematographers and colorists, providing comprehensive LUT (Look-Up Table) conversion, generation, and analysis. It offers industry-standard support for all major LUT formats with free unlimited access to core features. The flagship Image-to-LUT generator authentically extracts color science from reference images, while conversion and analysis tools ensure quality and compatibility across professional color grading software.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
@@ -18,7 +18,7 @@ Preferred communication style: Simple, everyday language.
   - `/auth` - Authentication flow
 - **State Management**: Local React state, custom auth context, React Query for server state, and file upload state with drag-and-drop.
 - **UI Components**: Radix UI primitives and shadcn/ui for accessible components, including a NavBar with theme toggle, tabbed interfaces, and file upload zones.
-- **Styling**: Tailwind CSS for utility-first styling, CSS variables for theming (light/dark mode), and professional aesthetics.
+- **Styling**: Tailwind CSS with cinematic gradient effects, animated color orbs, film grain overlays, chromatic aberration typography, and backdrop blur for modern glass-morphism aesthetic.
 - **Design Patterns**: Component composition, controlled components, custom hooks, tabbed navigation for tool consolidation, and debounced real-time preview updates.
 - **SEO**: Comprehensive meta tags including Open Graph and Twitter Cards for social sharing, keyword optimization for color grading and LUT tools.
 
@@ -26,36 +26,90 @@ Preferred communication style: Simple, everyday language.
 - **Runtime**: Node.js with Express.js.
 - **API Design**: RESTful endpoints under `/api` for authentication and LUT processing.
 - **LUT Processing**:
-    - **Parser**: Handles .cube and .3dl formats, validates grid size and color values, and supports comments/metadata. Uses blue-fastest indexing order.
-    - **Converter**: Converts between .cube and .3dl, supports grid resampling with trilinear interpolation, and preserves color accuracy.
-    - **Analyzer**: Detects invalid points, identifies banding issues, and reports grid size/format.
+    - **Parser**: Supports .cube (3D), .3dl (3D), and .lut (1D) formats with auto-detection, validates grid size and color values, supports comments/metadata. Uses industry-standard blue-fastest indexing order (R slowest → G middle → B fastest).
+    - **Generator**: Authentic color science extraction from images with zone-based analysis (shadows/midtones/highlights), deriving color transforms for brightness, contrast, saturation, and color shifts. Supports advanced controls and split toning.
+    - **Converter**: Converts between all supported formats (.cube ↔ .3dl ↔ .lut), supports grid resampling (17×17×17, 33×33×33, 65×65×65) with trilinear interpolation for smooth color transformations, preserves color accuracy.
+    - **Analyzer**: Detects invalid points (RGB outside [0,1]), identifies banding issues (>10% consecutive identical values), reports quality metrics (min/max/avg values), provides quality scoring.
 - **File Handling**: Multer middleware for `multipart/form-data` with in-memory storage for transient processing; no persistent file storage.
+
+### LUT Format Specifications
+
+#### .cube (3D LUT) - Primary Format ✅ IMPLEMENTED
+- **Developer**: Filmic Pro
+- **Compatibility**: Adobe Premiere Pro, Final Cut Pro, DaVinci Resolve, After Effects (widest support)
+- **Type**: 3D color mapping (all RGB channels mapped simultaneously)
+- **Grid Sizes**: Variable (17×17×17, 33×33×33, 65×65×65) for different precision levels
+- **Value Range**: Normalized 0.0 to 1.0
+- **Features**: 
+  - Supports complex color adjustments and stylized looks
+  - Fully adjustable with fine color gradation
+  - Optional metadata (TITLE, DOMAIN_MIN, DOMAIN_MAX)
+- **Use Cases**: Professional color grading, cinematic looks, conversion LUTs, stylized LUTs
+
+#### .3dl (3D LUT) - Professional Format ✅ IMPLEMENTED
+- **Developer**: Autodesk/Lustre
+- **Compatibility**: Avid Media Composer, Adobe Premiere Pro, DaVinci Resolve, Smoke
+- **Type**: 3D color mapping
+- **Grid Size**: Fixed 33×33×33 (industry standard)
+- **Value Range**: 12-bit integers (0-4095)
+- **Features**:
+  - Professional-grade precision
+  - Zone-specific adjustments possible
+  - Supports complex color transformations
+- **Use Cases**: Broadcast workflows, high-end post-production, professional color grading
+
+#### .lut (1D LUT) - Simple Format ✅ IMPLEMENTED
+- **Compatibility**: Various software programs (limited compared to 3D formats)
+- **Type**: 1D color mapping (each RGB channel independent)
+- **Grid Size**: Typically 256 or 1024 entries per channel
+- **Value Range**: Normalized 0.0 to 1.0 or 8/10/12-bit integers
+- **Features**:
+  - Simple, fast processing
+  - Smaller file sizes
+  - Limited to per-channel adjustments
+- **Limitations**: Cannot perform complex color shifts (e.g., changing specific hue without affecting others)
+- **Use Cases**: Basic color correction, gamma adjustments, contrast curves, simple looks
+
+#### .aml (Advanced Multilayer LUT) - Future Feature 🔮 PLANNED
+- **Type**: Multi-layer 3D LUT with stacking capabilities
+- **Features**:
+  - Multiple layers of adjustments applied simultaneously
+  - Complex color grading effects in single file
+  - Advanced metadata and layer management
+- **Compatibility**: Specialized color grading programs only
+- **Status**: Planned for Studio tier as advanced feature
 
 ### Data Storage
 - **Database**: PostgreSQL via Neon serverless, using Drizzle ORM for type-safe operations.
-- **Schema**: `users` (id, username, hashed password) and `presets` (id, name, userId, format, data, etc.) for future features. Zod for validation.
+- **Schema**: `users` (id, username, hashed password, tier) and `presets` (id, name, userId, format, data, gridSize, etc.). Zod for validation.
 - **Session Management**: Express session with `connect-pg-simple` for PostgreSQL session storage, secured with a cookie and environment variable for the secret. Passport.js for authentication.
-- **Storage Strategy**: Defaults to in-memory storage, with PostgreSQL support available when configured for user authentication and future preset library.
+- **Storage Strategy**: In-memory for LUT processing, PostgreSQL for user data and saved presets.
 
 ### System Design Choices
-- **UI/UX**: Clean, modern design with a subtle gradient background, accent orb, and minimalist decoration. Feature cards have hover-elevate effects. Focus on accessibility with WCAG compliance, semantic color tokens, and no distracting animations. Landing page features sleek hero section with dual CTAs and clear pricing tiers.
+- **UI/UX**: Cinematic color grading aesthetic with gradient effects, animated color orbs, film grain overlays, chromatic aberration on headings, backdrop blur cards, and professional visual hierarchy.
 - **Navigation Architecture**: Hub-and-spoke model with Image-to-LUT generation (`/generate`) as the main entry point, utility tools consolidated on `/tools` page with tabs, and user workspace on `/dashboard`. Streamlined navigation: Home | Generate | Tools | Dashboard.
 - **Pricing Strategy**: 
-    - **Free Tier**: All features available (unlimited image to LUT, conversion, analysis, all grid sizes). No usage limits.
-    - **Pro Tier ($15/month)**: Adds preset saving/organization, dashboard access, Lightroom presets (coming), batch processing (coming), priority support.
-    - **Studio Tier (Custom)**: All features planned (video processing, API access, team collaboration, custom integrations).
-    - Signup encouraged for tracking, saving work, and building user base, but not required for core functionality.
-- **Technical Implementations**: Image-to-LUT generation is the flagship feature with authentic color extraction (removed LUT Type/Purpose selectors that contradicted genuine analysis). All core features publicly accessible. Authentication provides value-add features (preset library, dashboard, future integrations). Server-side validation enforced for all LUT operations.
+    - **Free Tier**: All core features unlimited (image to LUT, conversion between all formats, analysis, all grid sizes, all precisions). No usage limits or watermarks.
+    - **Pro Tier ($15/month)**: Adds preset saving/organization, dashboard access, Lightroom-style presets (coming), batch processing (coming), priority support.
+    - **Studio Tier (Custom pricing)**: All Pro features plus video LUT processing, .aml multilayer support, API access, team collaboration, custom integrations, dedicated support.
+    - Signup encouraged for preset management and tracking, but not required for core functionality.
+- **Technical Implementations**: 
+  - Image-to-LUT generation uses authentic color science extraction with zone-based analysis
+  - All LUT operations use industry-standard blue-fastest indexing (index = r×size² + g×size + b)
+  - Trilinear interpolation ensures smooth resampling between grid sizes
+  - Server-side validation enforced for all LUT operations
+  - Real-time preview with intensity control
 - **Feature Specifications**:
-    - **Image to LUT**: Authentic color science extraction with intensity control, grid size (17/33/65), format (.cube/.3dl), precision (8/10/12-bit).
-    - **LUT Conversion**: .cube ↔ .3dl, grid resampling, trilinear interpolation.
-    - **LUT Analysis**: Banding detection, invalid point detection, out-of-range values.
-    - **Authentication**: Username/password, secure hashing (bcrypt), session management for optional account features.
-    - **Preset Management**: Save/delete/organize unlimited presets (Pro tier), apply to conversion, download functionality.
+    - **Image to LUT**: Authentic color extraction, zone-based analysis (shadows/midtones/highlights), intensity control (0-100%), grid size selection (17/33/65), format output (.cube/.3dl/.lut), precision (8/10/12-bit), optional preview generation.
+    - **LUT Conversion**: Multi-format support (.cube ↔ .3dl ↔ .lut), grid resampling with trilinear interpolation, format auto-detection, precision preservation.
+    - **LUT Analysis**: Quality scoring, banding detection algorithm, invalid point detection, out-of-range value reporting, RGB statistics (min/max/avg), format validation.
+    - **Authentication**: Username/password with bcrypt hashing, session management, tier-based feature access.
+    - **Preset Management**: Unlimited preset saving (Pro tier), organize by project/style, apply to conversion, download in any format, metadata tracking.
 
 ## External Dependencies
 
-- **File Processing**: Multer.
+- **Image Processing**: Sharp for image analysis and manipulation.
+- **File Processing**: Multer for multipart uploads.
 - **UI Libraries**: Radix UI, shadcn/ui, Embla Carousel, cmdk, Lucide React.
 - **Development Tools**: Vite, Replit-specific plugins, TSX.
 - **Database & ORM**: @neondatabase/serverless, Drizzle ORM, drizzle-zod.
@@ -64,3 +118,26 @@ Preferred communication style: Simple, everyday language.
 - **Date Handling**: date-fns.
 - **Authentication**: Passport.js, bcrypt, express-session, connect-pg-simple.
 - **Payments**: Stripe (blueprint configured, awaiting API keys).
+
+## Technical Notes
+
+### LUT Indexing and Ordering
+All 3D LUT operations use **blue-fastest indexing order**:
+- Loop order: R (slowest) → G (middle) → B (fastest)
+- Array index calculation: `index = r × size² + g × size + b`
+- This matches industry standards for .cube, .3dl, and professional color grading software
+- Trilinear interpolation uses this indexing for accurate color lookups
+
+### Color Science Implementation
+- Zone-based analysis separates pixels into shadows (<33% luminance), midtones (33-67%), highlights (>67%)
+- Weighted color transforms applied based on zone distribution
+- RGB ↔ HSL conversions for saturation adjustments
+- Luminance calculation: `0.299×R + 0.587×G + 0.114×B`
+- Contrast and brightness applied zone-specifically for natural results
+
+### Quality Assurance
+- All RGB values validated to be within [0,1] range
+- Banding detection checks for >10% consecutive identical values
+- Grid size validation (2-256 for .cube, fixed 33 for .3dl)
+- Format-specific validation (12-bit for .3dl, normalized for .cube)
+- Trilinear interpolation preserves smooth gradients during resampling

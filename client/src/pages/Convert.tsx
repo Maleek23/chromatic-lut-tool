@@ -32,7 +32,7 @@ interface ParseResult {
 
 export default function Convert() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [outputFormat, setOutputFormat] = useState<"cube" | "3dl">("cube");
+  const [outputFormat, setOutputFormat] = useState<"cube" | "3dl" | "lut">("cube");
   const [gridSize, setGridSize] = useState<string>("auto");
   const [isConverting, setIsConverting] = useState(false);
   const [parseResult, setParseResult] = useState<ParseResult | null>(null);
@@ -344,7 +344,7 @@ export default function Convert() {
                 <div className="relative border-2 border-dashed rounded-lg p-12 text-center hover-elevate bg-background">
                   <input
                     type="file"
-                    accept=".cube,.3dl"
+                    accept=".cube,.3dl,.lut"
                     onChange={handleFileUpload}
                     className="hidden"
                     id="lut-upload"
@@ -365,7 +365,7 @@ export default function Convert() {
                       <div>
                         <p className="font-semibold text-lg mb-2">Drop LUT file or click to browse</p>
                         <p className="text-sm text-muted-foreground">
-                          Supports .cube and .3dl formats
+                          Supports .cube, .3dl, and .lut formats
                         </p>
                       </div>
                     )}
@@ -379,13 +379,14 @@ export default function Convert() {
                   <Sparkles className="w-4 h-4 text-primary" />
                   Output Format
                 </label>
-                <Select value={outputFormat} onValueChange={(v) => setOutputFormat(v as "cube" | "3dl")}>
+                <Select value={outputFormat} onValueChange={(v) => setOutputFormat(v as "cube" | "3dl" | "lut")}>
                   <SelectTrigger data-testid="select-output-format" className="bg-muted/30">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="cube">.cube (Standard)</SelectItem>
-                    <SelectItem value="3dl">.3dl (Autodesk)</SelectItem>
+                    <SelectItem value="cube">.cube (3D LUT - Standard)</SelectItem>
+                    <SelectItem value="3dl">.3dl (3D LUT - Autodesk)</SelectItem>
+                    <SelectItem value="lut">.lut (1D LUT - Simple)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
