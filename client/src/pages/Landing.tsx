@@ -404,26 +404,21 @@ export default function Landing() {
             <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-background to-transparent" />
           </div>
 
-          {/* Film strip divider */}
-          <div className="mt-12 relative h-16">
-            <div className="absolute left-0 top-0 bottom-0 w-8 opacity-5">
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className="h-12 border-2 border-foreground mb-2" />
-              ))}
-            </div>
-            <div className="absolute right-0 top-0 bottom-0 w-8 opacity-5">
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className="h-12 border-2 border-foreground mb-2" />
-              ))}
-            </div>
-          </div>
         </div>
-      </section>
 
-      {/* Pricing Section */}
-      <section className="px-4 sm:px-6 py-12 sm:py-16 bg-gradient-to-b from-muted/30 to-background relative overflow-hidden">
-
-        <div className="max-w-6xl mx-auto space-y-8 relative z-10 px-4">
+        {/* Pricing Section - positioned at the divider */}
+        <div className="max-w-6xl mx-auto space-y-8 relative z-10 px-4 mt-16">
+          {/* Film strip divider borders */}
+          <div className="absolute left-0 top-0 w-8 h-16 opacity-5">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="h-12 border-2 border-foreground mb-2" />
+            ))}
+          </div>
+          <div className="absolute right-0 top-0 w-8 h-16 opacity-5">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="h-12 border-2 border-foreground mb-2" />
+            ))}
+          </div>
           <div className="text-center space-y-3">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Choose Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-chart-2 to-chart-3">Tier</span></h2>
             <p className="text-sm sm:text-base md:text-lg text-muted-foreground">
