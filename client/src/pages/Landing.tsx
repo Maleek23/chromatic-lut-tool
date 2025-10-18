@@ -9,8 +9,12 @@ export default function Landing() {
     <div className="min-h-screen flex flex-col">
       {/* Hero Section */}
       <section className="relative flex-1 flex items-center justify-center px-6 py-20 overflow-hidden">
-        {/* Clean Gradient Background */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-br from-background via-background to-primary/5" />
+        {/* Subtle creative background */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
+          {/* Minimal accent orb */}
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+        </div>
 
         <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
           <div className="space-y-4">
@@ -39,7 +43,7 @@ export default function Landing() {
 
           {/* Features Grid */}
           <div className="grid md:grid-cols-3 gap-6 mt-16">
-            <Card>
+            <Card className="hover-elevate">
               <CardContent className="pt-6 space-y-2">
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mx-auto">
                   <RefreshCw className="w-6 h-6 text-primary" />
@@ -51,7 +55,7 @@ export default function Landing() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="hover-elevate border-primary/50">
               <CardContent className="pt-6 space-y-2">
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mx-auto">
                   <BarChart3 className="w-6 h-6 text-primary" />
@@ -63,7 +67,7 @@ export default function Landing() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="hover-elevate">
               <CardContent className="pt-6 space-y-2">
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mx-auto">
                   <Sparkles className="w-6 h-6 text-primary" />
@@ -74,6 +78,17 @@ export default function Landing() {
                 </p>
               </CardContent>
             </Card>
+          </div>
+
+          {/* Color Science Visual */}
+          <div className="mt-16 flex gap-1 justify-center opacity-30">
+            <div className="w-2 h-12 bg-primary/40" />
+            <div className="w-2 h-16 bg-primary/50" />
+            <div className="w-2 h-14 bg-primary/60" />
+            <div className="w-2 h-20 bg-primary/70" />
+            <div className="w-2 h-14 bg-primary/60" />
+            <div className="w-2 h-16 bg-primary/50" />
+            <div className="w-2 h-12 bg-primary/40" />
           </div>
 
           {/* How It Works */}
