@@ -378,17 +378,28 @@ export default function Convert() {
                 <label className="text-sm font-semibold flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-primary" />
                   Output Format
+                  {!isPro && (
+                    <Badge variant="outline" className="text-xs">
+                      <Crown className="w-3 h-3 mr-1" />Pro Feature
+                    </Badge>
+                  )}
                 </label>
                 <Select value={outputFormat} onValueChange={(v) => setOutputFormat(v as "cube" | "3dl" | "lut")}>
                   <SelectTrigger data-testid="select-output-format" className="bg-muted/30">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="cube">.cube (3D LUT - Standard)</SelectItem>
-                    <SelectItem value="3dl">.3dl (3D LUT - Autodesk)</SelectItem>
-                    <SelectItem value="lut">.lut (1D LUT - Simple)</SelectItem>
+                    <SelectItem value="cube">.cube (3D LUT - Free)</SelectItem>
+                    {isPro && <SelectItem value="3dl">.3dl (3D LUT - Pro)</SelectItem>}
+                    {isPro && <SelectItem value="lut">.lut (1D LUT - Pro)</SelectItem>}
                   </SelectContent>
                 </Select>
+                {!isPro && (
+                  <p className="text-xs text-muted-foreground">
+                    <Crown className="w-3 h-3 inline mr-1" />
+                    Upgrade to Pro for .3dl and .lut export formats
+                  </p>
+                )}
               </div>
 
               {/* Grid Size Selector (Pro Feature) */}
