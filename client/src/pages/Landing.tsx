@@ -324,43 +324,259 @@ export default function Landing() {
             </Link>
           </div>
 
-          {/* Features with color-coded icons */}
-          <div className="grid md:grid-cols-3 gap-6 pt-12 px-4">
+          {/* Core Tools Overview */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 pt-12 px-4">
             <Card className="border-primary/20 hover-elevate bg-card/80 backdrop-blur-sm transition-all duration-300 group">
-              <CardContent className="pt-8 pb-6 space-y-4 text-center">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/10 to-chart-2/10 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300 border border-primary/20">
+              <CardContent className="pt-8 pb-6 space-y-4">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/10 to-chart-2/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-primary/20">
                   <Sparkles className="w-7 h-7 text-primary" />
                 </div>
-                <h3 className="font-semibold text-lg">Image to LUT</h3>
+                <h3 className="font-semibold text-lg">Image to LUT Generator</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Extract authentic color science from reference images into professional LUT files
+                  Extract color grading from any reference image
                 </p>
               </CardContent>
             </Card>
 
             <Card className="border-chart-2/20 hover-elevate bg-card/80 backdrop-blur-sm transition-all duration-300 group">
-              <CardContent className="pt-8 pb-6 space-y-4 text-center">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-chart-2/10 to-chart-3/10 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300 border border-chart-2/20">
-                  <Zap className="w-7 h-7 text-chart-2" />
+              <CardContent className="pt-8 pb-6 space-y-4">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-chart-2/10 to-chart-3/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-chart-2/20">
+                  <ArrowRight className="w-7 h-7 text-chart-2" />
                 </div>
-                <h3 className="font-semibold text-lg">Convert & Analyze</h3>
+                <h3 className="font-semibold text-lg">LUT Converter</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Convert between all formats and analyze quality with professional-grade tools
+                  Convert between .cube, .3dl, and .lut formats
                 </p>
               </CardContent>
             </Card>
 
             <Card className="border-chart-3/20 hover-elevate bg-card/80 backdrop-blur-sm transition-all duration-300 group">
-              <CardContent className="pt-8 pb-6 space-y-4 text-center">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-chart-3/10 to-primary/10 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300 border border-chart-3/20">
-                  <Crown className="w-7 h-7 text-chart-3" />
+              <CardContent className="pt-8 pb-6 space-y-4">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-chart-3/10 to-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-chart-3/20">
+                  <TrendingUp className="w-7 h-7 text-chart-3" />
                 </div>
-                <h3 className="font-semibold text-lg">Pro Features</h3>
+                <h3 className="font-semibold text-lg">LUT Analyzer</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Unlimited grid sizes, all formats, preset saving, and advanced workflows
+                  Quality scoring and banding detection
                 </p>
               </CardContent>
             </Card>
+
+            <Card className="border-primary/30 hover-elevate bg-card/80 backdrop-blur-sm transition-all duration-300 group">
+              <CardContent className="pt-8 pb-6 space-y-4">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/10 to-chart-2/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-primary/30">
+                  <Zap className="w-7 h-7 text-primary" />
+                </div>
+                <h3 className="font-semibold text-lg">LUT Optimizer</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Remove invalid points and optimize LUTs
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Detailed Features by Tool */}
+          <div className="mt-20 px-4 max-w-6xl mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-4">What You Get at Each Tier</h2>
+            <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
+              All features split by pricing tier - know exactly what you're getting
+            </p>
+
+            <div className="grid gap-8">
+              {/* Image to LUT Generator */}
+              <Card className="border-primary/20 bg-card/80 backdrop-blur-sm">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center">
+                      <Sparkles className="w-5 h-5 text-primary" />
+                    </div>
+                    Image to LUT Generator
+                  </CardTitle>
+                  <CardDescription>Extract color grading from reference images</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div>
+                      <Badge variant="secondary" className="mb-3">Free</Badge>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-green-500 mt-0.5 shrink-0" /> 17×17×17 grid only</li>
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-green-500 mt-0.5 shrink-0" /> .cube format only</li>
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-green-500 mt-0.5 shrink-0" /> Basic intensity control</li>
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-green-500 mt-0.5 shrink-0" /> Preview generation</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <Badge className="mb-3 bg-blue-500">Creator</Badge>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" /> Up to 33×33×33 grid</li>
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" /> .cube format only</li>
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" /> Priority processing queue</li>
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" /> 20-30 saved presets</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <Badge className="mb-3 bg-gradient-to-r from-purple-500 to-pink-500">Pro</Badge>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-start gap-2"><Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" /> All grid sizes (→65×65×65)</li>
+                        <li className="flex items-start gap-2"><Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" /> All formats (.cube/.3dl/.lut)</li>
+                        <li className="flex items-start gap-2"><Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" /> 8/10/12-bit precision</li>
+                        <li className="flex items-start gap-2"><Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" /> Unlimited presets</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <Badge className="mb-3 bg-gradient-to-r from-yellow-500 to-orange-500">Studio</Badge>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-start gap-2"><Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" /> Everything in Pro</li>
+                        <li className="flex items-start gap-2"><Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" /> Custom branded LUTs</li>
+                        <li className="flex items-start gap-2"><Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" /> Batch processing</li>
+                        <li className="flex items-start gap-2"><Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" /> Team sharing</li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* LUT Converter */}
+              <Card className="border-chart-2/20 bg-card/80 backdrop-blur-sm">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-chart-2/20 to-chart-3/20 flex items-center justify-center">
+                      <ArrowRight className="w-5 h-5 text-chart-2" />
+                    </div>
+                    LUT Converter
+                  </CardTitle>
+                  <CardDescription>Convert between .cube, .3dl, and .lut formats</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div>
+                      <Badge variant="secondary" className="mb-3">Free</Badge>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-green-500 mt-0.5 shrink-0" /> .cube → .3dl only</li>
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-green-500 mt-0.5 shrink-0" /> No grid resampling</li>
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-green-500 mt-0.5 shrink-0" /> Auto format detection</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <Badge className="mb-3 bg-blue-500">Creator</Badge>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" /> .cube → .3dl only</li>
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" /> No grid resampling</li>
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" /> Priority queue</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <Badge className="mb-3 bg-gradient-to-r from-purple-500 to-pink-500">Pro</Badge>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-start gap-2"><Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" /> All formats (.cube/.3dl/.lut)</li>
+                        <li className="flex items-start gap-2"><Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" /> Grid resampling (17/33/65)</li>
+                        <li className="flex items-start gap-2"><Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" /> Precision preservation</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <Badge className="mb-3 bg-gradient-to-r from-yellow-500 to-orange-500">Studio</Badge>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-start gap-2"><Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" /> Everything in Pro</li>
+                        <li className="flex items-start gap-2"><Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" /> Batch conversion</li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* LUT Analyzer */}
+              <Card className="border-chart-3/20 bg-card/80 backdrop-blur-sm">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-chart-3/20 to-primary/20 flex items-center justify-center">
+                      <TrendingUp className="w-5 h-5 text-chart-3" />
+                    </div>
+                    LUT Analyzer
+                  </CardTitle>
+                  <CardDescription>Quality scoring and banding detection</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div>
+                      <Badge variant="secondary" className="mb-3">Free</Badge>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-green-500 mt-0.5 shrink-0" /> Banding preview only</li>
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-green-500 mt-0.5 shrink-0" /> Basic quality score</li>
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-green-500 mt-0.5 shrink-0" /> Format validation</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <Badge className="mb-3 bg-blue-500">Creator</Badge>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" /> Banding preview only</li>
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" /> Quality score</li>
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" /> Format validation</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <Badge className="mb-3 bg-gradient-to-r from-purple-500 to-pink-500">Pro</Badge>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-start gap-2"><Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" /> Full banding analysis</li>
+                        <li className="flex items-start gap-2"><Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" /> Invalid point detection</li>
+                        <li className="flex items-start gap-2"><Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" /> RGB statistics (min/max/avg)</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <Badge className="mb-3 bg-gradient-to-r from-yellow-500 to-orange-500">Studio</Badge>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-start gap-2"><Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" /> Everything in Pro</li>
+                        <li className="flex items-start gap-2"><Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" /> Batch analysis</li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* LUT Optimizer */}
+              <Card className="border-primary/30 bg-card/80 backdrop-blur-sm">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center">
+                      <Zap className="w-5 h-5 text-primary" />
+                    </div>
+                    LUT Optimizer
+                  </CardTitle>
+                  <CardDescription>Clean and optimize LUT files</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div>
+                      <Badge variant="secondary" className="mb-3">Free</Badge>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-green-500 mt-0.5 shrink-0" /> Remove invalid points</li>
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-green-500 mt-0.5 shrink-0" /> Basic optimization</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <Badge className="mb-3 bg-blue-500">Creator</Badge>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" /> Remove invalid points</li>
+                        <li className="flex items-start gap-2"><Check className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" /> Basic optimization</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <Badge className="mb-3 bg-gradient-to-r from-purple-500 to-pink-500">Pro</Badge>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-start gap-2"><Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" /> Advanced optimization</li>
+                        <li className="flex items-start gap-2"><Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" /> File size reduction</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <Badge className="mb-3 bg-gradient-to-r from-yellow-500 to-orange-500">Studio</Badge>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-start gap-2"><Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" /> Everything in Pro</li>
+                        <li className="flex items-start gap-2"><Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" /> Batch optimization</li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
 
           {/* Color spectrum visualization */}
@@ -427,20 +643,24 @@ export default function Landing() {
               <CardContent className="space-y-3 pb-6">
                 <div className="space-y-2">
                   <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                    <span className="text-xs">1–3 presets saved</span>
+                    <Check className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
+                    <span className="text-xs">Image to LUT (17×17×17, .cube)</span>
                   </div>
                   <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                    <span className="text-xs">17×17×17 grid only</span>
+                    <Check className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
+                    <span className="text-xs">Converter (.cube → .3dl)</span>
                   </div>
                   <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                    <span className="text-xs">.cube format only</span>
+                    <Check className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
+                    <span className="text-xs">Analyzer (preview only)</span>
                   </div>
                   <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                    <span className="text-xs">Community presets (read-only)</span>
+                    <Check className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
+                    <span className="text-xs">Optimizer (basic)</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
+                    <span className="text-xs">1-3 saved presets</span>
                   </div>
                 </div>
               </CardContent>
@@ -474,19 +694,27 @@ export default function Landing() {
                 <div className="space-y-2">
                   <div className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
-                    <span className="text-xs">20–30 presets</span>
+                    <span className="text-xs">Image to LUT (33×33×33, .cube)</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
-                    <span className="text-xs">Up to 33×33×33 grid</span>
+                    <span className="text-xs">Converter (.cube → .3dl)</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
-                    <span className="text-xs">Folder organization</span>
+                    <span className="text-xs">Analyzer (preview only)</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
-                    <span className="text-xs">Priority queue</span>
+                    <span className="text-xs">Optimizer (basic)</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
+                    <span className="text-xs">20-30 saved presets</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
+                    <span className="text-xs">Priority processing queue</span>
                   </div>
                 </div>
               </CardContent>
@@ -526,19 +754,23 @@ export default function Landing() {
                 <div className="space-y-2">
                   <div className="flex items-start gap-2">
                     <Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
+                    <span className="text-xs font-semibold">Image to LUT (all grids, all formats)</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
+                    <span className="text-xs font-semibold">Converter (all formats + resampling)</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
+                    <span className="text-xs font-semibold">Analyzer (full analysis)</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
+                    <span className="text-xs font-semibold">Optimizer (advanced)</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
                     <span className="text-xs font-semibold">Unlimited presets</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold">All grid sizes (→65×65×65)</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold">All formats (.cube/.3dl/.lut)</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold">Batch processing</span>
                   </div>
                 </div>
               </CardContent>
@@ -572,19 +804,23 @@ export default function Landing() {
                 <div className="space-y-2">
                   <div className="flex items-start gap-2">
                     <Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" />
+                    <span className="text-xs font-semibold">Everything in Pro</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" />
+                    <span className="text-xs font-semibold">Batch processing (all tools)</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" />
                     <span className="text-xs font-semibold">Custom branded LUTs</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold">Team sharing</span>
+                    <span className="text-xs font-semibold">Team sharing & collaboration</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold">AI grading</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold">Collaboration dashboard</span>
+                    <span className="text-xs font-semibold">AI grading (coming soon)</span>
                   </div>
                 </div>
               </CardContent>
