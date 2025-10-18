@@ -275,13 +275,13 @@ export default function Landing() {
 
         <div className="max-w-5xl mx-auto text-center space-y-12 relative z-10">
           {/* Brand with chromatic effect */}
-          <div className="space-y-3">
-            <div className="relative inline-block">
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight relative">
-                <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-red-500/20 via-transparent to-transparent blur-sm translate-x-[-2px]">
+          <div className="space-y-3 px-2">
+            <div className="relative inline-block max-w-full">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight relative whitespace-nowrap overflow-visible">
+                <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-red-500/20 via-transparent to-transparent blur-sm translate-x-[-1px] sm:translate-x-[-2px] hidden sm:inline">
                   CHROMATIC
                 </span>
-                <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-transparent via-transparent to-blue-500/20 blur-sm translate-x-[2px]">
+                <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-transparent via-transparent to-blue-500/20 blur-sm translate-x-[1px] sm:translate-x-[2px] hidden sm:inline">
                   CHROMATIC
                 </span>
                 <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
@@ -387,7 +387,7 @@ export default function Landing() {
       </section>
 
       {/* Pricing Section */}
-      <section className="px-6 py-24 bg-gradient-to-b from-muted/30 to-background relative overflow-hidden">
+      <section className="px-4 sm:px-6 py-16 sm:py-24 bg-gradient-to-b from-muted/30 to-background relative overflow-hidden">
         {/* Film strip decoration */}
         <div className="absolute left-0 top-0 bottom-0 w-8 opacity-5">
           {[...Array(20)].map((_, i) => (
@@ -401,14 +401,14 @@ export default function Landing() {
         </div>
 
         <div className="max-w-6xl mx-auto space-y-12 relative z-10">
-          <div className="text-center space-y-3">
-            <h2 className="text-4xl font-bold">Simple, Transparent Pricing</h2>
-            <p className="text-lg text-muted-foreground">
+          <div className="text-center space-y-3 px-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Simple, Transparent Pricing</h2>
+            <p className="text-sm sm:text-base md:text-lg text-muted-foreground">
               Perfect for creators exploring color grading
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {/* Free Tier */}
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
               <CardHeader className="space-y-4 pb-8">

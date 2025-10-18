@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="docs/images/logos/chromatic-wordmark.png" alt="Chromatic Logo" width="600"/>
+  <img src="docs/images/logo-wordmark.png" alt="Chromatic Logo" width="600"/>
   
   <h3>Professional LUT Toolkit for Cinematographers & Colorists</h3>
   
@@ -26,17 +26,17 @@ Chromatic is a professional toolkit for cinematographers and colorists that allo
 ### 📸 Screenshots
 
 <div align="center">
-  <img src="docs/images/screenshots/landing.png" alt="Landing Page" width="100%"/>
+  <img src="docs/images/screenshot-landing.png" alt="Landing Page" width="100%"/>
   <p><em>Stunning landing page with tiered pricing</em></p>
 </div>
 
 <div align="center">
-  <img src="docs/images/screenshots/generate.png" alt="Image to LUT Generator" width="100%"/>
+  <img src="docs/images/screenshot-generate.png" alt="Image to LUT Generator" width="100%"/>
   <p><em>Flagship Image-to-LUT generation tool</em></p>
 </div>
 
 <div align="center">
-  <img src="docs/images/screenshots/tools.png" alt="LUT Tools" width="100%"/>
+  <img src="docs/images/screenshot-tools.png" alt="LUT Tools" width="100%"/>
   <p><em>Convert, analyze, and optimize LUT files</em></p>
 </div>
 
@@ -284,7 +284,7 @@ This is the **private main branch** with full Pro features. For the public Commu
 ---
 
 <div align="center">
-  <img src="docs/images/logos/chromatic-icon-square.png" alt="Chromatic Icon" width="100"/>
+  <img src="docs/images/logo-icon-square.png" alt="Chromatic Icon" width="100"/>
   
   <p><strong>Chromatic by UN/TITLD</strong></p>
   <p><em>Professional Color Grading, Simplified.</em></p>
