@@ -429,46 +429,46 @@ export default function Landing() {
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
             {/* Free Tier */}
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
-              <CardHeader className="space-y-3 pb-6">
+              <CardHeader className="space-y-4 pb-8">
                 <div>
-                  <CardTitle className="text-xl flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center">
-                      <Lightbulb className="w-4 h-4 text-green-500" />
+                  <CardTitle className="text-2xl flex items-center gap-2">
+                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center">
+                      <Lightbulb className="w-5 h-5 text-green-500" />
                     </div>
                     Free
                   </CardTitle>
-                  <CardDescription className="mt-2 text-xs">New users & hobbyists</CardDescription>
+                  <CardDescription className="mt-3 text-sm">New users & hobbyists</CardDescription>
                 </div>
                 <div>
-                  <span className="text-4xl font-bold">$0</span>
-                  <span className="text-muted-foreground text-sm ml-1">/forever</span>
+                  <span className="text-5xl font-bold">$0</span>
+                  <span className="text-muted-foreground text-base ml-2">/forever</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-3 pb-6">
-                <div className="space-y-2">
-                  <div className="flex items-start gap-2">
-                    <Sparkles className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold">Image to LUT Generator</span>
+              <CardContent className="space-y-4 pb-8 px-6">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <Sparkles className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                    <span className="text-sm font-semibold">Image to LUT Generator</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <ArrowRight className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold text-primary">LUT Converter</span>
+                  <div className="flex items-start gap-3">
+                    <ArrowRight className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                    <span className="text-sm font-semibold text-primary">LUT Converter</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs text-muted-foreground">All formats (.cube ↔ .3dl ↔ .lut)</span>
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                    <span className="text-sm text-muted-foreground">All formats (.cube ↔ .3dl ↔ .lut)</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs text-muted-foreground">17×17×17 grid</span>
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                    <span className="text-sm text-muted-foreground">17×17×17 grid</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs text-muted-foreground">1-3 saved presets</span>
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                    <span className="text-sm text-muted-foreground">1-3 saved presets</span>
                   </div>
                 </div>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="px-6">
                 <Link href="/auth" className="w-full">
                   <Button variant="outline" className="w-full" data-testid="button-free-plan">
                     Get Started
@@ -479,42 +479,42 @@ export default function Landing() {
 
             {/* Creator Tier */}
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-blue-500/20">
-              <CardHeader className="space-y-3 pb-6">
+              <CardHeader className="space-y-4 pb-8">
                 <div>
-                  <CardTitle className="text-xl flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
-                      <Layers className="w-4 h-4 text-blue-500" />
+                  <CardTitle className="text-2xl flex items-center gap-2">
+                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
+                      <Layers className="w-5 h-5 text-blue-500" />
                     </div>
                     Creator
                   </CardTitle>
-                  <CardDescription className="mt-2 text-xs">Growing colorists</CardDescription>
+                  <CardDescription className="mt-3 text-sm">Growing colorists</CardDescription>
                 </div>
                 <div>
-                  <span className="text-4xl font-bold">$7</span>
-                  <span className="text-muted-foreground text-sm ml-1">/mo</span>
+                  <span className="text-5xl font-bold">$7</span>
+                  <span className="text-muted-foreground text-base ml-2">/mo</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-3 pb-6">
-                <div className="space-y-2">
-                  <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold">Everything in Free</span>
+              <CardContent className="space-y-4 pb-8 px-6">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                    <span className="text-sm font-semibold">Everything in Free</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <ArrowRight className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold text-blue-500">+ 33×33×33 grid size</span>
+                  <div className="flex items-start gap-3">
+                    <ArrowRight className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
+                    <span className="text-sm font-semibold text-blue-500">+ 33×33×33 grid size</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs text-muted-foreground">20-30 presets</span>
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                    <span className="text-sm text-muted-foreground">20-30 presets</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs text-muted-foreground">Priority queue</span>
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                    <span className="text-sm text-muted-foreground">Priority queue</span>
                   </div>
                 </div>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="px-6">
                 <Link href="/upgrade" className="w-full">
                   <Button className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:opacity-90" data-testid="button-creator-plan">
                     Upgrade
@@ -526,55 +526,55 @@ export default function Landing() {
             {/* Pro Tier */}
             <Card className="border-primary shadow-lg shadow-primary/10 sm:scale-105 hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 relative">
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-chart-2 to-chart-3" />
-              <Badge className="absolute top-3 right-4 bg-gradient-to-r from-primary to-chart-2 text-white text-[10px] px-2 py-0.5 border-0">Most Popular</Badge>
+              <Badge className="absolute top-3 right-4 bg-gradient-to-r from-primary to-chart-2 text-white text-xs px-2 py-1 border-0">Most Popular</Badge>
               
-              <CardHeader className="space-y-3 pb-6">
+              <CardHeader className="space-y-4 pb-8">
                 <div>
-                  <CardTitle className="text-xl flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
-                      <Zap className="w-4 h-4 text-purple-500" />
+                  <CardTitle className="text-2xl flex items-center gap-2">
+                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                      <Zap className="w-5 h-5 text-purple-500" />
                     </div>
                     Pro
                   </CardTitle>
-                  <CardDescription className="mt-2 text-xs">Professional creators</CardDescription>
+                  <CardDescription className="mt-3 text-sm">Professional creators</CardDescription>
                 </div>
                 <div>
-                  <span className="text-4xl font-bold">$12</span>
-                  <span className="text-muted-foreground text-sm ml-1">/mo</span>
-                  <div className="mt-1">
-                    <span className="text-[10px] text-muted-foreground">or $99/year</span>
+                  <span className="text-5xl font-bold">$12</span>
+                  <span className="text-muted-foreground text-base ml-2">/mo</span>
+                  <div className="mt-2">
+                    <span className="text-xs text-muted-foreground">or $99/year</span>
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-3 pb-6">
-                <div className="space-y-2">
-                  <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold">Everything in Creator</span>
+              <CardContent className="space-y-4 pb-8 px-6">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                    <span className="text-sm font-semibold">Everything in Creator</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <TrendingUp className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold text-purple-500">+ LUT Analyzer</span>
+                  <div className="flex items-start gap-3">
+                    <TrendingUp className="w-5 h-5 text-purple-500 mt-0.5 shrink-0" />
+                    <span className="text-sm font-semibold text-purple-500">+ LUT Analyzer</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold text-purple-500">+ LUT Optimizer</span>
+                  <div className="flex items-start gap-3">
+                    <Zap className="w-5 h-5 text-purple-500 mt-0.5 shrink-0" />
+                    <span className="text-sm font-semibold text-purple-500">+ LUT Optimizer</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs text-muted-foreground">All grids (→65×65×65)</span>
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                    <span className="text-sm text-muted-foreground">All grids (→65×65×65)</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs text-muted-foreground">All formats (.cube/.3dl/.lut)</span>
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                    <span className="text-sm text-muted-foreground">All formats (.cube/.3dl/.lut)</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs text-muted-foreground">Unlimited presets</span>
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                    <span className="text-sm text-muted-foreground">Unlimited presets</span>
                   </div>
                 </div>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="px-6">
                 <Link href="/upgrade" className="w-full">
                   <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90" data-testid="button-pro-plan">
                     Upgrade
@@ -585,47 +585,47 @@ export default function Landing() {
 
             {/* Studio Tier */}
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-yellow-500/20 relative opacity-90">
-              <Badge className="absolute top-3 right-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-[10px] px-2 py-0.5 border-0">Coming Soon</Badge>
-              <CardHeader className="space-y-3 pb-6">
+              <Badge className="absolute top-3 right-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs px-2 py-1 border-0">Coming Soon</Badge>
+              <CardHeader className="space-y-4 pb-8">
                 <div>
-                  <CardTitle className="text-xl flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-yellow-500/20 to-orange-500/20 flex items-center justify-center">
-                      <Crown className="w-4 h-4 text-yellow-500" />
+                  <CardTitle className="text-2xl flex items-center gap-2">
+                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-yellow-500/20 to-orange-500/20 flex items-center justify-center">
+                      <Crown className="w-5 h-5 text-yellow-500" />
                     </div>
                     Studio
                   </CardTitle>
-                  <CardDescription className="mt-2 text-xs">Agencies & teams</CardDescription>
+                  <CardDescription className="mt-3 text-sm">Agencies & teams</CardDescription>
                 </div>
                 <div>
-                  <span className="text-4xl font-bold">$25</span>
-                  <span className="text-muted-foreground text-sm ml-1">/mo</span>
+                  <span className="text-5xl font-bold">$25</span>
+                  <span className="text-muted-foreground text-base ml-2">/mo</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-3 pb-6">
-                <div className="space-y-2">
-                  <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold">Everything in Pro</span>
+              <CardContent className="space-y-4 pb-8 px-6">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                    <span className="text-sm font-semibold">Everything in Pro</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold text-yellow-600 dark:text-yellow-500">Custom branded LUTs</span>
+                  <div className="flex items-start gap-3">
+                    <Crown className="w-5 h-5 text-yellow-500 mt-0.5 shrink-0" />
+                    <span className="text-sm font-semibold text-yellow-600 dark:text-yellow-500">Custom branded LUTs</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold text-yellow-600 dark:text-yellow-500">Team sharing</span>
+                  <div className="flex items-start gap-3">
+                    <Crown className="w-5 h-5 text-yellow-500 mt-0.5 shrink-0" />
+                    <span className="text-sm font-semibold text-yellow-600 dark:text-yellow-500">Team sharing</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold text-yellow-600 dark:text-yellow-500">Batch processing</span>
+                  <div className="flex items-start gap-3">
+                    <Crown className="w-5 h-5 text-yellow-500 mt-0.5 shrink-0" />
+                    <span className="text-sm font-semibold text-yellow-600 dark:text-yellow-500">Batch processing</span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <Crown className="w-4 h-4 text-yellow-500 mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold text-yellow-600 dark:text-yellow-500">AI grading (early access)</span>
+                  <div className="flex items-start gap-3">
+                    <Crown className="w-5 h-5 text-yellow-500 mt-0.5 shrink-0" />
+                    <span className="text-sm font-semibold text-yellow-600 dark:text-yellow-500">AI grading (early access)</span>
                   </div>
                 </div>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="px-6">
                 <Button disabled className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 opacity-60 cursor-not-allowed" data-testid="button-studio-plan">
                   Coming Soon
                 </Button>
