@@ -1,4 +1,5 @@
 import { TierType, TIER_CONFIG, getTierLimits, canUseGridSize, canUseFormat, canUseBatchProcessing, getMaxPresets, hasUnlimitedPresets, canSaveMorePresets, getUpgradeMessage } from "@shared/tiers";
+import { useAuth } from "@/hooks/use-auth";
 
 // Re-export for convenience
 export { TIER_CONFIG, type TierType };
@@ -151,4 +152,31 @@ export function getRecommendedUpgradeTier(feature: string, currentTier: TierType
   if (!requiredTier) return null;
   if (canAccess(currentTier, requiredTier)) return null;
   return requiredTier;
+}
+
+// ==================== React Hooks ====================
+// These hooks use the current authenticated user's tier
+
+export function useHasGridSize(gridSize: number): boolean {
+  const { user } = useAuth();
+  const tier = getUserTier(user);
+  return isGridSizeAllowed(tier, gridSize);
+}
+
+export function useHasFormat(format: string): boolean {
+  const { user } = useAuth();
+  const tier = getUserTier(user);
+  return isFormatAllowed(tier, format);
+}
+
+export function useHasBatchProcessing(): boolean {
+  const { user } = useAuth();
+  const tier = getUserTier(user);
+  return isBatchProcessingAllowed(tier);
+}
+
+export function useCanSavePreset(currentCount: number): boolean {
+  const { user } = useAuth();
+  const tier = getUserTier(user);
+  return canSavePreset(tier, currentCount);
 }

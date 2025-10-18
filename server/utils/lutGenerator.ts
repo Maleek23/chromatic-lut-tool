@@ -98,7 +98,7 @@ export async function generateLUT(
   imageBuffer: Buffer,
   gridSize: number,
   intensity: number,
-  format: "cube" | "3dl",
+  format: ".cube" | ".3dl" | ".lut",
   advancedControls?: AdvancedControls,
   precision: string = "10"
 ): Promise<string> {
@@ -110,10 +110,12 @@ export async function generateLUT(
     advancedControls
   );
 
-  if (format === "cube") {
+  if (format === ".cube") {
     return generateCubeLUT(lutMap, gridSize, precision);
-  } else {
+  } else if (format === ".3dl") {
     return generate3dlLUT(lutMap, gridSize, precision);
+  } else {
+    return generate1dLUT(lutMap, gridSize, precision);
   }
 }
 
@@ -440,6 +442,52 @@ Mesh ${gridSize} ${gridSize} ${gridSize}
         lut += `${rInt} ${gInt} ${bInt}\n`;
       }
     }
+  }
+
+  return lut;
+}
+
+function generate1dLUT(colorMap: Map<string, RGB>, gridSize: number, precision: string = "10"): string {
+  // 1D LUT format - separate curves for R, G, B channels
+  const timestamp = new Date().toISOString();
+  
+  // Determine entries per channel based on precision
+  let entriesPerChannel = 256; // 8-bit
+  if (precision === "10") entriesPerChannel = 1024; // 10-bit
+  if (precision === "12") entriesPerChannel = 4096; // 12-bit
+  
+  let lut = `# Created by LUT Maker
+# Generated: ${timestamp}
+# Precision: ${precision}-bit (${entriesPerChannel} entries per channel)
+# Format: 1D LUT
+# Input: RGB
+# Output: RGB
+
+`;
+
+  // Generate 1D lookup table by sampling the 3D LUT along the neutral axis
+  // For each input value, we sample the 3D LUT at (value, value, value)
+  for (let i = 0; i < entriesPerChannel; i++) {
+    const inputValue = i / (entriesPerChannel - 1);
+    
+    // Map to 3D grid position
+    const gridPos = inputValue * (gridSize - 1);
+    const gridIdx = Math.round(gridPos);
+    
+    // Sample from colorMap at neutral point (gridIdx, gridIdx, gridIdx)
+    const key = `${gridIdx},${gridIdx},${gridIdx}`;
+    const color = colorMap.get(key) || {
+      r: inputValue * 255,
+      g: inputValue * 255,
+      b: inputValue * 255,
+    };
+    
+    // Normalize to 0.0-1.0 range
+    const rNorm = (color.r / 255).toFixed(6);
+    const gNorm = (color.g / 255).toFixed(6);
+    const bNorm = (color.b / 255).toFixed(6);
+    
+    lut += `${rNorm} ${gNorm} ${bNorm}\n`;
   }
 
   return lut;

@@ -35,12 +35,12 @@ export const TIER_FEATURES = {
   free: {
     // LUT Generation
     gridSizes: ["17"], // Only 17x17x17
-    outputFormats: ["cube"], // Only .cube export
+    outputFormats: [".cube"], // Only .cube export
     precision: ["8", "10", "12"], // All precision levels
     
     // Conversion - Directional limits
-    conversionSourceFormats: ["cube"], // Can convert FROM .cube only
-    conversionDestFormats: ["3dl"], // Can convert TO .3dl only
+    conversionSourceFormats: [".cube"], // Can convert FROM .cube only
+    conversionDestFormats: [".3dl"], // Can convert TO .3dl only
     
     // Analysis
     analysisFeatures: {
@@ -66,12 +66,12 @@ export const TIER_FEATURES = {
   creator: {
     // Creator/Plus tier ($6-7/mo)
     gridSizes: ["17", "33"], // Up to 33x33x33
-    outputFormats: ["cube"], // Still .cube only
+    outputFormats: [".cube"], // Still .cube only
     precision: ["8", "10", "12"],
     
     // Conversion - Same as free
-    conversionSourceFormats: ["cube"],
-    conversionDestFormats: ["3dl"],
+    conversionSourceFormats: [".cube"],
+    conversionDestFormats: [".3dl"],
     
     // Analysis
     analysisFeatures: {
@@ -97,12 +97,12 @@ export const TIER_FEATURES = {
   pro: {
     // LUT Generation
     gridSizes: ["17", "33", "65"], // All grid sizes
-    outputFormats: ["cube", "3dl", "lut"], // All formats
+    outputFormats: [".cube", ".3dl", ".lut"], // All formats
     precision: ["8", "10", "12"],
     
     // Conversion - Bidirectional
-    conversionSourceFormats: ["cube", "3dl", "lut"], // Can convert FROM any format
-    conversionDestFormats: ["cube", "3dl", "lut"], // Can convert TO any format
+    conversionSourceFormats: [".cube", ".3dl", ".lut"], // Can convert FROM any format
+    conversionDestFormats: [".cube", ".3dl", ".lut"], // Can convert TO any format
     
     // Analysis
     analysisFeatures: {
@@ -128,10 +128,10 @@ export const TIER_FEATURES = {
   studio: {
     // Everything in Pro, plus enterprise features
     gridSizes: ["17", "33", "65"],
-    outputFormats: ["cube", "3dl", "lut"],
+    outputFormats: [".cube", ".3dl", ".lut"],
     precision: ["8", "10", "12"],
-    conversionSourceFormats: ["cube", "3dl", "lut"],
-    conversionDestFormats: ["cube", "3dl", "lut"],
+    conversionSourceFormats: [".cube", ".3dl", ".lut"],
+    conversionDestFormats: [".cube", ".3dl", ".lut"],
     analysisFeatures: {
       bandingDetection: true,
       fullAnalysis: true,

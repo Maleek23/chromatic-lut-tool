@@ -7,7 +7,7 @@ export interface TierLimits {
   priceMonthly?: number;
   priceYearly?: number;
   gridSizes: Array<17 | 33 | 65>;
-  formats: Array<"cube" | "3dl" | "lut">;
+  formats: Array<".cube" | ".3dl" | ".lut">;
   maxPresets: number;
   batchProcessing: boolean;
   folderOrganization: boolean;
@@ -29,7 +29,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     price: "$0",
     priceMonthly: 0,
     gridSizes: [17],
-    formats: ["cube"],
+    formats: [".cube"],
     maxPresets: 3,
     batchProcessing: false,
     folderOrganization: false,
@@ -54,7 +54,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     price: "$6–7/mo",
     priceMonthly: 7,
     gridSizes: [17, 33],
-    formats: ["cube"],
+    formats: [".cube"],
     maxPresets: 30,
     batchProcessing: false,
     folderOrganization: true,
@@ -82,7 +82,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     priceMonthly: 12,
     priceYearly: 99,
     gridSizes: [17, 33, 65],
-    formats: ["cube", "3dl", "lut"],
+    formats: [".cube", ".3dl", ".lut"],
     maxPresets: -1, // Unlimited
     batchProcessing: true,
     folderOrganization: true,
@@ -109,7 +109,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     price: "$25/mo",
     priceMonthly: 25,
     gridSizes: [17, 33, 65],
-    formats: ["cube", "3dl", "lut"],
+    formats: [".cube", ".3dl", ".lut"],
     maxPresets: -1, // Unlimited
     batchProcessing: true,
     folderOrganization: true,
@@ -141,7 +141,7 @@ export function canUseGridSize(tier: TierType, gridSize: number): boolean {
 
 export function canUseFormat(tier: TierType, format: string): boolean {
   const limits = getTierLimits(tier);
-  return limits.formats.includes(format as "cube" | "3dl" | "lut");
+  return limits.formats.includes(format as ".cube" | ".3dl" | ".lut");
 }
 
 export function canUseBatchProcessing(tier: TierType): boolean {

@@ -309,9 +309,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Generate LUT endpoint
   app.post("/api/generate-lut", requireAuth, async (req, res) => {
     try {
+      console.log("[DEBUG] generate-lut request body:", JSON.stringify(req.body, null, 2));
       const validationResult = extendedLutGenerationSchema.safeParse(req.body);
 
       if (!validationResult.success) {
+        console.log("[DEBUG] Validation failed:", JSON.stringify(validationResult.error, null, 2));
         return res.status(400).json({ 
           error: "Invalid request", 
           details: validationResult.error 
@@ -355,7 +357,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       );
 
       const timestamp = new Date().toISOString().split("T")[0];
-      const filename = `color_grade_${timestamp}_${gridSize}x${gridSize}x${gridSize}.${format}`;
+      const formatExt = format.replace(/^\./, ''); // Remove leading dot
+      const filename = `color_grade_${timestamp}_${gridSize}x${gridSize}x${gridSize}.${formatExt}`;
 
       // Generate preview image if requested
       let previewData: string | undefined;

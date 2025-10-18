@@ -23,7 +23,7 @@ export default function Tool() {
   
   const [intensity, setIntensity] = useState(100);
   const [gridSize, setGridSize] = useState<"17" | "33" | "65">("33");
-  const [format, setFormat] = useState<"cube" | "3dl">("cube");
+  const [format, setFormat] = useState<".cube" | ".3dl" | ".lut">(".cube");
   const [precision, setPrecision] = useState<"8" | "10" | "12">("10");
   const [exportPreview, setExportPreview] = useState(false);
   
