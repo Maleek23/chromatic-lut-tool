@@ -44,7 +44,7 @@ export default function AuthPage() {
               <span className="transition-all duration-700 ease-in-out group-hover:-translate-x-3 group-hover:opacity-0 group-hover:scale-0">TITLD</span>
             </div>
             <p className="text-muted-foreground">
-              Professional LUT toolkit for colorists
+              Professional LUT conversion and analysis toolkit
             </p>
           </div>
 

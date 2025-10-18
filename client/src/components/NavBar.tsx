@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Palette, Moon, Sun, LogIn, LogOut, User } from "lucide-react";
+import { Pipette, Moon, Sun, LogIn, LogOut, User } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
 import { useAuth } from "@/hooks/use-auth";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +16,7 @@ export function NavBar() {
         <Link href="/">
           <Button variant="ghost" className="hover-elevate px-3" data-testid="button-home">
             <div className="flex items-center gap-2">
-              <Palette className="w-5 h-5 text-primary" />
+              <Pipette className="w-5 h-5 text-primary" />
               <div className="flex flex-col items-start leading-none">
                 <span className="font-bold text-xl">CHROMATIC</span>
                 <div className="flex items-center gap-0 text-[10px] font-medium text-muted-foreground group">

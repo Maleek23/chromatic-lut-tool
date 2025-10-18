@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Sparkles, RefreshCw, BarChart3, Download, Check } from "lucide-react";
+import { Sparkles, RefreshCw, BarChart3, Download, Check, Pipette } from "lucide-react";
 import heroImage from "@assets/stock_images/professional_cinemat_68ec6f25.jpg";
 
 export default function Landing() {
@@ -31,8 +31,8 @@ export default function Landing() {
               <span className="transition-all duration-700 ease-in-out group-hover:-translate-x-4 group-hover:opacity-0 group-hover:scale-0">TITLD</span>
             </div>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Professional LUT conversion and optimization toolkit. Convert between formats, 
-              detect banding, smooth transitions, and optimize your color grading files.
+              Professional LUT conversion, analysis, and optimization toolkit. Convert between formats, 
+              detect quality issues, and prepare LUTs for DaVinci Resolve, Premiere Pro, and more.
             </p>
           </div>
 
@@ -52,9 +52,9 @@ export default function Landing() {
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mx-auto">
                   <RefreshCw className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="font-semibold">Convert LUTs</h3>
+                <h3 className="font-semibold">LUT Conversion</h3>
                 <p className="text-sm text-muted-foreground">
-                  Seamlessly convert between .cube, .3dl, and other LUT formats. Works with DaVinci Resolve, Premiere, and more.
+                  Convert between .cube, .3dl, and other LUT formats. Works seamlessly with all major editing software.
                 </p>
               </CardContent>
             </Card>
@@ -64,9 +64,9 @@ export default function Landing() {
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mx-auto">
                   <BarChart3 className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="font-semibold">Analyze & Detect</h3>
+                <h3 className="font-semibold">LUT Analysis</h3>
                 <p className="text-sm text-muted-foreground">
-                  Automatically detect banding, invalid cube points, and visualize tone curves for quality control.
+                  Analyze existing LUTs for quality issues. Detect banding, invalid points, and optimize for production use.
                 </p>
               </CardContent>
             </Card>
@@ -76,9 +76,9 @@ export default function Landing() {
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mx-auto">
                   <Sparkles className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="font-semibold">Optimize & Clean</h3>
+                <h3 className="font-semibold">Format Conversion</h3>
                 <p className="text-sm text-muted-foreground">
-                  Smooth transitions, fix banding artifacts, and export optimized LUTs ready for production.
+                  Convert between .cube, .3dl, and other formats. Compatible with all major editing software.
                 </p>
               </CardContent>
             </Card>
@@ -94,7 +94,7 @@ export default function Landing() {
                 </div>
                 <h3 className="font-semibold">Upload LUT</h3>
                 <p className="text-sm text-muted-foreground">
-                  Drop your .cube or .3dl LUT file
+                  Upload your .cube or .3dl LUT file
                 </p>
               </div>
 
@@ -102,9 +102,9 @@ export default function Landing() {
                 <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
                   2
                 </div>
-                <h3 className="font-semibold">Analyze</h3>
+                <h3 className="font-semibold">Convert Format</h3>
                 <p className="text-sm text-muted-foreground">
-                  Detect banding, invalid points, and quality issues
+                  Convert to your desired format (.cube, .3dl, etc.)
                 </p>
               </div>
 
@@ -112,9 +112,9 @@ export default function Landing() {
                 <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
                   3
                 </div>
-                <h3 className="font-semibold">Optimize</h3>
+                <h3 className="font-semibold">Analyze & Optimize</h3>
                 <p className="text-sm text-muted-foreground">
-                  Clean, smooth, and fix your LUT automatically
+                  Detect quality issues, fix banding, and optimize
                 </p>
               </div>
 
@@ -166,7 +166,11 @@ export default function Landing() {
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-5 h-5 text-primary mt-0.5" />
-                      <span className="text-sm">No account required</span>
+                      <span className="text-sm">Up to 3 saved presets</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-5 h-5 text-primary mt-0.5" />
+                      <span className="text-sm">Basic grid size conversion</span>
                     </div>
                   </div>
                 </CardContent>
@@ -200,23 +204,23 @@ export default function Landing() {
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-5 h-5 text-primary mt-0.5" />
-                      <span className="text-sm">Professional preset LUTs (coming soon)</span>
+                      <span className="text-sm">Save unlimited custom presets</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-5 h-5 text-primary mt-0.5" />
-                      <span className="text-sm">Save custom presets (coming soon)</span>
+                      <span className="text-sm">Advanced grid size options (17/33/65)</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-5 h-5 text-primary mt-0.5" />
-                      <span className="text-sm">Advanced optimization (coming soon)</span>
+                      <span className="text-sm">Unlimited conversions per month</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-5 h-5 text-primary mt-0.5" />
+                      <span className="text-sm">Image to LUT conversion (coming soon)</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-5 h-5 text-primary mt-0.5" />
                       <span className="text-sm">Batch processing (coming soon)</span>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <Check className="w-5 h-5 text-primary mt-0.5" />
-                      <span className="text-sm">Priority support (coming soon)</span>
                     </div>
                   </div>
                 </CardContent>
