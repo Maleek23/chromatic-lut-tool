@@ -223,5 +223,26 @@ Preferred communication style: Simple, everyday language.
 - ✅ Rate limiting active and respecting tier levels
 - ✅ Preset save/delete operations persisting correctly to PostgreSQL
 
+**Preset Toggle and Apply System (Phase 3 - October 18, 2025)**:
+1. Branding Enhancement - Added Palette icon to CHROMATIC branding across navbar, landing, and auth pages
+2. File Upload Support - Extended Multer validation to support .cube, .3dl, .png, .jpg, .jpeg, .mp4, .mov, .avi formats
+3. Convert Page Tabs UI - Implemented controlled tabs switching between "Upload LUT" and "My Presets" modes
+4. Preset Selector UI - Built preset card list with Apply and Download buttons for each saved preset
+5. Preset Apply Functionality - Complete workflow: fetches preset → parses → loads into conversion form → switches to upload tab
+6. Error Handling - Comprehensive validation: checks response.ok, parseResponse.ok, and result.success before proceeding
+7. State Management - Clears stale parseResult and uploadedFile on failures to prevent invalid conversions
+8. MIME Type Support - Proper Content-Type headers for downloads (text/plain for LUTs, video/quicktime for MOV, video/x-msvideo for AVI, etc.)
+9. Storage Interface - Added getPreset method to IStorage, implemented in both MemStorage and PostgresStorage
+10. API Routes - GET /api/presets/:id/download endpoint with proper filename and MIME type handling
+11. End-to-End Testing - All preset workflows verified: create, list, apply, download, error handling
+
+**Verification**:
+- ✅ Preset apply flow loads LUT into conversion form and switches tabs automatically
+- ✅ Error handling prevents conversions with invalid/failed presets
+- ✅ MIME types correctly set for all supported file formats
+- ✅ UI state properly reflects validation failures
+- ✅ Download functionality works for all preset types
+- ✅ Comprehensive e2e tests verify complete user workflows
+
 **Pending** (requires user action):
 - Stripe payment flow activation (waiting for STRIPE_SECRET_KEY and VITE_STRIPE_PUBLIC_KEY from user)
