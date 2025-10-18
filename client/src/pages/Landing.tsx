@@ -33,10 +33,10 @@ export default function Landing() {
           </div>
 
           <div className="flex gap-4 justify-center">
-            <Link href="/convert">
+            <Link href="/generate">
               <Button size="lg" data-testid="button-get-started">
                 <Sparkles className="w-4 h-4 mr-2" />
-                Get Started Free
+                Generate Your First LUT
               </Button>
             </Link>
           </div>
@@ -182,9 +182,9 @@ export default function Landing() {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Link href="/convert" className="w-full">
+                  <Link href="/generate" className="w-full">
                     <Button variant="outline" className="w-full" data-testid="button-free-plan">
-                      Get Started Free
+                      Start Generating
                     </Button>
                   </Link>
                 </CardFooter>

@@ -8,9 +8,8 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { AuthProvider } from "@/hooks/use-auth";
 import { NavBar } from "@/components/NavBar";
 import Landing from "@/pages/Landing";
-import Convert from "@/pages/Convert";
-import Analyze from "@/pages/Analyze";
-import Optimize from "@/pages/Optimize";
+import Generate from "@/pages/Tool";
+import Tools from "@/pages/Tools";
 import AuthPage from "@/pages/AuthPage";
 import Dashboard from "@/pages/Dashboard";
 import NotFound from "@/pages/not-found";
@@ -21,9 +20,8 @@ function Router() {
       <NavBar />
       <Switch>
         <Route path="/" component={Landing} />
-        <Route path="/convert" component={Convert} />
-        <Route path="/analyze" component={Analyze} />
-        <Route path="/optimize" component={Optimize} />
+        <Route path="/generate" component={Generate} />
+        <Route path="/tools" component={Tools} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/auth" component={AuthPage} />
         <Route component={NotFound} />
