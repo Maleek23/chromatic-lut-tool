@@ -80,6 +80,13 @@ export class MemStorage implements IStorage {
       previewsToday: 0,
       lastResetDate: now,
       createdAt: now,
+      avatarUrl: null,
+      bannerUrl: null,
+      bio: null,
+      website: null,
+      twitter: null,
+      instagram: null,
+      linkedin: null,
     };
     this.users.set(id, user);
     return user;

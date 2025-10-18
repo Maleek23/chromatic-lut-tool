@@ -10,7 +10,7 @@ import { Upload, Download, RefreshCw, CheckCircle, AlertCircle, Crown, Bookmark,
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
-import demoImageBefore from "@assets/stock_images/cinematic_film_portr_7d321576.jpg";
+import demoImageBefore from "@assets/MEE0875492-Edit_1760788375670.png";
 import demoImageAfter from "@assets/stock_images/cinematic_film_portr_38c9c7be.jpg";
 
 interface Preset {
