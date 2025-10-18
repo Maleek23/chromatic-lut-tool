@@ -274,21 +274,16 @@ export default function Landing() {
         </div>
 
         <div className="max-w-5xl mx-auto text-center space-y-12 relative z-10">
-          {/* Brand with chromatic effect */}
-          <div className="space-y-3 w-full px-4">
-            <div className="relative w-full flex justify-center">
-              <h1 className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight relative" style={{ maxWidth: '100%', fontSize: 'clamp(2.25rem, 10vw, 6rem)' }}>
-                <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-red-500/20 via-transparent to-transparent blur-sm translate-x-[-1px] sm:translate-x-[-2px] hidden md:inline">
-                  CHROMATIC
-                </span>
-                <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-transparent via-transparent to-blue-500/20 blur-sm translate-x-[1px] sm:translate-x-[2px] hidden md:inline">
-                  CHROMATIC
-                </span>
-                <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground block">
-                  CHROMATIC
-                </span>
-              </h1>
-            </div>
+          {/* Brand with chromatic effect - Mobile First */}
+          <div className="space-y-3 w-full">
+            <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground font-bold text-center px-4" 
+                style={{ 
+                  fontSize: 'clamp(2rem, 8.5vw, 6rem)',
+                  lineHeight: '1.1',
+                  letterSpacing: '-0.02em'
+                }}>
+              CHROMATIC
+            </h1>
             
             <div className="flex items-center justify-center gap-0 text-sm font-medium text-muted-foreground group cursor-default">
               <span className="transition-all duration-700 ease-in-out group-hover:translate-x-4 group-hover:opacity-0">by UN</span>
@@ -300,8 +295,9 @@ export default function Landing() {
           </div>
 
           {/* Value Prop with color accent */}
-          <div className="relative px-4">
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <div className="relative px-6">
+            <p className="text-muted-foreground max-w-3xl mx-auto leading-relaxed" 
+               style={{ fontSize: 'clamp(0.95rem, 4vw, 1.5rem)' }}>
               Extract <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-chart-2 to-chart-3 font-semibold">authentic color grading</span> from any reference image. 
               Professional LUT generation for colorists and cinematographers.
             </p>
