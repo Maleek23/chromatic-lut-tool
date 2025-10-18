@@ -4,9 +4,12 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Sparkles, Loader2, HelpCircle } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Sparkles, Loader2, HelpCircle, Crown } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useAuth } from "@/hooks/use-auth";
+import { Link } from "wouter";
 
 interface LutControlsProps {
   intensity: number;
@@ -39,6 +42,9 @@ export function LutControls({
   isGenerating,
   hideGenerate = false,
 }: LutControlsProps) {
+  const { user } = useAuth();
+  const isPro = user?.tier === "pro" || user?.tier === "studio";
+
   return (
     <Card>
       <CardHeader className="space-y-0 pb-4">
@@ -71,6 +77,11 @@ export function LutControls({
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <Label>Grid Size</Label>
+            {!isPro && (
+              <Badge variant="outline" className="text-xs">
+                <Crown className="w-3 h-3 mr-1" />Pro Feature
+              </Badge>
+            )}
             <Tooltip>
               <TooltipTrigger asChild>
                 <HelpCircle className="w-3.5 h-3.5 text-muted-foreground cursor-help" />
@@ -87,21 +98,37 @@ export function LutControls({
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="17" id="grid-17" data-testid="radio-grid-17" />
               <Label htmlFor="grid-17" className="font-normal cursor-pointer">
-                17×17×17 <span className="text-muted-foreground">(Fast)</span>
+                17×17×17 <span className="text-muted-foreground">(Standard - Free)</span>
               </Label>
             </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="33" id="grid-33" data-testid="radio-grid-33" />
-              <Label htmlFor="grid-33" className="font-normal cursor-pointer">
-                33×33×33 <span className="text-muted-foreground">(Balanced)</span>
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="65" id="grid-65" data-testid="radio-grid-65" />
-              <Label htmlFor="grid-65" className="font-normal cursor-pointer">
-                65×65×65 <span className="text-muted-foreground">(Quality)</span>
-              </Label>
-            </div>
+            {isPro ? (
+              <>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="33" id="grid-33" data-testid="radio-grid-33" />
+                  <Label htmlFor="grid-33" className="font-normal cursor-pointer">
+                    33×33×33 <span className="text-muted-foreground">(High Quality)</span>
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="65" id="grid-65" data-testid="radio-grid-65" />
+                  <Label htmlFor="grid-65" className="font-normal cursor-pointer">
+                    65×65×65 <span className="text-muted-foreground">(Ultra Quality)</span>
+                  </Label>
+                </div>
+              </>
+            ) : (
+              <div className="space-y-2 pl-6 pr-3 py-2 bg-muted/30 rounded-lg border border-dashed">
+                <p className="text-sm text-muted-foreground">
+                  <Crown className="w-3.5 h-3.5 inline mr-1" />
+                  Unlock 33×33×33 and 65×65×65 grid sizes with Pro
+                </p>
+                <Link href="/upgrade">
+                  <Button variant="outline" size="sm" className="w-full" data-testid="button-upgrade-grid">
+                    Upgrade to Pro
+                  </Button>
+                </Link>
+              </div>
+            )}
           </RadioGroup>
         </div>
 
@@ -109,12 +136,17 @@ export function LutControls({
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <Label htmlFor="format">Output Format</Label>
+            {!isPro && (
+              <Badge variant="outline" className="text-xs">
+                <Crown className="w-3 h-3 mr-1" />Pro Feature
+              </Badge>
+            )}
             <Tooltip>
               <TooltipTrigger asChild>
                 <HelpCircle className="w-3.5 h-3.5 text-muted-foreground cursor-help" />
               </TooltipTrigger>
               <TooltipContent side="right" className="max-w-xs">
-                <p>.cube is widely supported (DaVinci Resolve, Premiere). .3dl works with Autodesk and Lustre.</p>
+                <p>.cube is widely supported (DaVinci Resolve, Premiere). {isPro && ".3dl works with Autodesk and Lustre."}</p>
               </TooltipContent>
             </Tooltip>
           </div>
@@ -123,10 +155,16 @@ export function LutControls({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="cube">.cube (Standard)</SelectItem>
-              <SelectItem value="3dl">.3dl (Autodesk)</SelectItem>
+              <SelectItem value="cube">.cube (Standard - Free)</SelectItem>
+              {isPro && <SelectItem value="3dl">.3dl (Pro - Autodesk)</SelectItem>}
             </SelectContent>
           </Select>
+          {!isPro && (
+            <p className="text-xs text-muted-foreground">
+              <Crown className="w-3 h-3 inline mr-1" />
+              Upgrade to Pro for .3dl and .lut export formats
+            </p>
+          )}
         </div>
 
         {/* Precision Selector */}
