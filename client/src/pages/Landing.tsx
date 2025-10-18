@@ -275,16 +275,16 @@ export default function Landing() {
 
         <div className="max-w-5xl mx-auto text-center space-y-12 relative z-10">
           {/* Brand with chromatic effect */}
-          <div className="space-y-3 px-2">
-            <div className="relative inline-block max-w-full">
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight relative whitespace-nowrap overflow-visible">
-                <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-red-500/20 via-transparent to-transparent blur-sm translate-x-[-1px] sm:translate-x-[-2px] hidden sm:inline">
+          <div className="space-y-3 w-full px-4">
+            <div className="relative w-full flex justify-center">
+              <h1 className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight relative" style={{ maxWidth: '100%', fontSize: 'clamp(2.25rem, 10vw, 6rem)' }}>
+                <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-red-500/20 via-transparent to-transparent blur-sm translate-x-[-1px] sm:translate-x-[-2px] hidden md:inline">
                   CHROMATIC
                 </span>
-                <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-transparent via-transparent to-blue-500/20 blur-sm translate-x-[1px] sm:translate-x-[2px] hidden sm:inline">
+                <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-transparent via-transparent to-blue-500/20 blur-sm translate-x-[1px] sm:translate-x-[2px] hidden md:inline">
                   CHROMATIC
                 </span>
-                <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
+                <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground block">
                   CHROMATIC
                 </span>
               </h1>
