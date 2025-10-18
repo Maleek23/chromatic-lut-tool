@@ -3,22 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, RefreshCw, BarChart3, Download, Check, Pipette } from "lucide-react";
-import heroImage from "@assets/stock_images/professional_cinemat_68ec6f25.jpg";
 
 export default function Landing() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Hero Section */}
       <section className="relative flex-1 flex items-center justify-center px-6 py-20 overflow-hidden">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0">
-          <img 
-            src={heroImage} 
-            alt="Professional color grading studio" 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/90 to-background/95" />
-        </div>
+        {/* Clean Gradient Background */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-br from-background via-background to-primary/5" />
 
         <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
           <div className="space-y-4">
