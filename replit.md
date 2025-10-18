@@ -11,6 +11,7 @@ Preferred communication style: Simple, everyday language.
 ### Frontend
 - **Framework**: React 18+ with TypeScript and Vite.
 - **Routing**: Wouter for client-side routing with hub-and-spoke architecture:
+  - `/` - Landing page with pricing tiers and feature overview
   - `/generate` - Image to LUT generator (main flagship feature)
   - `/tools` - Consolidated tabbed page (Convert/Analyze/Optimize)
   - `/dashboard` - User workspace with saved presets
@@ -19,6 +20,7 @@ Preferred communication style: Simple, everyday language.
 - **UI Components**: Radix UI primitives and shadcn/ui for accessible components, including a NavBar with theme toggle, tabbed interfaces, and file upload zones.
 - **Styling**: Tailwind CSS for utility-first styling, CSS variables for theming (light/dark mode), and professional aesthetics.
 - **Design Patterns**: Component composition, controlled components, custom hooks, tabbed navigation for tool consolidation, and debounced real-time preview updates.
+- **SEO**: Comprehensive meta tags including Open Graph and Twitter Cards for social sharing, keyword optimization for color grading and LUT tools.
 
 ### Backend
 - **Runtime**: Node.js with Express.js.
@@ -36,17 +38,20 @@ Preferred communication style: Simple, everyday language.
 - **Storage Strategy**: Defaults to in-memory storage, with PostgreSQL support available when configured for user authentication and future preset library.
 
 ### System Design Choices
-- **UI/UX**: Clean, modern design with a subtle gradient background, accent orb, and minimalist waveform decoration on the landing page. Feature cards have hover-elevate effects. Focus on accessibility with WCAG compliance, semantic color tokens, and no distracting animations.
+- **UI/UX**: Clean, modern design with a subtle gradient background, accent orb, and minimalist decoration. Feature cards have hover-elevate effects. Focus on accessibility with WCAG compliance, semantic color tokens, and no distracting animations. Landing page features sleek hero section with dual CTAs and clear pricing tiers.
 - **Navigation Architecture**: Hub-and-spoke model with Image-to-LUT generation (`/generate`) as the main entry point, utility tools consolidated on `/tools` page with tabs, and user workspace on `/dashboard`. Streamlined navigation: Home | Generate | Tools | Dashboard.
-- **Technical Implementations**: Image-to-LUT generation is the flagship feature. Free-tier features (Convert/Analyze/Optimize) are publicly accessible via `/tools`. Authentication is for Pro features (preset saving, advanced options). Server-side validation is enforced for all LUT operations. All CTAs emphasize image analysis and LUT generation workflow.
+- **Pricing Strategy**: 
+    - **Free Tier**: All features available (unlimited image to LUT, conversion, analysis, all grid sizes). No usage limits.
+    - **Pro Tier ($15/month)**: Adds preset saving/organization, dashboard access, Lightroom presets (coming), batch processing (coming), priority support.
+    - **Studio Tier (Custom)**: All features planned (video processing, API access, team collaboration, custom integrations).
+    - Signup encouraged for tracking, saving work, and building user base, but not required for core functionality.
+- **Technical Implementations**: Image-to-LUT generation is the flagship feature with authentic color extraction (removed LUT Type/Purpose selectors that contradicted genuine analysis). All core features publicly accessible. Authentication provides value-add features (preset library, dashboard, future integrations). Server-side validation enforced for all LUT operations.
 - **Feature Specifications**:
+    - **Image to LUT**: Authentic color science extraction with intensity control, grid size (17/33/65), format (.cube/.3dl), precision (8/10/12-bit).
     - **LUT Conversion**: .cube ↔ .3dl, grid resampling, trilinear interpolation.
     - **LUT Analysis**: Banding detection, invalid point detection, out-of-range values.
-    - **Authentication**: Username/password, secure hashing (bcrypt), session management.
-    - **Tier-based Access Control**: Middleware enforces free/pro/studio tier requirements with dynamic rate limiting.
-    - **Preset Management**: Save/delete presets with tier limits, apply presets to conversion form, and download functionality.
-    - **Quality Options**: Grid size selector (17, 33, 65) with trilinear resampling.
-    - **Image to LUT**: Analyze images to extract color science and generate LUTs.
+    - **Authentication**: Username/password, secure hashing (bcrypt), session management for optional account features.
+    - **Preset Management**: Save/delete/organize unlimited presets (Pro tier), apply to conversion, download functionality.
 
 ## External Dependencies
 

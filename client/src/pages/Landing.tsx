@@ -107,7 +107,7 @@ export default function Landing() {
               <CardHeader className="space-y-4 pb-8">
                 <div>
                   <CardTitle className="text-2xl">Free</CardTitle>
-                  <CardDescription className="mt-2">Perfect for trying it out</CardDescription>
+                  <CardDescription className="mt-2">Full-featured, forever free</CardDescription>
                 </div>
                 <div>
                   <span className="text-5xl font-bold">$0</span>
@@ -118,7 +118,7 @@ export default function Landing() {
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Image to LUT generation</span>
+                    <span className="text-sm">Unlimited image to LUT generation</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
@@ -130,11 +130,11 @@ export default function Landing() {
                   </div>
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Basic grid sizes (17x17x17, 33x33x33)</span>
+                    <span className="text-sm">Grid sizes (17x17x17, 33x33x33, 65x65x65)</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground/40 mt-0.5 shrink-0" />
-                    <span className="text-sm text-muted-foreground">Up to 5 conversions/day</span>
+                    <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                    <span className="text-sm">All export formats & precision options</span>
                   </div>
                 </div>
               </CardContent>
@@ -170,15 +170,11 @@ export default function Landing() {
                   </div>
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Unlimited conversions & generations</span>
+                    <span className="text-sm">Save & organize unlimited presets</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Save unlimited custom presets</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Advanced grid size (65x65x65)</span>
+                    <span className="text-sm">Access preset library dashboard</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
@@ -187,6 +183,10 @@ export default function Landing() {
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                     <span className="text-sm">Batch processing (coming soon)</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                    <span className="text-sm">Priority email support</span>
                   </div>
                 </div>
               </CardContent>
