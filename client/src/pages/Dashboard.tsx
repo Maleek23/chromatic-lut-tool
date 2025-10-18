@@ -35,15 +35,6 @@ export default function Dashboard() {
 
   const isPro = user.tier === "pro" || user.tier === "studio";
   const isStudio = user.tier === "studio";
-  
-  // Calculate usage percentages for free tier
-  const conversionsUsed = user.conversionsThisMonth || 0;
-  const conversionsLimit = 50;
-  const conversionsPercent = isPro ? 0 : Math.min((conversionsUsed / conversionsLimit) * 100, 100);
-  
-  const previewsUsed = user.previewsToday || 0;
-  const previewsLimit = 3;
-  const previewsPercent = isPro ? 0 : Math.min((previewsUsed / previewsLimit) * 100, 100);
 
   return (
     <div className="container mx-auto p-6 max-w-7xl">
@@ -108,59 +99,39 @@ export default function Dashboard() {
 
       {/* Usage Stats Grid */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
-        {/* Conversions This Month */}
+        {/* LUT Generation */}
         <Card data-testid="card-conversions">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Conversions This Month
+              LUT Generation
             </CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold" data-testid="text-conversions-count">
-              {isPro ? conversionsUsed : `${conversionsUsed} / ${conversionsLimit}`}
+              {user.conversionsThisMonth || 0}
             </div>
-            {!isPro && (
-              <div className="mt-2">
-                <Progress value={conversionsPercent} className="h-2" />
-                <p className="text-xs text-muted-foreground mt-2">
-                  {conversionsLimit - conversionsUsed} conversions remaining
-                </p>
-              </div>
-            )}
-            {isPro && (
-              <p className="text-xs text-muted-foreground mt-2">
-                Unlimited with Pro
-              </p>
-            )}
+            <p className="text-xs text-muted-foreground mt-2">
+              Unlimited for all users
+            </p>
           </CardContent>
         </Card>
 
-        {/* Previews Today */}
+        {/* Format Conversion */}
         <Card data-testid="card-previews">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Previews Today
+              Format Conversions
             </CardTitle>
             <FileImage className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold" data-testid="text-previews-count">
-              {isPro ? previewsUsed : `${previewsUsed} / ${previewsLimit}`}
+              {user.previewsToday || 0}
             </div>
-            {!isPro && (
-              <div className="mt-2">
-                <Progress value={previewsPercent} className="h-2" />
-                <p className="text-xs text-muted-foreground mt-2">
-                  {previewsLimit - previewsUsed} previews remaining
-                </p>
-              </div>
-            )}
-            {isPro && (
-              <p className="text-xs text-muted-foreground mt-2">
-                Unlimited with Pro
-              </p>
-            )}
+            <p className="text-xs text-muted-foreground mt-2">
+              Unlimited for all users
+            </p>
           </CardContent>
         </Card>
 

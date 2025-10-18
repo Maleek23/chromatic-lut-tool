@@ -121,6 +121,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Stripe webhook handler for subscription events
+  // Note: Must use raw body for webhook signature verification
   app.post("/api/stripe-webhook", async (req, res) => {
     if (!stripe) {
       return res.status(503).json({ error: "Payment processing not configured" });
@@ -135,9 +136,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     let event: Stripe.Event;
 
     try {
-      // Note: In production, you should verify the webhook signature
-      // For now, we'll parse the event directly
-      event = req.body as Stripe.Event;
+      // Verify webhook signature for security
+      // In development without webhook secret, accept events directly (INSECURE - for testing only)
+      if (process.env.STRIPE_WEBHOOK_SECRET) {
+        // Production: Verify the signature
+        const rawBody = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
+        event = stripe.webhooks.constructEvent(
+          rawBody,
+          sig,
+          process.env.STRIPE_WEBHOOK_SECRET
+        );
+      } else {
+        // Development only: Log warning and accept unverified events
+        console.warn("⚠️  WARNING: STRIPE_WEBHOOK_SECRET not set - accepting unverified webhook events (INSECURE)");
+        event = req.body as Stripe.Event;
+      }
     } catch (err: any) {
       console.error("Webhook signature verification failed:", err.message);
       return res.status(400).send(`Webhook Error: ${err.message}`);
