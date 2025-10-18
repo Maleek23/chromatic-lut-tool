@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef, useId } from "react";
 import { CloudUpload, Image as ImageIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -10,6 +10,8 @@ interface UploadZoneProps {
 
 export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: UploadZoneProps) {
   const [isDragging, setIsDragging] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const inputId = useId();
 
   const handleDrop = useCallback(
     (e: React.DragEvent<HTMLDivElement>) => {
@@ -66,11 +68,12 @@ export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: Upl
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
-      onClick={() => document.getElementById("file-input")?.click()}
+      onClick={() => inputRef.current?.click()}
       data-testid="upload-zone"
     >
       <input
-        id="file-input"
+        ref={inputRef}
+        id={inputId}
         type="file"
         accept="image/jpeg,image/jpg,image/png,image/heic,image/heif,image/webp,image/tiff,image/tif"
         onChange={handleFileSelect}
