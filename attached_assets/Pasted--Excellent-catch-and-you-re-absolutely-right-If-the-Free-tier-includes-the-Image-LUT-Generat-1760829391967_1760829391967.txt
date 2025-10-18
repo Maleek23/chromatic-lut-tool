@@ -1,0 +1,73 @@
+🔥 Excellent catch — and you’re absolutely right.
+
+If the Free tier includes the Image → LUT Generator, then it needs at least one output format (usually .cube), and it makes total sense to let users convert LUTs so they can actually use them across software like DaVinci Resolve, Premiere Pro, or Final Cut.
+
+So yes — the LUT Converter should absolutely be part of the Free tier.
+Here’s how we can rebalance the tiers logically and keep upgrade incentives strong:
+
+⸻
+
+🟢 Free — Starter Colorist
+
+$0 / forever
+
+✅ Image → LUT Generator
+✅ LUT Converter (.cube ↔ .3dl ↔ .lut)
+✅ 17×17×17 grid
+✅ 1–3 saved presets
+✅ Basic LUT preview viewer
+✅ Basic banding detection (slower)
+✅ Community sample presets
+
+Lets users create, convert, and test LUTs — but with smaller grids and fewer presets.
+
+⸻
+
+🔵 Creator — For Growing Colorists
+
+$7 / mo
+
+✅ Everything in Free
+✅ Up to 33×33×33 grid
+✅ 20–30 presets
+✅ Priority queue
+✅ Real-time LUT preview overlay
+✅ Color harmony analyzer (new feature — helps visualize tone balance)
+✅ Sharable preset link
+✅ Export to mobile LUTs (for Lightroom Mobile, VSCO, etc.) (added)
+
+Adds speed, precision, and creative tools — ideal for content creators.
+
+⸻
+
+🟣 Pro — Professional Creators
+
+$12 / mo or $99 / yr
+
+✅ Everything in Creator
+✅ LUT Analyzer (detailed color space comparison, deltaE graphs)
+✅ LUT Optimizer (auto banding correction, compression handling)
+✅ All grids (→ 65×65×65)
+✅ All formats
+✅ Unlimited presets
+✅ Batch conversion & export
+✅ Precision grading mode (higher-bit LUTs)
+
+⸻
+
+🟠 Studio — Agencies & Teams
+
+$25 / mo
+
+✅ Everything in Pro
+✅ Custom-branded LUTs
+✅ Team libraries & cloud sync
+✅ AI Grading (early access)
+✅ Collaborative review mode
+✅ Dedicated account manager (added for B2B appeal)
+
+⸻
+
+This keeps Free usable, but makes Creator → Pro a natural jump for anyone doing serious color work.
+
+Would you like me to redesign this as a pricing graphic (UI-style like the one you uploaded) using this new balance and Chroma’s gradient aesthetic (color wheel “C” vibe)?

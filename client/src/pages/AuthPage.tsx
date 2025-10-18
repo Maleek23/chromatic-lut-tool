@@ -87,14 +87,13 @@ export default function AuthPage() {
               <TabsContent value="register" className="mt-6">
                 <Card className="border-muted/50 bg-card/80 backdrop-blur-sm shadow-2xl">
                   <CardHeader>
-                    <CardTitle className="text-2xl">Choose Your Tier</CardTitle>
-                    <CardDescription>Select a plan and create your account</CardDescription>
+                    <CardTitle className="text-2xl">Start Creating</CardTitle>
+                    <CardDescription>Pick your plan, unlock your creativity</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <form onSubmit={handleRegister} className="space-y-4">
                       {/* Tier Selection */}
                       <div className="space-y-3">
-                        <Label>Select Your Plan</Label>
                         <div className="grid grid-cols-2 gap-3">
                           <div
                             onClick={() => setRegisterData({ ...registerData, tier: "free" })}
@@ -109,8 +108,8 @@ export default function AuthPage() {
                               <Sparkles className="w-4 h-4 text-primary" />
                               <span className="font-semibold">Free</span>
                             </div>
-                            <p className="text-xs text-muted-foreground">$0/forever</p>
-                            <p className="text-xs text-muted-foreground mt-1">Image to LUT, basic tools</p>
+                            <p className="text-xs text-muted-foreground mt-1">Start free forever</p>
+                            <p className="text-xs text-muted-foreground">17³ grid • .cube export</p>
                           </div>
 
                           <div
@@ -126,8 +125,8 @@ export default function AuthPage() {
                               <ArrowRight className="w-4 h-4 text-blue-500" />
                               <span className="font-semibold">Creator</span>
                             </div>
-                            <p className="text-xs text-muted-foreground">$7/month</p>
-                            <p className="text-xs text-muted-foreground mt-1">+ Converter, 33×33 grid</p>
+                            <p className="text-xs text-muted-foreground mt-1">$7/mo</p>
+                            <p className="text-xs text-muted-foreground">33³ grid • Converter</p>
                           </div>
 
                           <div
@@ -143,8 +142,8 @@ export default function AuthPage() {
                               <Zap className="w-4 h-4 text-purple-500" />
                               <span className="font-semibold">Pro</span>
                             </div>
-                            <p className="text-xs text-muted-foreground">$12/month</p>
-                            <p className="text-xs text-muted-foreground mt-1">All tools, unlimited</p>
+                            <p className="text-xs text-muted-foreground mt-1">$12/mo</p>
+                            <p className="text-xs text-muted-foreground">All tools • Unlimited</p>
                           </div>
 
                           <div
@@ -159,11 +158,6 @@ export default function AuthPage() {
                             <p className="text-xs text-muted-foreground mt-1">Team features</p>
                           </div>
                         </div>
-                        {registerData.tier !== "free" && (
-                          <p className="text-xs text-muted-foreground bg-muted/50 p-3 rounded-lg">
-                            💳 You'll be redirected to payment after signup
-                          </p>
-                        )}
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="register-username">Username</Label>
