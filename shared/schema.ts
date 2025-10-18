@@ -16,6 +16,14 @@ export const users = pgTable("users", {
   previewsToday: integer("previews_today").notNull().default(0),
   lastResetDate: timestamp("last_reset_date").defaultNow().notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  // Profile personalization fields
+  avatarUrl: text("avatar_url"),
+  bannerUrl: text("banner_url"),
+  bio: text("bio"),
+  website: text("website"),
+  twitter: text("twitter"),
+  instagram: text("instagram"),
+  linkedin: text("linkedin"),
 });
 
 export const insertUserSchema = createInsertSchema(users).omit({
