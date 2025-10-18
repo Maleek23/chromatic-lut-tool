@@ -1,9 +1,9 @@
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/use-auth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
 import { Link, useLocation } from "wouter";
 import { 
   Crown, 
@@ -28,8 +28,15 @@ export default function Dashboard() {
     enabled: !!user,
   });
 
+  // Auth guard - redirect to auth page if not logged in
+  useEffect(() => {
+    if (!user) {
+      navigate("/auth");
+    }
+  }, [user, navigate]);
+
+  // Don't render until we know auth status
   if (!user) {
-    navigate("/auth");
     return null;
   }
 

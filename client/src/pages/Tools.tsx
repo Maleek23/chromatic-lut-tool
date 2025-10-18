@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { RefreshCw, BarChart3, Zap } from "lucide-react";
 import Convert from "@/pages/Convert";
@@ -12,8 +12,15 @@ export default function Tools() {
   const { user } = useAuth();
   const [, navigate] = useLocation();
 
+  // Auth guard - redirect to auth page if not logged in
+  useEffect(() => {
+    if (!user) {
+      navigate("/auth");
+    }
+  }, [user, navigate]);
+
+  // Don't render until we know auth status
   if (!user) {
-    navigate("/auth");
     return null;
   }
 

@@ -15,11 +15,6 @@ export default function Tool() {
   const { toast } = useToast();
   const { user } = useAuth();
   const [, navigate] = useLocation();
-
-  if (!user) {
-    navigate("/auth");
-    return null;
-  }
   
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -34,6 +29,18 @@ export default function Tool() {
   
   const [isGenerating, setIsGenerating] = useState(false);
   const [lutResult, setLutResult] = useState<LutResponse | null>(null);
+
+  // Auth guard - redirect to auth page if not logged in
+  useEffect(() => {
+    if (!user) {
+      navigate("/auth");
+    }
+  }, [user, navigate]);
+
+  // Don't render until we know auth status
+  if (!user) {
+    return null;
+  }
 
   const handleImageUpload = async (file: File) => {
     // Validate file size (max 25MB)
