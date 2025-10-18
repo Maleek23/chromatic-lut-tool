@@ -22,11 +22,10 @@ export default function Landing() {
 
         <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
           <div className="space-y-4">
-            <div className="inline-block px-4 py-2 bg-primary/10 backdrop-blur-sm rounded-full mb-4 border border-primary/20">
-              <span className="text-sm font-medium text-primary">by Untitled</span>
-            </div>
-            <h1 className="text-5xl font-bold tracking-tight">
-              ColorKit
+            <h1 className="text-6xl font-bold tracking-tight mb-4">
+              <span className="text-foreground">UN</span>
+              <span className="text-primary text-7xl mx-1">/</span>
+              <span className="text-foreground">TITLD</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Professional LUT conversion and optimization toolkit. Convert between formats, 
@@ -38,7 +37,7 @@ export default function Landing() {
             <Link href="/convert">
               <Button size="lg" data-testid="button-get-started">
                 <Sparkles className="w-4 h-4 mr-2" />
-                Launch ColorKit
+                Get Started Free
               </Button>
             </Link>
           </div>

@@ -35,10 +35,11 @@ export default function AuthPage() {
       <div className="flex items-center justify-center p-8">
         <div className="w-full max-w-md space-y-6">
           <div className="text-center">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Film className="w-8 h-8" />
-              <h1 className="text-3xl font-bold">ColorKit</h1>
-            </div>
+            <h1 className="text-4xl font-bold tracking-tight mb-4">
+              <span className="text-foreground">UN</span>
+              <span className="text-primary text-5xl mx-0.5">/</span>
+              <span className="text-foreground">TITLD</span>
+            </h1>
             <p className="text-muted-foreground">
               Professional LUT conversion and optimization
             </p>

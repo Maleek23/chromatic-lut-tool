@@ -14,11 +14,11 @@ export function NavBar() {
     <nav className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/">
-          <Button variant="ghost" className="gap-2 hover-elevate" data-testid="button-home">
-            <Droplets className="w-5 h-5 text-primary" />
-            <div className="flex flex-col items-start leading-none">
-              <span className="font-semibold">ColorKit</span>
-              <span className="text-xs text-muted-foreground">by Untitled</span>
+          <Button variant="ghost" className="hover-elevate px-3" data-testid="button-home">
+            <div className="flex items-center gap-0 font-bold text-xl tracking-tight">
+              <span className="text-foreground">UN</span>
+              <span className="text-primary text-2xl mx-0.5">/</span>
+              <span className="text-foreground">TITLD</span>
             </div>
           </Button>
         </Link>
