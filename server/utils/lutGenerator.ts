@@ -385,9 +385,10 @@ DOMAIN_MAX 1.0 1.0 1.0
 
 `;
 
-  for (let b = 0; b < gridSize; b++) {
+  // Blue-fastest order: R (slowest) -> G (middle) -> B (fastest)
+  for (let r = 0; r < gridSize; r++) {
     for (let g = 0; g < gridSize; g++) {
-      for (let r = 0; r < gridSize; r++) {
+      for (let b = 0; b < gridSize; b++) {
         const key = `${r},${g},${b}`;
         const color = colorMap.get(key) || {
           r: (r / (gridSize - 1)) * 255,
@@ -421,9 +422,10 @@ Mesh ${gridSize} ${gridSize} ${gridSize}
 
 `;
 
-  for (let b = 0; b < gridSize; b++) {
+  // Blue-fastest order: R (slowest) -> G (middle) -> B (fastest)
+  for (let r = 0; r < gridSize; r++) {
     for (let g = 0; g < gridSize; g++) {
-      for (let r = 0; r < gridSize; r++) {
+      for (let b = 0; b < gridSize; b++) {
         const key = `${r},${g},${b}`;
         const color = colorMap.get(key) || {
           r: (r / (gridSize - 1)) * 255,
