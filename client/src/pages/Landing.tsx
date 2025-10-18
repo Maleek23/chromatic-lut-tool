@@ -453,12 +453,16 @@ export default function Landing() {
                     <span className="text-xs font-semibold">Image to LUT Generator</span>
                   </div>
                   <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs text-muted-foreground">17×17×17 grid</span>
+                    <ArrowRight className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                    <span className="text-xs font-semibold text-primary">LUT Converter</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs text-muted-foreground">.cube format only</span>
+                    <span className="text-xs text-muted-foreground">All formats (.cube ↔ .3dl ↔ .lut)</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                    <span className="text-xs text-muted-foreground">17×17×17 grid</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
@@ -500,11 +504,7 @@ export default function Landing() {
                   </div>
                   <div className="flex items-start gap-2">
                     <ArrowRight className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold text-blue-500">+ LUT Converter</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs text-muted-foreground">Up to 33×33×33 grid</span>
+                    <span className="text-xs font-semibold text-blue-500">+ 33×33×33 grid size</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />

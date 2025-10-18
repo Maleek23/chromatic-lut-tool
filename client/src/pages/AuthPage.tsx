@@ -109,7 +109,7 @@ export default function AuthPage() {
                               <span className="font-semibold">Free</span>
                             </div>
                             <p className="text-xs text-muted-foreground mt-1">Start free forever</p>
-                            <p className="text-xs text-muted-foreground">17³ grid • .cube export</p>
+                            <p className="text-xs text-muted-foreground">Generator + Converter</p>
                           </div>
 
                           <div
@@ -126,7 +126,7 @@ export default function AuthPage() {
                               <span className="font-semibold">Creator</span>
                             </div>
                             <p className="text-xs text-muted-foreground mt-1">$7/mo</p>
-                            <p className="text-xs text-muted-foreground">33³ grid • Converter</p>
+                            <p className="text-xs text-muted-foreground">33³ grid • 30 presets</p>
                           </div>
 
                           <div
@@ -143,7 +143,7 @@ export default function AuthPage() {
                               <span className="font-semibold">Pro</span>
                             </div>
                             <p className="text-xs text-muted-foreground mt-1">$12/mo</p>
-                            <p className="text-xs text-muted-foreground">All tools • Unlimited</p>
+                            <p className="text-xs text-muted-foreground">Analyzer + Optimizer</p>
                           </div>
 
                           <div

@@ -89,9 +89,9 @@ Preferred communication style: Simple, everyday language.
 - **UI/UX**: Cinematic color grading aesthetic with gradient effects, animated color orbs, film grain overlays, chromatic aberration on headings, backdrop blur cards, and professional visual hierarchy.
 - **Navigation Architecture**: Hub-and-spoke model with Image-to-LUT generation (`/generate`) as the main entry point, utility tools consolidated on `/tools` page with tabs, and user workspace on `/dashboard`. Streamlined navigation: Home | Generate | Tools | Dashboard.
 - **Pricing Strategy**: 4-tier system fully implemented with feature gating
-    - **Free Tier ($0/forever)**: Standard quality features - Image→LUT generation (17×17×17 grid), basic conversions (.cube→.3dl), banding detection (preview only), export in .cube format, no preset saving, community access. Perfect for creators exploring color grading.
-    - **Creator Tier ($6-7/month)**: Mid-tier option - 33×33×33 grid size, .cube format only, 20-30 preset limit, priority processing queue. For content creators who need better quality than free.
-    - **Pro Tier ($12/month or $99/year)**: Everything in Creator plus - Unlimited grid sizes (17×17×17→65×65×65), all format conversions (.cube↔.3dl↔.lut), full-quality analysis & precision exports, unlimited presets, preset library dashboard, Lightroom-style presets (coming), batch processing (coming), priority support.
+    - **Free Tier ($0/forever)**: Image→LUT Generator + LUT Converter - All format conversions (.cube↔.3dl↔.lut), 17×17×17 grid, 1-3 saved presets, community access. Perfect for creators exploring color grading.
+    - **Creator Tier ($7/month)**: Everything in Free plus - 33×33×33 grid size, 20-30 preset limit, priority processing queue, folder organization. For content creators who need better quality.
+    - **Pro Tier ($12/month or $99/year)**: Everything in Creator plus - LUT Analyzer + LUT Optimizer, unlimited grid sizes (17×17×17→65×65×65), all format conversions, unlimited presets, batch processing, priority support.
     - **Studio Add-on ($25/month, coming soon)**: For agencies or YouTube colorists - Custom branded LUTs, team preset sharing, early access to experimental AI grading features.
     - Authentication required for all features. Stripe integration handles subscriptions with automatic tier upgrades via webhooks.
     - Test accounts available: free_test_user, creator_test_user, pro_test_user, studio_test_user (all use password "test123")
