@@ -1,15 +1,24 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
-import { Upload, Download, RefreshCw, CheckCircle, AlertCircle, Crown } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Upload, Download, RefreshCw, CheckCircle, AlertCircle, Crown, Bookmark } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
 import demoImageBefore from "@assets/stock_images/cinematic_film_scene_3b85db8f.jpg";
 import demoImageAfter from "@assets/stock_images/cinematic_film_scene_1a3fcc2b.jpg";
+
+interface Preset {
+  id: number;
+  name: string;
+  format: string;
+  createdAt: string;
+}
 
 interface ParseResult {
   success: boolean;
@@ -27,10 +36,18 @@ export default function Convert() {
   const [gridSize, setGridSize] = useState<string>("auto");
   const [isConverting, setIsConverting] = useState(false);
   const [parseResult, setParseResult] = useState<ParseResult | null>(null);
+  const [selectedPreset, setSelectedPreset] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState("upload");
   const { toast } = useToast();
   const { user } = useAuth();
   
   const isPro = user && (user.tier === "pro" || user.tier === "studio");
+
+  // Fetch user's saved presets
+  const { data: presets } = useQuery<Preset[]>({
+    queryKey: ["/api/presets"],
+    enabled: !!user,
+  });
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -164,24 +181,149 @@ export default function Convert() {
     }
   };
 
+  const handleApplyPreset = async (presetId: number, presetName: string, presetFormat: string) => {
+    try {
+      const response = await fetch(`/api/presets/${presetId}/download`);
+      
+      if (!response.ok) {
+        toast({
+          title: "Failed to load preset",
+          description: "Could not download preset data",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      const blob = await response.blob();
+      const filename = `${presetName.replace(/[^a-zA-Z0-9]/g, '_')}.${presetFormat}`;
+      
+      // Create a File object from the blob to use in the upload form
+      const file = new File([blob], filename, { type: blob.type });
+      setUploadedFile(file);
+      
+      // Parse the file immediately
+      const formData = new FormData();
+      formData.append("file", file);
+      
+      const parseResponse = await fetch("/api/lut/parse", {
+        method: "POST",
+        body: formData,
+      });
+      
+      if (!parseResponse.ok) {
+        setParseResult(null);
+        setUploadedFile(null);
+        toast({
+          title: "Failed to parse preset",
+          description: "The preset file could not be parsed",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      const result = await parseResponse.json();
+      
+      if (!result.success) {
+        setParseResult(result); // Set the failed result to reflect error state in UI
+        toast({
+          title: "Invalid preset",
+          description: result.error || "The preset file is not a valid LUT",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      setParseResult(result);
+      
+      // Switch to upload tab to show the loaded preset
+      setActiveTab("upload");
+      
+      toast({
+        title: "Preset loaded",
+        description: `${presetName} is ready for conversion`,
+      });
+    } catch (error) {
+      console.error("Apply preset error:", error);
+      toast({
+        title: "Failed to load preset",
+        description: "An error occurred while loading the preset",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDownloadPreset = async (presetId: number) => {
+    try {
+      const response = await fetch(`/api/presets/${presetId}/download`);
+      
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        
+        const contentDisposition = response.headers.get("Content-Disposition");
+        const filenameMatch = contentDisposition?.match(/filename="(.+)"/);
+        const filename = filenameMatch ? filenameMatch[1] : `preset.cube`;
+        
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        
+        toast({
+          title: "Preset downloaded",
+          description: `Downloaded ${filename}`,
+        });
+      } else {
+        toast({
+          title: "Download failed",
+          description: "Failed to download preset",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Download error:", error);
+      toast({
+        title: "Download failed",
+        description: "An error occurred during download",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background py-12">
       <div className="max-w-4xl mx-auto px-4">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-3">Convert LUTs</h1>
           <p className="text-muted-foreground">
-            Convert between .cube, .3dl, and other LUT formats
+            Convert between .cube, .3dl formats and more
           </p>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Upload LUT File</CardTitle>
-            <CardDescription>
-              Upload your existing LUT file to convert between formats
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="upload" data-testid="tab-upload">
+              <Upload className="w-4 h-4 mr-2" />
+              Upload LUT
+            </TabsTrigger>
+            <TabsTrigger value="presets" data-testid="tab-presets" disabled={!user}>
+              <Bookmark className="w-4 h-4 mr-2" />
+              My Presets {!user && "(Login Required)"}
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="upload">
+            <Card>
+              <CardHeader>
+                <CardTitle>Upload LUT File</CardTitle>
+                <CardDescription>
+                  Upload .cube, .3dl, or media files (.png, .jpg, .mp4)
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
             {parseResult && (
               <Alert variant={parseResult.success ? "default" : "destructive"}>
                 {parseResult.success ? (
@@ -209,7 +351,7 @@ export default function Convert() {
             <div className="border-2 border-dashed rounded-lg p-12 text-center hover-elevate">
               <input
                 type="file"
-                accept=".cube,.3dl"
+                accept=".cube,.3dl,.png,.jpg,.jpeg,.mp4,.mov,.avi"
                 onChange={handleFileUpload}
                 className="hidden"
                 id="lut-upload"
@@ -226,9 +368,9 @@ export default function Convert() {
                   </div>
                 ) : (
                   <div>
-                    <p className="font-medium">Drop LUT file or click to browse</p>
+                    <p className="font-medium">Drop file or click to browse</p>
                     <p className="text-sm text-muted-foreground mt-1">
-                      Supports .cube and .3dl formats
+                      LUTs (.cube, .3dl) • Images (.png, .jpg) • Videos (.mp4, .mov, .avi)
                     </p>
                   </div>
                 )}
@@ -304,6 +446,64 @@ export default function Convert() {
             )}
           </CardContent>
         </Card>
+          </TabsContent>
+
+          <TabsContent value="presets">
+            <Card>
+              <CardHeader>
+                <CardTitle>My Saved Presets</CardTitle>
+                <CardDescription>
+                  Load and download your saved LUT presets
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {!presets || presets.length === 0 ? (
+                  <div className="text-center py-12">
+                    <Bookmark className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                    <p className="text-muted-foreground">
+                      No saved presets yet. Convert a LUT and save it from the dashboard.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {presets.map((preset) => (
+                      <Card key={preset.id} className={`hover-elevate ${selectedPreset === preset.id ? 'border-primary' : ''}`}>
+                        <CardContent className="flex items-center justify-between gap-3 p-4">
+                          <div className="flex-1">
+                            <h3 className="font-medium">{preset.name}</h3>
+                            <p className="text-sm text-muted-foreground">
+                              {preset.format.toUpperCase()} • {new Date(preset.createdAt).toLocaleDateString()}
+                            </p>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              variant="default"
+                              onClick={() => handleApplyPreset(preset.id, preset.name, preset.format)}
+                              data-testid={`button-apply-preset-${preset.id}`}
+                            >
+                              <Upload className="w-4 h-4 mr-2" />
+                              Apply
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleDownloadPreset(preset.id)}
+                              data-testid={`button-download-preset-${preset.id}`}
+                            >
+                              <Download className="w-4 h-4 mr-2" />
+                              Download
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
 
         {/* Demo Section */}
         <Card className="mt-8">

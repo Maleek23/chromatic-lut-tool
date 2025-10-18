@@ -10,7 +10,33 @@ import { setupAuth } from "./auth";
 import { requireAuth, requireTier } from "./middleware/tierGuard";
 import { dynamicRateLimiter } from "./middleware/rateLimiter";
 
-const upload = multer({ storage: multer.memoryStorage() });
+// Configure multer with file validation
+const upload = multer({ 
+  storage: multer.memoryStorage(),
+  fileFilter: (req, file, cb) => {
+    const allowedMimeTypes = [
+      'text/plain',           // .cube, .3dl
+      'application/octet-stream', // generic
+      'image/png',            // .png
+      'image/jpeg',           // .jpg, .jpeg
+      'video/mp4',            // .mp4
+      'video/quicktime',      // .mov
+      'video/x-msvideo'       // .avi
+    ];
+    
+    const allowedExtensions = ['.cube', '.3dl', '.png', '.jpg', '.jpeg', '.mp4', '.mov', '.avi'];
+    const ext = file.originalname.toLowerCase().substring(file.originalname.lastIndexOf('.'));
+    
+    if (allowedMimeTypes.includes(file.mimetype) || allowedExtensions.includes(ext)) {
+      cb(null, true);
+    } else {
+      cb(new Error(`Unsupported file type: ${file.mimetype}. Supported: .cube, .3dl, .png, .jpg, .mp4, .mov, .avi`));
+    }
+  },
+  limits: {
+    fileSize: 100 * 1024 * 1024 // 100MB limit for video files
+  }
+});
 
 // Cache LUT maps for preview generation
 const lutCache = new Map<string, { map: Map<string, any>, gridSize: number }>();
@@ -495,10 +521,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { storage } = await import("./storage");
       const presets = await storage.getUserPresets(req.user.id);
       
-      res.json({ presets });
+      res.json(presets); // Return array directly for React Query
     } catch (error) {
       console.error("Get presets error:", error);
       res.status(500).json({ error: "Failed to fetch presets" });
+    }
+  });
+
+  // Download a preset
+  app.get("/api/presets/:id/download", requireAuth, async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ error: "Authentication required" });
+      }
+
+      const presetId = parseInt(req.params.id);
+      if (isNaN(presetId)) {
+        return res.status(400).json({ error: "Invalid preset ID" });
+      }
+
+      const { storage } = await import("./storage");
+      const preset = await storage.getPreset(presetId, req.user.id);
+      
+      if (!preset) {
+        return res.status(404).json({ error: "Preset not found" });
+      }
+
+      // Send the LUT data as a downloadable file with proper MIME type
+      const filename = `${preset.name.replace(/[^a-zA-Z0-9]/g, '_')}.${preset.format}`;
+      
+      // Determine MIME type based on format
+      let contentType = 'text/plain';
+      const format = preset.format.toLowerCase();
+      
+      if (format === 'cube' || format === '3dl') {
+        contentType = 'text/plain';
+      } else if (format === 'png') {
+        contentType = 'image/png';
+      } else if (format === 'jpg' || format === 'jpeg') {
+        contentType = 'image/jpeg';
+      } else if (format === 'mp4') {
+        contentType = 'video/mp4';
+      } else if (format === 'mov') {
+        contentType = 'video/quicktime';
+      } else if (format === 'avi') {
+        contentType = 'video/x-msvideo';
+      } else {
+        contentType = 'application/octet-stream'; // Safe fallback for unknown formats
+      }
+      
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.setHeader('Content-Type', contentType);
+      res.send(preset.lutData);
+    } catch (error) {
+      console.error("Download preset error:", error);
+      res.status(500).json({ error: "Failed to download preset" });
     }
   });
 

@@ -23,6 +23,7 @@ export interface IStorage {
   // Preset methods
   getUserPresets(userId: number): Promise<SavedPreset[]>;
   getUserPresetCount(userId: number): Promise<number>;
+  getPreset(presetId: number, userId: number): Promise<SavedPreset | null>;
   createPreset(preset: InsertPreset): Promise<SavedPreset>;
   deletePreset(presetId: number, userId: number): Promise<boolean>;
   
@@ -132,11 +133,19 @@ export class MemStorage implements IStorage {
     return Array.from(this.presets.values()).filter(p => p.userId === userId).length;
   }
 
+  async getPreset(presetId: number, userId: number): Promise<SavedPreset | null> {
+    const preset = this.presets.get(presetId);
+    if (!preset || preset.userId !== userId) return null;
+    return preset;
+  }
+
   async createPreset(preset: InsertPreset): Promise<SavedPreset> {
     const id = this.nextPresetId++;
     const newPreset: SavedPreset = {
       ...preset,
       id,
+      description: preset.description || null,
+      isPublic: preset.isPublic || false,
       createdAt: new Date(),
     };
     this.presets.set(id, newPreset);
@@ -244,6 +253,14 @@ export class PostgresStorage implements IStorage {
       .from(presets)
       .where(eq(presets.userId, userId));
     return result.length;
+  }
+
+  async getPreset(presetId: number, userId: number): Promise<SavedPreset | null> {
+    const [preset] = await db
+      .select()
+      .from(presets)
+      .where(and(eq(presets.id, presetId), eq(presets.userId, userId)));
+    return preset || null;
   }
 
   async createPreset(preset: InsertPreset): Promise<SavedPreset> {
