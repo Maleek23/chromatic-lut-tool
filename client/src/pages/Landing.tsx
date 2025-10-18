@@ -386,7 +386,7 @@ export default function Landing() {
           </div>
 
           {/* Color spectrum visualization */}
-          <div className="mt-8 relative">
+          <div className="mt-24 relative">
             <div className="flex gap-1 justify-center h-20 items-end opacity-40">
               {[...Array(32)].map((_, i) => (
                 <div
