@@ -10,11 +10,15 @@ Preferred communication style: Simple, everyday language.
 
 ### Frontend
 - **Framework**: React 18+ with TypeScript and Vite.
-- **Routing**: Wouter for client-side routing, managing paths like `/`, `/convert`, `/analyze`, and `/auth`.
+- **Routing**: Wouter for client-side routing with hub-and-spoke architecture:
+  - `/generate` - Image to LUT generator (main flagship feature)
+  - `/tools` - Consolidated tabbed page (Convert/Analyze/Optimize)
+  - `/dashboard` - User workspace with saved presets
+  - `/auth` - Authentication flow
 - **State Management**: Local React state, custom auth context, React Query for server state, and file upload state with drag-and-drop.
-- **UI Components**: Radix UI primitives and shadcn/ui for accessible components, including a NavBar with theme toggle and file upload zones.
+- **UI Components**: Radix UI primitives and shadcn/ui for accessible components, including a NavBar with theme toggle, tabbed interfaces, and file upload zones.
 - **Styling**: Tailwind CSS for utility-first styling, CSS variables for theming (light/dark mode), and professional aesthetics.
-- **Design Patterns**: Component composition, controlled components, custom hooks, and debounced real-time preview updates.
+- **Design Patterns**: Component composition, controlled components, custom hooks, tabbed navigation for tool consolidation, and debounced real-time preview updates.
 
 ### Backend
 - **Runtime**: Node.js with Express.js.
@@ -33,7 +37,8 @@ Preferred communication style: Simple, everyday language.
 
 ### System Design Choices
 - **UI/UX**: Clean, modern design with a subtle gradient background, accent orb, and minimalist waveform decoration on the landing page. Feature cards have hover-elevate effects. Focus on accessibility with WCAG compliance, semantic color tokens, and no distracting animations.
-- **Technical Implementations**: Free-tier features (Convert/Analyze) are publicly accessible. Authentication is for Pro features. Server-side validation is enforced for all LUT operations. Image analysis is a primary feature, emphasized throughout the platform.
+- **Navigation Architecture**: Hub-and-spoke model with Image-to-LUT generation (`/generate`) as the main entry point, utility tools consolidated on `/tools` page with tabs, and user workspace on `/dashboard`. Streamlined navigation: Home | Generate | Tools | Dashboard.
+- **Technical Implementations**: Image-to-LUT generation is the flagship feature. Free-tier features (Convert/Analyze/Optimize) are publicly accessible via `/tools`. Authentication is for Pro features (preset saving, advanced options). Server-side validation is enforced for all LUT operations. All CTAs emphasize image analysis and LUT generation workflow.
 - **Feature Specifications**:
     - **LUT Conversion**: .cube ↔ .3dl, grid resampling, trilinear interpolation.
     - **LUT Analysis**: Banding detection, invalid point detection, out-of-range values.
