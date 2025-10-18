@@ -224,7 +224,7 @@ Preferred communication style: Simple, everyday language.
 - ✅ Preset save/delete operations persisting correctly to PostgreSQL
 
 **Preset Toggle and Apply System (Phase 3 - October 18, 2025)**:
-1. Branding Enhancement - Added Palette icon to CHROMATIC branding across navbar, landing, and auth pages
+1. Branding Enhancement - Changed Palette icon to Pipette (chroma dropper) icon across navbar, landing, and auth pages
 2. File Upload Support - Extended Multer validation to support .cube, .3dl, .png, .jpg, .jpeg, .mp4, .mov, .avi formats
 3. Convert Page Tabs UI - Implemented controlled tabs switching between "Upload LUT" and "My Presets" modes
 4. Preset Selector UI - Built preset card list with Apply and Download buttons for each saved preset
@@ -243,6 +243,26 @@ Preferred communication style: Simple, everyday language.
 - ✅ UI state properly reflects validation failures
 - ✅ Download functionality works for all preset types
 - ✅ Comprehensive e2e tests verify complete user workflows
+
+**Authentication & Messaging Improvements (Phase 3.1 - October 18, 2025)**:
+1. Login Error Messages - Enhanced error specificity for better UX:
+   - "User not found. Please register first." when username doesn't exist
+   - "Incorrect password. Please try again." when password is wrong
+   - Modified LocalStrategy in server/auth.ts to differentiate errors
+   - Updated /api/login endpoint to use custom callback returning JSON error messages
+2. IMAGE to LUT Feature Repositioning - Emphasized image analysis as the MAIN feature:
+   - Landing hero: "Analyze any image for color grading and convert to professional LUTs"
+   - Features section: "Image Analysis - Analyze any image (color graded footage, reference stills) to extract color science and generate LUTs"
+   - How It Works: "Upload Image or LUT → Analyze & Extract → Analyze & Optimize → Convert & Export"
+   - Pro tier features: "Image color analysis & LUT extraction" (removed "coming soon" tag)
+   - AuthPage tagline: "Analyze images for color grading and generate professional LUTs"
+3. Brand Identity - Pipette icon represents chroma/color sampling (not generic palette)
+
+**Verification**:
+- ✅ Login error messages tested and working correctly via e2e tests
+- ✅ Image analysis positioned as primary feature across all marketing copy
+- ✅ Messaging consistency verified across Landing, Auth, and feature pages
+- ✅ No contradictions between "available now" and "coming soon" features
 
 **Pending** (requires user action):
 - Stripe payment flow activation (waiting for STRIPE_SECRET_KEY and VITE_STRIPE_PUBLIC_KEY from user)
