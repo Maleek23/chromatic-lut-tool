@@ -2,19 +2,12 @@ import { z } from "zod";
 import { pgTable, text, serial, timestamp, integer, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
-// User Schema
+// User Schema - Community Edition (Simplified)
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
   email: text("email"),
-  tier: text("tier").notNull().default("free"), // 'free', 'pro', 'studio'
-  tierExpiresAt: timestamp("tier_expires_at"), // Null for free tier, set for pro/studio
-  stripeCustomerId: text("stripe_customer_id"),
-  stripeSubscriptionId: text("stripe_subscription_id"),
-  conversionsThisMonth: integer("conversions_this_month").notNull().default(0),
-  previewsToday: integer("previews_today").notNull().default(0),
-  lastResetDate: timestamp("last_reset_date").defaultNow().notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   // Profile personalization fields
   avatarUrl: text("avatar_url"),
@@ -29,32 +22,10 @@ export const users = pgTable("users", {
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
   createdAt: true,
-  stripeCustomerId: true,
-  stripeSubscriptionId: true,
 });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
-
-// Preset Table Schema (for user-saved presets)
-export const presets = pgTable("presets", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().references(() => users.id),
-  name: text("name").notNull(),
-  description: text("description"),
-  lutData: text("lut_data").notNull(), // Serialized LUT file content
-  format: text("format").notNull(), // 'cube' or '3dl'
-  isPublic: boolean("is_public").notNull().default(false),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
-
-export const insertPresetSchema = createInsertSchema(presets).omit({
-  id: true,
-  createdAt: true,
-});
-
-export type InsertPreset = z.infer<typeof insertPresetSchema>;
-export type SavedPreset = typeof presets.$inferSelect;
 
 // LUT Analysis Response Schema
 export const lutAnalysisSchema = z.object({
@@ -74,12 +45,12 @@ export const lutAnalysisSchema = z.object({
 
 export type LutAnalysis = z.infer<typeof lutAnalysisSchema>;
 
-// LUT Generation Request Schema
+// LUT Generation Request Schema - Community Edition (17x17x17 only, .cube only)
 export const lutGenerationSchema = z.object({
   imageData: z.string(), // base64 encoded image
-  gridSize: z.enum(["17", "33", "65"]),
+  gridSize: z.literal("17"), // Locked to 17x17x17 in Community Edition
   intensity: z.number().min(0).max(100),
-  format: z.enum(["cube", "3dl"]),
+  format: z.literal("cube"), // Locked to .cube in Community Edition
   precision: z.enum(["8", "10", "12"]).default("10"),
   exportPreview: z.boolean().default(false),
 });
@@ -125,49 +96,36 @@ export const advancedControlsSchema = z.object({
 
 export type AdvancedControls = z.infer<typeof advancedControlsSchema>;
 
-// Preset Schema
-export const presetSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  description: z.string().optional(),
-  controls: advancedControlsSchema,
-  intensity: z.number().min(0).max(100).default(100),
-  isCustom: z.boolean().default(false),
-  thumbnail: z.string().optional(),
-});
-
-export type Preset = z.infer<typeof presetSchema>;
-
-// Extended LUT Generation with Advanced Controls
+// Extended LUT Generation Schema (with advanced controls)
 export const extendedLutGenerationSchema = lutGenerationSchema.extend({
   advancedControls: advancedControlsSchema.optional(),
-  presetId: z.string().optional(),
-  precision: z.enum(["8", "10", "12"]).default("10"),
-  exportPreview: z.boolean().default(false),
-  lutType: z.enum(["creative", "technical", "cinematic", "neutral"]).default("creative"),
-  lutPurpose: z.enum(["color-correction", "look", "grading", "matching"]).default("look"),
 });
 
-// Batch Image Schema
-export const batchImageSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  imageData: z.string(), // base64 encoded image
-  previewData: z.string().optional(), // preview with LUT applied
-});
+export type ExtendedLutGenerationRequest = z.infer<typeof extendedLutGenerationSchema>;
 
-export type BatchImage = z.infer<typeof batchImageSchema>;
-
-// Batch LUT Request Schema
+// Batch LUT Generation Schema
 export const batchLutRequestSchema = z.object({
-  images: z.array(batchImageSchema),
-  gridSize: z.enum(["17", "33", "65"]),
+  images: z.array(z.object({
+    imageData: z.string(),
+    name: z.string(),
+  })),
+  gridSize: z.literal("17"),
   intensity: z.number().min(0).max(100),
-  format: z.enum(["cube", "3dl"]),
+  format: z.literal("cube"),
   precision: z.enum(["8", "10", "12"]).default("10"),
-  exportPreview: z.boolean().default(false),
-  advancedControls: advancedControlsSchema.optional(),
-  presetId: z.string().optional(),
 });
 
 export type BatchLutRequest = z.infer<typeof batchLutRequestSchema>;
+
+// Profile Update Schema
+export const profileUpdateSchema = z.object({
+  avatarUrl: z.string().optional(),
+  bannerUrl: z.string().optional(),
+  bio: z.string().max(500).optional(),
+  website: z.string().url().optional().or(z.literal("")),
+  twitter: z.string().optional(),
+  instagram: z.string().optional(),
+  linkedin: z.string().optional(),
+});
+
+export type ProfileUpdate = z.infer<typeof profileUpdateSchema>;

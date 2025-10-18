@@ -1,15 +1,11 @@
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Badge } from "@/components/ui/badge";
-import { Sparkles, Loader2, HelpCircle, Crown } from "lucide-react";
+import { Sparkles, Loader2, HelpCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { useAuth } from "@/hooks/use-auth";
-import { Link } from "wouter";
 
 interface LutControlsProps {
   intensity: number;
@@ -42,8 +38,9 @@ export function LutControls({
   isGenerating,
   hideGenerate = false,
 }: LutControlsProps) {
-  const { user } = useAuth();
-  const isPro = user?.tier === "pro" || user?.tier === "studio";
+  // Community Edition: Always locked to free tier
+  // Grid size: 17x17x17 only
+  // Format: .cube only
 
   return (
     <Card>
@@ -73,98 +70,55 @@ export function LutControls({
           />
         </div>
 
-        {/* Grid Size */}
+        {/* Grid Size - Community Edition: Locked to 17x17x17 */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <Label>Grid Size</Label>
-            {!isPro && (
-              <Badge variant="outline" className="text-xs">
-                <Crown className="w-3 h-3 mr-1" />Pro Feature
-              </Badge>
-            )}
             <Tooltip>
               <TooltipTrigger asChild>
                 <HelpCircle className="w-3.5 h-3.5 text-muted-foreground cursor-help" />
               </TooltipTrigger>
               <TooltipContent side="right" className="max-w-xs">
-                <p>Number of color points in the LUT. Higher values create smoother gradients but larger files.</p>
+                <p>Number of color points in the LUT. 17×17×17 provides industry-standard quality.</p>
               </TooltipContent>
             </Tooltip>
           </div>
-          <RadioGroup
-            value={gridSize}
-            onValueChange={(value) => onGridSizeChange(value as "17" | "33" | "65")}
-          >
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="17" id="grid-17" data-testid="radio-grid-17" />
-              <Label htmlFor="grid-17" className="font-normal cursor-pointer">
-                17×17×17 <span className="text-muted-foreground">(Standard - Free)</span>
+          <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 w-full p-3 rounded-lg bg-muted/30 border">
+              <Label htmlFor="grid-17" className="font-normal cursor-default flex-1">
+                17×17×17 <span className="text-muted-foreground">(Industry Standard)</span>
               </Label>
             </div>
-            {isPro ? (
-              <>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="33" id="grid-33" data-testid="radio-grid-33" />
-                  <Label htmlFor="grid-33" className="font-normal cursor-pointer">
-                    33×33×33 <span className="text-muted-foreground">(High Quality)</span>
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="65" id="grid-65" data-testid="radio-grid-65" />
-                  <Label htmlFor="grid-65" className="font-normal cursor-pointer">
-                    65×65×65 <span className="text-muted-foreground">(Ultra Quality)</span>
-                  </Label>
-                </div>
-              </>
-            ) : (
-              <div className="space-y-2 pl-6 pr-3 py-2 bg-muted/30 rounded-lg border border-dashed">
-                <p className="text-sm text-muted-foreground">
-                  <Crown className="w-3.5 h-3.5 inline mr-1" />
-                  Unlock 33×33×33 and 65×65×65 grid sizes with Pro
-                </p>
-                <Link href="/upgrade">
-                  <Button variant="outline" size="sm" className="w-full" data-testid="button-upgrade-grid">
-                    Upgrade to Pro
-                  </Button>
-                </Link>
-              </div>
-            )}
-          </RadioGroup>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Community Edition uses 17×17×17 grid for optimal compatibility across all color grading software.
+          </p>
         </div>
 
-        {/* Format Selector */}
+        {/* Format Selector - Community Edition: .cube only */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <Label htmlFor="format">Output Format</Label>
-            {!isPro && (
-              <Badge variant="outline" className="text-xs">
-                <Crown className="w-3 h-3 mr-1" />Pro Feature
-              </Badge>
-            )}
             <Tooltip>
               <TooltipTrigger asChild>
                 <HelpCircle className="w-3.5 h-3.5 text-muted-foreground cursor-help" />
               </TooltipTrigger>
               <TooltipContent side="right" className="max-w-xs">
-                <p>.cube is widely supported (DaVinci Resolve, Premiere). {isPro && ".3dl works with Autodesk and Lustre."}</p>
+                <p>.cube format is universally supported by DaVinci Resolve, Adobe Premiere Pro, Final Cut Pro, and more.</p>
               </TooltipContent>
             </Tooltip>
           </div>
-          <Select value={format} onValueChange={(value) => onFormatChange(value as "cube" | "3dl")}>
+          <Select value="cube" disabled>
             <SelectTrigger id="format" data-testid="select-format">
-              <SelectValue />
+              <SelectValue placeholder=".cube (Universal)" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="cube">.cube (Standard - Free)</SelectItem>
-              {isPro && <SelectItem value="3dl">.3dl (Pro - Autodesk)</SelectItem>}
+              <SelectItem value="cube">.cube (Universal)</SelectItem>
             </SelectContent>
           </Select>
-          {!isPro && (
-            <p className="text-xs text-muted-foreground">
-              <Crown className="w-3 h-3 inline mr-1" />
-              Upgrade to Pro for .3dl and .lut export formats
-            </p>
-          )}
+          <p className="text-xs text-muted-foreground">
+            .cube format works with all major color grading software including DaVinci Resolve, Premiere Pro, and Final Cut Pro.
+          </p>
         </div>
 
         {/* Precision Selector */}
@@ -176,7 +130,7 @@ export function LutControls({
                 <HelpCircle className="w-3.5 h-3.5 text-muted-foreground cursor-help" />
               </TooltipTrigger>
               <TooltipContent side="right" className="max-w-xs">
-                <p>Higher bit depth reduces banding and preserves subtle color transitions. Use 10-bit or 12-bit for professional work.</p>
+                <p>Higher bit depth provides more color accuracy. 10-bit is recommended for most uses.</p>
               </TooltipContent>
             </Tooltip>
           </div>
@@ -185,44 +139,33 @@ export function LutControls({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="8">8-bit (256 colors/channel)</SelectItem>
-              <SelectItem value="10">10-bit (1024 colors/channel)</SelectItem>
-              <SelectItem value="12">12-bit (4096 colors/channel)</SelectItem>
+              <SelectItem value="8">8-bit (Standard)</SelectItem>
+              <SelectItem value="10">10-bit (Recommended)</SelectItem>
+              <SelectItem value="12">12-bit (High Precision)</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         {/* Export Preview Checkbox */}
         <div className="flex items-center space-x-2">
-          <Checkbox
-            id="export-preview"
+          <Checkbox 
+            id="export-preview" 
             checked={exportPreview}
-            onCheckedChange={onExportPreviewChange}
+            onCheckedChange={(checked) => onExportPreviewChange(checked as boolean)}
             data-testid="checkbox-export-preview"
           />
-          <Label 
-            htmlFor="export-preview" 
-            className="font-normal cursor-pointer text-sm"
-          >
-            Export preview image with LUT
+          <Label htmlFor="export-preview" className="text-sm font-normal cursor-pointer">
+            Generate preview image
           </Label>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <HelpCircle className="w-3.5 h-3.5 text-muted-foreground cursor-help" />
-            </TooltipTrigger>
-            <TooltipContent side="right" className="max-w-xs">
-              <p>Download a preview image showing the LUT effect alongside the LUT file for reference.</p>
-            </TooltipContent>
-          </Tooltip>
         </div>
 
         {/* Generate Button */}
         {!hideGenerate && (
           <Button
-            className="w-full"
-            size="lg"
             onClick={onGenerate}
             disabled={isGenerating}
+            className="w-full"
+            size="lg"
             data-testid="button-generate"
           >
             {isGenerating ? (
