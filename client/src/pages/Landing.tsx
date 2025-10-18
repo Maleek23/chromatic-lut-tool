@@ -213,28 +213,28 @@ export default function Landing() {
               <CardContent className="space-y-4 pb-8">
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm font-medium">Everything in Pro, plus:</span>
+                    <Check className="w-5 h-5 text-muted-foreground/40 mt-0.5 shrink-0" />
+                    <span className="text-sm text-muted-foreground font-medium">Everything in Pro, plus:</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Video LUT processing</span>
+                    <Check className="w-5 h-5 text-muted-foreground/40 mt-0.5 shrink-0" />
+                    <span className="text-sm text-muted-foreground">Video LUT processing (planned)</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Full API access</span>
+                    <Check className="w-5 h-5 text-muted-foreground/40 mt-0.5 shrink-0" />
+                    <span className="text-sm text-muted-foreground">Full API access (planned)</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Team collaboration tools</span>
+                    <Check className="w-5 h-5 text-muted-foreground/40 mt-0.5 shrink-0" />
+                    <span className="text-sm text-muted-foreground">Team collaboration (planned)</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Priority support</span>
+                    <Check className="w-5 h-5 text-muted-foreground/40 mt-0.5 shrink-0" />
+                    <span className="text-sm text-muted-foreground">Priority support (planned)</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">Custom integrations</span>
+                    <Check className="w-5 h-5 text-muted-foreground/40 mt-0.5 shrink-0" />
+                    <span className="text-sm text-muted-foreground">Custom integrations (planned)</span>
                   </div>
                 </div>
               </CardContent>
