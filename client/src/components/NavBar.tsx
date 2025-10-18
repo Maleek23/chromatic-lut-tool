@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Droplets, Moon, Sun, LogIn, LogOut, User } from "lucide-react";
+import { Palette, Moon, Sun, LogIn, LogOut, User } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
 import { useAuth } from "@/hooks/use-auth";
 import { Badge } from "@/components/ui/badge";
@@ -15,12 +15,15 @@ export function NavBar() {
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/">
           <Button variant="ghost" className="hover-elevate px-3" data-testid="button-home">
-            <div className="flex flex-col items-start leading-none">
-              <span className="font-bold text-xl">CHROMATIC</span>
-              <div className="flex items-center gap-0 text-[10px] font-medium text-muted-foreground group">
-                <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by UN</span>
-                <span className="text-primary mx-0.5 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rotate-180">/</span>
-                <span className="transition-all duration-500 ease-in-out group-hover:-translate-x-2 group-hover:opacity-0 group-hover:scale-50">TITLD</span>
+            <div className="flex items-center gap-2">
+              <Palette className="w-5 h-5 text-primary" />
+              <div className="flex flex-col items-start leading-none">
+                <span className="font-bold text-xl">CHROMATIC</span>
+                <div className="flex items-center gap-0 text-[10px] font-medium text-muted-foreground group">
+                  <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by UN</span>
+                  <span className="text-primary mx-0.5 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rotate-180">/</span>
+                  <span className="transition-all duration-500 ease-in-out group-hover:-translate-x-2 group-hover:opacity-0 group-hover:scale-50">TITLD</span>
+                </div>
               </div>
             </div>
           </Button>
