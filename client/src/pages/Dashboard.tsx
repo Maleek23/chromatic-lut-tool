@@ -11,7 +11,8 @@ import {
   TrendingUp, 
   FileImage, 
   Bookmark,
-  ArrowUpCircle
+  ArrowUpCircle,
+  AlertCircle
 } from "lucide-react";
 
 interface DashboardStats {
@@ -73,7 +74,7 @@ export default function Dashboard() {
               data-testid="button-upgrade-header"
               asChild
             >
-              <Link href="/pricing">
+              <Link href="/upgrade">
                 <ArrowUpCircle className="w-4 h-4 mr-2" />
                 Upgrade to Pro
               </Link>
@@ -88,16 +89,17 @@ export default function Dashboard() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Zap className="w-5 h-5 text-primary" />
-              Unlock Pro Features
+              Unlock Preset Saving with Pro
             </CardTitle>
             <CardDescription>
-              Get unlimited conversions, advanced export options, and access to our professional preset library
+              Save unlimited LUTs, organize your preset library, and get priority support for $15/month
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Button data-testid="button-upgrade-card" asChild>
-              <Link href="/pricing">
-                View Pro Plans
+              <Link href="/upgrade">
+                <Crown className="w-4 h-4 mr-2" />
+                Upgrade to Pro
               </Link>
             </Button>
           </CardContent>
@@ -173,10 +175,14 @@ export default function Dashboard() {
           <CardContent>
             <div className="text-2xl font-bold" data-testid="text-presets-count">
               {stats?.savedPresets || 0}
-              {!isPro && " / 3"}
             </div>
             <p className="text-xs text-muted-foreground mt-2">
-              {isPro ? "Unlimited storage" : "Free tier limit"}
+              {isPro ? "Unlimited storage" : (
+                <span className="flex items-center gap-1">
+                  <AlertCircle className="w-3 h-3" />
+                  Pro feature only
+                </span>
+              )}
             </p>
           </CardContent>
         </Card>

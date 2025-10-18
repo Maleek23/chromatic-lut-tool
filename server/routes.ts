@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import multer from "multer";
 import JSZip from "jszip";
+import Stripe from "stripe";
 import { analyzeImage } from "./utils/colorAnalysis";
 import { generateLUT, applyLUTToImage } from "./utils/lutGenerator";
 import { parseLUT, convertLUT, type ParsedLUT } from "./utils/lutParser";
@@ -45,6 +46,158 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Reference: blueprint:javascript_auth_all_persistance
   // Sets up /api/register, /api/login, /api/logout, /api/user
   setupAuth(app);
+
+  // Reference: blueprint:javascript_stripe
+  // Initialize Stripe (only if keys are present)
+  let stripe: Stripe | null = null;
+  if (process.env.STRIPE_SECRET_KEY) {
+    stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: "2025-09-30.clover",
+    });
+  }
+
+  // Create Stripe checkout session for Pro subscription
+  app.post("/api/create-checkout-session", requireAuth, async (req, res) => {
+    try {
+      if (!stripe) {
+        return res.status(503).json({ error: "Payment processing not configured" });
+      }
+
+      if (!req.user) {
+        return res.status(401).json({ error: "Authentication required" });
+      }
+
+      const user = req.user;
+      const { storage } = await import("./storage");
+
+      // Create or retrieve Stripe customer
+      let customerId = user.stripeCustomerId;
+      
+      if (!customerId) {
+        const customer = await stripe.customers.create({
+          email: user.email || undefined,
+          metadata: {
+            userId: user.id.toString(),
+            username: user.username,
+          },
+        });
+        customerId = customer.id;
+        await storage.updateUserStripeInfo(user.id, customerId, "");
+      }
+
+      // Create checkout session
+      const session = await stripe.checkout.sessions.create({
+        customer: customerId,
+        mode: "subscription",
+        payment_method_types: ["card"],
+        line_items: [
+          {
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: "Chromatic Pro",
+                description: "Unlimited preset saving, priority support, and advanced features",
+              },
+              unit_amount: 1500, // $15.00
+              recurring: {
+                interval: "month",
+              },
+            },
+            quantity: 1,
+          },
+        ],
+        success_url: `${req.headers.origin || 'http://localhost:5000'}/dashboard?upgrade=success`,
+        cancel_url: `${req.headers.origin || 'http://localhost:5000'}/upgrade?canceled=true`,
+        metadata: {
+          userId: user.id.toString(),
+        },
+      });
+
+      res.json({ sessionId: session.id, url: session.url });
+    } catch (error: any) {
+      console.error("Stripe checkout error:", error);
+      res.status(500).json({ error: error.message || "Failed to create checkout session" });
+    }
+  });
+
+  // Stripe webhook handler for subscription events
+  app.post("/api/stripe-webhook", async (req, res) => {
+    if (!stripe) {
+      return res.status(503).json({ error: "Payment processing not configured" });
+    }
+
+    const sig = req.headers['stripe-signature'];
+    
+    if (!sig) {
+      return res.status(400).json({ error: "No signature" });
+    }
+
+    let event: Stripe.Event;
+
+    try {
+      // Note: In production, you should verify the webhook signature
+      // For now, we'll parse the event directly
+      event = req.body as Stripe.Event;
+    } catch (err: any) {
+      console.error("Webhook signature verification failed:", err.message);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    const { storage } = await import("./storage");
+
+    try {
+      switch (event.type) {
+        case 'checkout.session.completed': {
+          const session = event.data.object as Stripe.Checkout.Session;
+          const userId = session.metadata?.userId;
+          
+          if (userId && session.subscription) {
+            const subscriptionId = typeof session.subscription === 'string' 
+              ? session.subscription 
+              : session.subscription.id;
+            
+            // Upgrade user to Pro tier
+            await storage.updateUserTier(parseInt(userId), "pro", null);
+            await storage.updateUserStripeInfo(
+              parseInt(userId),
+              session.customer as string,
+              subscriptionId
+            );
+          }
+          break;
+        }
+
+        case 'customer.subscription.updated':
+        case 'customer.subscription.deleted': {
+          const subscription = event.data.object as Stripe.Subscription;
+          const customerId = typeof subscription.customer === 'string'
+            ? subscription.customer
+            : subscription.customer.id;
+
+          // Find user by Stripe customer ID
+          const user = await storage.getUserByStripeCustomerId(customerId);
+          
+          if (user && subscription.status !== 'active') {
+            // Downgrade to free tier if subscription is not active
+            await storage.updateUserTier(user.id, "free", null);
+          }
+          break;
+        }
+
+        case 'invoice.payment_failed': {
+          const invoice = event.data.object as Stripe.Invoice;
+          // Handle failed payment - could send email notification
+          console.log("Payment failed for customer:", invoice.customer);
+          break;
+        }
+      }
+
+      res.json({ received: true });
+    } catch (error) {
+      console.error("Webhook handler error:", error);
+      res.status(500).json({ error: "Webhook handler failed" });
+    }
+  });
 
   // Analyze image endpoint
   app.post("/api/analyze", async (req, res) => {

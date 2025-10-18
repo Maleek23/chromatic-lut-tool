@@ -179,7 +179,7 @@ export default function Landing() {
                   </div>
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm">LUT format conversion (.cube ↔ .3dl)</span>
+                    <span className="text-sm">LUT format conversion (.cube ↔ .3dl ↔ .lut)</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary mt-0.5 shrink-0" />
@@ -251,7 +251,7 @@ export default function Landing() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Link href="/auth" className="w-full">
+                <Link href="/upgrade" className="w-full">
                   <Button size="lg" className="w-full bg-gradient-to-r from-primary to-chart-2 hover:opacity-90" data-testid="button-pro-plan">
                     Upgrade to Pro
                   </Button>
