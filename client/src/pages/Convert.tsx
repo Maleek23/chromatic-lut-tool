@@ -10,8 +10,8 @@ import { Upload, Download, RefreshCw, CheckCircle, AlertCircle, Crown, Bookmark,
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
-import demoImageBefore from "@assets/stock_images/cinematic_film_scene_3b85db8f.jpg";
-import demoImageAfter from "@assets/stock_images/cinematic_film_scene_1a3fcc2b.jpg";
+import demoImageBefore from "@assets/stock_images/cinematic_film_portr_7d321576.jpg";
+import demoImageAfter from "@assets/stock_images/cinematic_film_portr_38c9c7be.jpg";
 
 interface Preset {
   id: number;
@@ -533,29 +533,23 @@ export default function Convert() {
       </Tabs>
 
       {/* Demo Section */}
-      <Card className="border-chart-3/30 bg-background/50 backdrop-blur-sm hover-elevate transition-all duration-300">
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <div className="p-2 rounded-lg bg-gradient-to-br from-chart-3/20 to-primary/20">
-              <Sparkles className="w-5 h-5 text-chart-3" />
-            </div>
-            <div>
-              <CardTitle>See LUTs in Action</CardTitle>
-              <CardDescription>
-                Compare before and after applying color grading LUTs
-              </CardDescription>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <BeforeAfterSlider
-            beforeImage={demoImageBefore}
-            afterImage={demoImageAfter}
-            beforeLabel="Original Footage"
-            afterLabel="With LUT Applied"
-          />
-        </CardContent>
-      </Card>
+      <div className="mt-8">
+        <div className="text-center mb-6">
+          <h3 className="text-xl font-semibold mb-2 flex items-center justify-center gap-2">
+            <Sparkles className="w-5 h-5 text-primary" />
+            See LUTs in Action
+          </h3>
+          <p className="text-sm text-muted-foreground">
+            Drag the slider to compare before and after
+          </p>
+        </div>
+        <BeforeAfterSlider
+          beforeImage={demoImageBefore}
+          afterImage={demoImageAfter}
+          beforeLabel="Original"
+          afterLabel="With LUT"
+        />
+      </div>
     </div>
   );
 }
