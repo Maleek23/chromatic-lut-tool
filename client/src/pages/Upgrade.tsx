@@ -3,7 +3,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, Sparkles, Zap, Crown, Film } from "lucide-react";
+import { Check, Sparkles, Zap, Crown, Film, Lightbulb } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { Redirect } from "wouter";
@@ -69,7 +69,10 @@ export default function Upgrade() {
             <CardHeader>
               <div className="flex items-center justify-between mb-2">
                 <CardTitle className="text-2xl flex items-center gap-2">
-                  <span className="text-2xl">🟩</span> Free
+                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center">
+                    <Lightbulb className="w-4 h-4 text-green-500" />
+                  </div>
+                  Free
                 </CardTitle>
                 <Badge variant="outline" data-testid="badge-current-tier">Current Plan</Badge>
               </div>
@@ -124,7 +127,10 @@ export default function Upgrade() {
             <CardHeader>
               <div className="flex items-center justify-between mb-2">
                 <CardTitle className="text-2xl flex items-center gap-2">
-                  <span className="text-2xl">🟨</span> Pro
+                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center">
+                    <Zap className="w-4 h-4 text-primary" />
+                  </div>
+                  Pro
                 </CardTitle>
               </div>
               <CardDescription className="text-3xl font-bold">

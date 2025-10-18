@@ -14,7 +14,9 @@ import {
   FileImage, 
   Bookmark,
   ArrowUpCircle,
-  AlertCircle
+  AlertCircle,
+  Lightbulb,
+  Layers
 } from "lucide-react";
 
 interface DashboardStats {
@@ -323,39 +325,39 @@ export default function Landing() {
           </div>
 
           {/* Features with color-coded icons */}
-          <div className="grid md:grid-cols-3 gap-6 pt-12">
-            <Card className="border-primary/30 hover-elevate bg-background/50 backdrop-blur-sm transition-all duration-300 group">
-              <CardContent className="pt-8 pb-6 space-y-3 text-center">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300">
-                  <Sparkles className="w-6 h-6 text-primary" />
+          <div className="grid md:grid-cols-3 gap-6 pt-12 px-4">
+            <Card className="border-primary/20 hover-elevate bg-card/80 backdrop-blur-sm transition-all duration-300 group">
+              <CardContent className="pt-8 pb-6 space-y-4 text-center">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/10 to-chart-2/10 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300 border border-primary/20">
+                  <Sparkles className="w-7 h-7 text-primary" />
                 </div>
                 <h3 className="font-semibold text-lg">Image to LUT</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Upload color-graded images and extract authentic color science into professional LUT files
+                  Extract authentic color science from reference images into professional LUT files
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="hover-elevate bg-background/50 backdrop-blur-sm transition-all duration-300 group">
-              <CardContent className="pt-8 pb-6 space-y-3 text-center">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-chart-2/20 to-chart-3/20 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300">
-                  <Zap className="w-6 h-6 text-chart-2" />
+            <Card className="border-chart-2/20 hover-elevate bg-card/80 backdrop-blur-sm transition-all duration-300 group">
+              <CardContent className="pt-8 pb-6 space-y-4 text-center">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-chart-2/10 to-chart-3/10 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300 border border-chart-2/20">
+                  <Zap className="w-7 h-7 text-chart-2" />
                 </div>
                 <h3 className="font-semibold text-lg">Convert & Analyze</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Convert between formats and analyze LUT quality with professional-grade tools
+                  Convert between all formats and analyze quality with professional-grade tools
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="hover-elevate bg-background/50 backdrop-blur-sm transition-all duration-300 group">
-              <CardContent className="pt-8 pb-6 space-y-3 text-center">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-chart-3/20 to-primary/20 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300">
-                  <Crown className="w-6 h-6 text-chart-3" />
+            <Card className="border-chart-3/20 hover-elevate bg-card/80 backdrop-blur-sm transition-all duration-300 group">
+              <CardContent className="pt-8 pb-6 space-y-4 text-center">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-chart-3/10 to-primary/10 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300 border border-chart-3/20">
+                  <Crown className="w-7 h-7 text-chart-3" />
                 </div>
                 <h3 className="font-semibold text-lg">Pro Features</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Unlimited presets, all formats, full grid sizes, and advanced batch processing
+                  Unlimited grid sizes, all formats, preset saving, and advanced workflows
                 </p>
               </CardContent>
             </Card>
@@ -410,7 +412,10 @@ export default function Landing() {
               <CardHeader className="space-y-4 pb-8">
                 <div>
                   <CardTitle className="text-2xl flex items-center gap-2">
-                    <span className="text-3xl">🟩</span> Free
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center">
+                      <Lightbulb className="w-5 h-5 text-green-500" />
+                    </div>
+                    Free
                   </CardTitle>
                   <CardDescription className="mt-2">Perfect for creators exploring color grading</CardDescription>
                 </div>
@@ -465,7 +470,10 @@ export default function Landing() {
                 <div className="flex items-start justify-between">
                   <div>
                     <CardTitle className="text-2xl flex items-center gap-2">
-                      <span className="text-3xl">🟨</span> Pro
+                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center">
+                        <Zap className="w-5 h-5 text-primary" />
+                      </div>
+                      Pro
                     </CardTitle>
                     <CardDescription className="mt-2">For professional colorists and creators</CardDescription>
                   </div>
@@ -533,7 +541,10 @@ export default function Landing() {
               <CardHeader className="space-y-4 pb-8">
                 <div>
                   <CardTitle className="text-2xl flex items-center gap-2">
-                    <span className="text-3xl">🧠</span> Studio
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-chart-3/20 to-primary/20 flex items-center justify-center">
+                      <Layers className="w-5 h-5 text-chart-3" />
+                    </div>
+                    Studio
                   </CardTitle>
                   <CardDescription className="mt-2">For agencies or YouTube colorists</CardDescription>
                 </div>

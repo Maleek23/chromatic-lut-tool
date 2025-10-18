@@ -147,7 +147,7 @@ export default function Analyze() {
       </Card>
 
       {analysisResult && (
-        <>
+        <div data-testid="analysis-results">
           {/* File Info */}
           <Card className="border-primary/30 bg-background/50 backdrop-blur-sm hover-elevate transition-all duration-300">
             <CardHeader>
@@ -287,7 +287,7 @@ export default function Analyze() {
               </AlertDescription>
             </Alert>
           )}
-        </>
+        </div>
       )}
 
       {/* Demo Section */}
