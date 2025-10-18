@@ -31,8 +31,8 @@ export default function Landing() {
               <span className="transition-all duration-700 ease-in-out group-hover:-translate-x-4 group-hover:opacity-0 group-hover:scale-0">TITLD</span>
             </div>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Professional LUT conversion, analysis, and optimization toolkit. Convert between formats, 
-              detect quality issues, and prepare LUTs for DaVinci Resolve, Premiere Pro, and more.
+              Analyze any image for color grading and convert to professional LUTs. Extract color science 
+              from reference images, analyze existing LUTs, and optimize for DaVinci Resolve, Premiere Pro, and more.
             </p>
           </div>
 
@@ -52,9 +52,9 @@ export default function Landing() {
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mx-auto">
                   <RefreshCw className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="font-semibold">LUT Conversion</h3>
+                <h3 className="font-semibold">Image Analysis</h3>
                 <p className="text-sm text-muted-foreground">
-                  Convert between .cube, .3dl, and other LUT formats. Works seamlessly with all major editing software.
+                  Analyze any image (color graded footage, reference stills) to extract color science and generate LUTs.
                 </p>
               </CardContent>
             </Card>
@@ -92,9 +92,9 @@ export default function Landing() {
                 <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
                   1
                 </div>
-                <h3 className="font-semibold">Upload LUT</h3>
+                <h3 className="font-semibold">Upload Image or LUT</h3>
                 <p className="text-sm text-muted-foreground">
-                  Upload your .cube or .3dl LUT file
+                  Upload a color graded image or existing LUT file
                 </p>
               </div>
 
@@ -102,9 +102,9 @@ export default function Landing() {
                 <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
                   2
                 </div>
-                <h3 className="font-semibold">Convert Format</h3>
+                <h3 className="font-semibold">Analyze & Extract</h3>
                 <p className="text-sm text-muted-foreground">
-                  Convert to your desired format (.cube, .3dl, etc.)
+                  Analyze color information and extract LUT data
                 </p>
               </div>
 
@@ -216,7 +216,7 @@ export default function Landing() {
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-5 h-5 text-primary mt-0.5" />
-                      <span className="text-sm">Image to LUT conversion (coming soon)</span>
+                      <span className="text-sm">Image color analysis & LUT extraction</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-5 h-5 text-primary mt-0.5" />

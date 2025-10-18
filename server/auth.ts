@@ -58,11 +58,13 @@ export function setupAuth(app: Express) {
   passport.use(
     new LocalStrategy(async (username, password, done) => {
       const user = await storage.getUserByUsername(username);
-      if (!user || !(await comparePasswords(password, user.password))) {
-        return done(null, false);
-      } else {
-        return done(null, user);
+      if (!user) {
+        return done(null, false, { message: "User not found. Please register first." });
       }
+      if (!(await comparePasswords(password, user.password))) {
+        return done(null, false, { message: "Incorrect password. Please try again." });
+      }
+      return done(null, user);
     }),
   );
 
@@ -104,9 +106,18 @@ export function setupAuth(app: Express) {
     });
   });
 
-  app.post("/api/login", authRateLimiter, passport.authenticate("local"), (req, res) => {
-    if (!req.user) return res.sendStatus(401);
-    res.status(200).json(sanitizeUser(req.user));
+  app.post("/api/login", authRateLimiter, (req, res, next) => {
+    passport.authenticate("local", (err: any, user: any, info: any) => {
+      if (err) return next(err);
+      if (!user) {
+        const message = info?.message || "Invalid username or password";
+        return res.status(401).json({ error: message });
+      }
+      req.login(user, (err) => {
+        if (err) return next(err);
+        res.status(200).json(sanitizeUser(user));
+      });
+    })(req, res, next);
   });
 
   app.post("/api/logout", (req, res, next) => {
