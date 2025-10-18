@@ -32,9 +32,9 @@ export const FILE_SIZE_LIMITS = {
 // Usage limits
 export const USAGE_LIMITS = {
   free: {
-    conversionsPerMonth: 50,
-    previewsPerDay: 3,
-    savedPresets: 3,
+    conversionsPerMonth: Infinity, // Unlimited for free tier
+    previewsPerDay: Infinity, // Unlimited for free tier
+    savedPresets: 0, // Free tier cannot save presets
     batchSize: 1,
   },
   pro: {
