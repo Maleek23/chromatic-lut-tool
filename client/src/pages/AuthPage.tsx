@@ -41,64 +41,21 @@ export default function AuthPage() {
               <span className="text-foreground">TITLD</span>
             </h1>
             <p className="text-muted-foreground">
-              Professional LUT conversion and optimization
+              Professional LUT toolkit for colorists
             </p>
           </div>
 
-          <Tabs defaultValue="login" className="w-full">
+          <Tabs defaultValue="register" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="login" data-testid="tab-login">Login</TabsTrigger>
-              <TabsTrigger value="register" data-testid="tab-register">Sign Up</TabsTrigger>
+              <TabsTrigger value="register" data-testid="tab-register">Get Started</TabsTrigger>
+              <TabsTrigger value="login" data-testid="tab-login">Sign In</TabsTrigger>
             </TabsList>
-
-            <TabsContent value="login">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Welcome Back</CardTitle>
-                  <CardDescription>Login to access your saved presets and Pro features</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleLogin} className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="login-username">Username</Label>
-                      <Input
-                        id="login-username"
-                        type="text"
-                        value={loginData.username}
-                        onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
-                        required
-                        data-testid="input-login-username"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="login-password">Password</Label>
-                      <Input
-                        id="login-password"
-                        type="password"
-                        value={loginData.password}
-                        onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                        required
-                        data-testid="input-login-password"
-                      />
-                    </div>
-                    <Button 
-                      type="submit" 
-                      className="w-full" 
-                      disabled={loginMutation.isPending}
-                      data-testid="button-login"
-                    >
-                      {loginMutation.isPending ? "Logging in..." : "Login"}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </TabsContent>
 
             <TabsContent value="register">
               <Card>
                 <CardHeader>
-                  <CardTitle>Create Account</CardTitle>
-                  <CardDescription>Start with free tier, upgrade to Pro anytime</CardDescription>
+                  <CardTitle>Start Free</CardTitle>
+                  <CardDescription>Create an account to save presets and unlock Pro features</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleRegister} className="space-y-4">
@@ -133,6 +90,9 @@ export default function AuthPage() {
                         required
                         data-testid="input-register-password"
                       />
+                      <p className="text-xs text-muted-foreground">
+                        8+ characters, uppercase, number, special character
+                      </p>
                     </div>
                     <Button 
                       type="submit" 
@@ -140,7 +100,50 @@ export default function AuthPage() {
                       disabled={registerMutation.isPending}
                       data-testid="button-register"
                     >
-                      {registerMutation.isPending ? "Creating account..." : "Create Account"}
+                      {registerMutation.isPending ? "Creating account..." : "Create Free Account"}
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="login">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Welcome Back</CardTitle>
+                  <CardDescription>Sign in to access your saved presets</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleLogin} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="login-username">Username</Label>
+                      <Input
+                        id="login-username"
+                        type="text"
+                        value={loginData.username}
+                        onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
+                        required
+                        data-testid="input-login-username"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="login-password">Password</Label>
+                      <Input
+                        id="login-password"
+                        type="password"
+                        value={loginData.password}
+                        onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                        required
+                        data-testid="input-login-password"
+                      />
+                    </div>
+                    <Button 
+                      type="submit" 
+                      className="w-full" 
+                      disabled={loginMutation.isPending}
+                      data-testid="button-login"
+                    >
+                      {loginMutation.isPending ? "Signing in..." : "Sign In"}
                     </Button>
                   </form>
                 </CardContent>
@@ -150,66 +153,72 @@ export default function AuthPage() {
         </div>
       </div>
 
-      {/* Right Column - Plan Benefits */}
+      {/* Right Column - What You Get */}
       <div className="hidden lg:flex flex-col items-center justify-center bg-accent p-12">
         <div className="max-w-md space-y-8">
-          <div className="text-center">
-            <Sparkles className="w-16 h-16 mx-auto text-primary mb-4" />
-            <h2 className="text-3xl font-bold">Choose Your Plan</h2>
-            <p className="text-muted-foreground mt-2">
-              Start free, upgrade when you need more
+          <div className="text-center space-y-2">
+            <h2 className="text-3xl font-bold">What You Get</h2>
+            <p className="text-muted-foreground">
+              Free tier included with your account
             </p>
           </div>
 
-          {/* Free Plan Card */}
+          {/* Free Features */}
           <Card>
             <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle>Free Tier</CardTitle>
-                <Badge variant="outline">Current</Badge>
-              </div>
-              <CardDescription>Perfect for getting started</CardDescription>
+              <CardTitle>Free Forever</CardTitle>
+              <CardDescription>Everything you need to get started</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex items-start gap-2">
+            <CardContent className="space-y-4">
+              <div className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                <span className="text-sm">LUT format conversion (.cube ↔ .3dl)</span>
+                <div>
+                  <p className="font-medium">Format Conversion</p>
+                  <p className="text-sm text-muted-foreground">Convert between .cube and .3dl formats</p>
+                </div>
               </div>
-              <div className="flex items-start gap-2">
+              <div className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Quality analysis & banding detection</span>
+                <div>
+                  <p className="font-medium">Quality Analysis</p>
+                  <p className="text-sm text-muted-foreground">Detect banding and invalid points</p>
+                </div>
               </div>
-              <div className="flex items-start gap-2">
+              <div className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                <span className="text-sm">No credit card required</span>
+                <div>
+                  <p className="font-medium">Save Up to 3 Presets</p>
+                  <p className="text-sm text-muted-foreground">Store your favorite LUT configurations</p>
+                </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Pro Plan Teaser */}
-          <Card className="border-primary">
+          {/* Pro Upgrade Teaser */}
+          <Card className="border-primary bg-primary/5">
             <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  Pro Tier
-                  <Zap className="w-5 h-5 text-primary" />
-                </CardTitle>
-                <Badge>$15/mo</Badge>
+              <div className="flex items-center gap-2">
+                <Zap className="w-5 h-5 text-primary" />
+                <CardTitle>Upgrade to Pro</CardTitle>
               </div>
-              <CardDescription>Unlock professional features (coming soon)</CardDescription>
+              <CardDescription>$15/month for unlimited power</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
-              <div className="flex items-start gap-2">
-                <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Professional preset LUT library</span>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                <span className="text-sm">Unlimited preset saves</span>
               </div>
-              <div className="flex items-start gap-2">
-                <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Save unlimited custom presets</span>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                <span className="text-sm">Advanced export quality (17/33/65 grid sizes)</span>
               </div>
-              <div className="flex items-start gap-2">
-                <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Advanced optimization & batch processing</span>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                <span className="text-sm">Unlimited conversions and previews</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                <span className="text-sm">Batch processing (coming soon)</span>
               </div>
             </CardContent>
           </Card>
