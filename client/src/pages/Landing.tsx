@@ -62,7 +62,7 @@ export default function Landing() {
               </Link>
             </Button>
             <Button variant="outline" size="lg" className="text-base px-8" data-testid="button-learn-more" asChild>
-              <Link href="/learn">
+              <Link href="/learn-more">
                 Learn More <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             </Button>
