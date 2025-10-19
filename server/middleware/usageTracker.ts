@@ -1,9 +1,11 @@
 import { User } from "@shared/schema";
 import { storage } from "../storage";
 
-// Free tier: 5 monthly generations (resets on the 1st of each month)
+// Free tier: 3 monthly generations (resets on the 1st of each month)
+// After limit: $2.50 per additional LUT (pay-per-use)
 // Paid tiers: Unlimited
-const FREE_TIER_MONTHLY_LIMIT = 5;
+const FREE_TIER_MONTHLY_LIMIT = 3;
+const PAY_PER_USE_PRICE = 2.50;
 
 export async function checkUsageLimit(user: User): Promise<{
   allowed: boolean;
@@ -36,11 +38,12 @@ export async function checkUsageLimit(user: User): Promise<{
     };
   }
 
-  // If at or over the monthly limit, block (no pay-per-use)
+  // If at or over the monthly limit, require payment ($2.50 per LUT)
   return {
     allowed: false,
-    requiresPayment: false, // Changed: no more $5 per LUT
-    reason: `You've reached your monthly limit of ${FREE_TIER_MONTHLY_LIMIT} generations. Upgrade to Creator ($7/mo) for unlimited generations, or wait until next month.`,
+    requiresPayment: true,
+    paymentAmount: PAY_PER_USE_PRICE,
+    reason: `You've used all ${FREE_TIER_MONTHLY_LIMIT} free generations this month. Pay $${PAY_PER_USE_PRICE} for this LUT, or upgrade to Creator ($7/mo) for unlimited generations.`,
     currentUsage: monthlyUsed,
     limit: FREE_TIER_MONTHLY_LIMIT
   };
@@ -54,18 +57,23 @@ export function getUsageLimits(tier: string): {
   limit: number; 
   unlimited: boolean;
   monthlyReset: boolean;
+  payPerUse: boolean;
+  pricePerUse?: number;
 } {
   if (tier === "free") {
     return {
       limit: FREE_TIER_MONTHLY_LIMIT,
       unlimited: false,
-      monthlyReset: true
+      monthlyReset: true,
+      payPerUse: true,
+      pricePerUse: PAY_PER_USE_PRICE
     };
   }
   
   return {
     limit: -1,
     unlimited: true,
-    monthlyReset: false
+    monthlyReset: false,
+    payPerUse: false
   };
 }

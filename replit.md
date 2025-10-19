@@ -1,7 +1,7 @@
 # CHROMA by UN/TITLD
 
 ## Overview
-CHROMA is a professional toolkit for cinematographers and colorists, offering comprehensive LUT (Look-Up Table) conversion, generation, and analysis. It provides industry-standard support for all major LUT formats with a freemium pricing model: Free tier gets 3 lifetime Image-to-LUT generations, then $5 per additional LUT (pay-per-use), or upgrade to Creator tier for unlimited generations. Key capabilities include an Image-to-LUT generator that authentically extracts color science from reference images, and robust tools for LUT conversion and analysis to ensure quality and compatibility across professional color grading software. The project aims to provide an essential tool for creators and professionals in the color grading industry.
+CHROMA is a professional toolkit for cinematographers and colorists, offering comprehensive LUT (Look-Up Table) conversion, generation, and analysis. It provides industry-standard support for all major LUT formats with a freemium pricing model: Free tier gets 3 monthly Image-to-LUT generations (resets on 1st), then $2.50 per additional LUT (pay-per-use), or upgrade to Creator tier ($7/mo) for unlimited generations. Key capabilities include an Image-to-LUT generator that authentically extracts color science from reference images, and robust tools for LUT conversion and analysis to ensure quality and compatibility across professional color grading software. The project aims to provide an essential tool for creators and professionals in the color grading industry.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
@@ -44,11 +44,12 @@ Preferred communication style: Simple, everyday language.
 - **UI/UX**: Cinematic color grading aesthetic with gradient effects, animated color orbs, film grain, chromatic aberration, and backdrop blur.
 - **Navigation Architecture**: Hub-and-spoke model with Image-to-LUT generation as the main entry point, consolidated utility tools, and a user dashboard.
 - **Pricing Strategy**: 
-  - Free tier: 3 lifetime Image-to-LUT generations, then $5 per additional LUT (pay-per-use)
-  - Creator tier ($7/mo): Unlimited Image-to-LUT generations
-  - Pro tier ($12/mo): Unlimited + all tools (Analyzer, Optimizer) + all formats
+  - Free tier: 3 monthly Image-to-LUT generations (resets on 1st), then $2.50 per additional LUT (pay-per-use)
+  - Creator tier ($7/mo): Unlimited Image-to-LUT generations + Lightroom presets (coming soon)
+  - Pro tier ($12/mo): Unlimited + all tools (Analyzer, Optimizer) + all formats + email delivery (coming soon)
   - Studio tier ($25/mo): Team features (coming soon)
   - Stripe integration prepared for pay-per-use and subscriptions
+  - **Conversion psychology**: Break-even at ~6 LUTs/month (3 free + $7.50 paid vs $7 Creator)
 - **Technical Implementations**: Authentic color science extraction, industry-standard blue-fastest indexing for LUT operations, trilinear interpolation for resampling, server-side validation, and real-time preview.
 - **Feature Specifications**:
     - **Image to LUT**: Authentic color extraction, zone-based analysis, intensity control, tier-dependent grid size and output format selection.
@@ -57,7 +58,8 @@ Preferred communication style: Simple, everyday language.
     - **LUT Optimization**: Clamps RGB values to valid range, handles invalid values, and provides optimization statistics.
     - **Authentication**: Email/password with bcrypt, session management, and tier-based feature access.
     - **Preset Management**: Saving and organization of presets with tier-dependent limits and metadata tracking.
-    - **Usage Tracking**: Lifetime total conversions tracked for Free tier (3 free, then pay-per-use at $5 per LUT). Paid tiers have unlimited generations.
+    - **Usage Tracking**: Monthly conversions tracked for Free tier (3 free per month, resets on 1st, then pay-per-use at $2.50 per LUT). Paid tiers have unlimited generations.
+    - **Preset Management Note**: "Presets" in tier descriptions refers to saved LUTs (user-generated LUT files), NOT Lightroom .xmp or Photoshop .atn preset files (those are coming soon as Pro tier feature).
 
 ## External Dependencies
 
@@ -70,3 +72,4 @@ Preferred communication style: Simple, everyday language.
 - **Date Handling**: date-fns.
 - **Authentication**: Passport.js, bcrypt, express-session, connect-pg-simple.
 - **Payments**: Stripe (configured, awaiting API keys).
+- **Email Service**: Resend (installed, awaiting API keys for email delivery of LUT downloads).

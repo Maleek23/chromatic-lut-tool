@@ -46,10 +46,10 @@ export default function Tool() {
     return null;
   }
 
-  // Free tier has monthly generation limits (5 per month, resets on 1st)
+  // Free tier has monthly generation limits (3 per month, then $2.50/LUT)
   const isFree = user.tier === "free";
   const conversionsUsed = user.conversionsThisMonth || 0;
-  const conversionsLimit = 5;
+  const conversionsLimit = 3;
   const conversionsRemaining = Math.max(0, conversionsLimit - conversionsUsed);
   const usagePercentage = (conversionsUsed / conversionsLimit) * 100;
   const atMonthlyLimit = isFree && conversionsUsed >= conversionsLimit;
@@ -178,11 +178,11 @@ export default function Tool() {
       return;
     }
 
-    // Check if monthly limit reached (free tier only)
+    // Check if monthly limit reached (free tier) - payment required
     if (atMonthlyLimit) {
       toast({
-        title: "Monthly Limit Reached",
-        description: "You've used all 5 free LUT generations this month. Upgrade to Creator ($7/mo) for unlimited generations, or wait until next month.",
+        title: "Payment Required",
+        description: "You've used all 3 free LUT generations this month. Pay $2.50 for this LUT, or upgrade to Creator ($7/mo) for unlimited generations.",
         variant: "destructive",
       });
       return;
@@ -318,16 +318,21 @@ export default function Tool() {
                     <>
                       <AlertCircle className="h-4 w-4" />
                       <AlertDescription className="space-y-2">
-                        <p className="text-sm font-medium">Monthly limit reached</p>
+                        <p className="text-sm font-medium">Free generations used</p>
                         <p className="text-xs text-muted-foreground">
-                          You've used all {conversionsLimit} free LUT generations this month. Resets on the 1st, or upgrade to Creator ($7/mo) for unlimited generations.
+                          You've used all {conversionsLimit} free generations. Pay $2.50 per LUT or upgrade to Creator ($7/mo) for unlimited.
                         </p>
-                        <Link href="/upgrade">
-                          <Button size="sm" className="w-full" data-testid="button-upgrade-limit">
-                            <Sparkles className="w-4 h-4 mr-2" />
-                            Upgrade to Creator
+                        <div className="grid grid-cols-2 gap-2">
+                          <Button size="sm" variant="outline" disabled data-testid="button-pay-per-use">
+                            Pay $2.50 (Soon)
                           </Button>
-                        </Link>
+                          <Link href="/upgrade">
+                            <Button size="sm" className="w-full" data-testid="button-upgrade-limit">
+                              <Sparkles className="w-4 h-4 mr-2" />
+                              Upgrade
+                            </Button>
+                          </Link>
+                        </div>
                       </AlertDescription>
                     </>
                   )}
