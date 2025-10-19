@@ -416,13 +416,13 @@ export default function Landing() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-10">
             {/* Free Tier */}
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
               <CardHeader className="space-y-4 pb-8">
                 <div>
                   <CardTitle className="text-2xl flex items-center gap-2">
-                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center">
                       <Lightbulb className="w-5 h-5 text-green-500" />
                     </div>
                     Free
@@ -434,8 +434,8 @@ export default function Landing() {
                   <span className="text-muted-foreground text-base ml-2">/forever</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4 pb-8 px-6">
-                <div className="space-y-3">
+              <CardContent className="space-y-5 pt-2 pb-10 px-8">
+                <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <Sparkles className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                     <span className="text-sm font-semibold">Image to LUT Generator</span>
@@ -458,7 +458,7 @@ export default function Landing() {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="px-6">
+              <CardFooter className="px-8 mt-8 pt-6 border-t">
                 <Link href="/auth" className="w-full">
                   <Button variant="outline" className="w-full" data-testid="button-free-plan">
                     Get Started
@@ -472,7 +472,7 @@ export default function Landing() {
               <CardHeader className="space-y-4 pb-8">
                 <div>
                   <CardTitle className="text-2xl flex items-center gap-2">
-                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
                       <Layers className="w-5 h-5 text-blue-500" />
                     </div>
                     Creator
@@ -484,8 +484,8 @@ export default function Landing() {
                   <span className="text-muted-foreground text-base ml-2">/mo</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4 pb-8 px-6">
-                <div className="space-y-3">
+              <CardContent className="space-y-5 pt-2 pb-10 px-8">
+                <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
                     <span className="text-sm font-semibold">Everything in Free</span>
@@ -504,7 +504,7 @@ export default function Landing() {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="px-6">
+              <CardFooter className="px-8 mt-8 pt-6 border-t">
                 <Link href="/upgrade" className="w-full">
                   <Button className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:opacity-90" data-testid="button-creator-plan">
                     Upgrade
@@ -521,7 +521,7 @@ export default function Landing() {
               <CardHeader className="space-y-4 pb-8">
                 <div>
                   <CardTitle className="text-2xl flex items-center gap-2">
-                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
                       <Zap className="w-5 h-5 text-purple-500" />
                     </div>
                     Pro
@@ -536,8 +536,8 @@ export default function Landing() {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4 pb-8 px-6">
-                <div className="space-y-3">
+              <CardContent className="space-y-5 pt-2 pb-10 px-8">
+                <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
                     <span className="text-sm font-semibold">Everything in Creator</span>
@@ -564,7 +564,7 @@ export default function Landing() {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="px-6">
+              <CardFooter className="px-8 mt-8 pt-6 border-t">
                 <Link href="/upgrade" className="w-full">
                   <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90" data-testid="button-pro-plan">
                     Upgrade
@@ -579,7 +579,7 @@ export default function Landing() {
               <CardHeader className="space-y-4 pb-8">
                 <div>
                   <CardTitle className="text-2xl flex items-center gap-2">
-                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-yellow-500/20 to-orange-500/20 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500/20 to-orange-500/20 flex items-center justify-center">
                       <Crown className="w-5 h-5 text-yellow-500" />
                     </div>
                     Studio
@@ -591,8 +591,8 @@ export default function Landing() {
                   <span className="text-muted-foreground text-base ml-2">/mo</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4 pb-8 px-6">
-                <div className="space-y-3">
+              <CardContent className="space-y-5 pt-2 pb-10 px-8">
+                <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
                     <span className="text-sm font-semibold">Everything in Pro</span>
@@ -615,7 +615,7 @@ export default function Landing() {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="px-6">
+              <CardFooter className="px-8 mt-8 pt-6 border-t">
                 <Button disabled className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 opacity-60 cursor-not-allowed" data-testid="button-studio-plan">
                   Coming Soon
                 </Button>
