@@ -384,7 +384,7 @@ export default function Landing() {
           <p className="flex items-center justify-center gap-1 flex-wrap">
             <span>CHROMA</span>
             <span className="flex items-center group">
-              <span className="transition-all duration-500 ease-in-out group-hover:opacity-0 group-hover:scale-50">by</span>
+              <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by</span>
               <span className="flex items-center gap-0 ml-0.5">
                 <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">UN</span>
                 <span className="text-primary mx-0.5 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rotate-180">/</span>
