@@ -36,7 +36,7 @@ export default function Landing() {
                 CHROMA
               </span>
             </h1>
-            <div className="flex items-center gap-0 text-sm sm:text-base text-muted-foreground tracking-[0.2em] group">
+            <div className="flex items-center justify-center gap-0 text-sm sm:text-base text-muted-foreground tracking-[0.2em] group">
               <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by UN</span>
               <span className="text-primary mx-1 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rotate-180">/</span>
               <span className="transition-all duration-500 ease-in-out group-hover:-translate-x-2 group-hover:opacity-0 group-hover:scale-50">TITLD</span>
