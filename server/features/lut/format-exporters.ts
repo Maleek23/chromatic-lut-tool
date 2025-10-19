@@ -12,17 +12,27 @@ interface LUTPoint {
 /**
  * Generate .look format (Autodesk/Nuke LUT)
  * Used in Nuke, Flame, and other Autodesk products
+ * Spec-compliant with required metadata blocks
  */
 export function generateLookLUT(lutMap: LUTPoint[], gridSize: number, precision: string = "10"): string {
   const precisionValue = parseInt(precision);
+  const timestamp = new Date().toISOString();
   
-  let lookContent = `Version 1
+  // Autodesk .look format requires proper metadata blocks
+  let lookContent = `# Created by CHROMA
+# Generated: ${timestamp}
+# Professional Cinema-Grade Color Science
+# Format: Autodesk/Nuke Look LUT
+# Grid Size: ${gridSize}x${gridSize}x${gridSize}
+
+Version 1
 From 0.0 1.0
 Length ${gridSize * gridSize * gridSize}
 Components 3
 {
 `;
 
+  // Blue-fastest order (matches Nuke/Autodesk spec)
   for (const point of lutMap) {
     const r = point.r.toFixed(precisionValue);
     const g = point.g.toFixed(precisionValue);

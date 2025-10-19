@@ -139,13 +139,14 @@ function applyClusterColorShifts(
 
 /**
  * Protect skin tones from aggressive grading
+ * CRITICAL FIX: Previous implementation was a mathematical no-op
  */
 function protectSkinTones(
   lab: Lab,
   skinTones: Lab[],
   intensity: number
 ): Lab {
-  if (skinTones.length === 0) {
+  if (skinTones.length === 0 || intensity === 0) {
     return lab;
   }
   
@@ -153,16 +154,18 @@ function protectSkinTones(
   for (const skinTone of skinTones) {
     const dist = labDistance(lab, skinTone);
     
-    // If within skin tone range, reduce intensity
+    // If within skin tone range, reduce the amount of grading applied
     if (dist < 15) { // 15 is typical skin tone distance threshold
-      const protection = 1 - (dist / 15) * 0.7; // Protect up to 70%
-      const reducedIntensity = intensity * (1 - protection);
+      // Calculate protection factor (closer to skin tone = more protection)
+      const protectionFactor = 1 - (dist / 15); // 0 = far from skin, 1 = exact skin tone
+      const protectionStrength = protectionFactor * 0.7; // Protect up to 70%
       
-      // Return less aggressive version
+      // Blend between fully graded version and original skin tone
+      // High protection = keep closer to original skin tone
       return {
-        l: lab.l * (1 - reducedIntensity) + lab.l * reducedIntensity,
-        a: lab.a * (1 - reducedIntensity) + lab.a * reducedIntensity,
-        b: lab.b * (1 - reducedIntensity) + lab.b * reducedIntensity,
+        l: lab.l * (1 - protectionStrength) + skinTone.l * protectionStrength,
+        a: lab.a * (1 - protectionStrength) + skinTone.a * protectionStrength,
+        b: lab.b * (1 - protectionStrength) + skinTone.b * protectionStrength,
       };
     }
   }

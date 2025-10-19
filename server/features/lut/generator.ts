@@ -425,11 +425,11 @@ DOMAIN_MAX 1.0 1.0 1.0
 }
 
 function generate3dlLUT(lutMap: LUTPoint[], gridSize: number, precision: string = "10"): string {
-  // Autodesk/Lustre .3dl format with proper headers
+  // Autodesk/Lustre .3dl format - CRITICAL: Must use 12-bit integers (0-4095)
   const timestamp = new Date().toISOString();
   let lut = `# Created by CHROMA
 # Generated: ${timestamp}
-# Precision: ${precision}-bit
+# Precision: 12-bit (required for .3dl format)
 # Professional Cinema-Grade Color Science
 # Format: Autodesk Color Management 3D LUT
 # Input: RGB
@@ -440,10 +440,11 @@ Mesh ${gridSize} ${gridSize} ${gridSize}
 `;
 
   // Blue-fastest order: already arranged in lutMap
+  // .3dl format REQUIRES 12-bit integers (0-4095), not floats or 8-bit
   for (const color of lutMap) {
-    const rInt = Math.round(color.r * 255);
-    const gInt = Math.round(color.g * 255);
-    const bInt = Math.round(color.b * 255);
+    const rInt = Math.round(Math.max(0, Math.min(1, color.r)) * 4095);
+    const gInt = Math.round(Math.max(0, Math.min(1, color.g)) * 4095);
+    const bInt = Math.round(Math.max(0, Math.min(1, color.b)) * 4095);
     
     lut += `${rInt} ${gInt} ${bInt}\n`;
   }
