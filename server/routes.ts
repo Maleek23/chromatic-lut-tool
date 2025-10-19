@@ -13,6 +13,7 @@ import { requireAuth, requireTier } from "./middleware/tierGuard";
 import { dynamicRateLimiter } from "./middleware/rateLimiter";
 import { hasFeature, canConvert } from "./middleware/validation";
 import { checkUsageLimit, incrementUsage, getUsageLimits } from "./middleware/usageTracker";
+import { sendLutEmail } from "./utils/email";
 
 // Helper to normalize format strings for file extensions
 const EXTENSION_MAP = {
@@ -448,6 +449,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Increment usage counter only after successful generation
       await incrementUsage(req.user!.id);
+
+      // Send email with LUT file attachment (async, don't wait)
+      if (req.user!.email) {
+        sendLutEmail({
+          to: req.user!.email,
+          lutData,
+          filename,
+          format,
+          gridSize: `${gridSize}×${gridSize}×${gridSize}`,
+        }).catch(error => {
+          console.error('Failed to send LUT email (non-blocking):', error);
+        });
+      }
 
       res.json({
         lutData,
