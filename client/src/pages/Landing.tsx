@@ -27,7 +27,7 @@ export default function Landing() {
           <div className="text-center mb-8">
             <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold mb-4 relative inline-block">
               <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 via-cyan-400 to-pink-500">
-                Chroma
+                CHROMA
               </span>
             </h1>
             <div className="flex items-center justify-center text-sm sm:text-base text-muted-foreground tracking-[0.2em] group">
