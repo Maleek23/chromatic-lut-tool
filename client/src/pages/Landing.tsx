@@ -402,7 +402,7 @@ export default function Landing() {
         </div>
 
         {/* Pricing Section */}
-        <div className="w-full max-w-[1800px] mx-auto space-y-8 relative z-10 px-6 mt-20">
+        <div className="w-full mx-auto space-y-8 relative z-10 px-4 sm:px-6 lg:px-8 mt-20">
           {/* Film strip divider borders */}
           <div className="absolute left-0 top-0 w-8 h-16 opacity-5">
             {[...Array(3)].map((_, i) => (
@@ -421,54 +421,54 @@ export default function Landing() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 max-w-[1600px] mx-auto">
             {/* Free Tier */}
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col">
-              <CardHeader className="space-y-4 pb-8 min-h-[180px]">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col w-full">
+              <CardHeader className="space-y-3 pb-6 min-h-[160px]">
                 <div>
-                  <CardTitle className="text-2xl flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center">
-                      <Lightbulb className="w-5 h-5 text-green-500" />
+                  <CardTitle className="text-xl flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center shrink-0">
+                      <Lightbulb className="w-4 h-4 text-green-500" />
                     </div>
                     Free
                   </CardTitle>
-                  <CardDescription className="mt-3 text-sm">New users & hobbyists</CardDescription>
+                  <CardDescription className="mt-2 text-xs">New users & hobbyists</CardDescription>
                 </div>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-5xl font-bold text-green-600 dark:text-green-500">$0</span>
-                  <span className="text-muted-foreground text-sm">/forever</span>
+                  <span className="text-4xl font-bold text-green-600 dark:text-green-500">$0</span>
+                  <span className="text-muted-foreground text-xs">/forever</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-5 pt-4 pb-10 px-6 flex-1">
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <Sparkles className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+              <CardContent className="space-y-3 pt-3 pb-8 px-5 flex-1">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <Sparkles className="w-4 h-4 text-primary mt-px shrink-0" />
                     <span className="text-xs font-semibold leading-tight">Image to LUT</span>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-muted-foreground mt-px shrink-0" />
                     <span className="text-xs text-muted-foreground leading-tight">5/month</span>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <ArrowRight className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-xs font-semibold text-primary leading-tight">Convert (unlimited)</span>
+                  <div className="flex items-start gap-2">
+                    <ArrowRight className="w-4 h-4 text-primary mt-px shrink-0" />
+                    <span className="text-xs font-semibold text-primary leading-tight">Convert ∞</span>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-muted-foreground mt-px shrink-0" />
                     <span className="text-xs text-muted-foreground leading-tight">All formats</span>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-muted-foreground mt-px shrink-0" />
                     <span className="text-xs text-muted-foreground leading-tight">17³ grid</span>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-muted-foreground mt-px shrink-0" />
                     <span className="text-xs text-muted-foreground leading-tight">1-3 presets</span>
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="px-8 pt-6 border-t flex justify-center mt-auto">
-                <Button variant="outline" className="w-full text-center" data-testid="button-free-plan" asChild>
+              <CardFooter className="px-5 pt-4 border-t flex justify-center mt-auto">
+                <Button variant="outline" className="w-full text-center text-sm" data-testid="button-free-plan" asChild>
                   <Link href="/auth">
                     Get Started
                   </Link>
@@ -477,44 +477,44 @@ export default function Landing() {
             </Card>
 
             {/* Creator Tier */}
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-blue-500/20 flex flex-col">
-              <CardHeader className="space-y-4 pb-8 min-h-[180px]">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-blue-500/20 flex flex-col w-full">
+              <CardHeader className="space-y-3 pb-6 min-h-[160px]">
                 <div>
-                  <CardTitle className="text-2xl flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
-                      <Layers className="w-5 h-5 text-blue-500" />
+                  <CardTitle className="text-xl flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center shrink-0">
+                      <Layers className="w-4 h-4 text-blue-500" />
                     </div>
                     Creator
                   </CardTitle>
-                  <CardDescription className="mt-3 text-sm">Growing colorists</CardDescription>
+                  <CardDescription className="mt-2 text-xs">Growing colorists</CardDescription>
                 </div>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-5xl font-bold text-blue-600 dark:text-blue-500">$7</span>
-                  <span className="text-muted-foreground text-sm">/mo</span>
+                  <span className="text-4xl font-bold text-blue-600 dark:text-blue-500">$7</span>
+                  <span className="text-muted-foreground text-xs">/mo</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-5 pt-4 pb-10 px-6 flex-1">
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+              <CardContent className="space-y-3 pt-3 pb-8 px-5 flex-1">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-muted-foreground mt-px shrink-0" />
                     <span className="text-xs font-semibold leading-tight">Everything in Free</span>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <ArrowRight className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
+                  <div className="flex items-start gap-2">
+                    <ArrowRight className="w-4 h-4 text-blue-500 mt-px shrink-0" />
                     <span className="text-xs font-semibold text-blue-500 leading-tight">+ 33³ grid</span>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-muted-foreground mt-px shrink-0" />
                     <span className="text-xs text-muted-foreground leading-tight">20-30 presets</span>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-muted-foreground mt-px shrink-0" />
                     <span className="text-xs text-muted-foreground leading-tight">Priority queue</span>
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="px-8 pt-6 border-t flex justify-center mt-auto">
-                <Button className="w-full text-center bg-gradient-to-r from-blue-500 to-cyan-500 hover:opacity-90" data-testid="button-creator-plan" asChild>
+              <CardFooter className="px-5 pt-4 border-t flex justify-center mt-auto">
+                <Button className="w-full text-center text-sm bg-gradient-to-r from-blue-500 to-cyan-500 hover:opacity-90" data-testid="button-creator-plan" asChild>
                   <Link href="/upgrade">
                     Upgrade
                   </Link>
@@ -523,58 +523,58 @@ export default function Landing() {
             </Card>
 
             {/* Pro Tier */}
-            <Card className="border-primary shadow-lg shadow-primary/10 hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 relative flex flex-col">
+            <Card className="border-primary shadow-lg shadow-primary/10 hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 relative flex flex-col w-full">
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-chart-2 to-chart-3" />
-              <Badge className="absolute top-3 right-4 bg-gradient-to-r from-primary to-chart-2 text-white text-xs px-2 py-1 border-0">Most Popular</Badge>
+              <Badge className="absolute top-2 right-3 bg-gradient-to-r from-primary to-chart-2 text-white text-[10px] px-1.5 py-0.5 border-0">Most Popular</Badge>
               
-              <CardHeader className="space-y-4 pb-8 min-h-[180px]">
+              <CardHeader className="space-y-3 pb-6 min-h-[160px]">
                 <div>
-                  <CardTitle className="text-2xl flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
-                      <Zap className="w-5 h-5 text-purple-500" />
+                  <CardTitle className="text-xl flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center shrink-0">
+                      <Zap className="w-4 h-4 text-purple-500" />
                     </div>
                     Pro
                   </CardTitle>
-                  <CardDescription className="mt-3 text-sm">Professional creators</CardDescription>
+                  <CardDescription className="mt-2 text-xs">Professional creators</CardDescription>
                 </div>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-5xl font-bold text-purple-600 dark:text-purple-500">$12</span>
-                  <span className="text-muted-foreground text-sm">/mo</span>
+                  <span className="text-4xl font-bold text-purple-600 dark:text-purple-500">$12</span>
+                  <span className="text-muted-foreground text-xs">/mo</span>
                 </div>
-                <div className="h-4">
-                  <span className="text-xs text-muted-foreground">or $99/year</span>
+                <div className="h-3">
+                  <span className="text-[10px] text-muted-foreground">or $99/year</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-5 pt-4 pb-10 px-6 flex-1">
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+              <CardContent className="space-y-3 pt-3 pb-8 px-5 flex-1">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-muted-foreground mt-px shrink-0" />
                     <span className="text-xs font-semibold leading-tight">Everything in Creator</span>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <TrendingUp className="w-5 h-5 text-purple-500 mt-0.5 shrink-0" />
+                  <div className="flex items-start gap-2">
+                    <TrendingUp className="w-4 h-4 text-purple-500 mt-px shrink-0" />
                     <span className="text-xs font-semibold text-purple-500 leading-tight">+ Analyzer</span>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Zap className="w-5 h-5 text-purple-500 mt-0.5 shrink-0" />
+                  <div className="flex items-start gap-2">
+                    <Zap className="w-4 h-4 text-purple-500 mt-px shrink-0" />
                     <span className="text-xs font-semibold text-purple-500 leading-tight">+ Optimizer</span>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-muted-foreground mt-px shrink-0" />
                     <span className="text-xs text-muted-foreground leading-tight">Up to 65³ grid</span>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-muted-foreground mt-px shrink-0" />
                     <span className="text-xs text-muted-foreground leading-tight">All formats</span>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-muted-foreground mt-px shrink-0" />
                     <span className="text-xs text-muted-foreground leading-tight">Unlimited presets</span>
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="px-8 pt-6 border-t flex justify-center mt-auto">
-                <Button className="w-full text-center bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90" data-testid="button-pro-plan" asChild>
+              <CardFooter className="px-5 pt-4 border-t flex justify-center mt-auto">
+                <Button className="w-full text-center text-sm bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90" data-testid="button-pro-plan" asChild>
                   <Link href="/upgrade">
                     Upgrade
                   </Link>
@@ -583,49 +583,49 @@ export default function Landing() {
             </Card>
 
             {/* Studio Tier */}
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-yellow-500/20 relative opacity-90 flex flex-col">
-              <Badge className="absolute top-3 right-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs px-2 py-1 border-0">Coming Soon</Badge>
-              <CardHeader className="space-y-4 pb-8 min-h-[180px]">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-yellow-500/20 relative opacity-90 flex flex-col w-full">
+              <Badge className="absolute top-2 right-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-[10px] px-1.5 py-0.5 border-0">Coming Soon</Badge>
+              <CardHeader className="space-y-3 pb-6 min-h-[160px]">
                 <div>
-                  <CardTitle className="text-2xl flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500/20 to-orange-500/20 flex items-center justify-center">
-                      <Crown className="w-5 h-5 text-yellow-500" />
+                  <CardTitle className="text-xl flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-yellow-500/20 to-orange-500/20 flex items-center justify-center shrink-0">
+                      <Crown className="w-4 h-4 text-yellow-500" />
                     </div>
                     Studio
                   </CardTitle>
-                  <CardDescription className="mt-3 text-sm">Agencies & teams</CardDescription>
+                  <CardDescription className="mt-2 text-xs">Agencies & teams</CardDescription>
                 </div>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-5xl font-bold text-yellow-600 dark:text-yellow-500">$25</span>
-                  <span className="text-muted-foreground text-sm">/mo</span>
+                  <span className="text-4xl font-bold text-yellow-600 dark:text-yellow-500">$25</span>
+                  <span className="text-muted-foreground text-xs">/mo</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-5 pt-4 pb-10 px-6 flex-1">
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+              <CardContent className="space-y-3 pt-3 pb-8 px-5 flex-1">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-muted-foreground mt-px shrink-0" />
                     <span className="text-xs font-semibold leading-tight">Everything in Pro</span>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Crown className="w-5 h-5 text-yellow-500 mt-0.5 shrink-0" />
+                  <div className="flex items-start gap-2">
+                    <Crown className="w-4 h-4 text-yellow-500 mt-px shrink-0" />
                     <span className="text-xs font-semibold text-yellow-600 dark:text-yellow-500 leading-tight">Branded LUTs</span>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Crown className="w-5 h-5 text-yellow-500 mt-0.5 shrink-0" />
+                  <div className="flex items-start gap-2">
+                    <Crown className="w-4 h-4 text-yellow-500 mt-px shrink-0" />
                     <span className="text-xs font-semibold text-yellow-600 dark:text-yellow-500 leading-tight">Team sharing</span>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Crown className="w-5 h-5 text-yellow-500 mt-0.5 shrink-0" />
+                  <div className="flex items-start gap-2">
+                    <Crown className="w-4 h-4 text-yellow-500 mt-px shrink-0" />
                     <span className="text-xs font-semibold text-yellow-600 dark:text-yellow-500 leading-tight">Batch processing</span>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Crown className="w-5 h-5 text-yellow-500 mt-0.5 shrink-0" />
+                  <div className="flex items-start gap-2">
+                    <Crown className="w-4 h-4 text-yellow-500 mt-px shrink-0" />
                     <span className="text-xs font-semibold text-yellow-600 dark:text-yellow-500 leading-tight">AI grading</span>
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="px-8 pt-6 border-t flex justify-center mt-auto">
-                <Button disabled className="w-full text-center bg-gradient-to-r from-yellow-500 to-orange-500 opacity-60 cursor-not-allowed" data-testid="button-studio-plan">
+              <CardFooter className="px-5 pt-4 border-t flex justify-center mt-auto">
+                <Button disabled className="w-full text-center text-sm bg-gradient-to-r from-yellow-500 to-orange-500 opacity-60 cursor-not-allowed" data-testid="button-studio-plan">
                   Coming Soon
                 </Button>
               </CardFooter>
