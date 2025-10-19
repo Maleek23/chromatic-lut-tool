@@ -1,5 +1,5 @@
 import { User } from "@shared/schema";
-import { storage } from "../storage";
+import { storage } from "../../core/storage";
 
 // Free tier: 3 monthly generations (resets on the 1st of each month)
 // After limit: $2.50 per additional LUT (pay-per-use)

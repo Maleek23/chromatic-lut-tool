@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { UploadZone } from "@/components/UploadZone";
-import { PreviewGallery } from "@/components/PreviewGallery";
-import { ColorStatistics } from "@/components/ColorStatistics";
-import { HistogramVisualization } from "@/components/HistogramVisualization";
-import { LutControls } from "@/components/LutControls";
-import { DownloadSection } from "@/components/DownloadSection";
-import { UsageStatus } from "@/components/UsageStatus";
+import { UploadZone } from "@/components/lut/UploadZone";
+import { PreviewGallery } from "@/components/lut/PreviewGallery";
+import { ColorStatistics } from "@/components/lut/ColorStatistics";
+import { HistogramVisualization } from "@/components/lut/HistogramVisualization";
+import { LutControls } from "@/components/lut/LutControls";
+import { DownloadSection } from "@/components/lut/DownloadSection";
+import { UsageStatus } from "@/components/shared/UsageStatus";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";

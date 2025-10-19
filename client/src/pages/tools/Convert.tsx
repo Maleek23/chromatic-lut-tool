@@ -10,7 +10,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Upload, Download, RefreshCw, CheckCircle, AlertCircle, Crown, Bookmark, Sparkles, Folder } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
-import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
+import { BeforeAfterSlider } from "@/components/lut/BeforeAfterSlider";
 import demoImageBefore from "@assets/MEE0875492-Edit_1760788375670.png";
 import demoImageAfter from "@assets/stock_images/cinematic_film_portr_38c9c7be.jpg";
 

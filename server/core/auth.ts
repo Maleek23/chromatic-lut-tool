@@ -7,8 +7,8 @@ import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
 import { User as SelectUser } from "@shared/schema";
-import { validatePassword } from "./middleware/validation";
-import { authRateLimiter } from "./middleware/rateLimiter";
+import { validatePassword } from "../middleware/validation";
+import { authRateLimiter } from "../middleware/rateLimiter";
 
 declare global {
   namespace Express {

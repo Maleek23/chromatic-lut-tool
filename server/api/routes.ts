@@ -4,16 +4,16 @@ import multer from "multer";
 import JSZip from "jszip";
 import sharp from "sharp";
 import Stripe from "stripe";
-import { analyzeImage } from "./utils/colorAnalysis";
-import { generateLUT, applyLUTToImage } from "./utils/lutGenerator";
-import { parseLUT, convertLUT, type ParsedLUT } from "./utils/lutParser";
+import { analyzeImage } from "../features/lut/analyzer";
+import { generateLUT, applyLUTToImage } from "../features/lut/generator";
+import { parseLUT, convertLUT, type ParsedLUT } from "../features/lut/parser";
 import { lutGenerationSchema, extendedLutGenerationSchema, batchLutRequestSchema } from "@shared/schema";
-import { setupAuth } from "./auth";
-import { requireAuth, requireTier } from "./middleware/tierGuard";
-import { dynamicRateLimiter } from "./middleware/rateLimiter";
-import { hasFeature, canConvert } from "./middleware/validation";
-import { checkUsageLimit, incrementUsage, getUsageLimits } from "./middleware/usageTracker";
-import { sendLutEmail } from "./utils/email";
+import { setupAuth } from "../core/auth";
+import { requireAuth, requireTier } from "../middleware/tierGuard";
+import { dynamicRateLimiter } from "../middleware/rateLimiter";
+import { hasFeature, canConvert } from "../middleware/validation";
+import { checkUsageLimit, incrementUsage, getUsageLimits } from "../features/usage/tracker";
+import { sendLutEmail } from "../features/email/sender";
 
 // Helper to normalize format strings for file extensions
 const EXTENSION_MAP = {

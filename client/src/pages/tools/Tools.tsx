@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { RefreshCw, BarChart3, Zap } from "lucide-react";
-import Convert from "@/pages/Convert";
-import Analyze from "@/pages/Analyze";
-import Optimize from "@/pages/Optimize";
+import Convert from "@/pages/tools/Convert";
+import Analyze from "@/pages/tools/Analyze";
+import Optimize from "@/pages/tools/Optimize";
 import { useAuth } from "@/hooks/use-auth";
 import { useLocation } from "wouter";
-import { UpgradePrompt } from "@/components/UpgradePrompt";
+import { UpgradePrompt } from "@/components/shared/UpgradePrompt";
 import { canUseAnalyzer, canUseOptimizer, getUpgradeMessage } from "@shared/tiers";
 import type { TierType } from "@shared/tiers";
 

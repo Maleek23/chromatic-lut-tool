@@ -4,7 +4,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Upload, CheckCircle, AlertCircle, AlertTriangle, Info, Sparkles, BarChart3 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
+import { BeforeAfterSlider } from "@/components/lut/BeforeAfterSlider";
 import demoImageBefore from "@assets/stock_images/cinematic_film_scene_3b85db8f.jpg";
 import demoImageAfter from "@assets/stock_images/cinematic_film_scene_1a3fcc2b.jpg";
 
