@@ -24,10 +24,10 @@ export default function LearnMore() {
         {/* Header */}
         <div className="text-center space-y-4 mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
-            Professional Color Science
+            How CHROMA Works
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            CHROMA extracts authentic color grading from images using industry-standard algorithms and cinematic analysis techniques
+            Deep dive into the professional color science and algorithms that power CHROMA's industry-standard LUT processing
           </p>
         </div>
 

@@ -56,14 +56,14 @@ export function NavBar() {
           Resources
         </Button>
       </Link>
-      <Link href="/learn-more" onClick={() => mobile && setOpen(false)}>
+      <Link href="/how-it-works" onClick={() => mobile && setOpen(false)}>
         <Button 
-          variant={location === "/learn-more" ? "default" : "ghost"} 
+          variant={location === "/how-it-works" ? "default" : "ghost"} 
           size="sm"
-          data-testid="nav-learn-more"
+          data-testid="nav-how-it-works"
           className={mobile ? "w-full justify-start" : ""}
         >
-          Learn More
+          How It Works
         </Button>
       </Link>
     </>
