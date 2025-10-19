@@ -98,10 +98,8 @@ export function getGridSizeUpgradeMessage(tier: TierType, gridSize: number): str
 export function getFormatUpgradeMessage(tier: TierType, format: string): string | null {
   if (isFormatAllowed(tier, format)) return null;
   
-  if (format === "3dl" || format === "lut") {
-    return "Access all LUT formats (.cube, .3dl, .lut) with Pro tier!";
-  }
-  return getUpgradeMessage("format", tier);
+  // All tiers export to .cube format only (industry standard)
+  return "All tiers export to industry-standard .cube format for maximum compatibility.";
 }
 
 export function getBatchUpgradeMessage(tier: TierType): string | null {

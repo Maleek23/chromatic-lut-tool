@@ -7,8 +7,10 @@ CHROMA is a professional toolkit for cinematographers and colorists, offering co
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (October 19, 2025)
-- **Fixed filename sync bug**: DownloadSection now properly updates filename when grid size changes between generations. Added useEffect to sync internal filename state with defaultFilename prop, preventing stale filenames from previous generations.
-- **Verified Free tier restrictions**: Testing confirmed 3/month limit, 17×17×17 grid restriction, and .cube format restriction all working correctly.
+- **Fixed pricing inconsistencies**: Updated AuthPage to show correct $2.50 per additional LUT (was showing $5).
+- **Clarified conversion model**: ALL tiers (Free/Creator/Pro/Studio) can convert from ANY format (.cube, .3dl, .lut) to .cube output only (industry standard, maximum compatibility). Free gets auto grid size, Pro+ gets custom resampling.
+- **Fixed filename sync bug**: DownloadSection now properly updates filename when grid size changes between generations.
+- **Verified Free tier restrictions**: Testing confirmed 3/month limit, 17×17×17 grid restriction, and .cube format output restriction all working correctly.
 - **Confirmed email delivery**: Implementation complete and working, awaiting domain verification on Resend dashboard for production use.
 
 ## System Architecture

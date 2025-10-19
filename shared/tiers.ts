@@ -195,8 +195,8 @@ export function getTierDisplayName(tier: TierType): string {
 
 export function getUpgradeMessage(feature: string, currentTier: TierType): string {
   const messages: Record<string, string> = {
-    gridSize: "Unlock higher precision exports with Creator or Pro tier!",
-    format: "Access all LUT formats (.cube, .3dl, .lut) with Pro tier!",
+    gridSize: "Unlock custom grid resampling (33³ or 65³) with Creator or Pro tier!",
+    format: "All tiers export to industry-standard .cube format for maximum compatibility.",
     batch: "Process multiple images at once with Pro tier!",
     presets: `You've reached your preset limit (${getMaxPresets(currentTier)}). Upgrade to save more!`,
     analyzer: "Analyze LUT quality with banding detection and scoring on Pro tier!",
