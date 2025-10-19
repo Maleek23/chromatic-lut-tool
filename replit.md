@@ -7,10 +7,19 @@ CHROMA is a professional toolkit for cinematographers and colorists, offering co
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (October 19, 2025)
+
+### Session 2: Creator Tier Feature Completion & Testing
+- **Completed Creator tier folder organization**: Folder UI now displays presets in collapsible Accordion sections for Creator+ users. Free tier users see flat list without folder features.
+- **Fixed loading state crash**: Added `Array.isArray(presets)` guards to prevent crashes when presets data is undefined during loading.
+- **Verified folder security**: Confirmed PATCH /api/presets/:id/folder endpoint properly returns 403 Forbidden for Free tier users attempting to update folders.
+- **Comprehensive Creator tier testing**: All features verified via E2E tests including unlimited generations, grid size access (17³/33³), folder organization UI, and proper Free tier restrictions.
+- **Updated documentation**: replit.md reflects complete Creator tier feature set with all implementations verified and tested.
+
+### Session 1: Creator Tier Foundation
 - **Fixed pricing inconsistencies**: Updated AuthPage to show correct $2.50 per additional LUT (was showing $5).
 - **Clarified conversion model**: ALL tiers (Free/Creator/Pro/Studio) can convert from ANY format (.cube, .3dl, .lut) to .cube output only (industry standard, maximum compatibility). Free gets auto grid size, Creator+ gets custom resampling (17³/33³), Pro+ gets all grid sizes (17³/33³/65³).
 - **Fixed Creator tier grid size access**: Creator tier can now properly select 17³ and 33³ grid sizes on Convert page (was incorrectly Pro-only).
-- **Implemented folder organization**: Creator+ users can now organize saved LUT presets into folders via PATCH /api/presets/:id/folder endpoint. Database schema updated with `folder` field.
+- **Implemented folder organization backend**: Database schema updated with `folder` field, PATCH /api/presets/:id/folder endpoint added with Creator+ tier restriction.
 - **Added Upgrade button to NavBar**: Free and Creator tier users now see Upgrade button in navigation for easy tier upgrades.
 - **Fixed filename sync bug**: DownloadSection now properly updates filename when grid size changes between generations.
 - **Verified Free tier restrictions**: Testing confirmed 3/month limit, 17×17×17 grid restriction, and .cube format output restriction all working correctly.
