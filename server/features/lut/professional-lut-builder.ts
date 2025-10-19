@@ -1,6 +1,13 @@
 /**
- * Professional LUT Builder using Advanced Color Science
- * Builds 3D LUT from professional color analysis
+ * Professional LUT Builder using Perceptual Color Science
+ * 
+ * Color Pipeline:
+ * - sRGB → Lab (CIE L*a*b* perceptually uniform color space)
+ * - Apply transformations in Lab space for perceptual accuracy
+ * - Lab → sRGB with proper gamut compression
+ * 
+ * This approach is correct for image-to-LUT generation.
+ * (ACEScg would be used for film emulation or camera workflows)
  */
 
 import type { ColorAnalysis, RGB, Lab } from "./color-science";

@@ -2,12 +2,13 @@
  * Professional Color Science Pipeline for Cinema-Grade LUT Generation
  * 
  * Implements industry-standard techniques:
- * - ACEScg color space conversion
- * - Perceptual color spaces (Lab/LCh)
+ * - Perceptual color spaces (CIE L*a*b*, LCh)
  * - K-means clustering for intelligent color sampling
- * - Filmic tone curves with shoulder/toe
- * - Skin tone protection
- * - Gamut mapping (ACES/Rec.2020 → Rec.709)
+ * - Filmic tone curves with shoulder/toe (John Hable)
+ * - Skin tone protection (Lab distance-based)
+ * - Perceptual gamut compression (hue-preserving, binary search)
+ * - Chromatic adaptation for white balance (Gray World algorithm)
+ * - ACEScg color space support (for film emulation workflows)
  */
 
 import sharp from "sharp";
