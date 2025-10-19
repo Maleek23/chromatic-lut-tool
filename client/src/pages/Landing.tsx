@@ -276,7 +276,7 @@ export default function Landing() {
         </div>
 
         <div className="max-w-5xl mx-auto text-center space-y-12 relative z-10">
-          {/* Brand with chromatic effect - Mobile First */}
+          {/* Brand with gradient effect - Mobile First */}
           <div className="space-y-3 w-full">
             <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground font-bold text-center px-4" 
                 style={{ 
@@ -316,9 +316,14 @@ export default function Landing() {
                 </span>
               </Button>
             </Link>
-            <Link href="/auth">
-              <Button size="lg" variant="outline" className="text-base px-8 backdrop-blur-sm" data-testid="button-explore-tools">
-                Explore Tools
+            <Link href="/learn-more">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-base px-8 backdrop-blur-sm" 
+                data-testid="button-learn-more"
+              >
+                Learn More
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </Link>
@@ -396,7 +401,7 @@ export default function Landing() {
 
         </div>
 
-        {/* Pricing Section - positioned at the divider */}
+        {/* Pricing Section */}
         <div className="max-w-[1600px] mx-auto space-y-8 relative z-10 px-4 mt-20">
           {/* Film strip divider borders */}
           <div className="absolute left-0 top-0 w-8 h-16 opacity-5">
@@ -429,9 +434,9 @@ export default function Landing() {
                   </CardTitle>
                   <CardDescription className="mt-3 text-sm">New users & hobbyists</CardDescription>
                 </div>
-                <div>
-                  <span className="text-5xl font-bold">$0</span>
-                  <span className="text-muted-foreground text-base ml-2">/forever</span>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-5xl font-bold text-green-600 dark:text-green-500">$0</span>
+                  <span className="text-muted-foreground text-sm">/forever</span>
                 </div>
               </CardHeader>
               <CardContent className="space-y-5 pt-2 pb-10 px-8">
@@ -479,9 +484,9 @@ export default function Landing() {
                   </CardTitle>
                   <CardDescription className="mt-3 text-sm">Growing colorists</CardDescription>
                 </div>
-                <div>
-                  <span className="text-5xl font-bold">$7</span>
-                  <span className="text-muted-foreground text-base ml-2">/mo</span>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-5xl font-bold text-blue-600 dark:text-blue-500">$7</span>
+                  <span className="text-muted-foreground text-sm">/mo</span>
                 </div>
               </CardHeader>
               <CardContent className="space-y-5 pt-2 pb-10 px-8">
@@ -528,12 +533,12 @@ export default function Landing() {
                   </CardTitle>
                   <CardDescription className="mt-3 text-sm">Professional creators</CardDescription>
                 </div>
-                <div>
-                  <span className="text-5xl font-bold">$12</span>
-                  <span className="text-muted-foreground text-base ml-2">/mo</span>
-                  <div className="mt-2">
-                    <span className="text-xs text-muted-foreground">or $99/year</span>
-                  </div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-5xl font-bold text-purple-600 dark:text-purple-500">$12</span>
+                  <span className="text-muted-foreground text-sm">/mo</span>
+                </div>
+                <div className="mt-2">
+                  <span className="text-xs text-muted-foreground">or $99/year</span>
                 </div>
               </CardHeader>
               <CardContent className="space-y-5 pt-2 pb-10 px-8">
@@ -586,9 +591,9 @@ export default function Landing() {
                   </CardTitle>
                   <CardDescription className="mt-3 text-sm">Agencies & teams</CardDescription>
                 </div>
-                <div>
-                  <span className="text-5xl font-bold">$25</span>
-                  <span className="text-muted-foreground text-base ml-2">/mo</span>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-5xl font-bold text-yellow-600 dark:text-yellow-500">$25</span>
+                  <span className="text-muted-foreground text-sm">/mo</span>
                 </div>
               </CardHeader>
               <CardContent className="space-y-5 pt-2 pb-10 px-8">

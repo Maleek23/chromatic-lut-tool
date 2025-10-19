@@ -12,6 +12,7 @@ import Generate from "@/pages/Tool";
 import Tools from "@/pages/Tools";
 import AuthPage from "@/pages/AuthPage";
 import Upgrade from "@/pages/Upgrade";
+import LearnMore from "@/pages/LearnMore";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -22,6 +23,7 @@ function Router() {
         <Route path="/" component={Landing} />
         <Route path="/generate" component={Generate} />
         <Route path="/tools" component={Tools} />
+        <Route path="/learn-more" component={LearnMore} />
         <Route path="/upgrade" component={Upgrade} />
         <Route path="/auth" component={AuthPage} />
         <Route component={NotFound} />

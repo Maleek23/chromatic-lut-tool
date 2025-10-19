@@ -1,6 +1,6 @@
 {
-  "name": "Chromatic by UN/TITLD",
-  "short_name": "Chromatic",
+  "name": "CHROMA by UN/TITLD",
+  "short_name": "CHROMA",
   "description": "Extract color grading from images and generate professional LUT files",
   "start_url": "/",
   "display": "standalone",
@@ -28,7 +28,7 @@
       "sizes": "1920x1080",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Chromatic Landing Page"
+      "label": "CHROMA Landing Page"
     }
   ]
 }

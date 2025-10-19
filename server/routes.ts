@@ -104,7 +104,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             price_data: {
               currency: "usd",
               product_data: {
-                name: "Chromatic Pro",
+                name: "CHROMA Pro",
                 description: "Unlimited preset saving, priority support, and advanced features",
               },
               unit_amount: 1200, // $12.00
