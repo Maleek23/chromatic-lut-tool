@@ -59,6 +59,7 @@ Preferred communication style: Simple, everyday language.
     - **Authentication**: Email/password with bcrypt, session management, and tier-based feature access.
     - **Preset Management**: Saving and organization of presets with tier-dependent limits and metadata tracking.
     - **Usage Tracking**: Monthly conversions tracked for Free tier (3 free per month, resets on 1st, then pay-per-use at $2.50 per LUT). Paid tiers have unlimited generations.
+    - **Email Delivery**: Automatic email delivery of generated LUT files via Resend with professional HTML template, LUT metadata, and file attachment. Implementation complete; requires domain verification on Resend dashboard for production use.
     - **Preset Management Note**: "Presets" in tier descriptions refers to saved LUTs (user-generated LUT files), NOT Lightroom .xmp or Photoshop .atn preset files (those are coming soon as Pro tier feature).
 
 ## External Dependencies
@@ -72,4 +73,4 @@ Preferred communication style: Simple, everyday language.
 - **Date Handling**: date-fns.
 - **Authentication**: Passport.js, bcrypt, express-session, connect-pg-simple.
 - **Payments**: Stripe (configured, awaiting API keys).
-- **Email Service**: Resend (installed, awaiting API keys for email delivery of LUT downloads).
+- **Email Service**: Resend (configured, API key provided, requires domain verification for production email delivery).
