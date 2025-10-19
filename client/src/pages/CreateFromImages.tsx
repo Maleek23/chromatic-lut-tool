@@ -300,7 +300,7 @@ export default function CreateFromImages() {
                 Ready to create your first LUT?
               </h2>
               <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                Start with our free tier and generate up to 5 LUTs per month. Upgrade anytime for unlimited Image-to-LUT generations and advanced features.
+                Start with our free tier and generate up to 3 LUTs per month. Upgrade anytime for unlimited Image-to-LUT generations and advanced features.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/auth">

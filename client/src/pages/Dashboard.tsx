@@ -119,7 +119,10 @@ export default function Dashboard() {
               {user.conversionsThisMonth || 0}
             </div>
             <p className="text-xs text-muted-foreground mt-2">
-              Unlimited for all users
+              {isPro || user.tier === "creator" 
+                ? "Unlimited generations" 
+                : `${user.conversionsThisMonth || 0} / 3 this month`
+              }
             </p>
           </CardContent>
         </Card>
