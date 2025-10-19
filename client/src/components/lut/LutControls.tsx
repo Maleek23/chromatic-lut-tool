@@ -17,8 +17,8 @@ interface LutControlsProps {
   onIntensityChange: (value: number) => void;
   gridSize: "17" | "33" | "65";
   onGridSizeChange: (value: "17" | "33" | "65") => void;
-  format: "cube" | "3dl" | "lut";
-  onFormatChange: (value: "cube" | "3dl" | "lut") => void;
+  format: "cube" | "3dl" | "lut" | "look" | "xmp";
+  onFormatChange: (value: "cube" | "3dl" | "lut" | "look" | "xmp") => void;
   precision: "8" | "10" | "12";
   onPrecisionChange: (value: "8" | "10" | "12") => void;
   exportPreview: boolean;
@@ -45,10 +45,13 @@ export function LutControls({
 }: LutControlsProps) {
   const { user } = useAuth();
   const isPro = user?.tier === "pro" || user?.tier === "studio";
+  const isCreator = user?.tier === "creator" || user?.tier === "pro" || user?.tier === "studio";
   const hasGrid33 = useHasGridSize(33);
   const hasGrid65 = useHasGridSize(65);
   const hasFormat3dl = useHasFormat('3dl');
   const hasFormatLut = useHasFormat('lut');
+  const hasFormatLook = useHasFormat('look');
+  const hasFormatXmp = useHasFormat('xmp');
 
   return (
     <Card>
@@ -156,9 +159,14 @@ export function LutControls({
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <Label htmlFor="format">Output Format</Label>
-            {(!hasFormat3dl || !hasFormatLut) && (
+            {!isCreator && (
               <Badge variant="outline" className="text-xs">
-                <Crown className="w-3 h-3 mr-1" />Pro Feature
+                <Crown className="w-3 h-3 mr-1" />Creator+
+              </Badge>
+            )}
+            {isCreator && !isPro && (
+              <Badge variant="outline" className="text-xs">
+                <Sparkles className="w-3 h-3 mr-1" />Pro+
               </Badge>
             )}
             <Tooltip>
@@ -166,24 +174,36 @@ export function LutControls({
                 <HelpCircle className="w-3.5 h-3.5 text-muted-foreground cursor-help" />
               </TooltipTrigger>
               <TooltipContent side="right" className="max-w-xs">
-                <p>.cube is widely supported (DaVinci Resolve, Premiere). {hasFormat3dl && ".3dl for Autodesk/Lustre, .lut for various software."}</p>
+                <p className="text-sm">
+                  <strong>Free:</strong> .cube only<br/>
+                  <strong>Creator:</strong> .cube, .3dl, .look (3 formats)<br/>
+                  <strong>Pro:</strong> All formats including .xmp (Lightroom)
+                </p>
               </TooltipContent>
             </Tooltip>
           </div>
-          <Select value={format} onValueChange={(value) => onFormatChange(value as "cube" | "3dl" | "lut")}>
+          <Select value={format} onValueChange={(value) => onFormatChange(value as "cube" | "3dl" | "lut" | "look" | "xmp")}>
             <SelectTrigger id="format" data-testid="select-format">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="cube">.cube (Standard - All tiers)</SelectItem>
-              {hasFormat3dl && <SelectItem value="3dl">.3dl (Pro - Autodesk)</SelectItem>}
+              {hasFormat3dl && <SelectItem value="3dl">.3dl (Creator+ - Autodesk)</SelectItem>}
+              {hasFormatLook && <SelectItem value="look">.look (Creator+ - Nuke)</SelectItem>}
               {hasFormatLut && <SelectItem value="lut">.lut (Pro - 1D LUT)</SelectItem>}
+              {hasFormatXmp && <SelectItem value="xmp">.xmp (Pro - Lightroom)</SelectItem>}
             </SelectContent>
           </Select>
-          {(!hasFormat3dl || !hasFormatLut) && (
+          {!isCreator && (
             <p className="text-xs text-muted-foreground">
               <Crown className="w-3 h-3 inline mr-1" />
-              Upgrade to Pro for .3dl and .lut export formats
+              Upgrade to Creator for 3 export formats (.cube, .3dl, .look)
+            </p>
+          )}
+          {isCreator && !isPro && (
+            <p className="text-xs text-muted-foreground">
+              <Sparkles className="w-3 h-3 inline mr-1" />
+              Upgrade to Pro for all formats including .lut and .xmp (Lightroom presets)
             </p>
           )}
         </div>

@@ -91,7 +91,7 @@ export const lutGenerationSchema = z.object({
   imageData: z.string(), // base64 encoded image
   gridSize: z.enum(["17", "33", "65"]),
   intensity: z.number().min(0).max(100),
-  format: z.enum([".cube", ".3dl", ".lut"]),
+  format: z.enum([".cube", ".3dl", ".lut", ".look", ".xmp"]),
   precision: z.enum(["8", "10", "12"]).default("10"),
   exportPreview: z.boolean().default(false),
 });

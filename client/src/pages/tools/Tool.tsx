@@ -27,7 +27,7 @@ export default function Tool() {
   
   const [intensity, setIntensity] = useState(100);
   const [gridSize, setGridSize] = useState<"17" | "33" | "65">("17"); // Start with universally available grid
-  const [format, setFormat] = useState<"cube" | "3dl" | "lut">("cube");
+  const [format, setFormat] = useState<"cube" | "3dl" | "lut" | "look" | "xmp">("cube");
   const [precision, setPrecision] = useState<"8" | "10" | "12">("10");
   const [exportPreview, setExportPreview] = useState(false);
   

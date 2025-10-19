@@ -1,11 +1,19 @@
 import sharp from "sharp";
 import type { AdvancedControls } from "@shared/schema";
-
-interface RGB {
-  r: number;
-  g: number;
-  b: number;
-}
+import {
+  analyzeImageColorScience,
+  type RGB,
+  type Lab,
+  type ColorAnalysis,
+  applyFilmicToneCurve,
+  rgbToLab,
+  labToRgb,
+  labToLch,
+  lchToLab,
+  gamutMapToRec709,
+} from "./color-science";
+import { generateLookLUT, generateXmpPreset } from "./format-exporters";
+import { buildLUTFromColorScience, type LUTPoint } from "./professional-lut-builder";
 
 interface HSL {
   h: number;
@@ -93,29 +101,40 @@ function hexToRgb(hex: string): RGB {
     : { r: 0, g: 0, b: 0 };
 }
 
-// Fast LUT generation with optional advanced controls
+// Professional LUT generation with cinema-grade color science
 export async function generateLUT(
   imageBuffer: Buffer,
   gridSize: number,
   intensity: number,
-  format: ".cube" | ".3dl" | ".lut",
+  format: ".cube" | ".3dl" | ".lut" | ".look" | ".xmp",
   advancedControls?: AdvancedControls,
-  precision: string = "10"
+  precision: string = "10",
+  metadata?: { name?: string; description?: string }
 ): Promise<string> {
-  const transform = await deriveColorTransform(imageBuffer);
-  const lutMap = buildLUTFromTransform(
-    transform,
+  // Use professional color science analysis
+  const colorAnalysis = await analyzeImageColorScience(imageBuffer);
+  
+  // Build LUT using advanced color science
+  const lutMap = buildLUTFromColorScience(
+    colorAnalysis,
     gridSize,
     intensity / 100,
     advancedControls
   );
 
+  // Export in requested format
   if (format === ".cube") {
     return generateCubeLUT(lutMap, gridSize, precision);
   } else if (format === ".3dl") {
     return generate3dlLUT(lutMap, gridSize, precision);
-  } else {
+  } else if (format === ".lut") {
     return generate1dLUT(lutMap, gridSize, precision);
+  } else if (format === ".look") {
+    return generateLookLUT(lutMap, gridSize, precision);
+  } else if (format === ".xmp") {
+    return generateXmpPreset(lutMap, gridSize, metadata);
+  } else {
+    throw new Error(`Unsupported format: ${format}`);
   }
 }
 
@@ -378,12 +397,13 @@ function applyZoneAdjustment(
   return hslToRgb(hsl);
 }
 
-function generateCubeLUT(colorMap: Map<string, RGB>, gridSize: number, precision: string = "10"): string {
+function generateCubeLUT(lutMap: LUTPoint[], gridSize: number, precision: string = "10"): string {
   // DaVinci Resolve compatible .cube format with proper headers
   const timestamp = new Date().toISOString();
-  let lut = `# Created by LUT Maker
+  let lut = `# Created by CHROMA
 # Generated: ${timestamp}
 # Precision: ${precision}-bit
+# Professional Cinema-Grade Color Science
 # LUT 3D size
 LUT_3D_SIZE ${gridSize}
 # Domain
@@ -392,35 +412,25 @@ DOMAIN_MAX 1.0 1.0 1.0
 
 `;
 
-  // Blue-fastest order: R (slowest) -> G (middle) -> B (fastest)
-  for (let r = 0; r < gridSize; r++) {
-    for (let g = 0; g < gridSize; g++) {
-      for (let b = 0; b < gridSize; b++) {
-        const key = `${r},${g},${b}`;
-        const color = colorMap.get(key) || {
-          r: (r / (gridSize - 1)) * 255,
-          g: (g / (gridSize - 1)) * 255,
-          b: (b / (gridSize - 1)) * 255,
-        };
-
-        const rNorm = (color.r / 255).toFixed(6);
-        const gNorm = (color.g / 255).toFixed(6);
-        const bNorm = (color.b / 255).toFixed(6);
-
-        lut += `${rNorm} ${gNorm} ${bNorm}\n`;
-      }
-    }
+  // Blue-fastest order: already arranged in lutMap
+  for (const color of lutMap) {
+    const rNorm = color.r.toFixed(6);
+    const gNorm = color.g.toFixed(6);
+    const bNorm = color.b.toFixed(6);
+    
+    lut += `${rNorm} ${gNorm} ${bNorm}\n`;
   }
 
   return lut;
 }
 
-function generate3dlLUT(colorMap: Map<string, RGB>, gridSize: number, precision: string = "10"): string {
+function generate3dlLUT(lutMap: LUTPoint[], gridSize: number, precision: string = "10"): string {
   // Autodesk/Lustre .3dl format with proper headers
   const timestamp = new Date().toISOString();
-  let lut = `# Created by LUT Maker
+  let lut = `# Created by CHROMA
 # Generated: ${timestamp}
 # Precision: ${precision}-bit
+# Professional Cinema-Grade Color Science
 # Format: Autodesk Color Management 3D LUT
 # Input: RGB
 # Output: RGB
@@ -429,30 +439,19 @@ Mesh ${gridSize} ${gridSize} ${gridSize}
 
 `;
 
-  // Blue-fastest order: R (slowest) -> G (middle) -> B (fastest)
-  for (let r = 0; r < gridSize; r++) {
-    for (let g = 0; g < gridSize; g++) {
-      for (let b = 0; b < gridSize; b++) {
-        const key = `${r},${g},${b}`;
-        const color = colorMap.get(key) || {
-          r: (r / (gridSize - 1)) * 255,
-          g: (g / (gridSize - 1)) * 255,
-          b: (b / (gridSize - 1)) * 255,
-        };
-
-        const rInt = Math.round(color.r);
-        const gInt = Math.round(color.g);
-        const bInt = Math.round(color.b);
-
-        lut += `${rInt} ${gInt} ${bInt}\n`;
-      }
-    }
+  // Blue-fastest order: already arranged in lutMap
+  for (const color of lutMap) {
+    const rInt = Math.round(color.r * 255);
+    const gInt = Math.round(color.g * 255);
+    const bInt = Math.round(color.b * 255);
+    
+    lut += `${rInt} ${gInt} ${bInt}\n`;
   }
 
   return lut;
 }
 
-function generate1dLUT(colorMap: Map<string, RGB>, gridSize: number, precision: string = "10"): string {
+function generate1dLUT(lutMap: LUTPoint[], gridSize: number, precision: string = "10"): string {
   // 1D LUT format - separate curves for R, G, B channels
   const timestamp = new Date().toISOString();
   
@@ -461,9 +460,10 @@ function generate1dLUT(colorMap: Map<string, RGB>, gridSize: number, precision: 
   if (precision === "10") entriesPerChannel = 1024; // 10-bit
   if (precision === "12") entriesPerChannel = 4096; // 12-bit
   
-  let lut = `# Created by LUT Maker
+  let lut = `# Created by CHROMA
 # Generated: ${timestamp}
 # Precision: ${precision}-bit (${entriesPerChannel} entries per channel)
+# Professional Cinema-Grade Color Science
 # Format: 1D LUT
 # Input: RGB
 # Output: RGB
@@ -479,18 +479,17 @@ function generate1dLUT(colorMap: Map<string, RGB>, gridSize: number, precision: 
     const gridPos = inputValue * (gridSize - 1);
     const gridIdx = Math.round(gridPos);
     
-    // Sample from colorMap at neutral point (gridIdx, gridIdx, gridIdx)
-    const key = `${gridIdx},${gridIdx},${gridIdx}`;
-    const color = colorMap.get(key) || {
-      r: inputValue * 255,
-      g: inputValue * 255,
-      b: inputValue * 255,
+    // Calculate index in blue-fastest order: b * gridSize² + g * gridSize + r
+    const lutIdx = gridIdx * gridSize * gridSize + gridIdx * gridSize + gridIdx;
+    const color = lutMap[lutIdx] || {
+      r: inputValue,
+      g: inputValue,
+      b: inputValue,
     };
     
-    // Normalize to 0.0-1.0 range
-    const rNorm = (color.r / 255).toFixed(6);
-    const gNorm = (color.g / 255).toFixed(6);
-    const bNorm = (color.b / 255).toFixed(6);
+    const rNorm = color.r.toFixed(6);
+    const gNorm = color.g.toFixed(6);
+    const bNorm = color.b.toFixed(6);
     
     lut += `${rNorm} ${gNorm} ${bNorm}\n`;
   }

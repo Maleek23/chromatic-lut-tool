@@ -7,7 +7,7 @@ export interface TierLimits {
   priceMonthly?: number;
   priceYearly?: number;
   gridSizes: Array<17 | 33 | 65>;
-  formats: Array<"cube" | "3dl" | "lut">;
+  formats: Array<"cube" | "3dl" | "lut" | "look" | "xmp">;
   maxPresets: number;
   hasAnalyzer: boolean;
   hasOptimizer: boolean;
@@ -61,7 +61,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     price: "$7/mo",
     priceMonthly: 7,
     gridSizes: [17, 33],
-    formats: ["cube"], // Creator tier only gets .cube format output
+    formats: ["cube", "3dl", "look"], // Creator tier gets 3 export formats
     maxPresets: 30,
     hasAnalyzer: false,
     hasOptimizer: false,
@@ -78,6 +78,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     features: [
       "Unlimited Image-to-LUT generations",
       "Up to 33×33×33 grid size",
+      "Export: .cube, .3dl, .look (3 formats)",
       "Convert any LUT (.cube/.3dl/.lut) to .cube format",
       "Save up to 30 LUTs",
       "Organize folders / mini dashboard",
@@ -92,7 +93,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     priceMonthly: 12,
     priceYearly: 99,
     gridSizes: [17, 33, 65],
-    formats: ["cube"], // All tiers only output .cube format
+    formats: ["cube", "3dl", "lut", "look", "xmp"], // Pro gets all formats
     maxPresets: -1, // Unlimited
     hasAnalyzer: true,
     hasOptimizer: true,
@@ -109,6 +110,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     features: [
       "Everything in Creator",
       "Up to 65×65×65 grid size (ultra precision)",
+      "Multi-format export: .cube, .3dl, .look, .xmp (all formats)",
       "Custom grid resampling (17³/33³/65³)",
       "Convert any LUT (.cube/.3dl/.lut) to .cube format",
       "LUT Analyzer (quality scoring, banding detection)",
@@ -125,7 +127,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     price: "$25/mo",
     priceMonthly: 25,
     gridSizes: [17, 33, 65],
-    formats: ["cube"], // All tiers only output .cube format
+    formats: ["cube", "3dl", "lut", "look", "xmp"], // Studio gets all formats
     maxPresets: -1, // Unlimited
     hasAnalyzer: true,
     hasOptimizer: true,
@@ -144,7 +146,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
       "Custom branded LUTs",
       "Team preset sharing",
       "Collaboration dashboard",
-      "Early access to AI grading",
+      "AI-powered color grading",
     ],
   },
 };
@@ -160,7 +162,7 @@ export function canUseGridSize(tier: TierType, gridSize: number): boolean {
 
 export function canUseFormat(tier: TierType, format: string): boolean {
   const limits = getTierLimits(tier);
-  return limits.formats.includes(format as "cube" | "3dl" | "lut");
+  return limits.formats.includes(format as "cube" | "3dl" | "lut" | "look" | "xmp");
 }
 
 export function canUseBatchProcessing(tier: TierType): boolean {

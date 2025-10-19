@@ -19,7 +19,9 @@ import { sendLutEmail } from "../features/email/sender";
 const EXTENSION_MAP = {
   cube: ".cube",
   "3dl": ".3dl",
-  lut: ".lut"
+  lut: ".lut",
+  look: ".look",
+  xmp: ".xmp"
 } as const;
 
 // Configure multer with file validation
@@ -108,7 +110,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const user = req.user;
-      const { storage } = await import("./storage");
+      const { storage } = await import("../core/storage");
 
       // Create or retrieve Stripe customer
       let customerId = user.stripeCustomerId;
@@ -196,7 +198,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    const { storage } = await import("./storage");
+    const { storage } = await import("../core/storage");
 
     try {
       switch (event.type) {
@@ -330,7 +332,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let lutData = lutCache.get(cacheKey);
 
       if (!lutData) {
-        const { getLUTMap } = await import("./utils/lutGenerator");
+        const { getLUTMap } = await import("../features/lut/generator");
         const lutMap = await getLUTMap(imageBuffer, parseInt(gridSize));
         lutData = { map: lutMap, gridSize: parseInt(gridSize) };
         lutCache.set(cacheKey, lutData);
@@ -443,7 +445,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Generate preview image if requested
       let previewData: string | undefined;
       if (exportPreview) {
-        const { getLUTMap } = await import("./utils/lutGenerator");
+        const { getLUTMap } = await import("../features/lut/generator");
         const lutMap = await getLUTMap(imageBuffer, parseInt(gridSize));
         const previewBuffer = await applyLUTToImage(imageBuffer, lutMap, parseInt(gridSize), intensity);
         previewData = `data:image/jpeg;base64,${previewBuffer.toString("base64")}`;
@@ -501,7 +503,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             let lutData = lutCache.get(cacheKey);
 
             if (!lutData) {
-              const { getLUTMap } = await import("./utils/lutGenerator");
+              const { getLUTMap } = await import("../features/lut/generator");
               const lutMap = await getLUTMap(imageBuffer, parseInt(gridSize), controls);
               lutData = { map: lutMap, gridSize: parseInt(gridSize) };
               lutCache.set(cacheKey, lutData);
@@ -597,7 +599,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
             // Add preview image if requested
             if (exportPreview) {
-              const { getLUTMap } = await import("./utils/lutGenerator");
+              const { getLUTMap } = await import("../features/lut/generator");
               const lutMap = await getLUTMap(imageBuffer, parseInt(gridSize), controls);
               const previewBuffer = await applyLUTToImage(imageBuffer, lutMap, parseInt(gridSize), intensity);
               const previewFilename = `${imageName}_${timestamp}_preview.jpg`;
@@ -692,7 +694,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Backend tier validation for grid size resampling (Pro feature)
       if (gridSize) {
-        const { hasTier } = await import("./middleware/tierGuard");
+        const { hasTier } = await import("../middleware/tierGuard");
         if (!hasTier(userTier, "pro")) {
           return res.status(403).json({
             error: "Grid size resampling requires Pro tier",
@@ -711,7 +713,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const converted = convertLUT(parsed, targetFormat, gridSize);
 
       // Track usage
-      const { storage } = await import("./storage");
+      const { storage } = await import("../core/storage");
       await storage.incrementConversions(req.user!.id);
 
       // Generate filename
@@ -751,7 +753,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Check tier for full analysis (Pro feature)
       const userTier = req.user!.tier as "free" | "creator" | "pro" | "studio";
-      const { hasTier } = await import("./middleware/tierGuard");
+      const { hasTier } = await import("../middleware/tierGuard");
       const hasFullAccess = hasTier(userTier, "pro");
 
       // Guard against empty LUTs
@@ -899,7 +901,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Tier check - Pro feature only
       const userTier = req.user!.tier as "free" | "creator" | "pro" | "studio";
-      const { hasTier } = await import("./middleware/tierGuard");
+      const { hasTier } = await import("../middleware/tierGuard");
       
       if (!hasTier(userTier, "pro")) {
         return res.status(403).json({
@@ -994,7 +996,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ error: "Authentication required" });
       }
 
-      const { storage } = await import("./storage");
+      const { storage } = await import("../core/storage");
       const savedPresets = await storage.getUserPresetCount(req.user.id);
       
       res.json({
@@ -1015,7 +1017,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ error: "Authentication required" });
       }
 
-      const { storage } = await import("./storage");
+      const { storage } = await import("../core/storage");
       const presets = await storage.getUserPresets(req.user.id);
       
       res.json(presets); // Return array directly for React Query
@@ -1037,7 +1039,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid preset ID" });
       }
 
-      const { storage } = await import("./storage");
+      const { storage } = await import("../core/storage");
       const preset = await storage.getPreset(presetId, req.user.id);
       
       if (!preset) {
@@ -1088,8 +1090,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const user = req.user;
-      const { storage } = await import("./storage");
-      const { getMaxPresets, canSaveMorePresets } = await import("../shared/tiers");
+      const { storage } = await import("../core/storage");
+      const { getMaxPresets, canSaveMorePresets } = await import("@shared/tiers");
       
       // Check preset limit based on tier
       const userTier = (user.tier || "free") as "free" | "creator" | "pro" | "studio";
@@ -1161,7 +1163,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid preset ID" });
       }
 
-      const { storage } = await import("./storage");
+      const { storage } = await import("../core/storage");
       const deleted = await storage.deletePreset(presetId, req.user.id);
       
       if (!deleted) {
@@ -1198,7 +1200,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Folder must be a string or null" });
       }
 
-      const { storage } = await import("./storage");
+      const { storage } = await import("../core/storage");
       const updated = await storage.updatePresetFolder(presetId, req.user.id, folder || null);
       
       if (!updated) {
@@ -1231,7 +1233,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Convert to base64 data URL for storage
       const avatarUrl = `data:image/jpeg;base64,${optimizedBuffer.toString('base64')}`;
 
-      const { storage } = await import("./storage");
+      const { storage } = await import("../core/storage");
       await storage.updateUserProfile(req.user.id, { avatarUrl });
 
       res.json({ avatarUrl });
@@ -1257,7 +1259,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Convert to base64 data URL for storage
       const bannerUrl = `data:image/jpeg;base64,${optimizedBuffer.toString('base64')}`;
 
-      const { storage } = await import("./storage");
+      const { storage } = await import("../core/storage");
       await storage.updateUserProfile(req.user.id, { bannerUrl });
 
       res.json({ bannerUrl });
@@ -1283,7 +1285,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (instagram !== undefined) updates.instagram = instagram;
       if (linkedin !== undefined) updates.linkedin = linkedin;
 
-      const { storage } = await import("./storage");
+      const { storage } = await import("../core/storage");
       await storage.updateUserProfile(req.user.id, updates);
 
       res.json({ message: "Profile updated successfully" });
@@ -1296,7 +1298,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get user profile by username
   app.get("/api/profile/:username", async (req, res) => {
     try {
-      const { storage } = await import("./storage");
+      const { storage } = await import("../core/storage");
       const user = await storage.getUserByUsername(req.params.username);
       
       if (!user) {
