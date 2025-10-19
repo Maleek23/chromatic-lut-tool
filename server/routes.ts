@@ -696,7 +696,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Analyze LUT quality endpoint
-  app.post("/api/lut/analyze", upload.single("file"), async (req, res) => {
+  app.post("/api/lut/analyze", requireAuth, upload.single("file"), async (req, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ error: "No file uploaded" });
@@ -714,6 +714,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      // Check tier for full analysis (Pro feature)
+      const userTier = req.user!.tier as "free" | "creator" | "pro" | "studio";
+      const { hasTier } = await import("./middleware/tierGuard");
+      const hasFullAccess = hasTier(userTier, "pro");
+
+      // Guard against empty LUTs
+      if (parsed.lut.data.length === 0) {
+        return res.status(400).json({
+          error: "Invalid LUT file: no data points found"
+        });
+      }
+
       // Analyze quality issues
       const analysis = {
         format: parsed.format,
@@ -723,20 +735,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
         errors: parsed.errors,
         warnings: parsed.warnings,
         quality: {
+          score: 0, // 0-100 quality score
           hasInvalidPoints: false,
           outOfRangeCount: 0,
           bandingDetected: false,
+          bandingScore: 0,
           maxValue: 0,
           minValue: 1,
-          avgValue: 0
-        }
+          avgValue: 0,
+          rgbStats: {
+            red: { min: 1, max: 0, avg: 0 },
+            green: { min: 1, max: 0, avg: 0 },
+            blue: { min: 1, max: 0, avg: 0 }
+          }
+        },
+        fullAnalysis: hasFullAccess
       };
 
       // Check for invalid points and out-of-range values
       let sum = 0;
+      let rSum = 0, gSum = 0, bSum = 0;
+      
       for (const [r, g, b] of parsed.lut.data) {
         const values = [r, g, b];
         
+        // Overall stats
         for (const v of values) {
           sum += v;
           
@@ -752,11 +775,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
             analysis.quality.minValue = v;
           }
         }
+
+        // Per-channel stats (Pro feature)
+        if (hasFullAccess) {
+          rSum += r;
+          gSum += g;
+          bSum += b;
+
+          if (r > analysis.quality.rgbStats.red.max) analysis.quality.rgbStats.red.max = r;
+          if (r < analysis.quality.rgbStats.red.min) analysis.quality.rgbStats.red.min = r;
+          
+          if (g > analysis.quality.rgbStats.green.max) analysis.quality.rgbStats.green.max = g;
+          if (g < analysis.quality.rgbStats.green.min) analysis.quality.rgbStats.green.min = g;
+          
+          if (b > analysis.quality.rgbStats.blue.max) analysis.quality.rgbStats.blue.max = b;
+          if (b < analysis.quality.rgbStats.blue.min) analysis.quality.rgbStats.blue.min = b;
+        }
       }
 
       analysis.quality.avgValue = sum / (parsed.lut.data.length * 3);
 
-      // Simple banding detection: check for repeated consecutive values
+      if (hasFullAccess) {
+        analysis.quality.rgbStats.red.avg = rSum / parsed.lut.data.length;
+        analysis.quality.rgbStats.green.avg = gSum / parsed.lut.data.length;
+        analysis.quality.rgbStats.blue.avg = bSum / parsed.lut.data.length;
+      }
+
+      // Banding detection: check for repeated consecutive values
       let bandingScore = 0;
       for (let i = 1; i < parsed.lut.data.length; i++) {
         const prev = parsed.lut.data[i - 1];
@@ -771,10 +816,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
       
+      analysis.quality.bandingScore = bandingScore;
       // If more than 10% of consecutive points are identical, consider it banding
       analysis.quality.bandingDetected = bandingScore > parsed.lut.data.length * 0.1;
 
-      res.json(analysis);
+      // Calculate overall quality score (0-100)
+      let qualityScore = 100;
+      
+      // Deduct points for out-of-range values (up to -30 points)
+      const outOfRangeRatio = analysis.quality.outOfRangeCount / (parsed.lut.data.length * 3);
+      qualityScore -= Math.min(30, outOfRangeRatio * 100);
+      
+      // Deduct points for banding (up to -40 points)
+      const bandingRatio = bandingScore / parsed.lut.data.length;
+      qualityScore -= Math.min(40, bandingRatio * 200);
+      
+      // Deduct points for parsing errors/warnings (up to -30 points)
+      qualityScore -= Math.min(30, (parsed.errors.length + parsed.warnings.length) * 10);
+      
+      analysis.quality.score = Math.max(0, Math.round(qualityScore));
+
+      // Free tier only gets basic preview
+      if (!hasFullAccess) {
+        delete analysis.quality.rgbStats;
+        res.json({
+          ...analysis,
+          upgradeMessage: "Upgrade to Pro for full RGB statistics and detailed analysis"
+        });
+      } else {
+        res.json(analysis);
+      }
     } catch (error) {
       console.error("LUT analysis error:", error);
       res.status(500).json({ error: "Failed to analyze LUT file" });
