@@ -13,6 +13,7 @@ const PgSession = connectPgSimple(session);
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
   getUserByStripeCustomerId(customerId: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   updateUserTier(userId: number, tier: string, expiresAt: Date | null): Promise<User | undefined>;
@@ -59,6 +60,12 @@ export class MemStorage implements IStorage {
     );
   }
 
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    return Array.from(this.users.values()).find(
+      (user) => user.email === email,
+    );
+  }
+
   async getUserByStripeCustomerId(customerId: string): Promise<User | undefined> {
     return Array.from(this.users.values()).find(
       (user) => user.stripeCustomerId === customerId,
@@ -73,7 +80,7 @@ export class MemStorage implements IStorage {
       id,
       tier: insertUser.tier || "free",
       tierExpiresAt: null,
-      email: insertUser.email || null,
+      username: insertUser.username || null,
       stripeCustomerId: null,
       stripeSubscriptionId: null,
       conversionsThisMonth: 0,
@@ -206,6 +213,11 @@ export class PostgresStorage implements IStorage {
 
   async getUserByUsername(username: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
+  }
+
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
     return user;
   }
 

@@ -5,9 +5,9 @@ import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 // User Schema
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
-  username: text("username").notNull().unique(),
+  username: text("username"), // Optional - keeping for backwards compatibility
   password: text("password").notNull(),
-  email: text("email"),
+  email: text("email").notNull().unique(),
   tier: text("tier").notNull().default("free"), // 'free', 'creator', 'pro', 'studio'
   tierExpiresAt: timestamp("tier_expires_at"), // Null for free tier, set for paid tiers
   stripeCustomerId: text("stripe_customer_id"),
@@ -31,6 +31,9 @@ export const insertUserSchema = createInsertSchema(users).omit({
   createdAt: true,
   stripeCustomerId: true,
   stripeSubscriptionId: true,
+}).extend({
+  email: z.string().email("Please enter a valid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;

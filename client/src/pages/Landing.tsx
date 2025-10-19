@@ -458,12 +458,12 @@ export default function Landing() {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="px-8 mt-8 pt-6 border-t">
-                <Link href="/auth" className="w-full">
-                  <Button variant="outline" className="w-full" data-testid="button-free-plan">
+              <CardFooter className="px-8 mt-8 pt-6 border-t flex justify-center">
+                <Button variant="outline" className="w-full text-center" data-testid="button-free-plan" asChild>
+                  <Link href="/auth">
                     Get Started
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </CardFooter>
             </Card>
 
@@ -504,12 +504,12 @@ export default function Landing() {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="px-8 mt-8 pt-6 border-t">
-                <Link href="/upgrade" className="w-full">
-                  <Button className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:opacity-90" data-testid="button-creator-plan">
+              <CardFooter className="px-8 mt-8 pt-6 border-t flex justify-center">
+                <Button className="w-full text-center bg-gradient-to-r from-blue-500 to-cyan-500 hover:opacity-90" data-testid="button-creator-plan" asChild>
+                  <Link href="/upgrade">
                     Upgrade
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </CardFooter>
             </Card>
 
@@ -564,12 +564,12 @@ export default function Landing() {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="px-8 mt-8 pt-6 border-t">
-                <Link href="/upgrade" className="w-full">
-                  <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90" data-testid="button-pro-plan">
+              <CardFooter className="px-8 mt-8 pt-6 border-t flex justify-center">
+                <Button className="w-full text-center bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90" data-testid="button-pro-plan" asChild>
+                  <Link href="/upgrade">
                     Upgrade
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </CardFooter>
             </Card>
 
@@ -615,8 +615,8 @@ export default function Landing() {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="px-8 mt-8 pt-6 border-t">
-                <Button disabled className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 opacity-60 cursor-not-allowed" data-testid="button-studio-plan">
+              <CardFooter className="px-8 mt-8 pt-6 border-t flex justify-center">
+                <Button disabled className="w-full text-center bg-gradient-to-r from-yellow-500 to-orange-500 opacity-60 cursor-not-allowed" data-testid="button-studio-plan">
                   Coming Soon
                 </Button>
               </CardFooter>

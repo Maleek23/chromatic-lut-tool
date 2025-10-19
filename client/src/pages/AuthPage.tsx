@@ -1,5 +1,5 @@
 // Reference: blueprint:javascript_auth_all_persistance
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { Redirect } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,8 +11,46 @@ import { Check, Zap, Film, Sparkles, Palette, Crown, ArrowRight } from "lucide-r
 
 export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
-  const [loginData, setLoginData] = useState({ username: "", password: "" });
-  const [registerData, setRegisterData] = useState({ username: "", password: "", email: "", tier: "free" });
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [registerData, setRegisterData] = useState({ email: "", password: "", tier: "free" });
+
+  // SEO Meta Tags
+  useEffect(() => {
+    // Set page title
+    document.title = "Sign Up - CHROMA by UN/TITLD | Professional LUT Generator & Color Grading Tools";
+    
+    // Create or update meta tags
+    const metaTags = [
+      { name: "description", content: "Create your free CHROMA account and access professional LUT generation, format conversion, and color grading tools. Start with our free tier or upgrade for advanced features." },
+      { property: "og:title", content: "Sign Up - CHROMA by UN/TITLD | Professional LUT Generator" },
+      { property: "og:description", content: "Join thousands of colorists and cinematographers using CHROMA for professional color grading. Free tier includes LUT generation and format conversion." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: window.location.href },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Sign Up - CHROMA by UN/TITLD | Professional LUT Generator" },
+      { name: "twitter:description", content: "Create your free account and access professional color grading tools. LUT generation, format conversion, and more." },
+      { name: "keywords", content: "LUT generator, color grading, signup, cinematography, colorist, image to LUT, .cube, .3dl, professional color grading, free LUT tools" },
+    ];
+
+    metaTags.forEach(({ name, property, content }) => {
+      const selector = name ? `meta[name="${name}"]` : `meta[property="${property}"]`;
+      let element = document.querySelector(selector);
+      
+      if (!element) {
+        element = document.createElement('meta');
+        if (name) element.setAttribute('name', name);
+        if (property) element.setAttribute('property', property);
+        document.head.appendChild(element);
+      }
+      
+      element.setAttribute('content', content);
+    });
+
+    // Cleanup function to reset title when component unmounts
+    return () => {
+      document.title = "CHROMA by UN/TITLD";
+    };
+  }, []);
 
   if (user) {
     return <Redirect to="/generate" />;
@@ -160,29 +198,20 @@ export default function AuthPage() {
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="register-username">Username</Label>
-                        <Input
-                          id="register-username"
-                          type="text"
-                          value={registerData.username}
-                          onChange={(e) => setRegisterData({ ...registerData, username: e.target.value })}
-                          required
-                          data-testid="input-username"
-                          className="bg-background/50 border-muted"
-                          placeholder="your-username"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="register-email">Email (optional)</Label>
+                        <Label htmlFor="register-email">Email Address</Label>
                         <Input
                           id="register-email"
                           type="email"
                           value={registerData.email}
                           onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
+                          required
                           data-testid="input-email"
                           className="bg-background/50 border-muted"
                           placeholder="you@example.com"
                         />
+                        <p className="text-xs text-muted-foreground">
+                          Use a valid email address for account recovery
+                        </p>
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="register-password">Password</Label>
@@ -232,16 +261,16 @@ export default function AuthPage() {
                   <CardContent>
                     <form onSubmit={handleLogin} className="space-y-4">
                       <div className="space-y-2">
-                        <Label htmlFor="login-username">Username</Label>
+                        <Label htmlFor="login-email">Email Address</Label>
                         <Input
-                          id="login-username"
-                          type="text"
-                          value={loginData.username}
-                          onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
+                          id="login-email"
+                          type="email"
+                          value={loginData.email}
+                          onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
                           required
-                          data-testid="input-username"
+                          data-testid="input-email"
                           className="bg-background/50 border-muted"
-                          placeholder="your-username"
+                          placeholder="you@example.com"
                         />
                       </div>
                       <div className="space-y-2">

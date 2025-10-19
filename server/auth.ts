@@ -56,16 +56,19 @@ export function setupAuth(app: Express) {
   app.use(passport.session());
 
   passport.use(
-    new LocalStrategy(async (username, password, done) => {
-      const user = await storage.getUserByUsername(username);
-      if (!user) {
-        return done(null, false, { message: "User not found. Please register first." });
+    new LocalStrategy(
+      { usernameField: 'email' },
+      async (email, password, done) => {
+        const user = await storage.getUserByEmail(email);
+        if (!user) {
+          return done(null, false, { message: "Email not found. Please register first." });
+        }
+        if (!(await comparePasswords(password, user.password))) {
+          return done(null, false, { message: "Incorrect password. Please try again." });
+        }
+        return done(null, user);
       }
-      if (!(await comparePasswords(password, user.password))) {
-        return done(null, false, { message: "Incorrect password. Please try again." });
-      }
-      return done(null, user);
-    }),
+    ),
   );
 
   passport.serializeUser((user, done) => done(null, user.id));
@@ -81,9 +84,9 @@ export function setupAuth(app: Express) {
   };
 
   app.post("/api/register", authRateLimiter, async (req, res, next) => {
-    const existingUser = await storage.getUserByUsername(req.body.username);
+    const existingUser = await storage.getUserByEmail(req.body.email);
     if (existingUser) {
-      return res.status(400).json({ error: "Username already exists" });
+      return res.status(400).json({ error: "Email already exists. Please use a different email or sign in." });
     }
 
     // Validate password complexity
@@ -121,7 +124,7 @@ export function setupAuth(app: Express) {
     passport.authenticate("local", (err: any, user: any, info: any) => {
       if (err) return next(err);
       if (!user) {
-        const message = info?.message || "Invalid username or password";
+        const message = info?.message || "Invalid email or password";
         return res.status(401).json({ error: message });
       }
       req.login(user, (err) => {
