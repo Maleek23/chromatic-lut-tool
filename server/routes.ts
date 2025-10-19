@@ -436,7 +436,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const timestamp = new Date().toISOString().split("T")[0];
       const formatExt = format.replace(/^\./, ''); // Remove leading dot
+      console.log(`[DEBUG] Creating filename with gridSize: ${gridSize}, format: ${formatExt}`);
       const filename = `color_grade_${timestamp}_${gridSize}x${gridSize}x${gridSize}.${formatExt}`;
+      console.log(`[DEBUG] Generated filename: ${filename}`);
 
       // Generate preview image if requested
       let previewData: string | undefined;
