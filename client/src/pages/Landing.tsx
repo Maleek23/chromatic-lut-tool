@@ -131,7 +131,7 @@ export default function Landing() {
                 </div>
                 <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
                   <Check className="w-3 h-3 text-primary" />
-                  Unlimited for all users
+                  {user.tier === "free" ? "5 per month" : "Unlimited"}
                 </p>
               </CardContent>
             </Card>
@@ -446,8 +446,12 @@ export default function Landing() {
                     <span className="text-sm font-semibold">Image to LUT Generator</span>
                   </div>
                   <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                    <span className="text-sm text-muted-foreground">5 conversions per month</span>
+                  </div>
+                  <div className="flex items-start gap-3">
                     <ArrowRight className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm font-semibold text-primary">LUT Converter</span>
+                    <span className="text-sm font-semibold text-primary">LUT Converter (unlimited)</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
