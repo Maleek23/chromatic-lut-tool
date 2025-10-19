@@ -39,11 +39,12 @@ export default function InstallLuts() {
       <section className="pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <Tabs defaultValue="resolve" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 mb-8">
+            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 mb-8">
               <TabsTrigger value="resolve" data-testid="tab-resolve">DaVinci Resolve</TabsTrigger>
               <TabsTrigger value="premiere" data-testid="tab-premiere">Premiere Pro</TabsTrigger>
               <TabsTrigger value="finalcut" data-testid="tab-finalcut">Final Cut Pro</TabsTrigger>
               <TabsTrigger value="photoshop" data-testid="tab-photoshop">Photoshop</TabsTrigger>
+              <TabsTrigger value="lightroom" data-testid="tab-lightroom">Lightroom</TabsTrigger>
             </TabsList>
 
             {/* DaVinci Resolve */}
@@ -281,7 +282,7 @@ export default function InstallLuts() {
                 <CardHeader>
                   <CardTitle>Installing LUTs in Adobe Photoshop</CardTitle>
                   <CardDescription>
-                    Photoshop supports .cube, .3dl, and .look formats for photo color grading.
+                    Photoshop supports .cube, .3dl, and .look formats via Color Lookup adjustment layers (CS6+).
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -303,9 +304,9 @@ export default function InstallLuts() {
                         2
                       </div>
                       <div>
-                        <h3 className="font-semibold mb-1">Copy LUT to Photoshop folder</h3>
+                        <h3 className="font-semibold mb-1">Copy LUT to Photoshop folder (optional)</h3>
                         <p className="text-sm text-muted-foreground mb-2">
-                          Navigate to the Photoshop LUT folder:
+                          For quick access, copy to the Photoshop LUT folder:
                         </p>
                         <code className="text-xs bg-muted px-3 py-2 rounded block">
                           <strong>Mac:</strong> /Applications/Adobe Photoshop/Presets/3DLUTs/
@@ -322,7 +323,7 @@ export default function InstallLuts() {
                       <div>
                         <h3 className="font-semibold mb-1">Apply the LUT</h3>
                         <p className="text-sm text-muted-foreground">
-                          Open your image → Create new Color Lookup adjustment layer → Select your LUT from the 3DLUT File dropdown
+                          Open your image → Layer menu → New Adjustment Layer → Color Lookup → Click "Load 3D LUT..." → Select your .cube file
                         </p>
                       </div>
                     </div>
@@ -334,7 +335,7 @@ export default function InstallLuts() {
                       <div>
                         <h3 className="font-semibold mb-1">Adjust opacity (optional)</h3>
                         <p className="text-sm text-muted-foreground">
-                          Reduce the Color Lookup layer opacity to fine-tune the LUT's intensity
+                          Reduce the Color Lookup layer opacity to fine-tune the LUT's intensity (0-100%)
                         </p>
                       </div>
                     </div>
@@ -345,6 +346,85 @@ export default function InstallLuts() {
                       <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5" />
                       <p className="text-sm text-muted-foreground">
                         <strong>Pro tip:</strong> Use layer masks with your Color Lookup layer to apply LUTs selectively to specific areas of your image.
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Lightroom */}
+            <TabsContent value="lightroom" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Using LUTs in Adobe Lightroom</CardTitle>
+                  <CardDescription>
+                    Lightroom Classic 7.3+ supports .cube LUTs as profiles. Older versions use .xmp presets only.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-4">
+                    <p className="text-sm font-semibold mb-1">Important Note</p>
+                    <p className="text-sm text-muted-foreground">
+                      Lightroom treats LUTs differently than video editing software. LUTs are imported as <strong>profiles</strong>, not traditional presets. You need Lightroom Classic 7.3 or later for direct .cube support.
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="flex gap-3">
+                      <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-sm font-semibold text-primary">
+                        1
+                      </div>
+                      <div>
+                        <h3 className="font-semibold mb-1">Check your version</h3>
+                        <p className="text-sm text-muted-foreground">
+                          Verify you have Lightroom Classic 7.3 or later. Go to Help → System Info to check.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3">
+                      <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-sm font-semibold text-primary">
+                        2
+                      </div>
+                      <div>
+                        <h3 className="font-semibold mb-1">Download your LUT file</h3>
+                        <p className="text-sm text-muted-foreground">
+                          Generate a .cube format LUT using CHROMA. This is the only format Lightroom accepts as profiles.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3">
+                      <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-sm font-semibold text-primary">
+                        3
+                      </div>
+                      <div>
+                        <h3 className="font-semibold mb-1">Import as profile</h3>
+                        <p className="text-sm text-muted-foreground">
+                          Open Develop tab → Click Profile Browser (four squares icon at top of Basic panel) → Click '+' icon → "Import Profiles" → Select your .cube file
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3">
+                      <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-sm font-semibold text-primary">
+                        4
+                      </div>
+                      <div>
+                        <h3 className="font-semibold mb-1">Apply and adjust</h3>
+                        <p className="text-sm text-muted-foreground">
+                          Your LUT will appear in the Profile Browser → Select it to apply → Use the Amount slider (0-200%) to control intensity
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t">
+                    <div className="flex items-start gap-2">
+                      <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5" />
+                      <p className="text-sm text-muted-foreground">
+                        <strong>Pro tip:</strong> Unlike Photoshop presets, profiles (LUTs) in Lightroom are non-destructive and can be combined with all other Develop adjustments. They're applied at the start of the editing pipeline.
                       </p>
                     </div>
                   </div>
