@@ -46,6 +46,16 @@ export function NavBar() {
           Tools
         </Button>
       </Link>
+      <Link href="/resources" onClick={() => mobile && setOpen(false)}>
+        <Button 
+          variant={location.startsWith("/resources") ? "default" : "ghost"} 
+          size="sm"
+          data-testid="nav-resources"
+          className={mobile ? "w-full justify-start" : ""}
+        >
+          Resources
+        </Button>
+      </Link>
       <Link href="/learn-more" onClick={() => mobile && setOpen(false)}>
         <Button 
           variant={location === "/learn-more" ? "default" : "ghost"} 

@@ -15,6 +15,10 @@ import AuthPage from "@/pages/AuthPage";
 import Upgrade from "@/pages/Upgrade";
 import LearnMore from "@/pages/LearnMore";
 import Settings from "@/pages/Settings";
+import Resources from "@/pages/Resources";
+import InstallLuts from "@/pages/InstallLuts";
+import LutFormats from "@/pages/LutFormats";
+import CreateFromImages from "@/pages/CreateFromImages";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -26,6 +30,10 @@ function Router() {
         <Route path="/generate" component={Generate} />
         <Route path="/tools" component={Tools} />
         <Route path="/learn-more" component={LearnMore} />
+        <Route path="/resources" component={Resources} />
+        <Route path="/resources/install-luts" component={InstallLuts} />
+        <Route path="/resources/lut-formats" component={LutFormats} />
+        <Route path="/resources/create-from-images" component={CreateFromImages} />
         <ProtectedRoute path="/settings" component={Settings} />
         <Route path="/upgrade" component={Upgrade} />
         <Route path="/auth" component={AuthPage} />
