@@ -32,7 +32,7 @@ interface ParseResult {
 
 export default function Convert() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [outputFormat, setOutputFormat] = useState<"cube" | "3dl" | "lut">("cube");
+  const outputFormat = "cube"; // Always convert to .cube (industry standard, most compatible)
   const [gridSize, setGridSize] = useState<string>("auto");
   const [isConverting, setIsConverting] = useState(false);
   const [parseResult, setParseResult] = useState<ParseResult | null>(null);
@@ -373,34 +373,15 @@ export default function Convert() {
                 </div>
               </div>
 
-              {/* Output Format */}
-              <div className="space-y-3">
-                <label className="text-sm font-semibold flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-primary" />
-                  Output Format
-                  {!isPro && (
-                    <Badge variant="outline" className="text-xs">
-                      <Crown className="w-3 h-3 mr-1" />Pro Feature
-                    </Badge>
-                  )}
-                </label>
-                <Select value={outputFormat} onValueChange={(v) => setOutputFormat(v as "cube" | "3dl" | "lut")}>
-                  <SelectTrigger data-testid="select-output-format" className="bg-muted/30">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="cube">.cube (3D LUT - Free)</SelectItem>
-                    {isPro && <SelectItem value="3dl">.3dl (3D LUT - Pro)</SelectItem>}
-                    {isPro && <SelectItem value="lut">.lut (1D LUT - Pro)</SelectItem>}
-                  </SelectContent>
-                </Select>
-                {!isPro && (
-                  <p className="text-xs text-muted-foreground">
-                    <Crown className="w-3 h-3 inline mr-1" />
-                    Upgrade to Pro for .3dl and .lut export formats
-                  </p>
-                )}
-              </div>
+              {/* Output Format - Always .cube */}
+              <Alert className="bg-primary/5 border-primary/20">
+                <Sparkles className="w-4 h-4 text-primary" />
+                <AlertDescription className="text-sm">
+                  <span className="font-semibold">Output: .cube format</span>
+                  <br />
+                  Industry standard 3D LUT format. Compatible with Adobe Premiere Pro, Final Cut Pro, DaVinci Resolve. Variable grid sizes (17³, 33³, 65³).
+                </AlertDescription>
+              </Alert>
 
               {/* Grid Size Selector (Pro Feature) */}
               <div className="space-y-3">

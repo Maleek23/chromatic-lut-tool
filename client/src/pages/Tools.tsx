@@ -13,7 +13,7 @@ import type { TierType } from "@shared/tiers";
 export default function Tools() {
   const [activeTab, setActiveTab] = useState("convert");
   const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
-  const [upgradeFeature, setUpgradeFeature] = useState<"analyzer" | "optimizer">("analyzer");
+  const [upgradeFeature, setUpgradeFeature] = useState<"analyzer" | "optimizer" | "tools">("analyzer");
   const { user } = useAuth();
   const [, navigate] = useLocation();
 
