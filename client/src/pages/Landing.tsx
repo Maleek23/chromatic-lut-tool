@@ -174,15 +174,15 @@ export default function Landing() {
                   <div className="space-y-3">
                     <div className="flex items-start gap-2">
                       <Sparkles className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                      <span className="text-sm font-semibold">5 Image-to-LUT/month</span>
+                      <span className="text-sm font-semibold">3 Image-to-LUT/month</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <ArrowRight className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                      <span className="text-sm font-semibold text-primary">Unlimited conversions</span>
+                      <span className="text-sm font-semibold text-primary">$2.50 per additional LUT</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">.cube, .3dl, .lut formats</span>
+                      <span className="text-sm text-muted-foreground">.cube format only</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
@@ -190,7 +190,7 @@ export default function Landing() {
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">Save up to 3 presets</span>
+                      <span className="text-sm text-muted-foreground">Save up to 3 LUTs</span>
                     </div>
                   </div>
                 </CardContent>
@@ -223,10 +223,6 @@ export default function Landing() {
                 <CardContent className="space-y-3 flex-1 px-6">
                   <div className="space-y-3">
                     <div className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm font-semibold">Everything in Free</span>
-                    </div>
-                    <div className="flex items-start gap-2">
                       <Sparkles className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
                       <span className="text-sm font-semibold text-blue-500">Unlimited generations</span>
                     </div>
@@ -236,11 +232,15 @@ export default function Landing() {
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">Save up to 30 presets</span>
+                      <span className="text-sm text-muted-foreground">.cube format only</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">Priority processing</span>
+                      <span className="text-sm text-muted-foreground">Save up to 30 LUTs</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                      <span className="text-sm text-muted-foreground">Lightroom presets (soon)</span>
                     </div>
                   </div>
                 </CardContent>
@@ -300,7 +300,11 @@ export default function Landing() {
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">Unlimited presets</span>
+                      <span className="text-sm text-muted-foreground">Unlimited saved LUTs</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                      <span className="text-sm text-muted-foreground">Email delivery (soon)</span>
                     </div>
                   </div>
                 </CardContent>
