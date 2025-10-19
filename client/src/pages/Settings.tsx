@@ -3,11 +3,28 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { Link } from "wouter";
-import { User, Crown, TrendingUp, Settings as SettingsIcon } from "lucide-react";
+import { User, Crown, TrendingUp, Settings as SettingsIcon, Zap } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { useQuery } from "@tanstack/react-query";
+import { Progress } from "@/components/ui/progress";
+
+type UsageStats = {
+  tier: string;
+  conversionsThisMonth: number;
+  monthlyLimit: number;
+  unlimited: boolean;
+  lastResetDate: string;
+  conversionsRemaining: number;
+};
 
 export default function Settings() {
   const { user } = useAuth();
+
+  // Fetch usage statistics
+  const { data: usageStats, isLoading: usageLoading } = useQuery<UsageStats>({
+    queryKey: ['/api/usage'],
+    enabled: !!user,
+  });
 
   // ProtectedRoute ensures user is always logged in when reaching this component
   if (!user) return null;
@@ -134,20 +151,122 @@ export default function Settings() {
           </CardContent>
         </Card>
 
-        {/* Usage Statistics (Coming Soon) */}
-        <Card className="opacity-60">
+        {/* Usage Statistics */}
+        <Card>
           <CardHeader>
-            <CardTitle>Usage Statistics</CardTitle>
-            <CardDescription>Track your monthly usage and limits</CardDescription>
+            <CardTitle className="flex items-center gap-2">
+              <Zap className="w-5 h-5" />
+              Usage Statistics
+            </CardTitle>
+            <CardDescription>Track your monthly Image-to-LUT generation usage</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-center py-8 text-muted-foreground">
-              <TrendingUp className="w-12 h-12 mx-auto mb-3 opacity-50" />
-              <p>Usage tracking coming soon</p>
-              <p className="text-sm mt-2">
-                Monitor your Image-to-LUT generations and tool usage
-              </p>
-            </div>
+            {usageLoading ? (
+              <div className="text-center py-8 text-muted-foreground">
+                <TrendingUp className="w-12 h-12 mx-auto mb-3 opacity-50 animate-pulse" />
+                <p>Loading usage data...</p>
+              </div>
+            ) : usageStats ? (
+              <div className="space-y-6">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium">Image-to-LUT Generations This Month</label>
+                    <span className="text-2xl font-bold" data-testid="text-usage-count">
+                      {usageStats.unlimited ? (
+                        <Badge variant="outline" className="text-lg px-3 py-1 bg-gradient-to-r from-green-500/10 to-emerald-500/10 text-green-600 dark:text-green-500">
+                          Unlimited ∞
+                        </Badge>
+                      ) : (
+                        `${usageStats.conversionsThisMonth} / ${usageStats.monthlyLimit}`
+                      )}
+                    </span>
+                  </div>
+
+                  {!usageStats.unlimited && (
+                    <>
+                      <Progress 
+                        value={(usageStats.conversionsThisMonth / usageStats.monthlyLimit) * 100}
+                        className="h-2"
+                      />
+                      <div className="flex items-center justify-between text-sm text-muted-foreground">
+                        <span>{usageStats.conversionsRemaining} generations remaining</span>
+                        <span>
+                          Resets {new Date(usageStats.lastResetDate).toLocaleDateString('en-US', { 
+                            month: 'short', 
+                            day: 'numeric',
+                            year: 'numeric'
+                          })}
+                        </span>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {!usageStats.unlimited && usageStats.conversionsRemaining <= 2 && usageStats.conversionsRemaining > 0 && (
+                  <>
+                    <Separator />
+                    <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4">
+                      <p className="text-sm font-medium text-yellow-600 dark:text-yellow-500 mb-2">
+                        ⚠️ Running Low on Generations
+                      </p>
+                      <p className="text-sm text-muted-foreground mb-3">
+                        You only have {usageStats.conversionsRemaining} generation{usageStats.conversionsRemaining !== 1 ? 's' : ''} left this month. 
+                        Upgrade to Creator tier for unlimited generations.
+                      </p>
+                      <Link href="/upgrade">
+                        <Button size="sm" className="w-full" data-testid="button-upgrade-usage">
+                          Upgrade Now
+                        </Button>
+                      </Link>
+                    </div>
+                  </>
+                )}
+
+                {!usageStats.unlimited && usageStats.conversionsRemaining === 0 && (
+                  <>
+                    <Separator />
+                    <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+                      <p className="text-sm font-medium text-red-600 dark:text-red-500 mb-2">
+                        ❌ Monthly Limit Reached
+                      </p>
+                      <p className="text-sm text-muted-foreground mb-3">
+                        You've used all {usageStats.monthlyLimit} Image-to-LUT generations for this month. 
+                        Upgrade to Creator tier for unlimited generations, or wait for your limit to reset.
+                      </p>
+                      <Link href="/upgrade">
+                        <Button size="sm" className="w-full bg-red-600 hover:bg-red-700" data-testid="button-upgrade-limit">
+                          Upgrade to Continue
+                        </Button>
+                      </Link>
+                    </div>
+                  </>
+                )}
+
+                <Separator />
+
+                <div className="space-y-2">
+                  <h4 className="text-sm font-medium">What counts towards your limit?</h4>
+                  <ul className="space-y-1 text-sm text-muted-foreground">
+                    <li className="flex items-center gap-2">
+                      <span className="text-green-500">✓</span>
+                      Each Image-to-LUT generation
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-muted-foreground">•</span>
+                      LUT Converter is always unlimited (all tiers)
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-muted-foreground">•</span>
+                      Previews don't count towards your limit
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-8 text-muted-foreground">
+                <p>Unable to load usage statistics</p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

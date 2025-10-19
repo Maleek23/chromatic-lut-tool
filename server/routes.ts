@@ -12,6 +12,7 @@ import { setupAuth } from "./auth";
 import { requireAuth, requireTier } from "./middleware/tierGuard";
 import { dynamicRateLimiter } from "./middleware/rateLimiter";
 import { hasFeature, canConvert } from "./middleware/validation";
+import { checkUsageLimit, incrementUsage, getUsageLimits } from "./middleware/usageTracker";
 
 // Helper to normalize format strings for file extensions
 const EXTENSION_MAP = {
@@ -55,6 +56,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Reference: blueprint:javascript_auth_all_persistance
   // Sets up /api/register, /api/login, /api/logout, /api/user
   setupAuth(app);
+
+  // Get usage statistics for current user
+  app.get("/api/usage", requireAuth, async (req, res) => {
+    try {
+      const user = req.user!;
+      
+      // Check if we need to reset monthly counters
+      const now = new Date();
+      const lastReset = new Date(user.lastResetDate);
+      const monthsSinceReset = (now.getFullYear() - lastReset.getFullYear()) * 12 + 
+        (now.getMonth() - lastReset.getMonth());
+
+      let currentUsage = user.conversionsThisMonth || 0;
+      let resetDate = user.lastResetDate;
+      
+      if (monthsSinceReset > 0) {
+        const { storage } = await import("./storage");
+        await storage.resetMonthlyLimits(user.id);
+        currentUsage = 0;
+        resetDate = now;
+      }
+
+      const limits = getUsageLimits(user.tier);
+
+      res.json({
+        tier: user.tier,
+        conversionsThisMonth: currentUsage,
+        monthlyLimit: limits.monthlyLimit,
+        unlimited: limits.unlimited,
+        lastResetDate: resetDate,
+        conversionsRemaining: limits.unlimited ? Infinity : Math.max(0, limits.monthlyLimit - currentUsage)
+      });
+    } catch (error) {
+      console.error("Usage stats error:", error);
+      res.status(500).json({ error: "Failed to get usage statistics" });
+    }
+  });
 
   // Reference: blueprint:javascript_stripe
   // Initialize Stripe (only if keys are present)
@@ -317,6 +355,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/generate-lut", requireAuth, async (req, res) => {
     try {
       console.log("[DEBUG] generate-lut request body:", JSON.stringify(req.body, null, 2));
+      
       const validationResult = extendedLutGenerationSchema.safeParse(req.body);
 
       if (!validationResult.success) {
@@ -330,6 +369,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { imageData, gridSize, intensity, format, precision, exportPreview } = validationResult.data;
 
       const userTier = req.user!.tier as "free" | "pro" | "studio";
+
+      // Check usage limits (before tier validation, but after request validation)
+      const usageCheck = await checkUsageLimit(req.user!);
+      if (!usageCheck.allowed) {
+        return res.status(403).json({
+          error: usageCheck.reason,
+          upgradeRequired: true,
+          requiredTier: "creator",
+          currentUsage: usageCheck.currentUsage,
+          limit: usageCheck.limit
+        });
+      }
 
       // Tier validation for grid size
       if (!hasFeature(userTier, "gridSize", gridSize)) {
@@ -375,6 +426,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const previewBuffer = await applyLUTToImage(imageBuffer, lutMap, parseInt(gridSize), intensity);
         previewData = `data:image/jpeg;base64,${previewBuffer.toString("base64")}`;
       }
+
+      // Increment usage counter only after successful generation
+      await incrementUsage(req.user!.id);
 
       res.json({
         lutData,
