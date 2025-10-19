@@ -46,7 +46,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     communityPresetsWrite: false,
     lightroomPresets: false,
     features: [
-      "Image to LUT Generator",
+      "5 Image-to-LUT generations/month",
       "LUT Converter (.cube only)",
       "17×17×17 grid",
       "Save up to 3 presets",
@@ -74,7 +74,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     communityPresetsWrite: false,
     lightroomPresets: true,
     features: [
-      "Everything in Free",
+      "Unlimited Image-to-LUT generations",
       "33×33×33 grid size",
       "Save up to 30 presets",
       "Organize folders / mini dashboard",

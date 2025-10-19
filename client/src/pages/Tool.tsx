@@ -46,6 +46,7 @@ export default function Tool() {
     return null;
   }
 
+  // Only Free tier has monthly generation limits
   const isFree = user.tier === "free";
   const conversionsUsed = user.conversionsThisMonth || 0;
   const conversionsLimit = 5;
@@ -279,7 +280,7 @@ export default function Tool() {
                 Upload a color-graded reference image and let our algorithm analyze its color science.
               </p>
 
-              {/* Free Tier Usage Counter */}
+              {/* Free Tier Usage Counter - Only show for Free tier */}
               {isFree && (
                 <Alert className="max-w-md mx-auto mt-6" data-testid="alert-usage-counter">
                   {conversionsRemaining > 0 ? (
@@ -297,7 +298,7 @@ export default function Tool() {
                         <Progress value={usagePercentage} className="h-2" />
                         <Link href="/upgrade">
                           <Button variant="ghost" size="sm" className="h-auto p-0 text-xs hover:bg-transparent" data-testid="button-upgrade-usage">
-                            Upgrade for unlimited generations →
+                            Upgrade to Creator for unlimited generations →
                           </Button>
                         </Link>
                       </AlertDescription>
@@ -313,7 +314,7 @@ export default function Tool() {
                         <Link href="/upgrade">
                           <Button size="sm" className="w-full mt-2" data-testid="button-upgrade-limit">
                             <Sparkles className="w-4 h-4 mr-2" />
-                            Upgrade for Unlimited
+                            Upgrade to Creator for Unlimited
                           </Button>
                         </Link>
                       </AlertDescription>
