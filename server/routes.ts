@@ -852,6 +852,103 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Optimize LUT endpoint - clamp out-of-range values (Pro feature)
+  app.post("/api/lut/optimize", requireAuth, upload.single("file"), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "No file uploaded" });
+      }
+
+      // Tier check - Pro feature only
+      const userTier = req.user!.tier as "free" | "creator" | "pro" | "studio";
+      const { hasTier } = await import("./middleware/tierGuard");
+      
+      if (!hasTier(userTier, "pro")) {
+        return res.status(403).json({
+          error: "LUT optimization requires Pro tier",
+          upgradeRequired: true,
+          requiredTier: "pro"
+        });
+      }
+
+      const content = req.file.buffer.toString('utf-8');
+      const sourceFormat = req.body.sourceFormat as 'cube' | '3dl' | 'lut' | undefined;
+      
+      const parsed = parseLUT(content, sourceFormat);
+
+      if (parsed.errors.length > 0) {
+        return res.status(400).json({
+          error: "Invalid LUT file",
+          details: parsed.errors
+        });
+      }
+
+      // Normalize output format (remove leading dot if present, default to parsed format)
+      const outputFormatRaw = req.body.outputFormat;
+      const outputFormat = outputFormatRaw 
+        ? (outputFormatRaw.startsWith('.') ? outputFormatRaw.substring(1) : outputFormatRaw) as 'cube' | '3dl' | 'lut'
+        : parsed.format;
+
+      // Validate output format
+      if (!['cube', '3dl', 'lut'].includes(outputFormat)) {
+        return res.status(400).json({ error: "Output format must be cube, 3dl, or lut" });
+      }
+
+      // Guard against empty LUTs
+      if (parsed.lut.data.length === 0) {
+        return res.status(400).json({
+          error: "Invalid LUT file: no data points found"
+        });
+      }
+
+      // Optimize: clamp all values to [0, 1] range and handle NaN/invalid values
+      let clampedCount = 0;
+      const optimizedData: [number, number, number][] = parsed.lut.data.map(([r, g, b]) => {
+        // Replace NaN with 0
+        const safeR = isNaN(r) ? 0 : r;
+        const safeG = isNaN(g) ? 0 : g;
+        const safeB = isNaN(b) ? 0 : b;
+        
+        const clampedR = Math.max(0, Math.min(1, safeR));
+        const clampedG = Math.max(0, Math.min(1, safeG));
+        const clampedB = Math.max(0, Math.min(1, safeB));
+        
+        if (clampedR !== r || clampedG !== g || clampedB !== b) {
+          clampedCount++;
+        }
+        
+        return [clampedR, clampedG, clampedB];
+      });
+
+      // Create optimized LUT object
+      const optimizedLUT: LUT = {
+        ...parsed.lut,
+        data: optimizedData
+      };
+
+      // Convert to output format
+      const optimized = convertLUT(
+        { ...parsed, lut: optimizedLUT },
+        outputFormat
+      );
+
+      // Generate filename
+      const originalName = req.file.originalname.replace(/\.[^/.]+$/, "");
+      const timestamp = new Date().toISOString().split("T")[0];
+      const filename = `${originalName}_optimized_${timestamp}.${outputFormat}`;
+
+      // Send response with stats
+      res.setHeader("Content-Type", "text/plain");
+      res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+      res.setHeader("X-Optimized-Points", clampedCount.toString());
+      res.setHeader("X-Total-Points", parsed.lut.data.length.toString());
+      res.send(optimized);
+    } catch (error) {
+      console.error("LUT optimization error:", error);
+      res.status(500).json({ error: "Failed to optimize LUT file" });
+    }
+  });
+
   // Dashboard stats endpoint - returns usage and saved preset count
   app.get("/api/dashboard/stats", requireAuth, async (req, res) => {
     try {
