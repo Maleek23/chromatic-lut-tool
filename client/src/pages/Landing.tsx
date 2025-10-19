@@ -424,7 +424,7 @@ export default function Landing() {
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-10">
             {/* Free Tier */}
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col">
-              <CardHeader className="space-y-4 pb-8">
+              <CardHeader className="space-y-4 pb-8 min-h-[180px]">
                 <div>
                   <CardTitle className="text-2xl flex items-center gap-2">
                     <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center">
@@ -478,7 +478,7 @@ export default function Landing() {
 
             {/* Creator Tier */}
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-blue-500/20 flex flex-col">
-              <CardHeader className="space-y-4 pb-8">
+              <CardHeader className="space-y-4 pb-8 min-h-[180px]">
                 <div>
                   <CardTitle className="text-2xl flex items-center gap-2">
                     <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
@@ -527,7 +527,7 @@ export default function Landing() {
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-chart-2 to-chart-3" />
               <Badge className="absolute top-3 right-4 bg-gradient-to-r from-primary to-chart-2 text-white text-xs px-2 py-1 border-0">Most Popular</Badge>
               
-              <CardHeader className="space-y-4 pb-8">
+              <CardHeader className="space-y-4 pb-8 min-h-[180px]">
                 <div>
                   <CardTitle className="text-2xl flex items-center gap-2">
                     <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
@@ -541,7 +541,7 @@ export default function Landing() {
                   <span className="text-5xl font-bold text-purple-600 dark:text-purple-500">$12</span>
                   <span className="text-muted-foreground text-sm">/mo</span>
                 </div>
-                <div className="mt-2">
+                <div className="h-4">
                   <span className="text-xs text-muted-foreground">or $99/year</span>
                 </div>
               </CardHeader>
@@ -585,7 +585,7 @@ export default function Landing() {
             {/* Studio Tier */}
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-yellow-500/20 relative opacity-90 flex flex-col">
               <Badge className="absolute top-3 right-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs px-2 py-1 border-0">Coming Soon</Badge>
-              <CardHeader className="space-y-4 pb-8">
+              <CardHeader className="space-y-4 pb-8 min-h-[180px]">
                 <div>
                   <CardTitle className="text-2xl flex items-center gap-2">
                     <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500/20 to-orange-500/20 flex items-center justify-center">
