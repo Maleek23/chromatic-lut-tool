@@ -421,9 +421,9 @@ export default function Landing() {
             </p>
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 lg:gap-6 max-w-full mx-auto items-stretch overflow-x-auto pb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 max-w-[1400px] mx-auto items-end">
             {/* Free Tier */}
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col w-full sm:w-[200px] flex-shrink-0">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col w-full min-h-[420px]">
               <CardHeader className="space-y-3 pb-6 min-h-[160px]">
                 <div>
                   <CardTitle className="text-xl flex items-center gap-2">
@@ -477,7 +477,7 @@ export default function Landing() {
             </Card>
 
             {/* Creator Tier */}
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-blue-500/20 flex flex-col w-full sm:w-[240px] flex-shrink-0">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-blue-500/20 flex flex-col w-full min-h-[460px]">
               <CardHeader className="space-y-3 pb-6 min-h-[160px]">
                 <div>
                   <CardTitle className="text-xl flex items-center gap-2">
@@ -523,7 +523,7 @@ export default function Landing() {
             </Card>
 
             {/* Pro Tier */}
-            <Card className="border-primary shadow-lg shadow-primary/10 hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 relative flex flex-col w-full sm:w-[300px] flex-shrink-0">
+            <Card className="border-primary shadow-lg shadow-primary/10 hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 relative flex flex-col w-full min-h-[540px]">
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-chart-2 to-chart-3" />
               <Badge className="absolute top-2 right-3 bg-gradient-to-r from-primary to-chart-2 text-white text-[10px] px-1.5 py-0.5 border-0">Most Popular</Badge>
               
@@ -583,7 +583,7 @@ export default function Landing() {
             </Card>
 
             {/* Studio Tier */}
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-yellow-500/20 relative opacity-90 flex flex-col w-full sm:w-[260px] flex-shrink-0">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-yellow-500/20 relative opacity-90 flex flex-col w-full min-h-[500px]">
               <Badge className="absolute top-2 right-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-[10px] px-1.5 py-0.5 border-0">Coming Soon</Badge>
               <CardHeader className="space-y-3 pb-6 min-h-[160px]">
                 <div>
