@@ -222,7 +222,7 @@ export default function Tool() {
           imageData: uploadedImage,
           intensity,
           gridSize,
-          format,
+          format: `.${format}`, // Add dot prefix to match backend enum
           precision,
           exportPreview,
         }),

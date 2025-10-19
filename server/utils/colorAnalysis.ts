@@ -14,12 +14,26 @@ interface ColorInfo {
 
 export async function analyzeImage(imageBuffer: Buffer) {
   try {
-    // Single-pass processing: decode, normalize format, resize, and extract pixels
-    // failOn: 'none' tolerates minor corruption; limitInputPixels prevents DoS
-    const { data, info } = await sharp(imageBuffer, {
+    // Create Sharp instance once and reuse it
+    const image = sharp(imageBuffer, {
       failOn: 'none',
       limitInputPixels: 268402689, // Max 16384x16384 pixels (reasonable ceiling)
-    })
+    });
+
+    // Get metadata to validate dimensions
+    const metadata = await image.metadata();
+    if (!metadata.width || !metadata.height) {
+      throw new Error("Invalid image: missing dimensions");
+    }
+
+    // Ensure minimum size for meaningful analysis (at least 2x2 pixels)
+    if (metadata.width < 2 || metadata.height < 2) {
+      throw new Error("Image too small: minimum size is 2x2 pixels");
+    }
+
+    // Single-pass processing: decode, normalize format, resize, and extract pixels
+    // Use clone() to avoid re-parsing the buffer after metadata() consumed it
+    const { data, info } = await image.clone()
       .resize(200, 200, { fit: "inside", withoutEnlargement: true })
       .toColorspace('srgb') // Ensure consistent color space for all inputs
       .removeAlpha() // Remove alpha channel for consistent RGB processing

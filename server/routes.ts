@@ -61,35 +61,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/usage", requireAuth, async (req, res) => {
     try {
       const user = req.user!;
-      
-      // Check if we need to reset monthly counters
-      const now = new Date();
-      const lastReset = new Date(user.lastResetDate);
-      const monthsSinceReset = (now.getFullYear() - lastReset.getFullYear()) * 12 + 
-        (now.getMonth() - lastReset.getMonth());
-
-      let currentUsage = user.conversionsThisMonth || 0;
-      let resetDate = user.lastResetDate;
-      
-      if (monthsSinceReset > 0) {
-        const { storage } = await import("./storage");
-        await storage.resetMonthlyLimits(user.id);
-        currentUsage = 0;
-        resetDate = now;
-      }
-
       const limits = getUsageLimits(user.tier);
+
+      // For free tier, use totalConversions for lifetime tracking
+      // For paid tiers, conversionsThisMonth is still used for analytics
+      const relevantUsage = user.tier === 'free' 
+        ? (user.totalConversions || 0)
+        : (user.conversionsThisMonth || 0);
 
       res.json({
         tier: user.tier,
-        conversionsThisMonth: currentUsage,
+        conversionsThisMonth: user.conversionsThisMonth || 0,
         totalConversions: user.totalConversions || 0,
         limit: limits.limit,
         unlimited: limits.unlimited,
         payPerUse: limits.payPerUse,
         pricePerUse: limits.pricePerUse,
-        lastResetDate: resetDate,
-        conversionsRemaining: limits.unlimited ? Infinity : Math.max(0, limits.limit - (user.totalConversions || 0))
+        lastResetDate: user.lastResetDate,
+        conversionsRemaining: limits.unlimited ? Infinity : Math.max(0, limits.limit - relevantUsage)
       });
     } catch (error) {
       console.error("Usage stats error:", error);
@@ -286,12 +275,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Image too large. Maximum size is 25MB" });
       }
 
-      // Validate minimum size
-      if (imageBuffer.length < 100) {
-        return res.status(400).json({ error: "Invalid or corrupted image data" });
-      }
-
-      // Analyze the image
+      // Analyze the image (Sharp will validate the image format and size)
       const analysis = await analyzeImage(imageBuffer);
 
       res.json(analysis);
@@ -324,6 +308,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Convert base64 to buffer
       const base64Data = imageData.replace(/^data:image\/\w+;base64,/, "");
       const imageBuffer = Buffer.from(base64Data, "base64");
+
+      // Validate image before processing (consistent with /api/analyze)
+      try {
+        const tempImage = sharp(imageBuffer, { failOn: 'none' });
+        const metadata = await tempImage.metadata();
+        if (!metadata.width || !metadata.height) {
+          return res.status(400).json({ error: "Invalid image: missing dimensions" });
+        }
+        if (metadata.width < 2 || metadata.height < 2) {
+          return res.status(400).json({ error: "Image too small: minimum size is 2x2 pixels" });
+        }
+      } catch (validationError) {
+        console.error("Image validation error:", validationError);
+        return res.status(400).json({ error: "Invalid or corrupted image data" });
+      }
 
       // Check cache or generate new LUT map (no advanced controls for image-to-LUT)
       const cacheKey = `${imageData.substring(0, 100)}_${gridSize}`;
@@ -408,6 +407,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Convert base64 to buffer
       const base64Data = imageData.replace(/^data:image\/\w+;base64,/, "");
       const imageBuffer = Buffer.from(base64Data, "base64");
+
+      // Validate image before processing (consistent with /api/analyze)
+      try {
+        const tempImage = sharp(imageBuffer, { failOn: 'none' });
+        const metadata = await tempImage.metadata();
+        if (!metadata.width || !metadata.height) {
+          return res.status(400).json({ error: "Invalid image: missing dimensions" });
+        }
+        if (metadata.width < 2 || metadata.height < 2) {
+          return res.status(400).json({ error: "Image too small: minimum size is 2x2 pixels" });
+        }
+      } catch (validationError) {
+        console.error("Image validation error:", validationError);
+        return res.status(400).json({ error: "Invalid or corrupted image data" });
+      }
 
       // Generate LUT from image analysis (no manual controls)
       const lutData = await generateLUT(
