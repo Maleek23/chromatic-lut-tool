@@ -72,37 +72,37 @@ export function PreviewGallery({ lutData, format, intensity }: PreviewGalleryPro
     setLoadingPreviews(prev => ({ ...prev, [refImage.id]: true }));
 
     try {
-      // Convert reference image to base64
+      // Convert reference image to base64 using Promise wrapper for FileReader
       const response = await fetch(refImage.src);
       const blob = await response.blob();
-      const reader = new FileReader();
       
-      reader.onloadend = async () => {
-        const imageData = reader.result as string;
+      const imageData = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
 
-        // Request preview from server
-        const previewResponse = await fetch("/api/preview", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            imageData,
-            lutData,
-            format,
-            intensity,
-          }),
-        });
+      // Request preview from server
+      const previewResponse = await fetch("/api/preview", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          imageData,
+          lutData,
+          format,
+          intensity,
+        }),
+      });
 
-        if (!previewResponse.ok) {
-          throw new Error("Failed to generate preview");
-        }
+      if (!previewResponse.ok) {
+        throw new Error("Failed to generate preview");
+      }
 
-        const { preview } = await previewResponse.json();
-        setPreviewImages(prev => ({ ...prev, [refImage.id]: preview }));
-      };
-
-      reader.readAsDataURL(blob);
+      const { previewImage } = await previewResponse.json();
+      setPreviewImages(prev => ({ ...prev, [refImage.id]: previewImage }));
     } catch (error) {
       console.error("Preview generation error:", error);
     } finally {
