@@ -17,14 +17,28 @@ interface LUTPoint {
 export function generateLookLUT(lutMap: LUTPoint[], gridSize: number, precision: string = "10"): string {
   const precisionValue = parseInt(precision);
   const timestamp = new Date().toISOString();
+  const qualityLevel = gridSize <= 17 ? "Preview/Proxy" : gridSize <= 33 ? "Production" : "Master Quality";
   
   // Autodesk .look format requires proper metadata blocks
-  let lookContent = `# Created by CHROMA
+  let lookContent = `# Created by CHROMA - Professional Cinema-Grade LUT
 # Generated: ${timestamp}
-# Professional Cinema-Grade Color Science
-# Format: Autodesk/Nuke Look LUT
-# Grid Size: ${gridSize}x${gridSize}x${gridSize}
-
+# Format: Autodesk/Nuke .look (Nuke, Flame, Lustre)
+# Grid Size: ${gridSize}x${gridSize}x${gridSize} (${qualityLevel})
+#
+# INPUT REQUIREMENTS (CRITICAL):
+# - Color Space: sRGB (Rec.709 primaries, D65 white point)
+# - Transfer Function: sRGB gamma (~2.2)
+# - Data Range: 0.0 - 1.0 (normalized)
+# - DO NOT use with Log footage or wide-gamut sources
+#
+# Color Science Pipeline:
+# - Perceptual Lab color space transformations
+# - Filmic tone curves (John Hable)
+# - K-means based color clustering
+# - Skin tone protection (Lab distance-based)
+# - Hue-preserving gamut compression
+# - Chromatic adaptation white balance
+#
 Version 1
 From 0.0 1.0
 Length ${gridSize * gridSize * gridSize}

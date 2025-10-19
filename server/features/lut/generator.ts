@@ -400,13 +400,33 @@ function applyZoneAdjustment(
 function generateCubeLUT(lutMap: LUTPoint[], gridSize: number, precision: string = "10"): string {
   // DaVinci Resolve compatible .cube format with proper headers
   const timestamp = new Date().toISOString();
-  let lut = `# Created by CHROMA
+  
+  // Grid size quality guide (per professional standards)
+  const qualityLevel = gridSize <= 17 ? "Preview/Proxy" : gridSize <= 33 ? "Production" : "Master Quality";
+  
+  let lut = `# Created by CHROMA - Professional Cinema-Grade LUT
 # Generated: ${timestamp}
 # Precision: ${precision}-bit
-# Professional Cinema-Grade Color Science
-# LUT 3D size
+# Grid Size: ${gridSize}x${gridSize}x${gridSize} (${qualityLevel})
+#
+# INPUT REQUIREMENTS (CRITICAL - "Garbage In, Garbage Out"):
+# - Color Space: sRGB (Rec.709 primaries, D65 white point)
+# - Transfer Function: sRGB gamma (~2.2)
+# - Data Range: 0.0 - 1.0 (normalized)
+# - Bit Depth: 8-bit minimum, 10-bit+ recommended
+#
+# DO NOT use with Log footage (Arri LogC, Sony S-Log, RED Log, etc.)
+# DO NOT use with wide-gamut sources without conversion to sRGB first
+#
+# Color Science Pipeline:
+# - Perceptual Lab color space transformations
+# - Filmic tone curves (John Hable)
+# - K-means based color clustering
+# - Skin tone protection (Lab distance-based)
+# - Hue-preserving gamut compression
+# - Chromatic adaptation white balance
+#
 LUT_3D_SIZE ${gridSize}
-# Domain
 DOMAIN_MIN 0.0 0.0 0.0
 DOMAIN_MAX 1.0 1.0 1.0
 
@@ -427,13 +447,28 @@ DOMAIN_MAX 1.0 1.0 1.0
 function generate3dlLUT(lutMap: LUTPoint[], gridSize: number, precision: string = "10"): string {
   // Autodesk/Lustre .3dl format - CRITICAL: Must use 12-bit integers (0-4095)
   const timestamp = new Date().toISOString();
-  let lut = `# Created by CHROMA
+  const qualityLevel = gridSize <= 17 ? "Preview/Proxy" : gridSize <= 33 ? "Production" : "Master Quality";
+  
+  let lut = `# Created by CHROMA - Professional Cinema-Grade LUT
 # Generated: ${timestamp}
-# Precision: 12-bit (required for .3dl format)
-# Professional Cinema-Grade Color Science
-# Format: Autodesk Color Management 3D LUT
-# Input: RGB
-# Output: RGB
+# Format: Autodesk .3dl (Flame, Lustre, Smoke)
+# Precision: 12-bit integers (0-4095) - REQUIRED for .3dl format
+# Grid Size: ${gridSize}x${gridSize}x${gridSize} (${qualityLevel})
+#
+# INPUT REQUIREMENTS (CRITICAL):
+# - Color Space: sRGB (Rec.709 primaries, D65 white point)
+# - Transfer Function: sRGB gamma (~2.2)
+# - Data Range: 0.0 - 1.0 (normalized)
+# - DO NOT use with Log footage or wide-gamut sources
+#
+# Color Science Pipeline:
+# - Perceptual Lab color space transformations
+# - Filmic tone curves (John Hable)
+# - K-means based color clustering
+# - Skin tone protection (Lab distance-based)
+# - Hue-preserving gamut compression
+# - Chromatic adaptation white balance
+#
 3DMESH
 Mesh ${gridSize} ${gridSize} ${gridSize}
 
@@ -455,19 +490,33 @@ Mesh ${gridSize} ${gridSize} ${gridSize}
 function generate1dLUT(lutMap: LUTPoint[], gridSize: number, precision: string = "10"): string {
   // 1D LUT format - separate curves for R, G, B channels
   const timestamp = new Date().toISOString();
+  const qualityLevel = gridSize <= 17 ? "Preview/Proxy" : gridSize <= 33 ? "Production" : "Master Quality";
   
   // Determine entries per channel based on precision
   let entriesPerChannel = 256; // 8-bit
   if (precision === "10") entriesPerChannel = 1024; // 10-bit
   if (precision === "12") entriesPerChannel = 4096; // 12-bit
   
-  let lut = `# Created by CHROMA
+  let lut = `# Created by CHROMA - Professional Cinema-Grade LUT
 # Generated: ${timestamp}
-# Precision: ${precision}-bit (${entriesPerChannel} entries per channel)
-# Professional Cinema-Grade Color Science
-# Format: 1D LUT
-# Input: RGB
-# Output: RGB
+# Format: 1D LUT (${entriesPerChannel} entries per channel)
+# Precision: ${precision}-bit
+# Source Grid: ${gridSize}x${gridSize}x${gridSize} (${qualityLevel})
+#
+# INPUT REQUIREMENTS (CRITICAL):
+# - Color Space: sRGB (Rec.709 primaries, D65 white point)
+# - Transfer Function: sRGB gamma (~2.2)
+# - Data Range: 0.0 - 1.0 (normalized)
+# - DO NOT use with Log footage or wide-gamut sources
+#
+# Color Science Pipeline:
+# - Perceptual Lab color space transformations
+# - Filmic tone curves (John Hable)
+# - K-means based color clustering
+# - Skin tone protection (Lab distance-based)
+# - Hue-preserving gamut compression
+# - Chromatic adaptation white balance
+#
 
 `;
 

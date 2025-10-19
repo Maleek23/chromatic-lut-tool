@@ -1,0 +1,164 @@
+
+Productions About Press & Awards News
+
+
+
+
+LUTs have been seen as the holy grail and the very embodiment of the devil itself. The truth, as always, is somewhere in between. This post will attempt to show you what a LUT does and when it doesn’t do it very well.
+The Truth about LUTs
+26-Mar-16 notelearningtech
+LUTs have been seen as the holy grail and the very embodiment of the devil itself. The truth, as always, is somewhere in between. This post will attempt to show you what a LUT does and when it doesn’t do it very well.
+
+Lets define a few terms before we dive into what’s going on.
+
+There are two basic types of LUT. One is a 1D (one dimensional) LUT and the other is a 3D Cube LUT.
+
+A 1D LUT is very simple, very useful and not a problem. All a 1D LUT does is convert one value into another - you have an input value, that is looked up in the table and an output value is found. Hence the name LUT - Look Up Table. It’s a very quick way of converting between sets of values. So if you wanted to change a log curve to a gamma curve there is a pure mathematical equation that could be used, but actually it is quicker to work out what all the values are ahead of time and store them in a table. So if you have a 10 bit number going in (1024 possible values) then that is the size of your table (1024 entries) and you’re good to go. It’s fast, accurate and simple. You can have multiple 1D LUTs, one for each R, G and B but that's less usual.
+
+Of course you can see that a LUT has a well defined start and finishing value, whereas a mathematical curve could be infinite. We’ll come back to this later on.
+
+A 3D LUT is where the ‘issues’ can start. What a 3D LUT is doing is similar, but it takes 3 values as input, a R, G and B colour value usually. Then looks those up in a table and you get a resulting RGB value. So all a 3D LUT is doing is taking a set of RGB values and returning different RGB values. A LUT is a simple way of describing any possible colour transform and has a lot of good uses.
+
+Here are some typical uses for a 3D LUT. Some camera manufacturers offer LUTS to help transform their camera output into different colourspaces. Ben Turley wrote a utility called LUTCalc which offers incredible flexibility in converting between camera colourspaces, tone curves and creating correction LUTs. Arri has a LUT generator online which takes Alexa Footage and allows you to generate a LUT to transform it to Rec709 or some post production orientated colourspace. Sony offer a bunch of LUTs to again convert from camera to various display colourspaces. These LUTs can be essential. They take a wide colourspace of a camera, transform it to other spaces and allow you to quickly see an image that looks 'correct' on your display.
+
+[fb] Lut examples
+LUT examples - 4 examples, from No LUT to three differnet LUTS applied. The exposure response appears different in each of these LUTs as well.
+
+‍
+
+LUT EXAMPLES
+4 examples, from No LUT to three differnet LUTS applied. The exposure response appears different in each of these LUTs as well. 
+
+[fb]
+BASE SRGB IMAGE - This is the control image. It has a hue circle and two others at +2 stops and -2 stops. There are ramps from 0 to 1 as well. This helps us compare LUTs like for like.
+
+3D LUTS are often sold as ‘looks’ or ‘film emulations’, they ‘bake' in a certain look that would be very difficult to create manually. Modelling the look of a particular stock of film is a great example. The LUT can not only change colours but also the tonality of the image to something that looks filmic. Indeed the very birthplace of LUTs is to be found in the DI. When you’re working digitally the film out company could provide LUTs specific to the film stock you will be outputting so when grading you can view your image under an emulation of how it would look projected from film.
+ 
+
+Of course the usefulness of this is apparent, you can now use similar LUTs to make your digital video look filmic. And indeed there are many commercial products for doing this. Are they all wrong? Not really, they have a use. Purists will argue that anything that can be done via an emulation LUT can be graded, which is true. Lutists will argue why waste all that time. Which is also true. The subject of film emulation will be brought up again in another post.
+
+A 3D LUT is a one way street though, because once you’ve transformed your image you cannot transform it back. A simple example shows why. If you take every RGB colour and transform that to a shade of purple. Then once you’ve got your purple image how can you go back? All your pixels are now purple and you cannot separate the original colours. So 3D LUTS are usually destructive to the image.
+
+First Examples
+
+[fb]
+KODAK FILM EMULATION - After passing the hue circle through a Kodak film emulation lut, see how the colours have changed. This is a complex colour transform based on analysis of actual film
+
+[fb]
+BASE SRGB IMAGE - This is the control image. It has a hue circle and two others at +2 stops and -2 stops. There are ramps from 0 to 1 as well. This helps us compare LUTs like for like.
+
+But this post is pointless without examples. If you click on the image and view the full version that's better, the full versions are PNG files, so no JPG compression. You can flip back and forth to compare them as well. So here is my sample image, first of all in pure RGB goodness. Full saturation, full range, bright and video at its finest. Then next we push that through an emulation of Kodak 2383 film. See the result? There’s some great things happening here.
+ 
+
+See how the highlights become desaturated and see how those really bright colours are ‘tamed’, especially the red and the greens. This LUT is quite subtle in the region of skin tones too, see how skin reacts to it. There’s an argument to say that the skin has become a little monochrome, subtle variations in colour have all been lumped towards a more generic film looking tone. Not always a bad thing.
+
+[fb]
+FUJI EMULATION LUT -A Fuji Print emulation LUT, this converts from Cineon to Fuji style colours, it's a very stylistic look
+
+The next sample is from a commerically available set of film emulation and look LUTs, see the very same sRGB image look really quite different (this is an emulation of Fuji film). The blacks are raised slightly and the tonality is quite different from the previous versions. I won't say what LUT this is, it's not fair. But pretty much all the LUTs out there are similar. What is interesting here is compare the greyscale ramp, can you see some bumps in it? Well this is coming up next...
+ 
+
+The first Caveat
+So here’s the crux of this post. There are many opportunities for error and not all LUTs are the same.
+
+Most importantly 3D LUTs are approximations. Whereas a 1D LUT can hold every possible value you need, a 3D LUT by definition would be so huge that it would be unwieldy. The size of a LUT is described as a cube, a 17x17x17 cube is a common size for a monitor display style LUT (a viewing LUT). A 33x33x33 LUT is considered ‘production’ quality and it’s not uncommon to see 64x64x64 LUTs.
+
+What these numbers describe are the number of samples on each side of the cube. A 17x17x17 cube has 17 different values, 0 to 1 for each R,G and B. This is a total of nearly 5000 defined points, whereas the 33 cube has around 36k points defined. It may sound a lot but it’s not really, a 10 bit RGB image would need 1024x1024x1024 points to accurately define every movement of colour.
+
+So what actually happens is the application you are using interpolates between the defined points, using a curve or some similar algorithm to guess the missing colours based on the points around. So this can work. It looks okay. It’s quite application dependant. Good ones will even let you chose the algorithm to use.
+
+But what this will fail to do is to pick up any subtle variations in tone, no matter how you look at it, it’s still quite a sledgehammer approach. Also it's quite easy to introduce banding into the resulting image. So before we explore further lets turn off the interpolation for that Fuji emulation.
+
+[fb]
+FUJI EMULATION NO INTERPOLATION - If interpolation is turned off then you see how approximate a LUT can be, this is considered a production quality LUT yet clearly there are gaps and bands. Compare this to the previous image to see them even with interpolation on.
+
+See the result. The blocks of colour show the actual points that have been defined. So if a source colour is in one of those blocks the colour shown is what it will become with no interpolation. You can see from the previous image what it looks like with interpolation. But can you see the ramp and the fact that even with the 'best' interpolation on that you still see bumps.
+ 
+
+In real footage it's not unusual to see banding in smooth graduations, especially out of focus areas. I've seen it written numerous times how camera XYZ is producing banding because it's only 8 bit etc,. But because the source is in log, the easiest way to view that is to pop a LUT on and actually it's the LUT generating the banding, not the footage.
+
+This example LUT is sold as a 17x17x17 cube, which is usually considered lower than optimal (and i think the examples clearly show that). However you also have to check whether the application you are using them in is actually using the full LUT as well. I understand that Premiere Pro for example works best with 17x17x17 LUTs, software versions are a moving target so i cannot say for sure whether this is a current limitation. But it's good to know that it *could* be.
+
+[fb]
+LUT BANDING SOURCE - This is the original image
+
+[fb]
+LUT BANDING 17X17X17 - With a low resolution cube, banding is visible on the image
+
+[fb]
+LUT BANDING 33X33X33 - A higher resolution cube offers higher quality
+
+Also these hue circles are a testing image, they have the full set of hue, so as an example here's a frame of footage that i've also run through a couple of LUTs, no tweaking - this is what they actually look like. So there's the source image to start with. Then an image with the result through the 17x17x17 LUT and you can quite clearly see banding around the out of focus hand. Under that is the same frame with no interpolation, so you can visually see how few colours have definite sample points. I feel that the texture of the fingers closest to us has lost some detail. The next image shows the same frame but through another commercial look LUT, this time sold as a 33x33x33 cube. The result is much better, no visible banding (although if you push the image you may get some after) and the no interpolation version under shows that a lot more colours are sampled. If I was going to be picky i'd suggest that this version has also lost some subtle tonality. What i mean by that is i feel that in the original fingers there are some hue differences that are being smoothed off a bit by both LUTs. However for all i know that could have been the intention for these 'looks' but what i do know is you can't get those back after the LUT is applied.
+ 
+
+How a 3D LUT Works
+
+Let's back up a bit and visualise a LUT in another way, it's important to 'get' what a 3D LUT is doing, then you're in a much better position to evaluate and judge when and when to not use one. We're going to do this by looking at a simple cube of colour. Each axis is R, G and B. From the far hidden corner we have 0,0,0 (black) and the corner closest we have 1,1,1 (white), the other corners show full satuation of the RGB values and the mixes. In order to visual this we'll keep the number of points quite low.
+
+
+If you think of this as an input to a 3D LUT, this example is 8x8x8. So a LUT would describe for each of the visble points what colour it should be transformed to. If we put the same points through that Kodak emulation LUT we see this result.
+ 
+
+
+CUBE VISUALISATION KODAK - The cube passed through the Kodak LUT, see how the saturated colours are desaturated and how some colours are physically moved - bright greens towards yellow for example.
+
+This means that every point on that first cube is transformed by the value in the LUT to move to it's new position. For an 8x8x8 lut there are 512 unique points in the LUT. On the example, you can see how the brightest blue point has moved into the cube. In fact you can see how the square fully saturated source image has been reigned in, after the LUT it is much less saturated and some of the colours have shifted places (the greens moving towards yellow). By comparison the yellow saturation hasn't been brought in quite so much.
+ 
+
+You can open up a LUT, it's really just a text file and inside you'll find streams of numbers. For a 3D LUT there will be three columns of them, each referring to an RGB colour. The application will scan through this table, firstly all the reds will be 0, then the greens 0 and the blues will increment depending on the cube size. In the above example, you would get 8 rows with 0 in Red, 0 in Green and 0 to 1 in blue. Then it will reset and you'll get another 8 rows with 0 in red, the first value in green and again a 0 to 1 in blue. And so on. A LUT is really dead simple. Of course various manufacturers want their own versions and there are different headers, different formats and so on. But the basics are the same.
+
+Garbage In, Garbage Out
+
+As well as understanding that there are many quality levels with a LUT, and they're not all created equally, one of the biggest mistakes i see people doing is feeding a LUT the wrong information.
+
+When a LUT is created it is expecting an image in a specific format. It will have been designed for a specific tone curve and a specific colour gamut. But just looking at a LUT you can't really tell what it is expecting, you hope that the name describes everything correctly. Putting an image in a standard gamma 2.2 format through a LUT expecting a log format and you'll see an image that won't look correct. You'll get an image sure, but it's not what you should be seeing and the temptation to grade the image afterwards can lead to breaking up the image - remember that a LUT is descructive and not infinite quality.
+
+[fb]
+FEEDING THE LUT - This shows the effects of giving the same LUT different formats of image to start with. Not only different tone curves (log vs gamma) but also different colour gamuts (sRGB, Alexa and SGamut)
+
+This above example shows a film lut that is expecting an image in AlexaLogC format. This means a tone curve of LogC and a Colour Gamut of AlexaLogC. The image on the left shows how it should look. But feeding it a SLog2 image in SGamut gives a wrong image - the shadows are crushed and even the actual colours are off, look at the green. Then if you feed the same LUT with a screen Gamma 2.2 image in sRGB gamut you'll get a wildly inaccurate result.
+ 
+
+It's so easy to not know or feed the wrong data to a LUT. Sometimes the results are quite subtle and you may end up blaming the LUT for an image which is actually your fault for not converting it before hand.
+
+In Summary
+
+So what i'm really getting at is that you have to quanity whether the quality of the LUT is good enough for you and also ensure that you feed the LUT the image that it is expected. Get either of those two wrong and you could be doing your footage a disservice or even creating something unusable.
+
+I think there's a place for LUTs, there are certainly lots of 3rd parties selling them and if you're moving fast and don't have time to grade and craft your own looks, then go for it. Not all LUTs are created equally though.
+
+Because of the destructive nature of emulation or look LUTs then you should aim to place them at the end of your post workflow. Of course technical LUTs that transform between colourspaces need to be accurate and used at the beginning of your chain.
+
+I plan on adding some additional articles on film emulation and also a series on colourspaces, so if you're interested please follow us on twitter or something and we can keep you posted.
+
+Share
+Use these buttons to share
+
+
+
+Similar Articles
+SLog2 Redux
+Using Red Footage in Premiere and Lumetri
+The Truth about LUTs
+LumeCube LED Lights
+Sony a7s Exposure and Noise Workflow with UHD and Odyssey 7Q Plus
+Area 48 Remote Phosphor Light Review
+Sony A7s - how to expose - cine or log?
+Inside cDNG Files
+Moving from After Effects to Nuke
+Indie Post Network, 10GigE and Synology
+Sony FS700 Slog in 8bit comparison
+Inline Dolly
+Grading Red IPP2 Footage in Resolve 15
+ 
+Sections
+Home
+News & Content
+Tech Notes
+Productions
+Company
+Contact Us
+About Inventome
+Privacy Policy
+Copyright 2006-2024 Inventome Ltd. All Rights Reserved. hello@inventome.com
+inventome.com | 4:42:13 PM | |

@@ -11,8 +11,6 @@ import { Upload, Download, RefreshCw, CheckCircle, AlertCircle, Crown, Bookmark,
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 import { BeforeAfterSlider } from "@/components/lut/BeforeAfterSlider";
-import demoImageBefore from "@assets/MEE0875492-Edit_1760788375670.png";
-import demoImageAfter from "@assets/stock_images/cinematic_film_portr_38c9c7be.jpg";
 
 interface Preset {
   id: number;
@@ -614,24 +612,6 @@ export default function Convert() {
         </TabsContent>
       </Tabs>
 
-      {/* Demo Section */}
-      <div className="mt-8">
-        <div className="text-center mb-6">
-          <h3 className="text-xl font-semibold mb-2 flex items-center justify-center gap-2">
-            <Sparkles className="w-5 h-5 text-primary" />
-            See LUTs in Action
-          </h3>
-          <p className="text-sm text-muted-foreground">
-            Drag the slider to compare before and after
-          </p>
-        </div>
-        <BeforeAfterSlider
-          beforeImage={demoImageBefore}
-          afterImage={demoImageAfter}
-          beforeLabel="Original"
-          afterLabel="With LUT"
-        />
-      </div>
     </div>
   );
 }

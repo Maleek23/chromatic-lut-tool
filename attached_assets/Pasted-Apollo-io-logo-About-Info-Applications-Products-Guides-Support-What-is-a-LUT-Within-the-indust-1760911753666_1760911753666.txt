@@ -1,0 +1,348 @@
+Apollo.io
+logo
+About 
+Info. 
+Applications 
+Products
+Guides
+Support 
+What is a LUT?
+Within the industry there is a lot of confusion regarding LUTs
+
+
+We use a small number of cookies within this website. By continuing you agree to this use of cookies. Learn more
+3D LUT
+There has been an explosion in people selling LUTs as a magic bullet to provide specific looks without having to understand colour correction/grading. Many such LUTs are nothing like their description, especially those that purport to be 'film emulation' LUTs.
+
+In an attempt to help explain what LUTs are, and how they work, this page describe as much about LUTs and their use as possible, including the difference between calibration, technical, film emulation, and creative look LUTs.
+
+But, if you just want to get on with building and playing with LUTs go directly to the Look LUTs Designpage.
+
+LUTs
+LUTs are basically conversion matrices, of different complexities, with the two main options being 1D LUTs or 3D LUTs. A LUT takes an input value, and outputs a new value, based on the data within the LUT.
+
+1D LUTs can only re-map individual input values to new output values, based on the LUT data - a simple one input to one output process, regardless of the actual RGB pixel value.
+
+3D LUTs can re-map individual input values to any number of output values, based on the LUT data, and the other associated input RGB pixel data.
+
+1D LUTs
+As an example, the start of a 1D LUT could look something like this:
+
+In   Out
+(0)    3
+(1)    5
+(2)    7
+(3)    9
+(~)    etc.
+Which means that:
+
+For an input value of 0, the output =3
+For an input value of 1, the output =5
+For an input value of 2, the output =7
+For an input value of 3, the output =9
+etc...
+
+As a 1D LUT this can only change one input value to one output value, so in the film & TV world means just changing gamma (including contrast & brightness, black & white levels), so is of limited use, as saturation (gamut) cannot be adjusted.
+
+Combining 3x 1D LUTs provides control over the R, G, & B channel values independently, so adding the ability to control the grey scale.
+The start of a 3x 1D LUT could look something like this:
+
+1D LUT
+In   Out
+        R,    G,    B
+(0)    3    0    0
+(1)    5    2    1
+(2)    7    5    3
+(3)    9    9    9
+(~)    etc.
+Which means that:
+
+For an input value of 0 for R, G, and B, the output is R=3, G=0, B=0
+For an input value of 1 for R, G, and B, the output is R=5, G=2, B=1
+For an input value of 2 for R, G, and B, the output is R=7, G=5, B=3
+For an input value of 3 for R, G, and B, the output is R=9, G=9, B=9
+etc...
+
+Which is a weird LUT, but you can see that for a given value of R, G, or B input, there is a given value of R, G, and B output.
+
+So, if a pixel has an input value of 3, 1, 0 for RGB, the output pixel would be 9, 2, 0.
+
+If the R input value changes to 2, but G and B stay the same, only the R output value changes, with the output pixel values being 7, 2, 0. A change in one or other of the input channels has no impact on the output value of the 3rd channel.
+
+What this means is that a 3x 1D LUT can only alter the intensity of the individual RGB values, so can only control the grey scale colour (colour temperature, if you like), gamma, and brightness/contrast, including black and white levels, but cannot alter the gamut (or saturation) in any way.
+
+3x3 Matrix
+To overcome the limitations of 1D LUTs a 3x3 Matrix can be employed to control colour saturation via linear scaling across the full colour space. Basically, a matrix can be viewed as a simple mathematical formula that can reposition, rotate, and scale, so describing the global size/position of the gamut, but not manage the internal (volumetric) content in a non-linear fashion.
+
+|Rin|       |RR RG RB|       |Rout|
+|Gin|  =  |GR GG GB|  =  |Gout|
+|Bin|       |BR BG BB|       |Bout|
+While this approach can work to produce acceptable calibration or Look LUTs, any non-linear errors within the display, or non-linear attributes of the film emulation trying to be matched, will not be taken into account, as there are no non-linear volumetric corrections/adjustments available. And that is a very large issue, as any accurate calibration, or true film emulation, requires non-linear volumetric colour management... and that means using a 3D LUT.
+
+In reality, matrices are only useful for technical/mathematical colour space conversions - not for calibration.
+
+3D LUTs
+As 1D LUT and Matrix combinations are limited in colour control capability, 3D LUTs are preferred for accurate colour management as they provide for full volumetric non-linear colour adjustment.
+
+3D LUTs are a little bit more complex, and are based on a three-dimensional Cube with the ability to alter a given single R, G, or B output value based on a single R, G or B input value change, based on the data within the 3D LUT.
+
+3D LUT
+This is probably best shown graphically, as shown.
+
+Looking at the point where all three colour planes intersect (the LUT output point for the given input values) it can be seen that changing any one input colour will cause a change in all three output colour values... a change in any one colour can cause a cross colour change in the other colours.
+
+Hopefully, you can see that as the colour planes move away from the origin point (0, 0, 0) in the direction of their individual axis they will increase in their respective colour, as indicated.
+
+Because 3D LUTs describe the precise behavior of all colour points throughout volumetric colour space they can deal with any non-linearity attributes of the display, or accurately map film emulation, handling sudden spikes of colour change, etc., as many of today's displays suffer from, and as are inherent in film stocks.
+
+This makes 3D LUTs very suitable for accurate calibration as they can deal with all display calibration issues, from simple gamma, gamut and tracking errors, to correcting advanced non-linearity attributes, colour crosstalk (decoupling), hue, saturation, brightness, etc. Basically, all possible display calibration errors.
+
+The same is true of film emulation using true film colourimetry data captured using a hybrid spectroradiometer & densitometer, as film colourimetry contains highly non-linear gamma and colour channel crosstalk.
+
+This is where many of the 'film emulation' LUTs offered for sale are highly inaccurate, as they are not based on data captured using a spectrophotometer from the real film stocks. They are often simple linear visual guesstimations, with no non-linear volumetric data.
+
+However, for more simple colour transforms, such as converting between different colour spaces (Rec709, P3, sRGB, etc) Matrices are more commonly used, although the data is often converted into 3D LUT form as few creative systems directly use matrices.
+
+So, 3D LUT are way better than 1D then?
+
+Looking at the 1D vs. 3D comparison at the bottom of this page you'd think so, wouldn't you?
+
+Well, this depends on the LUT requirement and application...
+
+A 1D LUT tends to have values for each and every input to output value, so they are very accurate within their 1D conversion limitations.
+
+If a 3D LUT were to have values for each and every input to output combination the LUT would be very, very large indeed - so large as to be impossible to use. A 3D LUT using every input to output value for 10-bit image workflows would be a 1024 point LUT, and would have 1,073,741,824 points (1024^3).
+
+So, most 3D LUTs use cubes in the range 17^3 to 64^3, which for a 17^3 LUT means there are 17 input to output points for each axis, and the values in between these points have to be interpolated, and different systems do this with different levels of accuracy, so the exact same 3D LUT used in two different system will, in all probability, produce a subtly different result.
+
+It is very rare to get two systems working with the same 3D LUT to show the exact same result, unless the LUT size is large, and therefore limits the amount of interpolation used.
+
+The way 3D LUTs are written can also be rather confusing.
+
+There are usually three columns of numbers, R, G, and B, usually with Blue changing fastest, then green, then red.
+
+The following is the first few lines from a 'default bypass' 17^3 3D LUT - output is equal to input:
+
+3D Null LUT
+R, G, B
+0, 0, 0
+0, 0, 64
+0, 0, 128
+0, 0, 192
+0, 0, 256
+0, 0, 320
+0, 0, 384
+0, 0, 448
+0, 0, 512
+0, 0, 576
+0, 0, 640
+0, 0, 704
+0, 0, 768
+0, 0, 832
+0, 0, 896
+0, 0, 960
+0, 0, 1023
+0, 64, 0
+0, 64, 64
+0, 64, 128
+0, 64, 192
+0, 64, 256
+0, 64, 320
+0, 64, 384
+0, 64, 448
+0, 64, 512
+0, 64, 576
+0, 64, 640
+0, 64, 704
+0, 64, 768
+0, 64, 832
+0, 64, 896
+0, 64, 960
+0, 64, 1023
+0, 128, 0
+0, 128, 64
+0, 128, 128
+0, 128, 192
+0, 128, 256
+0, 128, 320
+0, 128, 384
+..., ..., ...,
+What can be seen is that Blue goes through its 17 point cycle, quickly, Green is updating its cycle once for 17 of Blue's cycles, and Red will update once during the whole length of the LUT, which is equal to Green going through 17 cycles.
+
+These 42 lines continue for a total of 4913 lines...
+
+Easy!
+
+Ok, not so easy... Think of it this way:
+
+In the above 'cube' diagram the Red plane starts in the first of its 17 points (positions).
+The Green plane is also at its first point, as is Blue.
+The output value for this position is recorded as the first line of the LUT (0, 0, 0).
+The Red plane stays where it is, as does the Green, and Blue moves to its second position.
+The output value for this position is recorded as the second line of the LUT (0, 0, 64).
+This continues for all 17 points (positions) for Blue.
+Then Green is moved to its second point, and Blue goes through its 17 points again.
+When Green has been through all 17 of its points, Red is moved to its second point, and the cycle begins again...
+
+Make sense now?
+
+So, for a LUT that isn't a bypass LUT, the position of each 'plane' is altered for each of the 17 points to generate the desired output value.
+
+The first few lines from a real 'calibration 3D LUT' would therefore be something like:
+
+3D Calibration LUT
+R, G, B
+0, 0, 0
+0, 0, 36
+0, 0, 112
+0, 0, 188
+0, 0, 261
+0, 0, 341
+0, 0, 425
+0, 0, 509
+0, 0, 594
+0, 0, 682
+0, 0, 771
+0, 0, 859
+0, 0, 955
+0, 0, 1023
+0, 0, 1023
+0, 0, 1023
+0, 0, 1023
+0, 32, 0
+0, 28, 28
+0, 28, 96
+0, 24, 172
+0, 24, 252
+0, 20, 333
+0, 20, 417
+0, 12, 501
+0, 12, 586
+0, 8, 674
+0, 4, 762
+0, 4, 851
+0, 0, 943
+0, 0, 1023
+0, 0, 1023
+0, 0, 1023
+0, 0, 1023
+0, 92, 0
+0, 88, 20
+0, 88, 88
+0, 88, 164
+0, 84, 244
+0, 84, 321
+0, 80, 405
+..., ..., ...,
+So, in essence, what a 3D LUT does is take an input value and generate a new output value, for each and every RGB value in each and every RGB triplet.
+
+In general (and totally ignoring what has been said above about the accuracy of 3D LUTs vs, 1D), 1D LUTs have their uses, but 3D LUTs are a lot more accurate in real-world applications.
+
+The following Marcie image shows the difference between a 3D LUT and a 1D LUT.
+
+The initial image is a 3D LUT, and the second image shows the result of a 1D LUT, both LUTs being based on exactly the same data.
+
+Kodak Marcie 3D LUT
+Kodak Marcie 3D LUT
+Kodak Marcie 1D LUT
+Kodak Marcie 1D LUT
+1D & 3D
+It is also possible to combine the grey scale accuracy of a 1D LUT (3x 1D), with a 3D LUT, using the 1D as an input, or shaper LUT before the 3D LUT. In this way the relative accuracy of the 3D LUT can be greatly enhanced.
+
+Input Imagee
+Input Image
+Raw Input image - a Log image in this example
+
+1D LUT
+1D LUT
+1D Shaper LUT, which both sets the Gamma and grey scale/RGB balance, as well as scales the input into the 3D LUT
+
+3D LUT
+3D LUT
+3D LUT, manages the volumetric gamut/colour
+
+Output Image
+Output Image
+Final image with LUT applied
+
+The use of an input 1D Shaper LUT can be a powerful was to enhance the relative accuracy of the following 3D LUT, and can be a single mono 1D Shaper LUT, rather than a 3 channel RGB 1D LUT, used solely to re-scale the input image range into specific ranges of the following 3D LUT.
+
+LUT Sizes
+There is a lot of confusion regarding LUT sizes, and the reality as to what is a good size, or not.
+
+There are also different aspects to LUT sizes...
+
+First, the actual size of a given LUT that is to be used is primarily defined by the size any given DI system or LUT Box can use. Sizes from 5^3 to 64^3 are common.
+
+The LUT size any given system is designed to used is based on being real-time, so as a rule of thumb higher-end system are able to utilise large LUT sizes. So, saying LUT size is an issue is factually wrong - it depends on the DI system (or LUT box) as to the size it can and will use.
+
+The second, and potentially more important part to LUT size is building the LUT from profile data when using LUTs to calibrate displays.
+
+Generating the LUT profile data is what takes time, as a very accurate profile of any given display will be required to generate an accurate result. The same is true when generating profile data for a film lab profile, where film negative and film print stocks need to be accurately profiled using density measurements.
+
+
+Technical LUTs (not calibration LUTs) are easy to generate as there is no need to profile a display. So, any size is easy - it's just a formula, or formulas, used to generate the resultant LUT.
+
+This is also true of creative LUTs, as the approach is to make a grade and then RIP the LUT from the grade, at what ever size is required.
+
+When making calibration LUTs you have to profile as many points as possible (regardless of some calibration systems attempting avoid this by using guesswork based profiling, using less points). So, the problem is the time it takes to make the profile.
+
+The last point is how you then generate a bigger LUT from the smaller profile... You need some very good internal colour engine processing to do this during the LUT generation, and this is where ColourSpace is very, very good - with accuracy far beyond alternative calibration systems.
+
+Some DI systems and LUT boxes also use good LUT interpolation internally, so can use a 17 point LUT and get very good results. Others don't. These bad interpolation systems need bigger LUTs as they can't do accurate interpolation themselves.
+
+Profiling vs. LUT Generation
+What should be understood with LUT Generation is that the size of the generated LUT is not linked in any way to the profiling measurement patch sequence size. A 33^3 LUT can be generated from a very sparse set of measurement data, not even necessarily cube based, while a small 5^3 LUT can just as easily be generated from a large 21^3 patch set.
+
+This disassociation between profile data and the generated LUT means the profiling patch set can be defined to best meet the requirements of the display being calibrated, which can be a simple Quick Profile for displays with linear volumetric responses, to full volumetric patch sets, with 10,000+ patches, for displays with inherent nonlinear responses.
+
+The required final LUT size and format has no impact on the profiling required.
+
+What this disassociation also means is there is little benefit in using excessively large LUT sizes, especially for calibration, as there are limits to the amount of profile measurements that can be taken during profiling, due to the time taken, as well as display drift, probe drift, etc. And generating a large LUT from a smaller profile patch set means there is just a lot of interpolation within the generated LUT.
+
+Calibration, Technical & Creative Look LUTs
+LUTs can be used and applied in a number of different ways, and the three most common applications are Calibration, Technical, and Creative...
+
+Calibration LUTs are used to correct display inaccuracies, ensuring any images shown on the calibrated display as accurate as possible - allowing for the underlying capabilities and/or limitations of the display. These are the most important LUTs as their generation has to be performed with very high levels of accuracy, or all images seen on the calibrated display will be incorrect, causing the inaccuracy to ripple back down the workflow chain, generating inaccurate grading results.
+
+This is a critical reason as to why ColourSpace is seen as the de-facto standard that all other calibration systems aspire to match - it is the most accurate of all.
+
+Technical LUTs are used to convert between different standards, such as from one colour space to another, which should make the LUTs simple to generate accurately.
+
+Surprisingly, many Technical LUTs are not at all accurate, and can cause major problems when attempting to convert images between different standards. All technical LUTs generated via ColourSpace are accurate.
+
+Creative LUTs are often referred to as Look LUTs as they are often used to set a look by a DoP on-set during filming, as well as to endow images with a specific looks. Look LUTs are often created by grading stills, and exporting a LUT that matches the grade. This can be performed by Ripping the grade via the ColourSpace LUT Image.
+
+ColourSpace has all the tools to generate any Look LUTs required, from ripping creative grades form DI systems, to using Photoshop to set styles, to using the internal creative tools within ColourSpace.
+
+Film Emulation LUTs
+A forth, and very interesting LUT application, is that of cinematic Film Emulation.
+
+This has been given a section on its own, as this is where the most confusion exists, and where a lot of individuals and companies are trying to cash in on the usefulness of LUTs, by selling a plethora of supposedly accurate film stock emulation LUTs, as well as cinematic Look LUTs, with specific colour Looks.
+
+In reality, true film emulation LUTs must be based on spectral data extracted from real film stocks using a spectrophotometer based profiling system, as with the Light Illusion Film Profiling Service, which generates highly accurate film profile data ensuring the LUT is as perfect as possible to matching the target film stock.
+
+Alternative, inferior, film emulation LUTs are often based on visual image matching, attempting to mimic the look of film without the use of any true film spectral data. In reality, just creative Look LUTs that happen to have a passing resemblance to a simplified film stock look.
+
+What this means is that such LUTs do not contain any of the film's natural non-linear colour distortions - such as colour channel cross coupling, and colour dependent gamma variations - which are at the heart of the look and emotion associated with film image.
+
+Such variations and inaccuracies can be seen in many LUTs that are offered for sale via on-line suppliers. Very few are based on true film emulation data. Such LUTs are in reality just inaccurate, often generating unwanted artefacts, with unexpected colour distortions as the image is graded/manipulated under the LUT.
+
+Light Illusion is happy to offer a free LUT Assessment service to anyone that wants to have a Film Emulation or Look LUT LUT verified.
+
+Associated
+ColourSpace
+ColourSpace
+Products
+Products
+Post & Broadcast
+Post & Broadcast
+3D LUT Calibration
+3D LUT Calibration
+logo
+© All rights reserved
+Privacy Notice
+Digital Sales
+
+email Facebook X-Twitter Linkedin Instagram RSS WhatsApp
+Search for...
