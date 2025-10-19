@@ -1,30 +1,30 @@
 import { Link } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Download, Palette, Grid3x3, ArrowRight } from "lucide-react";
+import { BookOpen, Download, Zap, HelpCircle, ArrowRight, Lightbulb } from "lucide-react";
 
 export default function Resources() {
   const resources = [
     {
+      title: "5-Minute Quick Start",
+      description: "New to CHROMA? Get your first LUT in 5 minutes with this simple walkthrough. Upload image, choose settings, download LUT.",
+      icon: Zap,
+      href: "/resources/create-from-images",
+      color: "from-green-500 to-emerald-500"
+    },
+    {
       title: "How to Install LUTs",
-      description: "Step-by-step guides for installing LUTs in popular software like DaVinci Resolve, Premiere Pro, Final Cut Pro, and Photoshop.",
+      description: "Step-by-step guides for installing LUTs in DaVinci Resolve, Premiere Pro, Final Cut Pro, and Photoshop.",
       icon: Download,
       href: "/resources/install-luts",
       color: "from-blue-500 to-cyan-500"
     },
     {
-      title: "LUT Formats Explained",
-      description: "Learn about .cube, .3dl, and .lut formats, their differences, and when to use each one in your workflow.",
-      icon: Grid3x3,
+      title: "Which Format Should I Use?",
+      description: "Confused about .cube vs .3dl vs .lut? Simple decision tree to help you pick the right format for your software and workflow.",
+      icon: HelpCircle,
       href: "/resources/lut-formats",
       color: "from-purple-500 to-pink-500"
-    },
-    {
-      title: "Creating LUTs from Images",
-      description: "Discover how to extract authentic color grading from reference images using CHROMA's Image-to-LUT generator.",
-      icon: Palette,
-      href: "/resources/create-from-images",
-      color: "from-green-500 to-emerald-500"
     }
   ];
 
@@ -51,11 +51,11 @@ export default function Resources() {
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 via-cyan-400 to-pink-500">
-              Resources
+              Beginner Guides
             </span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Everything you need to know about LUTs, from installation guides to understanding formats and creating your own color grades.
+            Step-by-step practical guides to get you started quickly. No technical jargon, just simple how-to's for real-world use.
           </p>
         </div>
       </section>
@@ -63,7 +63,7 @@ export default function Resources() {
       {/* Resource Cards */}
       <section className="pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {resources.map((resource) => (
               <Link key={resource.href} href={resource.href}>
                 <Card className="hover-elevate active-elevate-2 bg-card border-2 transition-all duration-300 h-full cursor-pointer group relative overflow-visible" data-testid={`card-${resource.href.split('/').pop()}`}>
