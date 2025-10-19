@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, LogIn, LogOut, User, Menu } from "lucide-react";
+import { Moon, Sun, LogIn, LogOut, User, Menu, Settings } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
 import { useAuth } from "@/hooks/use-auth";
 import { Badge } from "@/components/ui/badge";
@@ -46,6 +46,16 @@ export function NavBar() {
           Tools
         </Button>
       </Link>
+      <Link href="/learn-more" onClick={() => mobile && setOpen(false)}>
+        <Button 
+          variant={location === "/learn-more" ? "default" : "ghost"} 
+          size="sm"
+          data-testid="nav-learn-more"
+          className={mobile ? "w-full justify-start" : ""}
+        >
+          Learn More
+        </Button>
+      </Link>
     </>
   );
 
@@ -60,6 +70,17 @@ export function NavBar() {
               {user.tier}
             </Badge>
           </div>
+          <Link href="/settings" onClick={() => mobile && setOpen(false)}>
+            <Button
+              variant="ghost"
+              size="sm"
+              data-testid="button-settings"
+              className={mobile ? "w-full justify-start" : ""}
+            >
+              <Settings className="w-4 h-4 mr-2" />
+              Settings
+            </Button>
+          </Link>
           <Button
             variant="ghost"
             size="sm"

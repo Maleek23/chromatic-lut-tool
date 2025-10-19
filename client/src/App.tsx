@@ -7,12 +7,14 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AuthProvider } from "@/hooks/use-auth";
 import { NavBar } from "@/components/NavBar";
+import { ProtectedRoute } from "@/lib/protected-route";
 import Landing from "@/pages/Landing";
 import Generate from "@/pages/Tool";
 import Tools from "@/pages/Tools";
 import AuthPage from "@/pages/AuthPage";
 import Upgrade from "@/pages/Upgrade";
 import LearnMore from "@/pages/LearnMore";
+import Settings from "@/pages/Settings";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -24,6 +26,7 @@ function Router() {
         <Route path="/generate" component={Generate} />
         <Route path="/tools" component={Tools} />
         <Route path="/learn-more" component={LearnMore} />
+        <ProtectedRoute path="/settings" component={Settings} />
         <Route path="/upgrade" component={Upgrade} />
         <Route path="/auth" component={AuthPage} />
         <Route component={NotFound} />
