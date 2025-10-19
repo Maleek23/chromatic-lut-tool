@@ -31,7 +31,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     price: "$0",
     priceMonthly: 0,
     gridSizes: [17],
-    formats: ["cube"], // Free tier only gets .cube format
+    formats: ["cube"], // Free tier only gets .cube format output
     maxPresets: 3,
     hasAnalyzer: false,
     hasOptimizer: false,
@@ -49,7 +49,8 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
       "3 Image-to-LUT generations per month",
       "$2.50 per additional LUT (pay-per-use)",
       "Resets on the 1st of each month",
-      "17×17×17 grid",
+      "17×17×17 grid size",
+      "Convert any LUT (.cube/.3dl/.lut) to .cube format",
       "Save up to 3 LUTs",
       "Community presets access (read-only)",
     ],
@@ -60,7 +61,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     price: "$7/mo",
     priceMonthly: 7,
     gridSizes: [17, 33],
-    formats: ["cube"], // Creator tier only gets .cube format
+    formats: ["cube"], // Creator tier only gets .cube format output
     maxPresets: 30,
     hasAnalyzer: false,
     hasOptimizer: false,
@@ -76,7 +77,8 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     lightroomPresets: true,
     features: [
       "Unlimited Image-to-LUT generations",
-      "33×33×33 grid size",
+      "Up to 33×33×33 grid size",
+      "Convert any LUT (.cube/.3dl/.lut) to .cube format",
       "Save up to 30 LUTs",
       "Organize folders / mini dashboard",
       "Priority export queue",
@@ -90,7 +92,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     priceMonthly: 12,
     priceYearly: 99,
     gridSizes: [17, 33, 65],
-    formats: ["cube", "3dl", "lut"],
+    formats: ["cube"], // All tiers only output .cube format
     maxPresets: -1, // Unlimited
     hasAnalyzer: true,
     hasOptimizer: true,
@@ -106,11 +108,14 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     lightroomPresets: true,
     features: [
       "Everything in Creator",
-      "Unlimited grid sizes (17×17×17 → 65×65×65)",
-      "All LUT conversions (.cube ↔ .3dl ↔ .lut)",
+      "Up to 65×65×65 grid size (ultra precision)",
+      "Custom grid resampling (17³/33³/65³)",
+      "Convert any LUT (.cube/.3dl/.lut) to .cube format",
+      "LUT Analyzer (quality scoring, banding detection)",
+      "LUT Optimizer (fix invalid points)",
       "Unlimited saved LUTs",
       "Batch processing",
-      "Email delivery of LUT downloads (coming soon)",
+      "Email delivery of LUT downloads",
       "Priority support",
     ],
   },
@@ -120,7 +125,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     price: "$25/mo",
     priceMonthly: 25,
     gridSizes: [17, 33, 65],
-    formats: ["cube", "3dl", "lut"],
+    formats: ["cube"], // All tiers only output .cube format
     maxPresets: -1, // Unlimited
     hasAnalyzer: true,
     hasOptimizer: true,
@@ -135,6 +140,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     communityPresetsWrite: true,
     lightroomPresets: true,
     features: [
+      "Everything in Pro",
       "Custom branded LUTs",
       "Team preset sharing",
       "Collaboration dashboard",
