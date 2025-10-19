@@ -11,8 +11,11 @@ import { Progress } from "@/components/ui/progress";
 type UsageStats = {
   tier: string;
   conversionsThisMonth: number;
-  monthlyLimit: number;
+  totalConversions: number;
+  limit: number;
   unlimited: boolean;
+  payPerUse: boolean;
+  pricePerUse: number;
   lastResetDate: string;
   conversionsRemaining: number;
 };
@@ -177,7 +180,7 @@ export default function Settings() {
                           Unlimited ∞
                         </Badge>
                       ) : (
-                        `${usageStats.conversionsThisMonth} / ${usageStats.monthlyLimit}`
+                        `${usageStats.conversionsThisMonth} / ${usageStats.limit}`
                       )}
                     </span>
                   </div>
@@ -185,7 +188,7 @@ export default function Settings() {
                   {!usageStats.unlimited && (
                     <>
                       <Progress 
-                        value={(usageStats.conversionsThisMonth / usageStats.monthlyLimit) * 100}
+                        value={(usageStats.conversionsThisMonth / usageStats.limit) * 100}
                         className="h-2"
                       />
                       <div className="flex items-center justify-between text-sm text-muted-foreground">
@@ -230,7 +233,7 @@ export default function Settings() {
                         ❌ Monthly Limit Reached
                       </p>
                       <p className="text-sm text-muted-foreground mb-3">
-                        You've used all {usageStats.monthlyLimit} Image-to-LUT generations for this month. 
+                        You've used all {usageStats.limit} Image-to-LUT generations for this month. 
                         Upgrade to Creator tier for unlimited generations, or wait for your limit to reset.
                       </p>
                       <Link href="/upgrade">
