@@ -439,31 +439,31 @@ export default function Landing() {
                   <span className="text-muted-foreground text-sm">/forever</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-5 pt-2 pb-10 px-8 flex-1">
-                <div className="space-y-4">
+              <CardContent className="space-y-5 pt-4 pb-10 px-8 flex-1">
+                <div className="space-y-5">
                   <div className="flex items-start gap-3">
-                    <Sparkles className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm font-semibold">Image to LUT Generator</span>
+                    <Sparkles className="w-5 h-5 text-primary mt-1 shrink-0" />
+                    <span className="text-sm font-semibold leading-relaxed">Image to LUT Generator</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-sm text-muted-foreground">5 conversions per month</span>
+                    <Check className="w-5 h-5 text-muted-foreground mt-1 shrink-0" />
+                    <span className="text-sm text-muted-foreground leading-relaxed">5 conversions per month</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <ArrowRight className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <span className="text-sm font-semibold text-primary">LUT Converter (unlimited)</span>
+                    <ArrowRight className="w-5 h-5 text-primary mt-1 shrink-0" />
+                    <span className="text-sm font-semibold text-primary leading-relaxed">LUT Converter (unlimited)</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-sm text-muted-foreground">All formats (.cube ↔ .3dl ↔ .lut)</span>
+                    <Check className="w-5 h-5 text-muted-foreground mt-1 shrink-0" />
+                    <span className="text-sm text-muted-foreground leading-relaxed">All formats (.cube ↔ .3dl ↔ .lut)</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-sm text-muted-foreground">17×17×17 grid</span>
+                    <Check className="w-5 h-5 text-muted-foreground mt-1 shrink-0" />
+                    <span className="text-sm text-muted-foreground leading-relaxed">17×17×17 grid</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-sm text-muted-foreground">1-3 saved presets</span>
+                    <Check className="w-5 h-5 text-muted-foreground mt-1 shrink-0" />
+                    <span className="text-sm text-muted-foreground leading-relaxed">1-3 saved presets</span>
                   </div>
                 </div>
               </CardContent>
@@ -493,23 +493,23 @@ export default function Landing() {
                   <span className="text-muted-foreground text-sm">/mo</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-5 pt-2 pb-10 px-8 flex-1">
-                <div className="space-y-4">
+              <CardContent className="space-y-5 pt-4 pb-10 px-8 flex-1">
+                <div className="space-y-5">
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-sm font-semibold">Everything in Free</span>
+                    <Check className="w-5 h-5 text-muted-foreground mt-1 shrink-0" />
+                    <span className="text-sm font-semibold leading-relaxed">Everything in Free</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <ArrowRight className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
-                    <span className="text-sm font-semibold text-blue-500">+ 33×33×33 grid size</span>
+                    <ArrowRight className="w-5 h-5 text-blue-500 mt-1 shrink-0" />
+                    <span className="text-sm font-semibold text-blue-500 leading-relaxed">+ 33×33×33 grid size</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-sm text-muted-foreground">20-30 presets</span>
+                    <Check className="w-5 h-5 text-muted-foreground mt-1 shrink-0" />
+                    <span className="text-sm text-muted-foreground leading-relaxed">20-30 presets</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-sm text-muted-foreground">Priority queue</span>
+                    <Check className="w-5 h-5 text-muted-foreground mt-1 shrink-0" />
+                    <span className="text-sm text-muted-foreground leading-relaxed">Priority queue</span>
                   </div>
                 </div>
               </CardContent>
@@ -545,31 +545,31 @@ export default function Landing() {
                   <span className="text-xs text-muted-foreground">or $99/year</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-5 pt-2 pb-10 px-8 flex-1">
-                <div className="space-y-4">
+              <CardContent className="space-y-5 pt-4 pb-10 px-8 flex-1">
+                <div className="space-y-5">
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-sm font-semibold">Everything in Creator</span>
+                    <Check className="w-5 h-5 text-muted-foreground mt-1 shrink-0" />
+                    <span className="text-sm font-semibold leading-relaxed">Everything in Creator</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <TrendingUp className="w-5 h-5 text-purple-500 mt-0.5 shrink-0" />
-                    <span className="text-sm font-semibold text-purple-500">+ LUT Analyzer</span>
+                    <TrendingUp className="w-5 h-5 text-purple-500 mt-1 shrink-0" />
+                    <span className="text-sm font-semibold text-purple-500 leading-relaxed">+ LUT Analyzer</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Zap className="w-5 h-5 text-purple-500 mt-0.5 shrink-0" />
-                    <span className="text-sm font-semibold text-purple-500">+ LUT Optimizer</span>
+                    <Zap className="w-5 h-5 text-purple-500 mt-1 shrink-0" />
+                    <span className="text-sm font-semibold text-purple-500 leading-relaxed">+ LUT Optimizer</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-sm text-muted-foreground">All grids (→65×65×65)</span>
+                    <Check className="w-5 h-5 text-muted-foreground mt-1 shrink-0" />
+                    <span className="text-sm text-muted-foreground leading-relaxed">All grids (→65×65×65)</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-sm text-muted-foreground">All formats (.cube/.3dl/.lut)</span>
+                    <Check className="w-5 h-5 text-muted-foreground mt-1 shrink-0" />
+                    <span className="text-sm text-muted-foreground leading-relaxed">All formats (.cube/.3dl/.lut)</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-sm text-muted-foreground">Unlimited presets</span>
+                    <Check className="w-5 h-5 text-muted-foreground mt-1 shrink-0" />
+                    <span className="text-sm text-muted-foreground leading-relaxed">Unlimited presets</span>
                   </div>
                 </div>
               </CardContent>
@@ -600,27 +600,27 @@ export default function Landing() {
                   <span className="text-muted-foreground text-sm">/mo</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-5 pt-2 pb-10 px-8 flex-1">
-                <div className="space-y-4">
+              <CardContent className="space-y-5 pt-4 pb-10 px-8 flex-1">
+                <div className="space-y-5">
                   <div className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-sm font-semibold">Everything in Pro</span>
+                    <Check className="w-5 h-5 text-muted-foreground mt-1 shrink-0" />
+                    <span className="text-sm font-semibold leading-relaxed">Everything in Pro</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Crown className="w-5 h-5 text-yellow-500 mt-0.5 shrink-0" />
-                    <span className="text-sm font-semibold text-yellow-600 dark:text-yellow-500">Custom branded LUTs</span>
+                    <Crown className="w-5 h-5 text-yellow-500 mt-1 shrink-0" />
+                    <span className="text-sm font-semibold text-yellow-600 dark:text-yellow-500 leading-relaxed">Custom branded LUTs</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Crown className="w-5 h-5 text-yellow-500 mt-0.5 shrink-0" />
-                    <span className="text-sm font-semibold text-yellow-600 dark:text-yellow-500">Team sharing</span>
+                    <Crown className="w-5 h-5 text-yellow-500 mt-1 shrink-0" />
+                    <span className="text-sm font-semibold text-yellow-600 dark:text-yellow-500 leading-relaxed">Team sharing</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Crown className="w-5 h-5 text-yellow-500 mt-0.5 shrink-0" />
-                    <span className="text-sm font-semibold text-yellow-600 dark:text-yellow-500">Batch processing</span>
+                    <Crown className="w-5 h-5 text-yellow-500 mt-1 shrink-0" />
+                    <span className="text-sm font-semibold text-yellow-600 dark:text-yellow-500 leading-relaxed">Batch processing</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Crown className="w-5 h-5 text-yellow-500 mt-0.5 shrink-0" />
-                    <span className="text-sm font-semibold text-yellow-600 dark:text-yellow-500">AI grading (early access)</span>
+                    <Crown className="w-5 h-5 text-yellow-500 mt-1 shrink-0" />
+                    <span className="text-sm font-semibold text-yellow-600 dark:text-yellow-500 leading-relaxed">AI grading (early access)</span>
                   </div>
                 </div>
               </CardContent>
