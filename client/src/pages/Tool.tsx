@@ -5,15 +5,14 @@ import { ColorStatistics } from "@/components/ColorStatistics";
 import { HistogramVisualization } from "@/components/HistogramVisualization";
 import { LutControls } from "@/components/LutControls";
 import { DownloadSection } from "@/components/DownloadSection";
-import { Loader2, Sparkles, AlertCircle } from "lucide-react";
+import { UsageStatus } from "@/components/UsageStatus";
+import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
-import { useLocation, Link } from "wouter";
+import { useLocation } from "wouter";
 import type { LutAnalysis, LutResponse } from "@shared/schema";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { getUserTier, isGridSizeAllowed, isFormatAllowed } from "@/lib/tier-utils";
+import { queryClient } from "@/lib/queryClient";
 
 export default function Tool() {
   const { toast } = useToast();
@@ -235,6 +234,10 @@ export default function Tool() {
 
       const data = await response.json();
       setLutResult(data);
+      
+      // Invalidate user query to refresh usage statistics
+      await queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+      
       toast({
         title: "LUT Generated Successfully",
         description: `Your ${gridSize}×${gridSize}×${gridSize} .${format} LUT is ready for download`,
@@ -291,53 +294,10 @@ export default function Tool() {
                 Upload a color-graded reference image and let our algorithm analyze its color science.
               </p>
 
-              {/* Free Tier Usage Counter - Only show for Free tier */}
-              {isFree && (
-                <Alert className="max-w-md mx-auto mt-6" data-testid="alert-usage-counter">
-                  {conversionsRemaining > 0 ? (
-                    <>
-                      <Sparkles className="h-4 w-4" />
-                      <AlertDescription className="space-y-2">
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="font-medium">
-                            {conversionsRemaining} {conversionsRemaining === 1 ? 'free generation' : 'free generations'} remaining
-                          </span>
-                          <span className="text-muted-foreground" data-testid="text-usage-count">
-                            {conversionsUsed}/{conversionsLimit} used
-                          </span>
-                        </div>
-                        <Progress value={usagePercentage} className="h-2" />
-                        <Link href="/upgrade">
-                          <Button variant="ghost" size="sm" className="h-auto p-0 text-xs hover:bg-transparent" data-testid="button-upgrade-usage">
-                            Upgrade to Creator for unlimited generations →
-                          </Button>
-                        </Link>
-                      </AlertDescription>
-                    </>
-                  ) : (
-                    <>
-                      <AlertCircle className="h-4 w-4" />
-                      <AlertDescription className="space-y-2">
-                        <p className="text-sm font-medium">Free generations used</p>
-                        <p className="text-xs text-muted-foreground">
-                          You've used all {conversionsLimit} free generations. Pay $2.50 per LUT or upgrade to Creator ($7/mo) for unlimited.
-                        </p>
-                        <div className="grid grid-cols-2 gap-2">
-                          <Button size="sm" variant="outline" disabled data-testid="button-pay-per-use">
-                            Pay $2.50 (Soon)
-                          </Button>
-                          <Link href="/upgrade">
-                            <Button size="sm" className="w-full" data-testid="button-upgrade-limit">
-                              <Sparkles className="w-4 h-4 mr-2" />
-                              Upgrade
-                            </Button>
-                          </Link>
-                        </div>
-                      </AlertDescription>
-                    </>
-                  )}
-                </Alert>
-              )}
+              {/* Usage Status - Show for all tiers */}
+              <div className="mt-6">
+                <UsageStatus user={user} />
+              </div>
               
               {/* Feature badges */}
               <div className="flex flex-wrap items-center justify-center gap-2 pt-4">
@@ -390,6 +350,9 @@ export default function Tool() {
           </div>
         ) : (
           <div className="space-y-8">
+            {/* Usage Status - Persistent across both views */}
+            <UsageStatus user={user} />
+            
             {/* Analysis Dashboard */}
             {isAnalyzing ? (
               <div className="flex flex-col items-center justify-center min-h-96 gap-6">
