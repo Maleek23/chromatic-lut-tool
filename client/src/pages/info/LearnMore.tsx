@@ -6,7 +6,9 @@ import {
   Zap,
   Check,
   AlertCircle,
-  FileImage
+  FileImage,
+  Box,
+  Layers
 } from "lucide-react";
 
 export default function LearnMore() {
@@ -29,6 +31,203 @@ export default function LearnMore() {
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
             Deep dive into the professional color science and algorithms that power CHROMA's industry-standard LUT processing
           </p>
+        </div>
+
+        {/* LUT Fundamentals Section */}
+        <div className="mb-16">
+          <div className="text-center space-y-3 mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold">Understanding LUTs</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Learn the difference between 1D and 3D LUTs and how they transform color
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* 1D LUT Card */}
+            <Card className="border-chart-2/30 bg-gradient-to-br from-background to-chart-2/5 backdrop-blur-sm overflow-visible" data-testid="card-1d-lut-explanation">
+              <CardHeader className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-chart-2/20 to-chart-3/20 border border-chart-2/30">
+                    <Layers className="w-6 h-6 text-chart-2" />
+                  </div>
+                  <CardTitle className="text-2xl">1D LUTs</CardTitle>
+                </div>
+                <CardDescription>Simple per-channel color mapping</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-sm text-muted-foreground">
+                  A 1D LUT maps each input value to a single output value independently for each RGB channel. 
+                  Perfect for gamma correction, contrast, and brightness adjustments.
+                </p>
+                
+                {/* 1D LUT Diagram */}
+                <div className="bg-muted/30 rounded-lg p-6 border border-border/50">
+                  <svg viewBox="0 0 300 200" className="w-full h-auto">
+                    {/* Input */}
+                    <text x="20" y="30" className="fill-foreground text-xs font-semibold">Input RGB</text>
+                    <rect x="20" y="40" width="60" height="120" className="fill-chart-2/20 stroke-chart-2" strokeWidth="2" rx="4"/>
+                    
+                    {/* Input Values */}
+                    <text x="50" y="65" className="fill-foreground text-[10px]" textAnchor="middle">R: 128</text>
+                    <text x="50" y="100" className="fill-foreground text-[10px]" textAnchor="middle">G: 64</text>
+                    <text x="50" y="135" className="fill-foreground text-[10px]" textAnchor="middle">B: 192</text>
+                    
+                    {/* Arrows */}
+                    <path d="M 85 60 L 115 80" className="stroke-primary" strokeWidth="2" markerEnd="url(#arrowhead1d)"/>
+                    <path d="M 85 95 L 115 100" className="stroke-primary" strokeWidth="2" markerEnd="url(#arrowhead1d)"/>
+                    <path d="M 85 130 L 115 120" className="stroke-primary" strokeWidth="2" markerEnd="url(#arrowhead1d)"/>
+                    
+                    {/* 1D Mapping */}
+                    <text x="150" y="30" className="fill-foreground text-xs font-semibold" textAnchor="middle">1D Mapping</text>
+                    <rect x="120" y="75" width="60" height="50" className="fill-primary/10 stroke-primary" strokeWidth="2" rx="4"/>
+                    <text x="150" y="95" className="fill-foreground text-[9px]" textAnchor="middle">Per-Channel</text>
+                    <text x="150" y="110" className="fill-foreground text-[9px]" textAnchor="middle">Transform</text>
+                    
+                    {/* Output Arrows */}
+                    <path d="M 185 80 L 215 60" className="stroke-chart-3" strokeWidth="2" markerEnd="url(#arrowhead1d-out)"/>
+                    <path d="M 185 100 L 215 100" className="stroke-chart-3" strokeWidth="2" markerEnd="url(#arrowhead1d-out)"/>
+                    <path d="M 185 120 L 215 140" className="stroke-chart-3" strokeWidth="2" markerEnd="url(#arrowhead1d-out)"/>
+                    
+                    {/* Output */}
+                    <text x="220" y="30" className="fill-foreground text-xs font-semibold">Output RGB</text>
+                    <rect x="220" y="40" width="60" height="120" className="fill-chart-3/20 stroke-chart-3" strokeWidth="2" rx="4"/>
+                    <text x="250" y="65" className="fill-foreground text-[10px]" textAnchor="middle">R: 156</text>
+                    <text x="250" y="100" className="fill-foreground text-[10px]" textAnchor="middle">G: 70</text>
+                    <text x="250" y="135" className="fill-foreground text-[10px]" textAnchor="middle">B: 200</text>
+                    
+                    {/* Arrow markers */}
+                    <defs>
+                      <marker id="arrowhead1d" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" className="fill-primary" />
+                      </marker>
+                      <marker id="arrowhead1d-out" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" className="fill-chart-3" />
+                      </marker>
+                    </defs>
+                  </svg>
+                </div>
+                
+                <div className="space-y-2">
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-chart-2 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-muted-foreground">Controls gamma, contrast, and brightness</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-chart-2 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-muted-foreground">Adjusts RGB balance and grey scale</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-muted-foreground">Cannot alter saturation or hue</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* 3D LUT Card */}
+            <Card className="border-primary/30 bg-gradient-to-br from-background to-primary/5 backdrop-blur-sm overflow-visible" data-testid="card-3d-lut-explanation">
+              <CardHeader className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-primary/20 to-chart-2/20 border border-primary/30">
+                    <Box className="w-6 h-6 text-primary" />
+                  </div>
+                  <CardTitle className="text-2xl">3D LUTs</CardTitle>
+                </div>
+                <CardDescription>Volumetric color space transformation</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-sm text-muted-foreground">
+                  A 3D LUT uses a color cube to map any RGB input to any RGB output, allowing full control over hue, saturation, and luminance. 
+                  Essential for professional color grading.
+                </p>
+                
+                {/* 3D LUT Cube Diagram */}
+                <div className="bg-muted/30 rounded-lg p-6 border border-border/50">
+                  <svg viewBox="0 0 300 220" className="w-full h-auto">
+                    {/* 3D Cube representation */}
+                    <g transform="translate(150, 110)">
+                      {/* Back faces (lighter) */}
+                      <path d="M -50,-30 L 20,-60 L 20,10 L -50,40 Z" className="fill-primary/5 stroke-primary/30" strokeWidth="1.5"/>
+                      <path d="M 20,-60 L 90,-30 L 90,40 L 20,10 Z" className="fill-chart-2/5 stroke-chart-2/30" strokeWidth="1.5"/>
+                      <path d="M -50,40 L 20,10 L 90,40 L 20,70 Z" className="fill-chart-3/5 stroke-chart-3/30" strokeWidth="1.5"/>
+                      
+                      {/* Front faces (brighter) */}
+                      <path d="M -50,-30 L 20,0 L 20,70 L -50,40 Z" className="fill-primary/20 stroke-primary" strokeWidth="2"/>
+                      <path d="M 20,0 L 90,30 L 90,100 L 20,70 Z" className="fill-chart-2/20 stroke-chart-2" strokeWidth="2"/>
+                      <path d="M 20,0 L 90,30 L 20,60 L -50,30 Z" className="fill-chart-3/20 stroke-chart-3" strokeWidth="2"/>
+                      
+                      {/* Axis labels */}
+                      <text x="-60" y="0" className="fill-primary text-xs font-semibold">Red</text>
+                      <text x="95" y="60" className="fill-chart-2 text-xs font-semibold">Green</text>
+                      <text x="0" y="90" className="fill-chart-3 text-xs font-semibold">Blue</text>
+                      
+                      {/* Grid points */}
+                      <circle cx="0" cy="20" r="3" className="fill-foreground"/>
+                      <circle cx="30" cy="10" r="3" className="fill-foreground"/>
+                      <circle cx="-20" cy="30" r="3" className="fill-foreground"/>
+                      <circle cx="50" cy="40" r="3" className="fill-foreground"/>
+                      
+                      {/* Center annotation */}
+                      <text x="-40" y="-50" className="fill-foreground text-[10px] font-semibold">3D Color Cube</text>
+                      <text x="-50" y="-35" className="fill-muted-foreground text-[9px]">Each point transforms</text>
+                      <text x="-50" y="-23" className="fill-muted-foreground text-[9px]">R, G, and B together</text>
+                    </g>
+                  </svg>
+                </div>
+                
+                <div className="space-y-2">
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-muted-foreground">Full volumetric color control</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-muted-foreground">Adjusts hue, saturation, and luminance</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-muted-foreground">Handles cross-channel color correction</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-muted-foreground">Professional film emulation and grading</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Key Difference Card */}
+          <Card className="mt-6 border-chart-3/30 bg-gradient-to-br from-background to-chart-3/5" data-testid="card-lut-comparison">
+            <CardContent className="p-6">
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="space-y-2">
+                  <h3 className="font-semibold text-lg flex items-center gap-2">
+                    <Zap className="w-5 h-5 text-chart-3" />
+                    The Key Difference
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    In a <strong>1D LUT</strong>, changing the Red input only affects the Red output. 
+                    In a <strong>3D LUT</strong>, changing Red can affect all RGB outputs, enabling true color grading.
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-semibold text-lg">Grid Sizes</h3>
+                  <div className="space-y-1 text-sm text-muted-foreground">
+                    <div><strong className="text-foreground">17×17×17</strong> - Preview/Proxy quality</div>
+                    <div><strong className="text-foreground">33×33×33</strong> - Production quality</div>
+                    <div><strong className="text-foreground">65×65×65</strong> - Master quality</div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-semibold text-lg">Professional Use</h3>
+                  <p className="text-sm text-muted-foreground">
+                    CHROMA generates <strong>3D LUTs</strong> for professional workflows, ensuring compatibility with DaVinci Resolve, Premiere Pro, Final Cut Pro, and all major color grading software.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Detailed Tool Cards */}
