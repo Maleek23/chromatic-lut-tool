@@ -83,10 +83,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({
         tier: user.tier,
         conversionsThisMonth: currentUsage,
-        monthlyLimit: limits.monthlyLimit,
+        totalConversions: user.totalConversions || 0,
+        limit: limits.limit,
         unlimited: limits.unlimited,
+        payPerUse: limits.payPerUse,
+        pricePerUse: limits.pricePerUse,
         lastResetDate: resetDate,
-        conversionsRemaining: limits.unlimited ? Infinity : Math.max(0, limits.monthlyLimit - currentUsage)
+        conversionsRemaining: limits.unlimited ? Infinity : Math.max(0, limits.limit - (user.totalConversions || 0))
       });
     } catch (error) {
       console.error("Usage stats error:", error);
@@ -377,6 +380,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           error: usageCheck.reason,
           upgradeRequired: true,
           requiredTier: "creator",
+          requiresPayment: usageCheck.requiresPayment || false,
+          paymentAmount: usageCheck.paymentAmount,
           currentUsage: usageCheck.currentUsage,
           limit: usageCheck.limit
         });
@@ -838,9 +843,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Free tier only gets basic preview
       if (!hasFullAccess) {
-        delete analysis.quality.rgbStats;
         res.json({
           ...analysis,
+          quality: {
+            ...analysis.quality,
+            rgbStats: undefined
+          },
           upgradeMessage: "Upgrade to Pro for full RGB statistics and detailed analysis"
         });
       } else {
@@ -921,7 +929,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       // Create optimized LUT object
-      const optimizedLUT: LUT = {
+      const optimizedLUT = {
         ...parsed.lut,
         data: optimizedData
       };
@@ -1054,7 +1062,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { getMaxPresets, canSaveMorePresets } = await import("../shared/tiers");
       
       // Check preset limit based on tier
-      const userTier = user.tier || "free";
+      const userTier = (user.tier || "free") as "free" | "creator" | "pro" | "studio";
       const currentPresetCount = await storage.getUserPresetCount(user.id);
       
       if (!canSaveMorePresets(userTier, currentPresetCount)) {

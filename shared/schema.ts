@@ -12,7 +12,8 @@ export const users = pgTable("users", {
   tierExpiresAt: timestamp("tier_expires_at"), // Null for free tier, set for paid tiers
   stripeCustomerId: text("stripe_customer_id"),
   stripeSubscriptionId: text("stripe_subscription_id"),
-  conversionsThisMonth: integer("conversions_this_month").notNull().default(0),
+  totalConversions: integer("total_conversions").notNull().default(0), // Lifetime total for free tier
+  conversionsThisMonth: integer("conversions_this_month").notNull().default(0), // For paid tiers (stats only)
   previewsToday: integer("previews_today").notNull().default(0),
   lastResetDate: timestamp("last_reset_date").defaultNow().notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),

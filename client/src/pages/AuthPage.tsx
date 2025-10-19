@@ -147,8 +147,8 @@ export default function AuthPage() {
                               <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary flex-shrink-0" />
                               <span className="font-semibold text-sm sm:text-base">Free</span>
                             </div>
-                            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 leading-tight">Start free forever</p>
-                            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">5 gen/month</p>
+                            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 leading-tight">3 free LUTs</p>
+                            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">$5 per extra</p>
                           </div>
 
                           <div
@@ -346,8 +346,8 @@ export default function AuthPage() {
                     <Check className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <p className="font-semibold">Image to LUT Generation</p>
-                    <p className="text-sm text-muted-foreground">Standard quality (17×17×17)</p>
+                    <p className="font-semibold">3 Free Image-to-LUT Generations</p>
+                    <p className="text-sm text-muted-foreground">Then $5 per additional LUT</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">

@@ -83,6 +83,7 @@ export class MemStorage implements IStorage {
       username: insertUser.username || null,
       stripeCustomerId: null,
       stripeSubscriptionId: null,
+      totalConversions: 0,
       conversionsThisMonth: 0,
       previewsToday: 0,
       lastResetDate: now,
@@ -132,6 +133,7 @@ export class MemStorage implements IStorage {
     const user = this.users.get(userId);
     if (!user) return;
     
+    user.totalConversions++;
     user.conversionsThisMonth++;
     this.users.set(userId, user);
   }
@@ -264,7 +266,10 @@ export class PostgresStorage implements IStorage {
     
     await db
       .update(users)
-      .set({ conversionsThisMonth: (user.conversionsThisMonth || 0) + 1 })
+      .set({ 
+        totalConversions: (user.totalConversions || 0) + 1,
+        conversionsThisMonth: (user.conversionsThisMonth || 0) + 1 
+      })
       .where(eq(users.id, userId));
   }
 

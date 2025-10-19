@@ -1,7 +1,7 @@
 # CHROMA by UN/TITLD
 
 ## Overview
-CHROMA is a professional toolkit for cinematographers and colorists, offering comprehensive LUT (Look-Up Table) conversion, generation, and analysis. It provides industry-standard support for all major LUT formats with free unlimited access to core features. Key capabilities include an Image-to-LUT generator that authentically extracts color science from reference images, and robust tools for LUT conversion and analysis to ensure quality and compatibility across professional color grading software. The project aims to provide an essential tool for creators and professionals in the color grading industry.
+CHROMA is a professional toolkit for cinematographers and colorists, offering comprehensive LUT (Look-Up Table) conversion, generation, and analysis. It provides industry-standard support for all major LUT formats with a freemium pricing model: Free tier gets 3 lifetime Image-to-LUT generations, then $5 per additional LUT (pay-per-use), or upgrade to Creator tier for unlimited generations. Key capabilities include an Image-to-LUT generator that authentically extracts color science from reference images, and robust tools for LUT conversion and analysis to ensure quality and compatibility across professional color grading software. The project aims to provide an essential tool for creators and professionals in the color grading industry.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
@@ -43,7 +43,12 @@ Preferred communication style: Simple, everyday language.
 ### System Design Choices
 - **UI/UX**: Cinematic color grading aesthetic with gradient effects, animated color orbs, film grain, chromatic aberration, and backdrop blur.
 - **Navigation Architecture**: Hub-and-spoke model with Image-to-LUT generation as the main entry point, consolidated utility tools, and a user dashboard.
-- **Pricing Strategy**: 4-tier system (Free, Creator, Pro, Studio) with feature gating. Authentication is required for all features. Stripe integration is configured for subscriptions.
+- **Pricing Strategy**: 
+  - Free tier: 3 lifetime Image-to-LUT generations, then $5 per additional LUT (pay-per-use)
+  - Creator tier ($7/mo): Unlimited Image-to-LUT generations
+  - Pro tier ($12/mo): Unlimited + all tools (Analyzer, Optimizer) + all formats
+  - Studio tier ($25/mo): Team features (coming soon)
+  - Stripe integration prepared for pay-per-use and subscriptions
 - **Technical Implementations**: Authentic color science extraction, industry-standard blue-fastest indexing for LUT operations, trilinear interpolation for resampling, server-side validation, and real-time preview.
 - **Feature Specifications**:
     - **Image to LUT**: Authentic color extraction, zone-based analysis, intensity control, tier-dependent grid size and output format selection.
@@ -52,7 +57,7 @@ Preferred communication style: Simple, everyday language.
     - **LUT Optimization**: Clamps RGB values to valid range, handles invalid values, and provides optimization statistics.
     - **Authentication**: Email/password with bcrypt, session management, and tier-based feature access.
     - **Preset Management**: Saving and organization of presets with tier-dependent limits and metadata tracking.
-    - **Usage Tracking**: Monthly conversion limits for the Free tier on Image-to-LUT generations, unlimited for paid tiers.
+    - **Usage Tracking**: Lifetime total conversions tracked for Free tier (3 free, then pay-per-use at $5 per LUT). Paid tiers have unlimited generations.
 
 ## External Dependencies
 
