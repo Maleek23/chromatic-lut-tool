@@ -178,27 +178,23 @@ export default function Landing() {
                   <div className="space-y-3">
                     <div className="flex items-start gap-2">
                       <Sparkles className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                      <span className="text-sm font-semibold">Image to LUT</span>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">5/month</span>
+                      <span className="text-sm font-semibold">5 Image-to-LUT/month</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <ArrowRight className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                      <span className="text-sm font-semibold text-primary">Convert ∞</span>
+                      <span className="text-sm font-semibold text-primary">Unlimited conversions</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">All formats</span>
+                      <span className="text-sm text-muted-foreground">.cube, .3dl, .lut formats</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">17³ grid</span>
+                      <span className="text-sm text-muted-foreground">17³ grid size only</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">1-3 presets</span>
+                      <span className="text-sm text-muted-foreground">Save up to 3 presets</span>
                     </div>
                   </div>
                 </CardContent>
@@ -235,16 +231,20 @@ export default function Landing() {
                       <span className="text-sm font-semibold">Everything in Free</span>
                     </div>
                     <div className="flex items-start gap-2">
+                      <Sparkles className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
+                      <span className="text-sm font-semibold text-blue-500">Unlimited generations</span>
+                    </div>
+                    <div className="flex items-start gap-2">
                       <ArrowRight className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
-                      <span className="text-sm font-semibold text-blue-500">+ 33³ grid</span>
+                      <span className="text-sm font-semibold text-blue-500">17³ & 33³ grid sizes</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">20-30 presets</span>
+                      <span className="text-sm text-muted-foreground">Save up to 30 presets</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">Priority queue</span>
+                      <span className="text-sm text-muted-foreground">Priority processing</span>
                     </div>
                   </div>
                 </CardContent>
@@ -292,19 +292,15 @@ export default function Landing() {
                     </div>
                     <div className="flex items-start gap-2">
                       <TrendingUp className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
-                      <span className="text-sm font-semibold text-purple-500">+ Analyzer</span>
+                      <span className="text-sm font-semibold text-purple-500">LUT Analyzer tool</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Zap className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
-                      <span className="text-sm font-semibold text-purple-500">+ Optimizer</span>
+                      <span className="text-sm font-semibold text-purple-500">LUT Optimizer tool</span>
                     </div>
                     <div className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">Up to 65³ grid</span>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">All formats</span>
+                      <ArrowRight className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
+                      <span className="text-sm font-semibold text-purple-500">All grid sizes (up to 65³)</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
