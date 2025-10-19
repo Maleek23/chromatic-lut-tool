@@ -6,6 +6,11 @@ CHROMA is a professional toolkit for cinematographers and colorists, offering co
 ## User Preferences
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes (October 19, 2025)
+- **Fixed filename sync bug**: DownloadSection now properly updates filename when grid size changes between generations. Added useEffect to sync internal filename state with defaultFilename prop, preventing stale filenames from previous generations.
+- **Verified Free tier restrictions**: Testing confirmed 3/month limit, 17×17×17 grid restriction, and .cube format restriction all working correctly.
+- **Confirmed email delivery**: Implementation complete and working, awaiting domain verification on Resend dashboard for production use.
+
 ## System Architecture
 
 ### Frontend
