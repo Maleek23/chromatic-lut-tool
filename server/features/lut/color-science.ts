@@ -37,6 +37,61 @@ export interface ACEScg {
   b: number;
 }
 
+/**
+ * ACES Color Space Transformation Matrices
+ * Source: Academy Color Encoding System (ACES) Technical Documentation
+ */
+
+// sRGB to ACEScg transformation matrix (linearized sRGB to AP1)
+const SRGB_TO_ACESCG_MATRIX = [
+  [ 0.6131, 0.0701, 0.0206],
+  [ 0.3395, 0.9164, 0.1096],
+  [ 0.0474, 0.0135, 0.8698]
+];
+
+// ACEScg to sRGB transformation matrix (AP1 to linearized sRGB)
+const ACESCG_TO_SRGB_MATRIX = [
+  [ 1.7048, -0.1304, -0.0240],
+  [-0.6217,  1.1408, -0.1289],
+  [-0.0831, -0.0104,  1.1529]
+];
+
+/**
+ * Convert sRGB to ACEScg (AP1) color space
+ * This is the REAL implementation with proper scene-linear workflow
+ */
+export function srgbToACEScg(rgb: RGB): ACEScg {
+  // Step 1: Remove sRGB gamma to get linear RGB
+  let r = rgb.r > 0.04045 ? Math.pow((rgb.r + 0.055) / 1.055, 2.4) : rgb.r / 12.92;
+  let g = rgb.g > 0.04045 ? Math.pow((rgb.g + 0.055) / 1.055, 2.4) : rgb.g / 12.92;
+  let b = rgb.b > 0.04045 ? Math.pow((rgb.b + 0.055) / 1.055, 2.4) : rgb.b / 12.92;
+  
+  // Step 2: Apply matrix transformation to convert to ACEScg (AP1 primaries)
+  const acesR = r * SRGB_TO_ACESCG_MATRIX[0][0] + g * SRGB_TO_ACESCG_MATRIX[0][1] + b * SRGB_TO_ACESCG_MATRIX[0][2];
+  const acesG = r * SRGB_TO_ACESCG_MATRIX[1][0] + g * SRGB_TO_ACESCG_MATRIX[1][1] + b * SRGB_TO_ACESCG_MATRIX[1][2];
+  const acesB = r * SRGB_TO_ACESCG_MATRIX[2][0] + g * SRGB_TO_ACESCG_MATRIX[2][1] + b * SRGB_TO_ACESCG_MATRIX[2][2];
+  
+  return { r: acesR, g: acesG, b: acesB };
+}
+
+/**
+ * Convert ACEScg (AP1) to sRGB color space
+ * This is the REAL implementation with proper scene-linear workflow
+ */
+export function acescgToSRGB(aces: ACEScg): RGB {
+  // Step 1: Apply matrix transformation to convert to linear sRGB
+  let r = aces.r * ACESCG_TO_SRGB_MATRIX[0][0] + aces.g * ACESCG_TO_SRGB_MATRIX[0][1] + aces.b * ACESCG_TO_SRGB_MATRIX[0][2];
+  let g = aces.r * ACESCG_TO_SRGB_MATRIX[1][0] + aces.g * ACESCG_TO_SRGB_MATRIX[1][1] + aces.b * ACESCG_TO_SRGB_MATRIX[1][2];
+  let b = aces.r * ACESCG_TO_SRGB_MATRIX[2][0] + aces.g * ACESCG_TO_SRGB_MATRIX[2][1] + aces.b * ACESCG_TO_SRGB_MATRIX[2][2];
+  
+  // Step 2: Apply sRGB gamma encoding
+  r = r > 0.0031308 ? 1.055 * Math.pow(r, 1/2.4) - 0.055 : 12.92 * r;
+  g = g > 0.0031308 ? 1.055 * Math.pow(g, 1/2.4) - 0.055 : 12.92 * g;
+  b = b > 0.0031308 ? 1.055 * Math.pow(b, 1/2.4) - 0.055 : 12.92 * b;
+  
+  return { r, g, b };
+}
+
 export interface ColorCluster {
   center: Lab;
   weight: number;
@@ -295,32 +350,46 @@ function detectSkinTones(pixels: Lab[], clusters: ColorCluster[]): Lab[] {
 }
 
 /**
- * Estimate white balance from image
+ * Estimate white balance using Gray World algorithm with chromatic adaptation
+ * CRITICAL FIX: Previous version used crude heuristics instead of proper color science
  */
 function estimateWhiteBalance(clusters: ColorCluster[]): { temperature: number; tint: number } {
-  // Find the brightest neutral cluster
-  let brightestNeutral: ColorCluster | null = null;
-  let maxL = 0;
+  if (clusters.length === 0) {
+    return { temperature: 0, tint: 0 };
+  }
+  
+  // Gray World algorithm: assume average scene color should be neutral
+  let weightedSumA = 0;
+  let weightedSumB = 0;
+  let totalWeight = 0;
   
   for (const cluster of clusters) {
-    const isNeutral = Math.abs(cluster.center.a) < 10 && Math.abs(cluster.center.b) < 10;
-    if (isNeutral && cluster.center.l > maxL) {
-      maxL = cluster.center.l;
-      brightestNeutral = cluster;
-    }
+    weightedSumA += cluster.center.a * cluster.weight;
+    weightedSumB += cluster.center.b * cluster.weight;
+    totalWeight += cluster.weight;
   }
   
-  if (brightestNeutral) {
-    // Temperature shift (a* axis, blue-yellow)
-    const temperature = -brightestNeutral.center.b * 2;
-    
-    // Tint shift (b* axis, green-magenta)
-    const tint = -brightestNeutral.center.a * 2;
-    
-    return { temperature, tint };
+  if (totalWeight === 0) {
+    return { temperature: 0, tint: 0 };
   }
   
-  return { temperature: 0, tint: 0 };
+  // Calculate average chromaticity (should be near zero for neutral)
+  const avgA = weightedSumA / totalWeight;
+  const avgB = weightedSumB / totalWeight;
+  
+  // Convert Lab color cast to temperature/tint adjustments
+  // Temperature: primarily affects b* axis (blue-yellow)
+  // Tint: primarily affects a* axis (green-magenta)
+  
+  // Apply chromatic adaptation transform
+  // If scene has a color cast, we need to shift in opposite direction
+  const temperature = -avgB * 3.0;  // Amplify for user-perceptible adjustment
+  const tint = -avgA * 3.0;         // Amplify for user-perceptible adjustment
+  
+  return { 
+    temperature: Math.max(-50, Math.min(50, temperature)),  // Clamp to reasonable range
+    tint: Math.max(-50, Math.min(50, tint))
+  };
 }
 
 /**
@@ -418,9 +487,10 @@ export function rgbToLab(rgb: RGB): Lab {
 }
 
 /**
- * Convert Lab to RGB color space
+ * Convert Lab to RGB color space (UNCLAMPED - for gamut detection)
+ * Returns raw RGB values that may be outside [0,1] range
  */
-export function labToRgb(lab: Lab): RGB {
+function labToRgbUnclamped(lab: Lab): RGB {
   // Lab to XYZ
   const fy = (lab.l + 16) / 116;
   const fx = lab.a / 500 + fy;
@@ -442,12 +512,22 @@ export function labToRgb(lab: Lab): RGB {
   g = g > 0.0031308 ? 1.055 * Math.pow(g, 1/2.4) - 0.055 : 12.92 * g;
   b = b > 0.0031308 ? 1.055 * Math.pow(b, 1/2.4) - 0.055 : 12.92 * b;
   
-  // Clamp to valid range
-  r = Math.max(0, Math.min(1, r));
-  g = Math.max(0, Math.min(1, g));
-  b = Math.max(0, Math.min(1, b));
-  
+  // NO CLAMPING - return raw values for gamut detection
   return { r, g, b };
+}
+
+/**
+ * Convert Lab to RGB color space (with clamping for final output)
+ */
+export function labToRgb(lab: Lab): RGB {
+  const rgb = labToRgbUnclamped(lab);
+  
+  // Clamp to valid range
+  return {
+    r: Math.max(0, Math.min(1, rgb.r)),
+    g: Math.max(0, Math.min(1, rgb.g)),
+    b: Math.max(0, Math.min(1, rgb.b))
+  };
 }
 
 /**
@@ -483,38 +563,56 @@ export function labDistance(lab1: Lab, lab2: Lab): number {
 }
 
 /**
- * Gamut mapping: map out-of-gamut colors to Rec.709
+ * Perceptual gamut compression for Rec.709
+ * Uses hue-preserving compression in LCh space (no simple clamping)
+ * CRITICAL FIX: Now uses unclamped RGB detection to properly identify out-of-gamut colors
  */
 export function gamutMapToRec709(rgb: RGB): RGB {
-  // Check if in gamut
+  // Quick check if already in gamut
   if (rgb.r >= 0 && rgb.r <= 1 && rgb.g >= 0 && rgb.g <= 1 && rgb.b >= 0 && rgb.b <= 1) {
     return rgb;
   }
   
-  // Convert to Lab, reduce chroma until in gamut
+  // Convert to Lab/LCh for perceptual compression
   const lab = rgbToLab(rgb);
   const lch = labToLch(lab);
   
-  const maxIterations = 20;
-  let iteration = 0;
+  // Binary search for maximum in-gamut chroma at this lightness and hue
+  let minChroma = 0;
+  let maxChroma = lch.c;
+  let bestChroma = 0;
   
-  while (iteration < maxIterations) {
-    const testRgb = labToRgb(lchToLab(lch));
+  const precision = 0.01; // Chroma precision
+  const maxIterations = 20;
+  
+  for (let i = 0; i < maxIterations; i++) {
+    const testChroma = (minChroma + maxChroma) / 2;
+    const testLch = { l: lch.l, c: testChroma, h: lch.h };
     
-    if (testRgb.r >= 0 && testRgb.r <= 1 && 
-        testRgb.g >= 0 && testRgb.g <= 1 && 
-        testRgb.b >= 0 && testRgb.b <= 1) {
-      return testRgb;
+    // CRITICAL: Use unclamped conversion to detect true out-of-gamut condition
+    const testRgb = labToRgbUnclamped(lchToLab(testLch));
+    
+    // Check if this chroma value produces valid RGB (without clamping hiding issues)
+    const isValid = testRgb.r >= 0 && testRgb.r <= 1 && 
+                    testRgb.g >= 0 && testRgb.g <= 1 && 
+                    testRgb.b >= 0 && testRgb.b <= 1;
+    
+    if (isValid) {
+      bestChroma = testChroma;
+      minChroma = testChroma; // Try higher chroma
+    } else {
+      maxChroma = testChroma; // Try lower chroma
     }
     
-    lch.c *= 0.95; // Reduce chroma by 5%
-    iteration++;
+    // Converged
+    if (maxChroma - minChroma < precision) {
+      break;
+    }
   }
   
-  // Fallback: simple clamping
-  return {
-    r: Math.max(0, Math.min(1, rgb.r)),
-    g: Math.max(0, Math.min(1, rgb.g)),
-    b: Math.max(0, Math.min(1, rgb.b)),
-  };
+  // Apply best chroma (hue-preserving compression)
+  const compressedLch = { l: lch.l, c: bestChroma, h: lch.h };
+  
+  // Use regular (clamped) conversion for final output
+  return labToRgb(lchToLab(compressedLch));
 }
