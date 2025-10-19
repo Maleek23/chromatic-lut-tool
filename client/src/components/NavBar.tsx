@@ -116,10 +116,13 @@ export function NavBar() {
               <img src={logoImage} alt="Chroma" className="w-16 h-16 sm:w-20 sm:h-20" />
               <div className="flex flex-col items-start leading-none">
                 <span className="font-bold text-lg sm:text-xl tracking-tight">CHROMA</span>
-                <div className="hidden sm:flex items-center gap-0 text-[10px] font-medium text-muted-foreground group">
-                  <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by UN</span>
-                  <span className="text-primary mx-0.5 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rotate-180">/</span>
-                  <span className="transition-all duration-500 ease-in-out group-hover:-translate-x-2 group-hover:opacity-0 group-hover:scale-50">TITLD</span>
+                <div className="hidden sm:flex items-center text-[10px] font-medium text-muted-foreground group">
+                  <span>by</span>
+                  <div className="flex items-center gap-0 ml-0.5 transition-all duration-500 ease-in-out group-hover:ml-1">
+                    <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">UN</span>
+                    <span className="text-primary mx-0.5 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rotate-180 group-hover:-translate-x-3">/</span>
+                    <span className="transition-all duration-500 ease-in-out group-hover:-translate-x-2 group-hover:opacity-0 group-hover:scale-50">TITLD</span>
+                  </div>
                 </div>
               </div>
             </div>
