@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { UploadZone } from "@/components/UploadZone";
-import { ComparisonSlider } from "@/components/ComparisonSlider";
+import { PreviewGallery } from "@/components/PreviewGallery";
 import { ColorStatistics } from "@/components/ColorStatistics";
 import { HistogramVisualization } from "@/components/HistogramVisualization";
 import { LutControls } from "@/components/LutControls";
 import { DownloadSection } from "@/components/DownloadSection";
 import { UsageStatus } from "@/components/UsageStatus";
+import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
@@ -373,19 +374,44 @@ export default function Tool() {
               <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
                 {/* Main Preview */}
                 <div className="lg:col-span-2 space-y-6">
-                  <ComparisonSlider
-                    originalImage={uploadedImage}
-                    previewImage={previewImage || uploadedImage}
-                  />
+                  {/* Show source image before LUT generation */}
+                  {!lutResult && (
+                    <Card>
+                      <CardContent className="p-6">
+                        <div className="space-y-4">
+                          <div className="text-center space-y-2">
+                            <h3 className="font-semibold">Your Reference Image</h3>
+                            <p className="text-sm text-muted-foreground">
+                              Color science will be extracted from this image
+                            </p>
+                          </div>
+                          <img 
+                            src={uploadedImage} 
+                            alt="Reference" 
+                            className="w-full rounded-lg border"
+                          />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
                   
+                  {/* Show preview gallery after LUT generation */}
                   {lutResult && (
-                    <DownloadSection
-                      lutData={lutResult.lutData}
-                      defaultFilename={lutResult.filename}
-                      format={lutResult.format}
-                      previewData={lutResult.previewData}
-                      onReset={handleReset}
-                    />
+                    <>
+                      <PreviewGallery
+                        lutData={lutResult.lutData}
+                        format={lutResult.format}
+                        intensity={intensity}
+                      />
+                      
+                      <DownloadSection
+                        lutData={lutResult.lutData}
+                        defaultFilename={lutResult.filename}
+                        format={lutResult.format}
+                        previewData={lutResult.previewData}
+                        onReset={handleReset}
+                      />
+                    </>
                   )}
                 </div>
 
