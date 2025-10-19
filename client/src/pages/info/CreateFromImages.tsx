@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { NavBar } from "@/components/layout/NavBar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -7,102 +8,90 @@ import { Zap, Upload, Settings, Download, ArrowRight, CheckCircle2, Clock, Light
 export default function CreateFromImages() {
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="border-b bg-background/80 backdrop-blur-sm sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
+      <NavBar />
+
+      {/* Hero Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 border-b">
+        <div className="max-w-5xl mx-auto">
+          <div className="inline-flex items-center gap-2 mb-4">
             <Link href="/resources">
               <Button variant="ghost" size="sm" data-testid="button-back-resources">
-                ← Back to Resources
+                ← Resources
               </Button>
             </Link>
           </div>
-        </div>
-      </div>
-
-      {/* Hero Section */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-green-500/20 to-emerald-500/20 mb-6">
-            <Zap className="w-7 h-7 text-green-500" />
-          </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            5-Minute Quick Start
+          <h1 className="text-4xl sm:text-5xl font-bold mb-4">
+            Quick Start Guide
           </h1>
-          <p className="text-lg text-muted-foreground mb-6">
-            Get your first professional LUT in 5 minutes. No experience needed - just follow these simple steps!
+          <p className="text-xl text-muted-foreground max-w-3xl">
+            Generate professional LUTs from reference images in minutes. Follow this streamlined workflow to extract color science from any color-graded photograph.
           </p>
-          
-          <div className="flex items-center gap-4 flex-wrap">
-            <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 border-0 text-white">
-              <Clock className="w-3 h-3 mr-1" />
-              5 minutes
-            </Badge>
-            <Badge variant="outline">
-              Beginner Friendly
-            </Badge>
-          </div>
         </div>
       </section>
 
-      {/* Visual Flowchart */}
-      <section className="pb-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <Card className="bg-gradient-to-br from-slate-900 to-slate-800 border-border/50">
-            <CardContent className="p-8">
-              <h2 className="text-xl font-bold mb-6 text-center text-white">The Process</h2>
-              
-              {/* Flowchart SVG */}
-              <svg viewBox="0 0 600 200" className="w-full h-auto">
+      {/* Visual Process Diagram */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl font-semibold mb-8">The Process</h2>
+          <Card>
+            <CardContent className="p-8 sm:p-12">
+              {/* Flowchart SVG - More sophisticated design */}
+              <svg viewBox="0 0 700 200" className="w-full h-auto">
                 <defs>
-                  <linearGradient id="step1" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style={{ stopColor: '#10b981', stopOpacity: 0.8 }} />
-                    <stop offset="100%" style={{ stopColor: '#059669', stopOpacity: 0.8 }} />
+                  <linearGradient id="step1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style={{ stopColor: '#64748b', stopOpacity: 0.3 }} />
+                    <stop offset="100%" style={{ stopColor: '#475569', stopOpacity: 0.2 }} />
                   </linearGradient>
-                  <linearGradient id="step2" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style={{ stopColor: '#3b82f6', stopOpacity: 0.8 }} />
-                    <stop offset="100%" style={{ stopColor: '#2563eb', stopOpacity: 0.8 }} />
+                  <linearGradient id="step2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style={{ stopColor: '#64748b', stopOpacity: 0.3 }} />
+                    <stop offset="100%" style={{ stopColor: '#475569', stopOpacity: 0.2 }} />
                   </linearGradient>
-                  <linearGradient id="step3" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style={{ stopColor: '#a855f7', stopOpacity: 0.8 }} />
-                    <stop offset="100%" style={{ stopColor: '#9333ea', stopOpacity: 0.8 }} />
+                  <linearGradient id="step3" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style={{ stopColor: '#64748b', stopOpacity: 0.3 }} />
+                    <stop offset="100%" style={{ stopColor: '#475569', stopOpacity: 0.2 }} />
+                  </linearGradient>
+                  <linearGradient id="arrow" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style={{ stopColor: '#64748b' }} />
+                    <stop offset="100%" style={{ stopColor: '#475569' }} />
                   </linearGradient>
                 </defs>
                 
                 {/* Step 1 */}
                 <g>
-                  <rect x="20" y="70" width="140" height="60" rx="8" fill="url(#step1)" stroke="#10b981" strokeWidth="2"/>
-                  <text x="90" y="95" fill="white" fontSize="13" fontWeight="600" textAnchor="middle">1. Upload Image</text>
-                  <text x="90" y="115" fill="white" fontSize="10" textAnchor="middle" opacity="0.9">Any color-graded</text>
-                  <text x="90" y="128" fill="white" fontSize="10" textAnchor="middle" opacity="0.9">reference photo</text>
+                  <rect x="30" y="60" width="180" height="80" rx="4" fill="url(#step1)" stroke="hsl(var(--border))" strokeWidth="1.5"/>
+                  <text x="120" y="90" fill="hsl(var(--foreground))" fontSize="14" fontWeight="600" textAnchor="middle">Upload Reference</text>
+                  <text x="120" y="110" fill="hsl(var(--muted-foreground))" fontSize="11" textAnchor="middle">Color-graded image</text>
+                  <text x="120" y="126" fill="hsl(var(--muted-foreground))" fontSize="11" textAnchor="middle">5MB max (Free tier)</text>
                 </g>
                 
                 {/* Arrow 1 */}
-                <path d="M 165 100 L 215 100" stroke="#06b6d4" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+                <path d="M 215 100 L 250 100" stroke="url(#arrow)" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+                <text x="232" y="90" fill="hsl(var(--muted-foreground))" fontSize="9" textAnchor="middle">1</text>
                 
                 {/* Step 2 */}
                 <g>
-                  <rect x="220" y="70" width="140" height="60" rx="8" fill="url(#step2)" stroke="#3b82f6" strokeWidth="2"/>
-                  <text x="290" y="95" fill="white" fontSize="13" fontWeight="600" textAnchor="middle">2. Choose Settings</text>
-                  <text x="290" y="115" fill="white" fontSize="10" textAnchor="middle" opacity="0.9">Grid size & format</text>
-                  <text x="290" y="128" fill="white" fontSize="10" textAnchor="middle" opacity="0.9">(Free: 17³, .cube)</text>
+                  <rect x="255" y="60" width="180" height="80" rx="4" fill="url(#step2)" stroke="hsl(var(--border))" strokeWidth="1.5"/>
+                  <text x="345" y="90" fill="hsl(var(--foreground))" fontSize="14" fontWeight="600" textAnchor="middle">Configure Export</text>
+                  <text x="345" y="110" fill="hsl(var(--muted-foreground))" fontSize="11" textAnchor="middle">Grid size & format</text>
+                  <text x="345" y="126" fill="hsl(var(--muted-foreground))" fontSize="11" textAnchor="middle">17³ .cube (Free)</text>
                 </g>
                 
                 {/* Arrow 2 */}
-                <path d="M 365 100 L 415 100" stroke="#06b6d4" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+                <path d="M 440 100 L 475 100" stroke="url(#arrow)" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+                <text x="457" y="90" fill="hsl(var(--muted-foreground))" fontSize="9" textAnchor="middle">2</text>
                 
                 {/* Step 3 */}
                 <g>
-                  <rect x="420" y="70" width="140" height="60" rx="8" fill="url(#step3)" stroke="#a855f7" strokeWidth="2"/>
-                  <text x="490" y="95" fill="white" fontSize="13" fontWeight="600" textAnchor="middle">3. Download LUT</text>
-                  <text x="490" y="115" fill="white" fontSize="10" textAnchor="middle" opacity="0.9">Ready to use in</text>
-                  <text x="490" y="128" fill="white" fontSize="10" textAnchor="middle" opacity="0.9">any editing software</text>
+                  <rect x="480" y="60" width="180" height="80" rx="4" fill="url(#step3)" stroke="hsl(var(--border))" strokeWidth="1.5"/>
+                  <text x="570" y="90" fill="hsl(var(--foreground))" fontSize="14" fontWeight="600" textAnchor="middle">Generate & Download</text>
+                  <text x="570" y="110" fill="hsl(var(--muted-foreground))" fontSize="11" textAnchor="middle">Processing ~30s</text>
+                  <text x="570" y="126" fill="hsl(var(--muted-foreground))" fontSize="11" textAnchor="middle">Ready to use</text>
                 </g>
                 
                 {/* Arrow markers */}
                 <defs>
-                  <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                    <polygon points="0 0, 10 3, 0 6" fill="#06b6d4" />
+                  <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                    <polygon points="0 0, 8 3, 0 6" fill="#64748b" />
                   </marker>
                 </defs>
               </svg>
@@ -112,32 +101,36 @@ export default function CreateFromImages() {
       </section>
 
       {/* Detailed Steps */}
-      <section className="pb-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold mb-6">Step-by-Step Guide</h2>
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-muted/30">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl font-semibold mb-8">Detailed Workflow</h2>
           
-          <div className="space-y-6">
+          <div className="space-y-8">
             {/* Step 1 */}
-            <Card className="border-green-500/30 bg-gradient-to-br from-background to-green-500/5">
-              <CardContent className="p-6">
-                <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center border border-green-500/30">
-                    <Upload className="w-6 h-6 text-green-500" />
+            <Card>
+              <CardContent className="p-6 sm:p-8">
+                <div className="flex gap-6">
+                  <div className="flex-shrink-0">
+                    <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center border">
+                      <Upload className="w-6 h-6" />
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-2">Step 1: Upload Your Reference Image</h3>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      Choose any image with color grading you love - a movie still, Instagram photo, or professional photography. The better the reference, the better your LUT!
-                    </p>
-                    <div className="bg-muted/50 rounded-lg p-4 space-y-2">
-                      <p className="text-sm font-semibold flex items-center gap-2">
-                        <Lightbulb className="w-4 h-4 text-yellow-500" />
-                        Pro Tips:
+                  <div className="flex-1 space-y-4">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Upload Reference Image</h3>
+                      <p className="text-muted-foreground">
+                        Select a reference image with the color grading aesthetic you want to extract. Cinema stills, professional photography, or curated Instagram posts work well.
                       </p>
-                      <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-                        <li>Use well-lit images with good exposure</li>
-                        <li>Avoid images with heavy filters or extreme editing</li>
-                        <li>JPG, PNG work best (Free: max 5MB)</li>
+                    </div>
+                    <div className="bg-muted/50 rounded-lg p-4 border">
+                      <div className="flex items-start gap-2 mb-3">
+                        <Lightbulb className="w-4 h-4 mt-0.5 text-muted-foreground" />
+                        <span className="text-sm font-medium">Best Practices</span>
+                      </div>
+                      <ul className="text-sm text-muted-foreground space-y-2 ml-6 list-disc">
+                        <li>Use properly exposed images with visible detail in shadows and highlights</li>
+                        <li>Avoid over-processed or heavily filtered sources</li>
+                        <li>JPG or PNG format, 5MB maximum on Free tier</li>
                       </ul>
                     </div>
                   </div>
@@ -146,27 +139,31 @@ export default function CreateFromImages() {
             </Card>
 
             {/* Step 2 */}
-            <Card className="border-blue-500/30 bg-gradient-to-br from-background to-blue-500/5">
-              <CardContent className="p-6">
-                <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center border border-blue-500/30">
-                    <Settings className="w-6 h-6 text-blue-500" />
+            <Card>
+              <CardContent className="p-6 sm:p-8">
+                <div className="flex gap-6">
+                  <div className="flex-shrink-0">
+                    <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center border">
+                      <Settings className="w-6 h-6" />
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-2">Step 2: Choose Your Settings</h3>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      Pick your grid size and output format. Don't worry - we'll guide you through the options!
-                    </p>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div className="bg-muted/50 rounded-lg p-4">
-                        <p className="text-sm font-semibold mb-2">Grid Size</p>
-                        <p className="text-xs text-muted-foreground mb-2">Free tier: 17×17×17 (Preview quality)</p>
-                        <p className="text-xs text-muted-foreground">Upgrade for 33³ or 65³ (higher precision)</p>
+                  <div className="flex-1 space-y-4">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Configure Export Settings</h3>
+                      <p className="text-muted-foreground">
+                        Choose grid resolution and output format based on your workflow requirements and subscription tier.
+                      </p>
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div className="bg-muted/50 rounded-lg p-4 border">
+                        <p className="text-sm font-medium mb-2">Grid Resolution</p>
+                        <p className="text-xs text-muted-foreground mb-1">Free: 17×17×17</p>
+                        <p className="text-xs text-muted-foreground">Creator+: 33³, 65³</p>
                       </div>
-                      <div className="bg-muted/50 rounded-lg p-4">
-                        <p className="text-sm font-semibold mb-2">Output Format</p>
-                        <p className="text-xs text-muted-foreground mb-2">Free tier: .cube (works everywhere)</p>
-                        <p className="text-xs text-muted-foreground">Upgrade for .3dl, .lut, .look, .xmp</p>
+                      <div className="bg-muted/50 rounded-lg p-4 border">
+                        <p className="text-sm font-medium mb-2">Output Format</p>
+                        <p className="text-xs text-muted-foreground mb-1">Free: .cube</p>
+                        <p className="text-xs text-muted-foreground">Creator+: .3dl, .look, .xmp</p>
                       </div>
                     </div>
                   </div>
@@ -175,27 +172,31 @@ export default function CreateFromImages() {
             </Card>
 
             {/* Step 3 */}
-            <Card className="border-purple-500/30 bg-gradient-to-br from-background to-purple-500/5">
-              <CardContent className="p-6">
-                <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center border border-purple-500/30">
-                    <Download className="w-6 h-6 text-purple-500" />
+            <Card>
+              <CardContent className="p-6 sm:p-8">
+                <div className="flex gap-6">
+                  <div className="flex-shrink-0">
+                    <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center border">
+                      <Download className="w-6 h-6" />
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-2">Step 3: Download and Apply</h3>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      CHROMA processes your image (takes ~30 seconds) and generates your LUT. Download it and you're ready to go!
-                    </p>
-                    <div className="bg-muted/50 rounded-lg p-4">
-                      <p className="text-sm font-semibold mb-2 flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-purple-500" />
-                        What Happens Next?
+                  <div className="flex-1 space-y-4">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Generate and Download</h3>
+                      <p className="text-muted-foreground">
+                        CHROMA processes your image through its color science pipeline and generates a production-ready LUT file.
                       </p>
-                      <ol className="text-sm text-muted-foreground space-y-2 list-decimal list-inside">
-                        <li>CHROMA analyzes your image's color science</li>
-                        <li>Extracts tonal zones (shadows, midtones, highlights)</li>
-                        <li>Generates a professional LUT file</li>
-                        <li>You download and install in your editing software</li>
+                    </div>
+                    <div className="bg-muted/50 rounded-lg p-4 border">
+                      <div className="flex items-start gap-2 mb-3">
+                        <Sparkles className="w-4 h-4 mt-0.5 text-muted-foreground" />
+                        <span className="text-sm font-medium">Processing Pipeline</span>
+                      </div>
+                      <ol className="text-sm text-muted-foreground space-y-1.5 ml-6 list-decimal">
+                        <li>Image analysis and color space conversion</li>
+                        <li>Tonal zone extraction (shadows, midtones, highlights)</li>
+                        <li>LUT generation with professional metadata</li>
+                        <li>Download ready for installation in editing software</li>
                       </ol>
                     </div>
                   </div>
@@ -206,34 +207,11 @@ export default function CreateFromImages() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <Card className="bg-gradient-to-br from-primary/10 via-chart-2/10 to-chart-3/10 border-primary/20">
-            <CardContent className="p-8 text-center">
-              <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto mb-4" />
-              <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-                Ready to create your first LUT?
-              </h2>
-              <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                Sign up free and generate your first 3 LUTs. No credit card required!
-              </p>
-              <Link href="/auth">
-                <Button size="lg" className="bg-gradient-to-r from-green-500 to-emerald-500 hover:opacity-90" data-testid="button-get-started">
-                  Start Creating — Free Forever
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
       {/* Next Steps */}
-      <section className="pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-xl font-bold mb-4">What to Read Next</h2>
-          <div className="grid md:grid-cols-2 gap-4">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 border-t">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-xl font-semibold mb-6">Continue Learning</h2>
+          <div className="grid md:grid-cols-2 gap-6">
             <Link href="/resources/install-luts">
               <Card className="hover-elevate active-elevate-2 cursor-pointer group h-full">
                 <CardHeader>
@@ -242,7 +220,7 @@ export default function CreateFromImages() {
                     <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </CardTitle>
                   <CardDescription>
-                    Step-by-step guides for DaVinci Resolve, Premiere Pro, and more
+                    Installation guides for DaVinci Resolve, Premiere Pro, and other professional software
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -252,11 +230,11 @@ export default function CreateFromImages() {
               <Card className="hover-elevate active-elevate-2 cursor-pointer group h-full">
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center justify-between">
-                    Which Format Should I Use?
+                    Format Selection Guide
                     <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </CardTitle>
                   <CardDescription>
-                    Simple guide to choosing the right format for your software
+                    Choose the right LUT format for your editing workflow and software
                   </CardDescription>
                 </CardHeader>
               </Card>

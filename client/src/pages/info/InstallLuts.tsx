@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { NavBar } from "@/components/layout/NavBar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -7,37 +8,30 @@ import { Download, CheckCircle2, ArrowRight } from "lucide-react";
 export default function InstallLuts() {
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="border-b bg-background/80 backdrop-blur-sm sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
+      <NavBar />
+
+      {/* Hero Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 border-b">
+        <div className="max-w-5xl mx-auto">
+          <div className="inline-flex items-center gap-2 mb-4">
             <Link href="/resources">
               <Button variant="ghost" size="sm" data-testid="button-back-resources">
-                ← Back to Resources
+                ← Resources
               </Button>
             </Link>
           </div>
-        </div>
-      </div>
-
-      {/* Hero Section */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 mb-6">
-            <Download className="w-7 h-7 text-blue-500" />
-          </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            How to Install LUTs
+          <h1 className="text-4xl sm:text-5xl font-bold mb-4">
+            LUT Installation
           </h1>
-          <p className="text-lg text-muted-foreground">
-            Follow these step-by-step guides to install and use LUTs in your favorite editing software.
+          <p className="text-xl text-muted-foreground max-w-3xl">
+            Platform-specific installation guides for professional editing software. Follow step-by-step instructions to integrate LUTs into your color grading workflow.
           </p>
         </div>
       </section>
 
       {/* Content Section */}
-      <section className="pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
+      <section className="py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto">
           <Tabs defaultValue="resolve" className="w-full">
             <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 mb-8">
               <TabsTrigger value="resolve" data-testid="tab-resolve">DaVinci Resolve</TabsTrigger>

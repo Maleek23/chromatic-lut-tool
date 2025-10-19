@@ -1,88 +1,62 @@
 import { Link } from "wouter";
+import { NavBar } from "@/components/layout/NavBar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { BookOpen, Download, Zap, HelpCircle, ArrowRight, Lightbulb } from "lucide-react";
+import { Download, Zap, HelpCircle, ArrowRight, BookOpen } from "lucide-react";
 
 export default function Resources() {
   const resources = [
     {
-      title: "5-Minute Quick Start",
-      description: "New to CHROMA? Get your first LUT in 5 minutes with this simple walkthrough. Upload image, choose settings, download LUT.",
+      title: "Quick Start Guide",
+      description: "Streamlined workflow for generating professional LUTs from reference images. Upload, configure, and download in minutes.",
       icon: Zap,
-      href: "/resources/create-from-images",
-      color: "from-green-500 to-emerald-500"
+      href: "/resources/create-from-images"
     },
     {
-      title: "How to Install LUTs",
-      description: "Step-by-step guides for installing LUTs in DaVinci Resolve, Premiere Pro, Final Cut Pro, and Photoshop.",
+      title: "Installation Guides",
+      description: "Step-by-step installation instructions for DaVinci Resolve, Premiere Pro, Final Cut Pro, and professional editing software.",
       icon: Download,
-      href: "/resources/install-luts",
-      color: "from-blue-500 to-cyan-500"
+      href: "/resources/install-luts"
     },
     {
-      title: "Which Format Should I Use?",
-      description: "Confused about .cube vs .3dl vs .lut? Simple decision tree to help you pick the right format for your software and workflow.",
+      title: "Format Selection",
+      description: "Choose the optimal LUT format (.cube, .3dl, .lut) based on your editing software and workflow requirements.",
       icon: HelpCircle,
-      href: "/resources/lut-formats",
-      color: "from-purple-500 to-pink-500"
+      href: "/resources/lut-formats"
     }
   ];
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="border-b bg-background/80 backdrop-blur-sm sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/">
-              <Button variant="ghost" size="sm" data-testid="button-back-home">
-                ← Back to Home
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </div>
+      <NavBar />
 
       {/* Hero Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-chart-2/20 mb-6">
-            <BookOpen className="w-8 h-8 text-primary" />
-          </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 via-cyan-400 to-pink-500">
-              Beginner Guides
-            </span>
+      <section className="py-20 px-4 sm:px-6 lg:px-8 border-b">
+        <div className="max-w-5xl mx-auto">
+          <h1 className="text-4xl sm:text-5xl font-bold mb-6">
+            Resources & Guides
           </h1>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Step-by-step practical guides to get you started quickly. No technical jargon, just simple how-to's for real-world use.
+          <p className="text-xl text-muted-foreground max-w-3xl">
+            Comprehensive documentation for CHROMA workflows. Learn to generate, convert, and implement professional LUTs in your color grading pipeline.
           </p>
         </div>
       </section>
 
       {/* Resource Cards */}
-      <section className="pb-20 px-4 sm:px-6 lg:px-8">
+      <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {resources.map((resource) => (
               <Link key={resource.href} href={resource.href}>
-                <Card className="hover-elevate active-elevate-2 bg-card border-2 transition-all duration-300 h-full cursor-pointer group relative overflow-visible" data-testid={`card-${resource.href.split('/').pop()}`}>
-                  <CardHeader className="relative">
-                    {/* Glow effect */}
-                    <div className={`absolute -inset-0.5 bg-gradient-to-br ${resource.color} rounded-lg opacity-20 group-hover:opacity-40 blur transition-all duration-300`} />
-                    
-                    {/* Icon with vibrant gradient */}
-                    <div className={`relative w-14 h-14 rounded-xl bg-gradient-to-br ${resource.color} flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                      <resource.icon className="w-7 h-7 text-white" />
+                <Card className="hover-elevate active-elevate-2 h-full cursor-pointer group" data-testid={`card-${resource.href.split('/').pop()}`}>
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center mb-4 border group-hover:border-primary/50 transition-colors">
+                      <resource.icon className="w-6 h-6" />
                     </div>
-                    
-                    <CardTitle className="text-xl flex items-center justify-between relative">
-                      <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text">
-                        {resource.title}
-                      </span>
-                      <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
+                    <CardTitle className="text-xl flex items-center justify-between">
+                      {resource.title}
+                      <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </CardTitle>
-                    <CardDescription className="text-sm leading-relaxed pt-2 relative">
+                    <CardDescription className="text-sm leading-relaxed pt-2">
                       {resource.description}
                     </CardDescription>
                   </CardHeader>
@@ -93,24 +67,35 @@ export default function Resources() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <Card className="bg-gradient-to-br from-primary/10 via-chart-2/10 to-chart-3/10 border-primary/20">
-            <CardContent className="p-8 text-center">
-              <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-                Ready to start creating?
-              </h2>
-              <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                Try CHROMA's Image-to-LUT generator and extract professional color grading from any reference image.
+      {/* Additional Resources */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-muted/30 border-t">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-start gap-6">
+            <div className="flex-shrink-0">
+              <div className="w-12 h-12 rounded-lg bg-background flex items-center justify-center border">
+                <BookOpen className="w-6 h-6" />
+              </div>
+            </div>
+            <div className="flex-1">
+              <h2 className="text-2xl font-semibold mb-3">Technical Documentation</h2>
+              <p className="text-muted-foreground mb-4">
+                For in-depth technical specifications, color science pipeline details, and advanced workflows, refer to our comprehensive technical documentation.
               </p>
-              <Link href="/auth">
-                <Button size="lg" className="bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90" data-testid="button-get-started-cta">
-                  Get Started — Free Forever
-                </Button>
+              <Link href="/how-it-works">
+                <Card className="hover-elevate active-elevate-2 cursor-pointer group">
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center justify-between">
+                      How It Works
+                      <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </CardTitle>
+                    <CardDescription>
+                      Deep dive into CHROMA's color science, LUT generation algorithms, and processing pipeline
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
               </Link>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </section>
     </div>
