@@ -423,7 +423,7 @@ export default function Landing() {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-10">
             {/* Free Tier */}
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col">
               <CardHeader className="space-y-4 pb-8">
                 <div>
                   <CardTitle className="text-2xl flex items-center gap-2">
@@ -439,7 +439,7 @@ export default function Landing() {
                   <span className="text-muted-foreground text-sm">/forever</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-5 pt-2 pb-10 px-8">
+              <CardContent className="space-y-5 pt-2 pb-10 px-8 flex-1">
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <Sparkles className="w-5 h-5 text-primary mt-0.5 shrink-0" />
@@ -463,7 +463,7 @@ export default function Landing() {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="px-8 mt-8 pt-6 border-t flex justify-center">
+              <CardFooter className="px-8 pt-6 border-t flex justify-center mt-auto">
                 <Button variant="outline" className="w-full text-center" data-testid="button-free-plan" asChild>
                   <Link href="/auth">
                     Get Started
@@ -473,7 +473,7 @@ export default function Landing() {
             </Card>
 
             {/* Creator Tier */}
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-blue-500/20">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-blue-500/20 flex flex-col">
               <CardHeader className="space-y-4 pb-8">
                 <div>
                   <CardTitle className="text-2xl flex items-center gap-2">
@@ -489,7 +489,7 @@ export default function Landing() {
                   <span className="text-muted-foreground text-sm">/mo</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-5 pt-2 pb-10 px-8">
+              <CardContent className="space-y-5 pt-2 pb-10 px-8 flex-1">
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
@@ -509,7 +509,7 @@ export default function Landing() {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="px-8 mt-8 pt-6 border-t flex justify-center">
+              <CardFooter className="px-8 pt-6 border-t flex justify-center mt-auto">
                 <Button className="w-full text-center bg-gradient-to-r from-blue-500 to-cyan-500 hover:opacity-90" data-testid="button-creator-plan" asChild>
                   <Link href="/upgrade">
                     Upgrade
@@ -519,7 +519,7 @@ export default function Landing() {
             </Card>
 
             {/* Pro Tier */}
-            <Card className="border-primary shadow-lg shadow-primary/10 sm:scale-105 hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 relative">
+            <Card className="border-primary shadow-lg shadow-primary/10 hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 relative flex flex-col">
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-chart-2 to-chart-3" />
               <Badge className="absolute top-3 right-4 bg-gradient-to-r from-primary to-chart-2 text-white text-xs px-2 py-1 border-0">Most Popular</Badge>
               
@@ -541,7 +541,7 @@ export default function Landing() {
                   <span className="text-xs text-muted-foreground">or $99/year</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-5 pt-2 pb-10 px-8">
+              <CardContent className="space-y-5 pt-2 pb-10 px-8 flex-1">
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
@@ -569,7 +569,7 @@ export default function Landing() {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="px-8 mt-8 pt-6 border-t flex justify-center">
+              <CardFooter className="px-8 pt-6 border-t flex justify-center mt-auto">
                 <Button className="w-full text-center bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90" data-testid="button-pro-plan" asChild>
                   <Link href="/upgrade">
                     Upgrade
@@ -579,7 +579,7 @@ export default function Landing() {
             </Card>
 
             {/* Studio Tier */}
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-yellow-500/20 relative opacity-90">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-yellow-500/20 relative opacity-90 flex flex-col">
               <Badge className="absolute top-3 right-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs px-2 py-1 border-0">Coming Soon</Badge>
               <CardHeader className="space-y-4 pb-8">
                 <div>
@@ -596,7 +596,7 @@ export default function Landing() {
                   <span className="text-muted-foreground text-sm">/mo</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-5 pt-2 pb-10 px-8">
+              <CardContent className="space-y-5 pt-2 pb-10 px-8 flex-1">
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
@@ -620,7 +620,7 @@ export default function Landing() {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="px-8 mt-8 pt-6 border-t flex justify-center">
+              <CardFooter className="px-8 pt-6 border-t flex justify-center mt-auto">
                 <Button disabled className="w-full text-center bg-gradient-to-r from-yellow-500 to-orange-500 opacity-60 cursor-not-allowed" data-testid="button-studio-plan">
                   Coming Soon
                 </Button>
