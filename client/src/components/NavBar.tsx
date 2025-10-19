@@ -87,12 +87,12 @@ export function NavBar() {
 
   return (
     <nav className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
         {/* Logo */}
         <Link href="/">
           <Button variant="ghost" className="hover-elevate px-2 sm:px-3" data-testid="button-home">
-            <div className="flex items-center gap-2 sm:gap-3">
-              <img src={logoImage} alt="Chroma" className="w-20 h-20 sm:w-24 sm:h-24" />
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <img src={logoImage} alt="Chroma" className="w-16 h-16 sm:w-20 sm:h-20" />
               <div className="flex flex-col items-start leading-none">
                 <span className="font-bold text-lg sm:text-xl tracking-tight">CHROMA</span>
                 <div className="hidden sm:flex items-center gap-0 text-[10px] font-medium text-muted-foreground group">
