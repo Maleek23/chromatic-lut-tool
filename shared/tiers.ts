@@ -7,8 +7,10 @@ export interface TierLimits {
   priceMonthly?: number;
   priceYearly?: number;
   gridSizes: Array<17 | 33 | 65>;
-  formats: Array<".cube" | ".3dl" | ".lut">;
+  formats: Array<"cube" | "3dl" | "lut">;
   maxPresets: number;
+  hasAnalyzer: boolean;
+  hasOptimizer: boolean;
   batchProcessing: boolean;
   folderOrganization: boolean;
   customBranding: boolean;
@@ -29,8 +31,10 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     price: "$0",
     priceMonthly: 0,
     gridSizes: [17],
-    formats: [".cube", ".3dl", ".lut"], // All formats for conversion
+    formats: ["cube"], // Free tier only gets .cube format
     maxPresets: 3,
+    hasAnalyzer: false,
+    hasOptimizer: false,
     batchProcessing: false,
     folderOrganization: false,
     customBranding: false,
@@ -43,9 +47,9 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     lightroomPresets: false,
     features: [
       "Image to LUT Generator",
-      "LUT Converter (.cube ↔ .3dl ↔ .lut)",
+      "LUT Converter (.cube only)",
       "17×17×17 grid",
-      "1–3 presets saved",
+      "Save up to 3 presets",
       "Community presets access (read-only)",
     ],
   },
@@ -55,8 +59,10 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     price: "$6–7/mo",
     priceMonthly: 7,
     gridSizes: [17, 33],
-    formats: [".cube", ".3dl", ".lut"],
+    formats: ["cube"], // Creator tier only gets .cube format
     maxPresets: 30,
+    hasAnalyzer: false,
+    hasOptimizer: false,
     batchProcessing: false,
     folderOrganization: true,
     customBranding: false,
@@ -83,8 +89,10 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     priceMonthly: 12,
     priceYearly: 99,
     gridSizes: [17, 33, 65],
-    formats: [".cube", ".3dl", ".lut"],
+    formats: ["cube", "3dl", "lut"],
     maxPresets: -1, // Unlimited
+    hasAnalyzer: true,
+    hasOptimizer: true,
     batchProcessing: true,
     folderOrganization: true,
     customBranding: false,
@@ -110,8 +118,10 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     price: "$25/mo",
     priceMonthly: 25,
     gridSizes: [17, 33, 65],
-    formats: [".cube", ".3dl", ".lut"],
+    formats: ["cube", "3dl", "lut"],
     maxPresets: -1, // Unlimited
+    hasAnalyzer: true,
+    hasOptimizer: true,
     batchProcessing: true,
     folderOrganization: true,
     customBranding: true,
@@ -142,7 +152,7 @@ export function canUseGridSize(tier: TierType, gridSize: number): boolean {
 
 export function canUseFormat(tier: TierType, format: string): boolean {
   const limits = getTierLimits(tier);
-  return limits.formats.includes(format as ".cube" | ".3dl" | ".lut");
+  return limits.formats.includes(format as "cube" | "3dl" | "lut");
 }
 
 export function canUseBatchProcessing(tier: TierType): boolean {
@@ -163,12 +173,26 @@ export function canSaveMorePresets(tier: TierType, currentCount: number): boolea
   return currentCount < max;
 }
 
+export function canUseAnalyzer(tier: TierType): boolean {
+  return getTierLimits(tier).hasAnalyzer;
+}
+
+export function canUseOptimizer(tier: TierType): boolean {
+  return getTierLimits(tier).hasOptimizer;
+}
+
+export function getTierDisplayName(tier: TierType): string {
+  return getTierLimits(tier).displayName;
+}
+
 export function getUpgradeMessage(feature: string, currentTier: TierType): string {
   const messages: Record<string, string> = {
     gridSize: "Unlock higher precision exports with Creator or Pro tier!",
     format: "Access all LUT formats (.cube, .3dl, .lut) with Pro tier!",
     batch: "Process multiple images at once with Pro tier!",
     presets: `You've reached your preset limit (${getMaxPresets(currentTier)}). Upgrade to save more!`,
+    analyzer: "Analyze LUT quality with banding detection and scoring on Pro tier!",
+    optimizer: "Optimize and fix invalid LUT points with Pro tier!",
     branding: "Create custom branded LUTs with Studio tier!",
     team: "Share presets with your team using Studio tier!",
     ai: "Access AI-powered grading with Studio tier!",

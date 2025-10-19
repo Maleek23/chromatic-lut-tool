@@ -6,9 +6,14 @@ import Analyze from "@/pages/Analyze";
 import Optimize from "@/pages/Optimize";
 import { useAuth } from "@/hooks/use-auth";
 import { useLocation } from "wouter";
+import { UpgradePrompt } from "@/components/UpgradePrompt";
+import { canUseAnalyzer, canUseOptimizer, getUpgradeMessage } from "@shared/tiers";
+import type { TierType } from "@shared/tiers";
 
 export default function Tools() {
   const [activeTab, setActiveTab] = useState("convert");
+  const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
+  const [upgradeFeature, setUpgradeFeature] = useState<"analyzer" | "optimizer">("analyzer");
   const { user } = useAuth();
   const [, navigate] = useLocation();
 
@@ -23,6 +28,28 @@ export default function Tools() {
   if (!user) {
     return null;
   }
+
+  const userTier = (user.tier || "free") as TierType;
+  const hasAnalyzerAccess = canUseAnalyzer(userTier);
+  const hasOptimizerAccess = canUseOptimizer(userTier);
+
+  const handleTabChange = (value: string) => {
+    // Check analyzer access
+    if (value === "analyze" && !hasAnalyzerAccess) {
+      setUpgradeFeature("analyzer");
+      setShowUpgradePrompt(true);
+      return;
+    }
+
+    // Check optimizer access
+    if (value === "optimize" && !hasOptimizerAccess) {
+      setUpgradeFeature("optimizer");
+      setShowUpgradePrompt(true);
+      return;
+    }
+
+    setActiveTab(value);
+  };
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
@@ -59,8 +86,17 @@ export default function Tools() {
           </p>
         </div>
 
+        {/* Upgrade Prompt Dialog */}
+        <UpgradePrompt
+          open={showUpgradePrompt}
+          onOpenChange={setShowUpgradePrompt}
+          requiredTier="pro"
+          feature={upgradeFeature === "analyzer" ? "LUT Analyzer" : "LUT Optimizer"}
+          message={getUpgradeMessage(upgradeFeature, userTier)}
+        />
+
         {/* Tabs with gradient accents */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
           <div className="flex justify-center mb-8">
             <TabsList className="grid grid-cols-3 gap-2 bg-muted/50 backdrop-blur-sm p-1.5 rounded-xl" data-testid="tabs-lut-tools">
               <TabsTrigger 

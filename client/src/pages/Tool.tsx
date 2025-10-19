@@ -5,11 +5,15 @@ import { ColorStatistics } from "@/components/ColorStatistics";
 import { HistogramVisualization } from "@/components/HistogramVisualization";
 import { LutControls } from "@/components/LutControls";
 import { DownloadSection } from "@/components/DownloadSection";
-import { Loader2 } from "lucide-react";
+import { Loader2, Sparkles, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import type { LutAnalysis, LutResponse } from "@shared/schema";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { getUserTier, isGridSizeAllowed, isFormatAllowed } from "@/lib/tier-utils";
 
 export default function Tool() {
   const { toast } = useToast();
@@ -22,8 +26,8 @@ export default function Tool() {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   
   const [intensity, setIntensity] = useState(100);
-  const [gridSize, setGridSize] = useState<"17" | "33" | "65">("33");
-  const [format, setFormat] = useState<".cube" | ".3dl" | ".lut">(".cube");
+  const [gridSize, setGridSize] = useState<"17" | "33" | "65">("17"); // Start with universally available grid
+  const [format, setFormat] = useState<"cube" | "3dl" | "lut">("cube");
   const [precision, setPrecision] = useState<"8" | "10" | "12">("10");
   const [exportPreview, setExportPreview] = useState(false);
   
@@ -41,6 +45,12 @@ export default function Tool() {
   if (!user) {
     return null;
   }
+
+  const isFree = user.tier === "free";
+  const conversionsUsed = user.conversionsThisMonth || 0;
+  const conversionsLimit = 5;
+  const conversionsRemaining = Math.max(0, conversionsLimit - conversionsUsed);
+  const usagePercentage = (conversionsUsed / conversionsLimit) * 100;
 
   const handleImageUpload = async (file: File) => {
     // Validate file size (max 25MB)
@@ -166,6 +176,28 @@ export default function Tool() {
       return;
     }
 
+    // Validate grid size and format are allowed for user's tier
+    const userTier = getUserTier(user);
+    const requestedGridSize = parseInt(gridSize);
+    
+    if (!isGridSizeAllowed(userTier, requestedGridSize)) {
+      toast({
+        title: "Grid Size Not Available",
+        description: `${gridSize}×${gridSize}×${gridSize} grid requires a higher tier. Please upgrade or select a smaller grid size.`,
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!isFormatAllowed(userTier, format)) {
+      toast({
+        title: "Format Not Available",
+        description: `${format.toUpperCase()} format requires Pro tier. Please upgrade or select .cube format.`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsGenerating(true);
 
     try {
@@ -214,7 +246,7 @@ export default function Tool() {
     setPreviewImage(null);
     setLutResult(null);
     setIntensity(100);
-    setGridSize("33");
+    setGridSize("17"); // Reset to universally available grid
     setFormat("cube");
     setPrecision("10");
     setExportPreview(false);
@@ -246,6 +278,49 @@ export default function Tool() {
                 Extract color grading from any image and convert it into a professional LUT file. 
                 Upload a color-graded reference image and let our algorithm analyze its color science.
               </p>
+
+              {/* Free Tier Usage Counter */}
+              {isFree && (
+                <Alert className="max-w-md mx-auto mt-6" data-testid="alert-usage-counter">
+                  {conversionsRemaining > 0 ? (
+                    <>
+                      <Sparkles className="h-4 w-4" />
+                      <AlertDescription className="space-y-2">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="font-medium">
+                            {conversionsRemaining} {conversionsRemaining === 1 ? 'generation' : 'generations'} remaining this month
+                          </span>
+                          <span className="text-muted-foreground" data-testid="text-usage-count">
+                            {conversionsUsed}/{conversionsLimit}
+                          </span>
+                        </div>
+                        <Progress value={usagePercentage} className="h-2" />
+                        <Link href="/upgrade">
+                          <Button variant="ghost" size="sm" className="h-auto p-0 text-xs hover:bg-transparent" data-testid="button-upgrade-usage">
+                            Upgrade for unlimited generations →
+                          </Button>
+                        </Link>
+                      </AlertDescription>
+                    </>
+                  ) : (
+                    <>
+                      <AlertCircle className="h-4 w-4" />
+                      <AlertDescription className="space-y-2">
+                        <p className="text-sm font-medium">Monthly limit reached</p>
+                        <p className="text-xs text-muted-foreground">
+                          You've used all {conversionsLimit} free generations this month. Your limit resets at the start of next month.
+                        </p>
+                        <Link href="/upgrade">
+                          <Button size="sm" className="w-full mt-2" data-testid="button-upgrade-limit">
+                            <Sparkles className="w-4 h-4 mr-2" />
+                            Upgrade for Unlimited
+                          </Button>
+                        </Link>
+                      </AlertDescription>
+                    </>
+                  )}
+                </Alert>
+              )}
               
               {/* Feature badges */}
               <div className="flex flex-wrap items-center justify-center gap-2 pt-4">

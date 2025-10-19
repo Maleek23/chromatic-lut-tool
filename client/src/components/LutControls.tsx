@@ -17,8 +17,8 @@ interface LutControlsProps {
   onIntensityChange: (value: number) => void;
   gridSize: "17" | "33" | "65";
   onGridSizeChange: (value: "17" | "33" | "65") => void;
-  format: ".cube" | ".3dl" | ".lut";
-  onFormatChange: (value: ".cube" | ".3dl" | ".lut") => void;
+  format: "cube" | "3dl" | "lut";
+  onFormatChange: (value: "cube" | "3dl" | "lut") => void;
   precision: "8" | "10" | "12";
   onPrecisionChange: (value: "8" | "10" | "12") => void;
   exportPreview: boolean;
@@ -47,8 +47,8 @@ export function LutControls({
   const isPro = user?.tier === "pro" || user?.tier === "studio";
   const hasGrid33 = useHasGridSize(33);
   const hasGrid65 = useHasGridSize(65);
-  const hasFormat3dl = useHasFormat('.3dl');
-  const hasFormatLut = useHasFormat('.lut');
+  const hasFormat3dl = useHasFormat('3dl');
+  const hasFormatLut = useHasFormat('lut');
 
   return (
     <Card>
@@ -170,14 +170,14 @@ export function LutControls({
               </TooltipContent>
             </Tooltip>
           </div>
-          <Select value={format} onValueChange={(value) => onFormatChange(value as ".cube" | ".3dl" | ".lut")}>
+          <Select value={format} onValueChange={(value) => onFormatChange(value as "cube" | "3dl" | "lut")}>
             <SelectTrigger id="format" data-testid="select-format">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value=".cube">.cube (Standard - All tiers)</SelectItem>
-              {hasFormat3dl && <SelectItem value=".3dl">.3dl (Pro - Autodesk)</SelectItem>}
-              {hasFormatLut && <SelectItem value=".lut">.lut (Pro - 1D LUT)</SelectItem>}
+              <SelectItem value="cube">.cube (Standard - All tiers)</SelectItem>
+              {hasFormat3dl && <SelectItem value="3dl">.3dl (Pro - Autodesk)</SelectItem>}
+              {hasFormatLut && <SelectItem value="lut">.lut (Pro - 1D LUT)</SelectItem>}
             </SelectContent>
           </Select>
           {(!hasFormat3dl || !hasFormatLut) && (

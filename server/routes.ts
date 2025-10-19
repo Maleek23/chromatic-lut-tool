@@ -1050,20 +1050,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const user = req.user;
-      const { TIER_FEATURES } = await import("./middleware/validation");
       const { storage } = await import("./storage");
+      const { getMaxPresets, canSaveMorePresets } = await import("../shared/tiers");
       
-      // Check preset limit for free tier
-      if (user.tier === "free") {
-        const currentPresetCount = await storage.getUserPresetCount(user.id);
-        if (currentPresetCount >= TIER_FEATURES.free.savedPresets) {
-          return res.status(403).json({
-            error: "Free tier cannot save presets. Upgrade to Pro for unlimited preset saving.",
-            upgradeRequired: true,
-            limit: TIER_FEATURES.free.savedPresets,
-            requiredTier: "pro"
-          });
-        }
+      // Check preset limit based on tier
+      const userTier = user.tier || "free";
+      const currentPresetCount = await storage.getUserPresetCount(user.id);
+      
+      if (!canSaveMorePresets(userTier, currentPresetCount)) {
+        const limit = getMaxPresets(userTier);
+        const requiredTier = userTier === "free" ? "creator" : "pro";
+        const upgradeMessage = userTier === "free" 
+          ? `Free tier limit reached (${limit} presets). Upgrade to Creator for 30 presets or Pro for unlimited!`
+          : `Creator tier limit reached (${limit} presets). Upgrade to Pro for unlimited preset saving!`;
+          
+        return res.status(403).json({
+          error: upgradeMessage,
+          upgradeRequired: true,
+          limit,
+          currentCount: currentPresetCount,
+          requiredTier
+        });
       }
 
       const name = req.body.name || `Preset ${new Date().toISOString()}`;
