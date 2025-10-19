@@ -1,0 +1,77 @@
+✅ Your Pipeline (with Expert-Level Additions)
+
+1. Preprocessing (you nailed this)
+	•	✅ Detect exposure & white balance
+	•	✅ Convert to linear scene-referred (ACEScg)
+	•	✅ Denoise
+
+🔧 Additions:
+	•	Camera Response Curve Estimation – approximate the input’s camera sensor profile (you can use IT8 targets or EXIF hints).
+→ ensures consistency across DSLR, phone, or cinema stills.
+	•	Dynamic Range Normalization – match histogram dynamic range to 0.1–99.9 percentile (prevents crushed blacks/whites).
+
+⸻
+
+2. Advanced Feature Extraction
+	•	✅ Dense histograms
+	•	✅ K-means clustering per hue
+	•	✅ Luminance-based tone curves
+	•	✅ Skin tone protection
+
+🔧 Additions:
+	•	Saturation–Luminance coupling analysis – human color perception links these two, so maintaining perceived brightness while shifting hues prevents color shifts from feeling “off.”
+	•	Scene context detection – detect if it’s portrait / landscape / low light / high key. Apply scene-appropriate weighting (can be lightweight ML, or rule-based).
+
+⸻
+
+3. Perceptual Color Space
+	•	✅ Lab / LCh — perfect.
+
+🔧 Additions:
+	•	CAM16 / JzAzBz color spaces (if you want next-gen precision).
+These are more modern than Lab and avoid hue skew under extreme saturations.
+	•	colorjs.io supports CAM16
+	•	JzAzBz is becoming the HDR grading standard (Dolby Vision uses this internally).
+
+⸻
+
+4. Filmic Tone Curves
+	•	✅ S-curve with shoulder/toe
+	•	✅ Nonlinear contrast
+
+🔧 Additions:
+	•	Adaptive S-curve – curve strength scales with scene contrast.
+(If histogram is already high contrast → apply gentler curve.)
+	•	Highlight roll-off tuning – emulate specific film stocks (Kodak 2383, Fuji Eterna, etc.).
+You can parameterize this for your Creator or Studio tiers.
+
+⸻
+
+5. Gamut Mapping
+	•	✅ ACES/Rec.2020 → Rec.709
+	•	✅ Prevent clipping
+
+🔧 Additions:
+	•	Perceptual gamut compression (not linear clipping).
+Use simple tone-mapping operators like Reinhard or Hable (Unreal) tone maps for realism.
+	•	Color Appearance Preserving Mapping – convert using hue-anchored compression (avoid hue shifts when desaturating).
+
+⸻
+
+6. Optional ML Enhancement (Pro/Studio Tier)
+	•	✅ Neural network trained on colorist grades
+
+🔧 Additions:
+	•	Style clustering – use embeddings (CLIP or ViT) to tag reference styles (“Moody teal-orange”, “Cinematic neutral”, “Natural daylight”).
+→ lets users name and save their LUTs by “style,” not just file.
+	•	Cross-camera LUT calibration – ML model can learn how to map one camera color science (e.g., Sony → ARRI look).
+This feature alone could become a premium standalone product.
+
+⸻
+
+7. (Optional) Output Validation / QA
+	•	Render sample swatches and compute:
+	•	ΔE2000 (color difference metric)
+	•	Tone curve consistency
+	•	Clipping %
+	•	Gives you a “LUT Quality Score”, a killer pro feature for the Studio tier.
