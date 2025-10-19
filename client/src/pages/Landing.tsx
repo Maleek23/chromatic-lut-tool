@@ -36,7 +36,9 @@ export default function Landing() {
                 CHROMA
               </span>
             </h1>
-            <p className="text-sm sm:text-base text-muted-foreground tracking-[0.2em]">by UN / TITLD</p>
+            <p className="text-sm sm:text-base text-muted-foreground tracking-[0.2em] animate-pulse" style={{ animationDuration: '3s' }}>
+              by UN / TITLD
+            </p>
           </div>
 
           {/* Subtitle */}
