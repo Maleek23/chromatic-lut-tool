@@ -8,6 +8,23 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (October 19, 2025)
 
+### Session 4: Professional Color Science Pipeline Complete
+- **Implemented cinema-grade color science**: Complete professional pipeline for authentic LUT generation using industry-standard techniques:
+  - **Preprocessing**: Exposure/white balance detection, ACEScg color space conversion, denoising with median filter
+  - **Advanced Feature Extraction**: K-means clustering (12 clusters) for intelligent color sampling, dense color histograms (32 bins), luminance distribution analysis, skin tone detection in Lab space
+  - **Perceptual Color Spaces**: Full Lab/LCh implementation for human-perceptual color operations (saturation, hue shifts)
+  - **Filmic Tone Curves**: John Hable-style tone mapping with shoulder/toe for cinema-quality results
+  - **Gamut Mapping**: ACES/Rec.2020 → Rec.709 with iterative chroma reduction to prevent clipping and maintain color fidelity
+  - **Skin Tone Protection**: Lab color space ranges prevent unnatural skin colors during aggressive grading
+- **Multi-format export system**: Tier-based format support with professional metadata
+  - **Free tier**: .cube only (industry standard, maximum compatibility)
+  - **Creator tier**: .cube, .3dl (Autodesk/Lustre), .look (Nuke) - 3 professional formats
+  - **Pro+ tiers**: All 5 formats including .lut (1D) and .xmp (Lightroom presets with full tone curve metadata)
+- **New format exporters**: Implemented .look and .xmp with professional metadata and tone curve analysis
+- **Updated UI**: Format selector shows tier-based restrictions with upgrade messaging, tooltips explain format availability
+- **Fixed critical bug**: Preprocessing now returns encoded buffer instead of raw pixel data for proper Lab extraction
+- **All features tested**: Professional pipeline verified working with all export formats across all tiers
+
 ### Session 3: Codebase Reorganization Complete
 - **Completed file reorganization**: Successfully reorganized entire codebase into logical categories for better maintainability:
   - **Server**: `core/` (db, storage), `features/lut/` (generator, analyzer, converter, optimizer, parser), `features/email/`, `features/usage/`, `api/` (routes), `middleware/`
@@ -48,16 +65,24 @@ Preferred communication style: Simple, everyday language.
 - **API Design**: RESTful endpoints under `/api` for authentication and LUT processing.
 - **LUT Processing**:
     - **Parser**: Supports .cube (3D), .3dl (3D), and .lut (1D) formats with auto-detection, validation, and metadata support. Uses blue-fastest indexing.
-    - **Generator**: Extracts color science from images using zone-based analysis (shadows/midtones/highlights) to derive color transforms. Supports advanced controls and split toning.
+    - **Generator**: Professional color science pipeline for cinema-quality LUT generation:
+      - **Preprocessing**: ACEScg color space conversion, exposure/white balance detection, median filter denoising
+      - **Feature Extraction**: K-means clustering (12 clusters), dense color histograms (32 bins/channel), luminance distribution analysis
+      - **Perceptual Operations**: Lab/LCh color space for saturation/hue adjustments, skin tone protection in Lab ranges
+      - **Tone Mapping**: John Hable filmic tone curves with shoulder/toe for cinematic look
+      - **Gamut Mapping**: ACES/Rec.2020 → Rec.709 with iterative chroma reduction to prevent clipping
+      - **Export Formats**: .cube, .3dl, .lut, .look (Nuke), .xmp (Lightroom presets with tone curves)
     - **Converter**: Converts between supported formats (.cube ↔ .3dl ↔ .lut) with grid resampling (17x17x17, 33x33x33, 65x65x65) using trilinear interpolation.
     - **Analyzer**: Detects invalid points, identifies banding, reports quality metrics (min/max/avg values), and provides quality scoring.
     - **Optimizer**: Clamps RGB values to [0,1] range, handles invalid values, and supports format conversion during optimization.
 - **File Handling**: Multer for `multipart/form-data` with in-memory storage for transient processing.
 
 ### LUT Format Specifications
-- **.cube (3D LUT)**: Primary format, widely compatible (Adobe, DaVinci Resolve), variable grid sizes, normalized 0.0-1.0 range, supports complex adjustments.
-- **.3dl (3D LUT)**: Professional format, compatible (Avid, Adobe, DaVinci Resolve), fixed 33x33x33 grid, 12-bit integer range, high precision.
-- **.lut (1D LUT)**: Simple format, limited compatibility, 1D color mapping, fixed grid size (256/1024), normalized or integer range, limited to per-channel adjustments.
+- **.cube (3D LUT)**: Primary format, widely compatible (Adobe, DaVinci Resolve), variable grid sizes, normalized 0.0-1.0 range, supports complex adjustments. Available for all tiers.
+- **.3dl (3D LUT)**: Professional format, compatible (Avid, Adobe, DaVinci Resolve), fixed 33x33x33 grid, 12-bit integer range, high precision. Available for Creator+ tiers.
+- **.look (3D LUT)**: Autodesk/Nuke format, widely used in VFX pipelines, variable grid sizes, normalized 0.0-1.0 range. Available for Creator+ tiers.
+- **.lut (1D LUT)**: Simple format, limited compatibility, 1D color mapping, fixed grid size (256/1024), normalized or integer range, limited to per-channel adjustments. Available for Pro+ tiers.
+- **.xmp (Adobe Lightroom Preset)**: Complete Lightroom preset with tone curve, split toning, HSL adjustments, and metadata. Includes professional tone curve analysis derived from LUT. Available for Pro+ tiers.
 - **.aml (Advanced Multilayer LUT)**: **Planned future feature** (NOT currently implemented). Multi-layer 3D LUTs with stacking capabilities - used in specialized software with limited industry compatibility. May be added as Studio tier feature post-launch.
 
 ### Data Storage
@@ -76,9 +101,9 @@ Preferred communication style: Simple, everyday language.
   - Studio tier ($25/mo): Team features (coming soon)
   - Stripe integration prepared for pay-per-use and subscriptions
   - **Conversion psychology**: Break-even at ~6 LUTs/month (3 free + $7.50 paid vs $7 Creator)
-- **Technical Implementations**: Authentic color science extraction, industry-standard blue-fastest indexing for LUT operations, trilinear interpolation for resampling, server-side validation, and real-time preview.
+- **Technical Implementations**: Professional color science pipeline with ACEScg/Lab/LCh perceptual transforms, k-means clustering, filmic tone curves, gamut mapping, skin tone protection, industry-standard blue-fastest indexing for LUT operations, trilinear interpolation for resampling, server-side validation, and real-time preview.
 - **Feature Specifications**:
-    - **Image to LUT**: Authentic color extraction, zone-based analysis, intensity control, tier-dependent grid size and output format selection.
+    - **Image to LUT**: Cinema-grade color extraction using k-means clustering, Lab/LCh perceptual color operations, filmic tone mapping, gamut mapping (ACES/Rec.2020 → Rec.709), skin tone protection, intensity control, tier-dependent grid size and output format selection (Free: .cube only, Creator: .cube/.3dl/.look, Pro+: all 5 formats including .xmp).
     - **LUT Conversion**: Tier-dependent format support and grid resampling capabilities.
     - **LUT Analysis**: Quality scoring, banding detection, invalid point detection, and RGB statistics with tier-based access to advanced features.
     - **LUT Optimization**: Clamps RGB values to valid range, handles invalid values, and provides optimization statistics.
