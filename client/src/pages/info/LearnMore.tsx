@@ -142,35 +142,61 @@ export default function LearnMore() {
                 </p>
                 
                 {/* 3D LUT Cube Diagram */}
-                <div className="bg-muted/30 rounded-lg p-6 border border-border/50">
-                  <svg viewBox="0 0 300 220" className="w-full h-auto">
-                    {/* 3D Cube representation */}
-                    <g transform="translate(150, 110)">
-                      {/* Back faces (lighter) */}
-                      <path d="M -50,-30 L 20,-60 L 20,10 L -50,40 Z" className="fill-primary/5 stroke-primary/30" strokeWidth="1.5"/>
-                      <path d="M 20,-60 L 90,-30 L 90,40 L 20,10 Z" className="fill-chart-2/5 stroke-chart-2/30" strokeWidth="1.5"/>
-                      <path d="M -50,40 L 20,10 L 90,40 L 20,70 Z" className="fill-chart-3/5 stroke-chart-3/30" strokeWidth="1.5"/>
+                <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-lg p-8 border border-border/50 relative overflow-hidden">
+                  {/* Dark background with subtle gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 to-black/95" />
+                  
+                  <svg viewBox="0 0 320 240" className="w-full h-auto relative z-10">
+                    <defs>
+                      {/* Gradients for faces */}
+                      <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style={{ stopColor: '#7c3aed', stopOpacity: 0.4 }} />
+                        <stop offset="100%" style={{ stopColor: '#a855f7', stopOpacity: 0.2 }} />
+                      </linearGradient>
+                      <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style={{ stopColor: '#10b981', stopOpacity: 0.5 }} />
+                        <stop offset="100%" style={{ stopColor: '#059669', stopOpacity: 0.3 }} />
+                      </linearGradient>
+                    </defs>
+                    
+                    {/* 3D Cube */}
+                    <g transform="translate(160, 130)">
+                      {/* Back edges (dashed, subtle) */}
+                      <line x1="-60" y1="-40" x2="30" y2="-70" stroke="#06b6d4" strokeWidth="1.5" strokeDasharray="3,3" opacity="0.3"/>
+                      <line x1="30" y1="-70" x2="30" y2="0" stroke="#06b6d4" strokeWidth="1.5" strokeDasharray="3,3" opacity="0.3"/>
+                      <line x1="30" y1="0" x2="-60" y2="30" stroke="#06b6d4" strokeWidth="1.5" strokeDasharray="3,3" opacity="0.3"/>
                       
-                      {/* Front faces (brighter) */}
-                      <path d="M -50,-30 L 20,0 L 20,70 L -50,40 Z" className="fill-primary/20 stroke-primary" strokeWidth="2"/>
-                      <path d="M 20,0 L 90,30 L 90,100 L 20,70 Z" className="fill-chart-2/20 stroke-chart-2" strokeWidth="2"/>
-                      <path d="M 20,0 L 90,30 L 20,60 L -50,30 Z" className="fill-chart-3/20 stroke-chart-3" strokeWidth="2"/>
+                      {/* Top face (purple gradient) */}
+                      <path d="M -60,-40 L 30,-70 L 120,-40 L 30,-10 Z" fill="url(#purpleGrad)" stroke="#a78bfa" strokeWidth="2.5"/>
                       
-                      {/* Axis labels */}
-                      <text x="-60" y="0" className="fill-primary text-xs font-semibold">Red</text>
-                      <text x="95" y="60" className="fill-chart-2 text-xs font-semibold">Green</text>
-                      <text x="0" y="90" className="fill-chart-3 text-xs font-semibold">Blue</text>
+                      {/* Right face (green gradient) */}
+                      <path d="M 120,-40 L 120,30 L 30,60 L 30,-10 Z" fill="url(#greenGrad)" stroke="#10b981" strokeWidth="2.5"/>
                       
-                      {/* Grid points */}
-                      <circle cx="0" cy="20" r="3" className="fill-foreground"/>
-                      <circle cx="30" cy="10" r="3" className="fill-foreground"/>
-                      <circle cx="-20" cy="30" r="3" className="fill-foreground"/>
-                      <circle cx="50" cy="40" r="3" className="fill-foreground"/>
+                      {/* Left face (darker purple) */}
+                      <path d="M -60,-40 L -60,30 L 30,60 L 30,-10 Z" fill="#7c3aed" fillOpacity="0.25" stroke="#a78bfa" strokeWidth="2.5"/>
                       
-                      {/* Center annotation */}
-                      <text x="-40" y="-50" className="fill-foreground text-[10px] font-semibold">3D Color Cube</text>
-                      <text x="-50" y="-35" className="fill-muted-foreground text-[9px]">Each point transforms</text>
-                      <text x="-50" y="-23" className="fill-muted-foreground text-[9px]">R, G, and B together</text>
+                      {/* Front edges (cyan, bright) */}
+                      <line x1="-60" y1="30" x2="30" y2="60" stroke="#06b6d4" strokeWidth="2.5"/>
+                      <line x1="30" y1="60" x2="120" y2="30" stroke="#06b6d4" strokeWidth="2.5"/>
+                      <line x1="120" y1="30" x2="120" y2="-40" stroke="#06b6d4" strokeWidth="2.5"/>
+                      <line x1="-60" y1="30" x2="-60" y2="-40" stroke="#06b6d4" strokeWidth="2.5"/>
+                      
+                      {/* Grid points (white dots) */}
+                      <circle cx="-30" cy="-20" r="3.5" fill="white" opacity="0.9"/>
+                      <circle cx="10" cy="10" r="3.5" fill="white" opacity="0.9"/>
+                      <circle cx="50" cy="0" r="3.5" fill="white" opacity="0.9"/>
+                      <circle cx="75" cy="15" r="3.5" fill="white" opacity="0.9"/>
+                      <circle cx="-10" cy="30" r="3.5" fill="white" opacity="0.9"/>
+                      <circle cx="60" cy="-25" r="3.5" fill="white" opacity="0.9"/>
+                      
+                      {/* Axis labels with glow */}
+                      <text x="-85" y="10" fill="#06b6d4" fontSize="13" fontWeight="600" style={{ filter: 'drop-shadow(0 0 4px rgba(6, 182, 212, 0.5))' }}>Red</text>
+                      <text x="125" y="10" fill="#10b981" fontSize="13" fontWeight="600" style={{ filter: 'drop-shadow(0 0 4px rgba(16, 185, 129, 0.5))' }}>Green</text>
+                      <text x="10" y="85" fill="#a78bfa" fontSize="13" fontWeight="600" style={{ filter: 'drop-shadow(0 0 4px rgba(167, 139, 250, 0.5))' }}>Blue</text>
+                      
+                      {/* Title and description */}
+                      <text x="0" y="-95" fill="white" fontSize="15" fontWeight="700" textAnchor="middle">3D Color Cube</text>
+                      <text x="0" y="-78" fill="#94a3b8" fontSize="11" textAnchor="middle">Each point transforms R, G, and B together</text>
                     </g>
                   </svg>
                 </div>
