@@ -66,16 +66,23 @@ export default function Resources() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {resources.map((resource) => (
               <Link key={resource.href} href={resource.href}>
-                <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 h-full cursor-pointer group" data-testid={`card-${resource.href.split('/').pop()}`}>
-                  <CardHeader>
-                    <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${resource.color} opacity-20 flex items-center justify-center mb-4 group-hover:opacity-30 transition-opacity`}>
-                      <resource.icon className="w-6 h-6" />
+                <Card className="hover-elevate active-elevate-2 bg-card border-2 transition-all duration-300 h-full cursor-pointer group relative overflow-visible" data-testid={`card-${resource.href.split('/').pop()}`}>
+                  <CardHeader className="relative">
+                    {/* Glow effect */}
+                    <div className={`absolute -inset-0.5 bg-gradient-to-br ${resource.color} rounded-lg opacity-20 group-hover:opacity-40 blur transition-all duration-300`} />
+                    
+                    {/* Icon with vibrant gradient */}
+                    <div className={`relative w-14 h-14 rounded-xl bg-gradient-to-br ${resource.color} flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                      <resource.icon className="w-7 h-7 text-white" />
                     </div>
-                    <CardTitle className="text-xl flex items-center justify-between">
-                      {resource.title}
-                      <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    
+                    <CardTitle className="text-xl flex items-center justify-between relative">
+                      <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text">
+                        {resource.title}
+                      </span>
+                      <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
                     </CardTitle>
-                    <CardDescription className="text-sm leading-relaxed pt-2">
+                    <CardDescription className="text-sm leading-relaxed pt-2 relative">
                       {resource.description}
                     </CardDescription>
                   </CardHeader>
