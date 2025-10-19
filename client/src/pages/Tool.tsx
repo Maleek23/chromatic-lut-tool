@@ -46,13 +46,13 @@ export default function Tool() {
     return null;
   }
 
-  // Only Free tier has lifetime generation limits (3 free, then $5 per LUT)
+  // Free tier has monthly generation limits (5 per month, resets on 1st)
   const isFree = user.tier === "free";
-  const conversionsUsed = user.totalConversions || 0;
-  const conversionsLimit = 3;
+  const conversionsUsed = user.conversionsThisMonth || 0;
+  const conversionsLimit = 5;
   const conversionsRemaining = Math.max(0, conversionsLimit - conversionsUsed);
   const usagePercentage = (conversionsUsed / conversionsLimit) * 100;
-  const needsPayment = isFree && conversionsUsed >= conversionsLimit;
+  const atMonthlyLimit = isFree && conversionsUsed >= conversionsLimit;
 
   const handleImageUpload = async (file: File) => {
     // Validate file size (max 25MB)
@@ -178,11 +178,11 @@ export default function Tool() {
       return;
     }
 
-    // Check if payment is required (free tier limit reached)
-    if (needsPayment) {
+    // Check if monthly limit reached (free tier only)
+    if (atMonthlyLimit) {
       toast({
-        title: "Payment Required",
-        description: "You've used all 3 free LUT generations. Please pay $5 for this LUT or upgrade to Creator tier for unlimited generations.",
+        title: "Monthly Limit Reached",
+        description: "You've used all 5 free LUT generations this month. Upgrade to Creator ($7/mo) for unlimited generations, or wait until next month.",
         variant: "destructive",
       });
       return;
@@ -318,21 +318,16 @@ export default function Tool() {
                     <>
                       <AlertCircle className="h-4 w-4" />
                       <AlertDescription className="space-y-2">
-                        <p className="text-sm font-medium">Free generations used</p>
+                        <p className="text-sm font-medium">Monthly limit reached</p>
                         <p className="text-xs text-muted-foreground">
-                          You've used all {conversionsLimit} free LUT generations. Additional LUTs cost $5 each, or upgrade to Creator tier for unlimited generations.
+                          You've used all {conversionsLimit} free LUT generations this month. Resets on the 1st, or upgrade to Creator ($7/mo) for unlimited generations.
                         </p>
-                        <div className="grid grid-cols-2 gap-2 mt-2">
-                          <Button size="sm" variant="outline" disabled data-testid="button-pay-per-use">
-                            Pay $5 (Coming Soon)
+                        <Link href="/upgrade">
+                          <Button size="sm" className="w-full" data-testid="button-upgrade-limit">
+                            <Sparkles className="w-4 h-4 mr-2" />
+                            Upgrade to Creator
                           </Button>
-                          <Link href="/upgrade">
-                            <Button size="sm" className="w-full" data-testid="button-upgrade-limit">
-                              <Sparkles className="w-4 h-4 mr-2" />
-                              Upgrade
-                            </Button>
-                          </Link>
-                        </div>
+                        </Link>
                       </AlertDescription>
                     </>
                   )}
