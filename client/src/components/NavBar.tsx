@@ -46,16 +46,6 @@ export function NavBar() {
           Tools
         </Button>
       </Link>
-      <Link href="/resources" onClick={() => mobile && setOpen(false)}>
-        <Button 
-          variant={location.startsWith("/resources") ? "default" : "ghost"} 
-          size="sm"
-          data-testid="nav-resources"
-          className={mobile ? "w-full justify-start" : ""}
-        >
-          Resources
-        </Button>
-      </Link>
       <Link href="/how-it-works" onClick={() => mobile && setOpen(false)}>
         <Button 
           variant={location === "/how-it-works" ? "default" : "ghost"} 
@@ -64,6 +54,16 @@ export function NavBar() {
           className={mobile ? "w-full justify-start" : ""}
         >
           How It Works
+        </Button>
+      </Link>
+      <Link href="/resources" onClick={() => mobile && setOpen(false)}>
+        <Button 
+          variant={location.startsWith("/resources") ? "default" : "ghost"} 
+          size="sm"
+          data-testid="nav-resources"
+          className={mobile ? "w-full justify-start" : ""}
+        >
+          Resources
         </Button>
       </Link>
     </>
