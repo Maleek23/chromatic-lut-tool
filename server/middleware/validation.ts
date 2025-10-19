@@ -38,9 +38,9 @@ export const TIER_FEATURES = {
     outputFormats: [".cube"], // Only .cube export
     precision: ["8", "10", "12"], // All precision levels
     
-    // Conversion - Directional limits
-    conversionSourceFormats: [".cube"], // Can convert FROM .cube only
-    conversionDestFormats: [".3dl"], // Can convert TO .3dl only
+    // Conversion - Can convert supported formats TO .cube only
+    conversionSourceFormats: [".cube", ".3dl", ".lut", ".look"], // Can convert FROM any standard format
+    conversionDestFormats: [".cube"], // Can convert TO .cube only
     
     // Analysis
     analysisFeatures: {
@@ -66,12 +66,12 @@ export const TIER_FEATURES = {
   creator: {
     // Creator/Plus tier ($6-7/mo)
     gridSizes: ["17", "33"], // Up to 33x33x33
-    outputFormats: [".cube"], // Still .cube only
+    outputFormats: [".cube", ".3dl", ".look"], // 3 professional formats
     precision: ["8", "10", "12"],
     
-    // Conversion - Same as free
-    conversionSourceFormats: [".cube"],
-    conversionDestFormats: [".3dl"],
+    // Conversion - Can convert FROM/TO .cube, .3dl, and .look
+    conversionSourceFormats: [".cube", ".3dl", ".look"],
+    conversionDestFormats: [".cube", ".3dl", ".look"],
     
     // Analysis
     analysisFeatures: {
@@ -97,12 +97,12 @@ export const TIER_FEATURES = {
   pro: {
     // LUT Generation
     gridSizes: ["17", "33", "65"], // All grid sizes
-    outputFormats: [".cube", ".3dl", ".lut"], // All formats
+    outputFormats: [".cube", ".3dl", ".lut", ".look", ".xmp"], // All 5 formats
     precision: ["8", "10", "12"],
     
-    // Conversion - Bidirectional
-    conversionSourceFormats: [".cube", ".3dl", ".lut"], // Can convert FROM any format
-    conversionDestFormats: [".cube", ".3dl", ".lut"], // Can convert TO any format
+    // Conversion - Bidirectional (note: .xmp is export-only, not convertible)
+    conversionSourceFormats: [".cube", ".3dl", ".lut", ".look"], // Can convert FROM any standard format
+    conversionDestFormats: [".cube", ".3dl", ".lut", ".look"], // Can convert TO any standard format
     
     // Analysis
     analysisFeatures: {
@@ -128,10 +128,10 @@ export const TIER_FEATURES = {
   studio: {
     // Everything in Pro, plus enterprise features
     gridSizes: ["17", "33", "65"],
-    outputFormats: [".cube", ".3dl", ".lut"],
+    outputFormats: [".cube", ".3dl", ".lut", ".look", ".xmp"], // All 5 formats
     precision: ["8", "10", "12"],
-    conversionSourceFormats: [".cube", ".3dl", ".lut"],
-    conversionDestFormats: [".cube", ".3dl", ".lut"],
+    conversionSourceFormats: [".cube", ".3dl", ".lut", ".look"], // .xmp is export-only
+    conversionDestFormats: [".cube", ".3dl", ".lut", ".look"], // .xmp is export-only
     analysisFeatures: {
       bandingDetection: true,
       fullAnalysis: true,

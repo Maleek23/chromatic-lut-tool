@@ -310,8 +310,8 @@ export default function LearnMore() {
             <CardContent className="space-y-6">
               <div className="prose prose-sm dark:prose-invert max-w-none">
                 <p className="text-muted-foreground leading-relaxed">
-                  Convert seamlessly between all major LUT formats with <span className="text-foreground font-semibold">trilinear interpolation</span> to maintain smooth color gradients. 
-                  Our converter supports bidirectional conversion between .cube (3D LUT), .3dl (Autodesk/Lustre), and .lut (1D LUT) formats with automatic format detection and validation.
+                  Convert between LUT formats with <span className="text-foreground font-semibold">trilinear interpolation</span> to maintain smooth color gradients. 
+                  Free tier can convert any LUT to .cube format. Creator+ can convert between .cube, .3dl, and .look formats. Pro tier supports full bidirectional conversion between all standard formats (.cube, .3dl, .lut, .look). Note: .xmp is export-only.
                 </p>
               </div>
               <div className="grid md:grid-cols-3 gap-4">
@@ -321,25 +321,25 @@ export default function LearnMore() {
                     .cube Format
                   </div>
                   <p className="text-sm text-muted-foreground pl-4">
-                    Industry standard 3D LUT format. Compatible with Adobe Premiere Pro, Final Cut Pro, DaVinci Resolve. Variable grid sizes (17³, 33³, 65³)
+                    <strong>All tiers:</strong> Industry standard 3D LUT format. Compatible with Adobe Premiere Pro, Final Cut Pro, DaVinci Resolve. Variable grid sizes (17³, 33³, 65³)
                   </p>
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm font-semibold">
                     <div className="w-1.5 h-1.5 rounded-full bg-chart-2" />
-                    .3dl Format
+                    .3dl & .look Formats
                   </div>
                   <p className="text-sm text-muted-foreground pl-4">
-                    Professional Autodesk/Lustre format. Used in Avid Media Composer, high-end broadcast workflows. Fixed 33³ grid with 12-bit precision (0-4095 range)
+                    <strong>Creator+:</strong> Professional Autodesk/Lustre formats (.3dl, .look) for high-end broadcast and VFX workflows. Used in Avid, Nuke, Flame
                   </p>
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm font-semibold">
                     <div className="w-1.5 h-1.5 rounded-full bg-chart-3" />
-                    .lut Format
+                    .lut & .xmp Formats
                   </div>
                   <p className="text-sm text-muted-foreground pl-4">
-                    Simple 1D LUT for per-channel adjustments. Best for gamma correction and contrast curves. Smaller file size, faster processing
+                    <strong>Pro+:</strong> Simple 1D LUT (.lut) for per-channel adjustments and Adobe Lightroom presets (.xmp) with tone curves and color adjustments
                   </p>
                 </div>
               </div>
@@ -368,7 +368,7 @@ export default function LearnMore() {
             <CardContent className="space-y-6">
               <div className="prose prose-sm dark:prose-invert max-w-none">
                 <p className="text-muted-foreground leading-relaxed">
-                  Ensure your LUTs meet professional standards with comprehensive quality analysis. CHROMA scans for <span className="text-foreground font-semibold">banding issues</span>, 
+                  <span className="text-foreground font-semibold">Pro tier only:</span> Ensure your LUTs meet professional standards with comprehensive quality analysis. Scans for <span className="text-foreground font-semibold">banding issues</span>, 
                   <span className="text-foreground font-semibold"> invalid color points</span>, and <span className="text-foreground font-semibold">out-of-range values</span> that could cause problems in production workflows.
                 </p>
               </div>
@@ -429,7 +429,7 @@ export default function LearnMore() {
             <CardContent className="space-y-6">
               <div className="prose prose-sm dark:prose-invert max-w-none">
                 <p className="text-muted-foreground leading-relaxed">
-                  Automatically fix common LUT issues and optimize for professional workflows. Removes <span className="text-foreground font-semibold">invalid color points</span>, 
+                  <span className="text-foreground font-semibold">Pro tier only:</span> Automatically fix common LUT issues and optimize for professional workflows. Removes <span className="text-foreground font-semibold">invalid color points</span>, 
                   clamps out-of-range values, and ensures your LUTs are production-ready for any color grading software.
                 </p>
               </div>
