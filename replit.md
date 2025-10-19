@@ -158,6 +158,13 @@ All 3D LUT operations use **blue-fastest indexing order**:
 ### October 2025
 - **Rebranding**: Changed from "CHROMATIC" to "CHROMA by UN/TITLD" across all UI components
 - **4-Tier Pricing**: Implemented complete tier system (Free, Creator, Pro, Studio) with backend middleware for feature gating
+- **Email-Based Authentication**: Migrated authentication from username to email addresses
+  - Updated database schema: email now required (unique, not null), username optional (nullable)
+  - Modified Passport.js LocalStrategy to authenticate with email instead of username
+  - Updated login/register forms with email validation (must be valid email format)
+  - Migrated all existing users to placeholder emails before schema enforcement
+  - Test accounts now use email format: free_test_user@example.com, creator_test_user@example.com, pro_test_user@example.com (all password "test123")
+- **Pricing Card UI**: Centered all pricing card buttons with improved flex alignment and text-center classes
+- **SEO Optimization**: Added comprehensive meta tags to AuthPage including title, description, Open Graph, Twitter cards, and keywords for customer acquisition
 - **Light Theme Improvements**: Enhanced contrast for borders (88%→84%), text (45%→38%), and inputs for better visibility
 - **Security Hardening**: Fixed Sharp image processing with secure single-pass pipeline, proper pixel limits, and sRGB color space conversion
-- **Test Accounts**: Created test_user accounts for each tier with password "test123"
