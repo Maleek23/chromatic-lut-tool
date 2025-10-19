@@ -30,13 +30,15 @@ export default function Landing() {
                 CHROMA
               </span>
             </h1>
-            <div className="flex items-center justify-center text-sm sm:text-base text-muted-foreground tracking-[0.2em] group">
-              <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by</span>
-              <div className="flex items-center gap-0 ml-0.5">
-                <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">UN</span>
-                <span className="text-primary mx-0.5 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rotate-180">/</span>
-                <span className="transition-all duration-500 ease-in-out group-hover:-translate-x-2 group-hover:opacity-0 group-hover:scale-50">TITLD</span>
-              </div>
+            <div className="flex items-center justify-center text-sm sm:text-base text-muted-foreground tracking-[0.2em]">
+              <span className="inline-flex items-center group">
+                <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by</span>
+                <span className="inline-flex items-center gap-0 ml-0.5">
+                  <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">UN</span>
+                  <span className="text-primary mx-0.5 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rotate-180">/</span>
+                  <span className="transition-all duration-500 ease-in-out group-hover:-translate-x-2 group-hover:opacity-0 group-hover:scale-50">TITLD</span>
+                </span>
+              </span>
             </div>
           </div>
 
