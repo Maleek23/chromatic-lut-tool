@@ -8,7 +8,10 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (October 19, 2025)
 - **Fixed pricing inconsistencies**: Updated AuthPage to show correct $2.50 per additional LUT (was showing $5).
-- **Clarified conversion model**: ALL tiers (Free/Creator/Pro/Studio) can convert from ANY format (.cube, .3dl, .lut) to .cube output only (industry standard, maximum compatibility). Free gets auto grid size, Pro+ gets custom resampling.
+- **Clarified conversion model**: ALL tiers (Free/Creator/Pro/Studio) can convert from ANY format (.cube, .3dl, .lut) to .cube output only (industry standard, maximum compatibility). Free gets auto grid size, Creator+ gets custom resampling (17³/33³), Pro+ gets all grid sizes (17³/33³/65³).
+- **Fixed Creator tier grid size access**: Creator tier can now properly select 17³ and 33³ grid sizes on Convert page (was incorrectly Pro-only).
+- **Implemented folder organization**: Creator+ users can now organize saved LUT presets into folders via PATCH /api/presets/:id/folder endpoint. Database schema updated with `folder` field.
+- **Added Upgrade button to NavBar**: Free and Creator tier users now see Upgrade button in navigation for easy tier upgrades.
 - **Fixed filename sync bug**: DownloadSection now properly updates filename when grid size changes between generations.
 - **Verified Free tier restrictions**: Testing confirmed 3/month limit, 17×17×17 grid restriction, and .cube format output restriction all working correctly.
 - **Confirmed email delivery**: Implementation complete and working, awaiting domain verification on Resend dashboard for production use.
@@ -43,7 +46,7 @@ Preferred communication style: Simple, everyday language.
 
 ### Data Storage
 - **Database**: PostgreSQL via Neon serverless, using Drizzle ORM.
-- **Schema**: `users` (id, email, hashed password, tier) and `presets` (id, name, userId, format, data, gridSize). Zod for validation.
+- **Schema**: `users` (id, email, hashed password, tier) and `presets` (id, name, userId, folder, format, lutData, isPublic, createdAt). Folder field enables Creator+ organization feature. Zod for validation.
 - **Session Management**: Express session with `connect-pg-simple` and Passport.js for authentication.
 - **Storage Strategy**: In-memory for LUT processing, PostgreSQL for user data and saved presets.
 
@@ -64,7 +67,7 @@ Preferred communication style: Simple, everyday language.
     - **LUT Analysis**: Quality scoring, banding detection, invalid point detection, and RGB statistics with tier-based access to advanced features.
     - **LUT Optimization**: Clamps RGB values to valid range, handles invalid values, and provides optimization statistics.
     - **Authentication**: Email/password with bcrypt, session management, and tier-based feature access.
-    - **Preset Management**: Saving and organization of presets with tier-dependent limits and metadata tracking.
+    - **Preset Management**: Saving and organization of presets with tier-dependent limits and metadata tracking. Creator+ users can organize presets into folders.
     - **Usage Tracking**: Monthly conversions tracked for Free tier (3 free per month, resets on 1st, then pay-per-use at $2.50 per LUT). Paid tiers have unlimited generations.
     - **Email Delivery**: Automatic email delivery of generated LUT files via Resend with professional HTML template, LUT metadata, and file attachment. Implementation complete; requires domain verification on Resend dashboard for production use.
     - **Preset Management Note**: "Presets" in tier descriptions refers to saved LUTs (user-generated LUT files), NOT Lightroom .xmp or Photoshop .atn preset files (those are coming soon as Pro tier feature).

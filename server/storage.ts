@@ -28,6 +28,7 @@ export interface IStorage {
   getUserPresetCount(userId: number): Promise<number>;
   getPreset(presetId: number, userId: number): Promise<SavedPreset | null>;
   createPreset(preset: InsertPreset): Promise<SavedPreset>;
+  updatePresetFolder(presetId: number, userId: number, folder: string | null): Promise<SavedPreset | null>;
   deletePreset(presetId: number, userId: number): Promise<boolean>;
   
   sessionStore: session.Store;
@@ -178,11 +179,20 @@ export class MemStorage implements IStorage {
       ...preset,
       id,
       description: preset.description || null,
+      folder: preset.folder || null,
       isPublic: preset.isPublic || false,
       createdAt: new Date(),
     };
     this.presets.set(id, newPreset);
     return newPreset;
+  }
+
+  async updatePresetFolder(presetId: number, userId: number, folder: string | null): Promise<SavedPreset | null> {
+    const preset = this.presets.get(presetId);
+    if (!preset || preset.userId !== userId) return null;
+    preset.folder = folder;
+    this.presets.set(presetId, preset);
+    return preset;
   }
 
   async deletePreset(presetId: number, userId: number): Promise<boolean> {
@@ -321,6 +331,15 @@ export class PostgresStorage implements IStorage {
   async createPreset(preset: InsertPreset): Promise<SavedPreset> {
     const [newPreset] = await db.insert(presets).values(preset).returning();
     return newPreset;
+  }
+
+  async updatePresetFolder(presetId: number, userId: number, folder: string | null): Promise<SavedPreset | null> {
+    const [updated] = await db
+      .update(presets)
+      .set({ folder })
+      .where(and(eq(presets.id, presetId), eq(presets.userId, userId)))
+      .returning();
+    return updated || null;
   }
 
   async deletePreset(presetId: number, userId: number): Promise<boolean> {

@@ -1175,6 +1175,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Update preset folder (Creator+ feature)
+  app.patch("/api/presets/:id/folder", requireAuth, async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ error: "Authentication required" });
+      }
+
+      // Check if user is Creator or higher tier
+      const isCreatorPlus = req.user.tier === "creator" || req.user.tier === "pro" || req.user.tier === "studio";
+      if (!isCreatorPlus) {
+        return res.status(403).json({ error: "Folder organization requires Creator tier or higher" });
+      }
+
+      const presetId = parseInt(req.params.id);
+      if (isNaN(presetId)) {
+        return res.status(400).json({ error: "Invalid preset ID" });
+      }
+
+      const { folder } = req.body;
+      if (folder !== null && typeof folder !== "string") {
+        return res.status(400).json({ error: "Folder must be a string or null" });
+      }
+
+      const { storage } = await import("./storage");
+      const updated = await storage.updatePresetFolder(presetId, req.user.id, folder || null);
+      
+      if (!updated) {
+        return res.status(404).json({ error: "Preset not found" });
+      }
+
+      res.json({ 
+        message: "Preset folder updated successfully",
+        preset: updated
+      });
+    } catch (error) {
+      console.error("Update preset folder error:", error);
+      res.status(500).json({ error: "Failed to update preset folder" });
+    }
+  });
+
   // Upload avatar
   app.post("/api/profile/avatar", requireAuth, upload.single("avatar"), async (req, res) => {
     try {

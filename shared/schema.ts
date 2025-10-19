@@ -53,6 +53,7 @@ export const presets = pgTable("presets", {
   userId: integer("user_id").notNull().references(() => users.id),
   name: text("name").notNull(),
   description: text("description"),
+  folder: text("folder"), // Optional folder name for organization (Creator+ feature)
   lutData: text("lut_data").notNull(), // Serialized LUT file content
   format: text("format").notNull(), // 'cube' or '3dl'
   isPublic: boolean("is_public").notNull().default(false),
