@@ -164,7 +164,15 @@ All 3D LUT operations use **blue-fastest indexing order**:
   - Updated login/register forms with email validation (must be valid email format)
   - Migrated all existing users to placeholder emails before schema enforcement
   - Test accounts now use email format: free_test_user@example.com, creator_test_user@example.com, pro_test_user@example.com (all password "test123")
-- **Pricing Card UI**: Centered all pricing card buttons with improved flex alignment and text-center classes
+- **Learn More Page**: Created dedicated `/learn-more` page with comprehensive tool explanations (Image to LUT Generator, LUT Converter, LUT Analyzer, LUT Optimizer) separated from landing page
+  - Removed embedded Learn More section from landing page for cleaner structure
+  - Updated hero "Learn More" button to navigate to `/learn-more` instead of scroll behavior
+  - Registered route in App.tsx
+- **Pricing Card Enhancements**: 
+  - Added tier-specific colors to pricing numbers (Free: green, Creator: blue, Pro: purple, Studio: yellow)
+  - Fixed price alignment using flexbox (items-baseline) with smaller period text (text-sm)
+  - Implemented perfect button alignment across all cards using flex layout (flex flex-col, flex-1, mt-auto)
+  - Removed scale effect from Pro card for consistent alignment
 - **SEO Optimization**: Added comprehensive meta tags to AuthPage including title, description, Open Graph, Twitter cards, and keywords for customer acquisition
 - **Light Theme Improvements**: Enhanced contrast for borders (88%→84%), text (45%→38%), and inputs for better visibility
 - **Security Hardening**: Fixed Sharp image processing with secure single-pass pipeline, proper pixel limits, and sRGB color space conversion
