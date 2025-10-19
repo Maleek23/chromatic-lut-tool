@@ -23,17 +23,11 @@ export default function Landing() {
       {/* Hero Section */}
       <section className="relative z-10 pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          {/* Main heading with chromatic aberration effect */}
+          {/* Main heading with logo-matching gradient */}
           <div className="text-center mb-8">
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-4 relative inline-block">
-              <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-500 blur-sm opacity-50" style={{ transform: 'translate(-2px, -2px)' }}>
-                CHROMA
-              </span>
-              <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-500 blur-sm opacity-50" style={{ transform: 'translate(2px, 2px)' }}>
-                CHROMA
-              </span>
-              <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-primary via-chart-2 to-chart-3">
-                CHROMA
+            <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold mb-4 relative inline-block">
+              <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 via-cyan-400 to-pink-500">
+                Chroma
               </span>
             </h1>
             <div className="flex items-center justify-center text-sm sm:text-base text-muted-foreground tracking-[0.2em] group">
