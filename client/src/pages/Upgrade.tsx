@@ -163,12 +163,23 @@ export default function Upgrade() {
                 For growing colorists
               </p>
               <ul className="space-y-2 text-sm">
-                {TIER_CONFIG.creator.features.map((feature, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
-                    <span className="font-medium">{feature}</span>
-                  </li>
-                ))}
+                {TIER_CONFIG.creator.features.map((feature, i) => {
+                  const isComingSoon = feature.includes("(coming soon)");
+                  const featureText = feature.replace(" (coming soon)", "");
+                  return (
+                    <li key={i} className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
+                      <span className="font-medium flex-1">
+                        {featureText}
+                        {isComingSoon && (
+                          <Badge variant="outline" className="ml-2 text-xs py-0 px-1.5 h-5">
+                            Coming Soon
+                          </Badge>
+                        )}
+                      </span>
+                    </li>
+                  );
+                })}
               </ul>
             </CardContent>
             <CardFooter>
@@ -231,12 +242,23 @@ export default function Upgrade() {
                 For professional creators
               </p>
               <ul className="space-y-2 text-sm">
-                {TIER_CONFIG.pro.features.map((feature, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <Zap className="w-4 h-4 text-purple-500 shrink-0 mt-0.5" />
-                    <span className="font-semibold">{feature}</span>
-                  </li>
-                ))}
+                {TIER_CONFIG.pro.features.map((feature, i) => {
+                  const isComingSoon = feature.includes("(coming soon)");
+                  const featureText = feature.replace(" (coming soon)", "");
+                  return (
+                    <li key={i} className="flex items-start gap-2">
+                      <Zap className="w-4 h-4 text-purple-500 shrink-0 mt-0.5" />
+                      <span className="font-semibold flex-1">
+                        {featureText}
+                        {isComingSoon && (
+                          <Badge variant="outline" className="ml-2 text-xs py-0 px-1.5 h-5">
+                            Coming Soon
+                          </Badge>
+                        )}
+                      </span>
+                    </li>
+                  );
+                })}
               </ul>
             </CardContent>
             <CardFooter>
