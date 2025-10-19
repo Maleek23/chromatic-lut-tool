@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, LogIn, LogOut, User, Menu, Settings } from "lucide-react";
+import { Moon, Sun, LogIn, LogOut, User, Menu, Settings, Crown } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
 import { useAuth } from "@/hooks/use-auth";
 import { Badge } from "@/components/ui/badge";
@@ -80,6 +80,19 @@ export function NavBar() {
               {user.tier}
             </Badge>
           </div>
+          {user.tier !== "pro" && user.tier !== "studio" && (
+            <Link href="/upgrade" onClick={() => mobile && setOpen(false)}>
+              <Button
+                variant="default"
+                size="sm"
+                data-testid="button-upgrade"
+                className={mobile ? "w-full justify-start" : ""}
+              >
+                <Crown className="w-4 h-4 mr-2" />
+                Upgrade
+              </Button>
+            </Link>
+          )}
           <Link href="/settings" onClick={() => mobile && setOpen(false)}>
             <Button
               variant="ghost"

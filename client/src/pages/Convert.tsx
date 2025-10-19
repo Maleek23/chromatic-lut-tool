@@ -42,6 +42,14 @@ export default function Convert() {
   const { user } = useAuth();
   
   const isPro = user && (user.tier === "pro" || user.tier === "studio");
+  const isCreatorOrHigher = user && (user.tier === "creator" || user.tier === "pro" || user.tier === "studio");
+  const canUseGridSize = (size: string) => {
+    if (!user) return false;
+    if (size === "auto" || size === "17") return true; // All tiers can use auto and 17³
+    if (size === "33") return isCreatorOrHigher; // Creator+ can use 33³
+    if (size === "65") return isPro; // Only Pro+ can use 65³
+    return false;
+  };
 
   // Fetch user's saved presets
   const { data: presets } = useQuery<Preset[]>({
@@ -383,7 +391,7 @@ export default function Convert() {
                 </AlertDescription>
               </Alert>
 
-              {/* Grid Size Selector (Pro Feature) */}
+              {/* Grid Size Selector (Creator+ Feature) */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <label className="text-sm font-semibold">Grid Size</label>
@@ -391,16 +399,20 @@ export default function Convert() {
                     <Badge className="bg-gradient-to-r from-primary to-chart-2 text-primary-foreground border-0">
                       <Crown className="w-3 h-3 mr-1" />Pro
                     </Badge>
+                  ) : isCreatorOrHigher ? (
+                    <Badge className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white border-0">
+                      <Sparkles className="w-3 h-3 mr-1" />Creator
+                    </Badge>
                   ) : (
                     <Badge variant="outline">
-                      <Crown className="w-3 h-3 mr-1" />Pro Feature
+                      <Crown className="w-3 h-3 mr-1" />Creator+ Feature
                     </Badge>
                   )}
                 </div>
                 <Select 
                   value={gridSize} 
                   onValueChange={setGridSize}
-                  disabled={!isPro}
+                  disabled={!isCreatorOrHigher}
                 >
                   <SelectTrigger data-testid="select-grid-size" className="bg-muted/30">
                     <SelectValue />
@@ -408,13 +420,21 @@ export default function Convert() {
                   <SelectContent>
                     <SelectItem value="auto">Auto (keep original)</SelectItem>
                     <SelectItem value="17">17×17×17 (Standard)</SelectItem>
-                    <SelectItem value="33">33×33×33 (High Quality)</SelectItem>
-                    <SelectItem value="65">65×65×65 (Ultra Quality)</SelectItem>
+                    <SelectItem value="33" disabled={!isCreatorOrHigher}>
+                      33×33×33 (High Quality){!isCreatorOrHigher && " - Creator+"}
+                    </SelectItem>
+                    <SelectItem value="65" disabled={!isPro}>
+                      65×65×65 (Ultra Quality){!isPro && " - Pro Only"}
+                    </SelectItem>
                   </SelectContent>
                 </Select>
-                {!isPro && (
+                {!isCreatorOrHigher ? (
                   <p className="text-xs text-muted-foreground">
-                    Upgrade to Pro to resample LUTs with custom grid sizes
+                    Upgrade to Creator ($7/mo) for custom grid sizes (17³, 33³)
+                  </p>
+                ) : !isPro && (
+                  <p className="text-xs text-muted-foreground">
+                    Upgrade to Pro ($12/mo) for ultra quality 65³ grid size
                   </p>
                 )}
               </div>
