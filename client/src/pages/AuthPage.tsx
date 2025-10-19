@@ -148,7 +148,7 @@ export default function AuthPage() {
                               <span className="font-semibold text-sm sm:text-base">Free</span>
                             </div>
                             <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 leading-tight">3 free LUTs</p>
-                            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">$5 per extra</p>
+                            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">$2.50 per extra</p>
                           </div>
 
                           <div
@@ -347,7 +347,7 @@ export default function AuthPage() {
                   </div>
                   <div>
                     <p className="font-semibold">3 Free Image-to-LUT Generations</p>
-                    <p className="text-sm text-muted-foreground">Then $5 per additional LUT</p>
+                    <p className="text-sm text-muted-foreground">Then $2.50 per additional LUT</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
