@@ -32,7 +32,7 @@ Preferred communication style: Simple, everyday language.
 - **.cube (3D LUT)**: Primary format, widely compatible (Adobe, DaVinci Resolve), variable grid sizes, normalized 0.0-1.0 range, supports complex adjustments.
 - **.3dl (3D LUT)**: Professional format, compatible (Avid, Adobe, DaVinci Resolve), fixed 33x33x33 grid, 12-bit integer range, high precision.
 - **.lut (1D LUT)**: Simple format, limited compatibility, 1D color mapping, fixed grid size (256/1024), normalized or integer range, limited to per-channel adjustments.
-- **.aml (Advanced Multilayer LUT)**: Planned future feature for multi-layer 3D LUTs with stacking capabilities.
+- **.aml (Advanced Multilayer LUT)**: **Planned future feature** (NOT currently implemented). Multi-layer 3D LUTs with stacking capabilities - used in specialized software with limited industry compatibility. May be added as Studio tier feature post-launch.
 
 ### Data Storage
 - **Database**: PostgreSQL via Neon serverless, using Drizzle ORM.

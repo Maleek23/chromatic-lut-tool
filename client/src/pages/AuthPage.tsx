@@ -83,11 +83,11 @@ export default function AuthPage() {
 
       <div className="relative z-10 min-h-screen grid lg:grid-cols-2">
         {/* Left Column - Forms */}
-        <div className="flex items-center justify-center p-8">
-          <div className="w-full max-w-md space-y-8">
+        <div className="flex items-center justify-center p-4 sm:p-6 md:p-8">
+          <div className="w-full max-w-md space-y-6 sm:space-y-8">
             {/* Branding Header - matching landing page */}
-            <div className="text-center space-y-4">
-              <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
+            <div className="text-center space-y-3 sm:space-y-4">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
                 CHROMA
               </h1>
               
@@ -97,7 +97,7 @@ export default function AuthPage() {
                 <span className="transition-all duration-700 ease-in-out group-hover:-translate-x-4 group-hover:opacity-0">TITLD</span>
               </div>
               
-              <p className="text-muted-foreground text-base max-w-md mx-auto">
+              <p className="text-muted-foreground text-sm sm:text-base max-w-md mx-auto px-4">
                 Extract <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-chart-2 to-chart-3 font-semibold">authentic color grading</span> from any reference image
               </p>
             </div>
@@ -122,83 +122,84 @@ export default function AuthPage() {
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="register" className="mt-6">
+              <TabsContent value="register" className="mt-4 sm:mt-6">
                 <Card className="border-muted/50 bg-card/80 backdrop-blur-sm shadow-2xl">
-                  <CardHeader>
-                    <CardTitle className="text-2xl">Start Creating</CardTitle>
-                    <CardDescription>Pick your plan, unlock your creativity</CardDescription>
+                  <CardHeader className="space-y-1 pb-4">
+                    <CardTitle className="text-xl sm:text-2xl">Start Creating</CardTitle>
+                    <CardDescription className="text-xs sm:text-sm">Pick your plan, unlock your creativity</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <form onSubmit={handleRegister} className="space-y-4">
                       {/* Tier Selection */}
-                      <div className="space-y-3">
-                        <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-2">
+                        <Label className="text-xs sm:text-sm text-muted-foreground">Choose Your Tier</Label>
+                        <div className="grid grid-cols-2 gap-2 sm:gap-3">
                           <div
                             onClick={() => setRegisterData({ ...registerData, tier: "free" })}
                             data-testid="tier-card-free"
-                            className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                            className={`p-3 sm:p-4 rounded-lg border-2 cursor-pointer transition-all ${
                               registerData.tier === "free"
                                 ? "border-primary bg-primary/5"
                                 : "border-muted hover:border-muted-foreground/50"
                             }`}
                           >
-                            <div className="flex items-center gap-2 mb-2">
-                              <Sparkles className="w-4 h-4 text-primary" />
-                              <span className="font-semibold">Free</span>
+                            <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                              <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary flex-shrink-0" />
+                              <span className="font-semibold text-sm sm:text-base">Free</span>
                             </div>
-                            <p className="text-xs text-muted-foreground mt-1">Start free forever</p>
-                            <p className="text-xs text-muted-foreground">Generator + Converter</p>
+                            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 leading-tight">Start free forever</p>
+                            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">5 gen/month</p>
                           </div>
 
                           <div
                             onClick={() => setRegisterData({ ...registerData, tier: "creator" })}
                             data-testid="tier-card-creator"
-                            className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                            className={`p-3 sm:p-4 rounded-lg border-2 cursor-pointer transition-all ${
                               registerData.tier === "creator"
                                 ? "border-blue-500 bg-blue-500/5"
                                 : "border-muted hover:border-muted-foreground/50"
                             }`}
                           >
-                            <div className="flex items-center gap-2 mb-2">
-                              <ArrowRight className="w-4 h-4 text-blue-500" />
-                              <span className="font-semibold">Creator</span>
+                            <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-500 flex-shrink-0" />
+                              <span className="font-semibold text-sm sm:text-base">Creator</span>
                             </div>
-                            <p className="text-xs text-muted-foreground mt-1">$7/mo</p>
-                            <p className="text-xs text-muted-foreground">33³ grid • 30 presets</p>
+                            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 leading-tight">$7/mo</p>
+                            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">Unlimited gen</p>
                           </div>
 
                           <div
                             onClick={() => setRegisterData({ ...registerData, tier: "pro" })}
                             data-testid="tier-card-pro"
-                            className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                            className={`p-3 sm:p-4 rounded-lg border-2 cursor-pointer transition-all ${
                               registerData.tier === "pro"
                                 ? "border-purple-500 bg-purple-500/5"
                                 : "border-muted hover:border-muted-foreground/50"
                             }`}
                           >
-                            <div className="flex items-center gap-2 mb-2">
-                              <Zap className="w-4 h-4 text-purple-500" />
-                              <span className="font-semibold">Pro</span>
+                            <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                              <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-500 flex-shrink-0" />
+                              <span className="font-semibold text-sm sm:text-base">Pro</span>
                             </div>
-                            <p className="text-xs text-muted-foreground mt-1">$12/mo</p>
-                            <p className="text-xs text-muted-foreground">Analyzer + Optimizer</p>
+                            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 leading-tight">$12/mo</p>
+                            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">All tools</p>
                           </div>
 
                           <div
                             data-testid="tier-card-studio-disabled"
-                            className="p-4 rounded-lg border-2 border-muted opacity-50 cursor-not-allowed"
+                            className="p-3 sm:p-4 rounded-lg border-2 border-muted opacity-50 cursor-not-allowed"
                           >
-                            <div className="flex items-center gap-2 mb-2">
-                              <Crown className="w-4 h-4 text-yellow-500" />
-                              <span className="font-semibold">Studio</span>
+                            <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                              <Crown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-yellow-500 flex-shrink-0" />
+                              <span className="font-semibold text-sm sm:text-base">Studio</span>
                             </div>
-                            <p className="text-xs text-muted-foreground">Coming Soon</p>
-                            <p className="text-xs text-muted-foreground mt-1">Team features</p>
+                            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">Coming Soon</p>
+                            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 leading-tight">Team tools</p>
                           </div>
                         </div>
                       </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="register-email">Email Address</Label>
+                      <div className="space-y-1.5 sm:space-y-2">
+                        <Label htmlFor="register-email" className="text-xs sm:text-sm">Email Address</Label>
                         <Input
                           id="register-email"
                           type="email"
@@ -206,15 +207,15 @@ export default function AuthPage() {
                           onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
                           required
                           data-testid="input-email"
-                          className="bg-background/50 border-muted"
+                          className="bg-background/50 border-muted text-sm sm:text-base"
                           placeholder="you@example.com"
                         />
-                        <p className="text-xs text-muted-foreground">
-                          Use a valid email address for account recovery
+                        <p className="text-[10px] sm:text-xs text-muted-foreground">
+                          Use a valid email for account recovery
                         </p>
                       </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="register-password">Password</Label>
+                      <div className="space-y-1.5 sm:space-y-2">
+                        <Label htmlFor="register-password" className="text-xs sm:text-sm">Password</Label>
                         <Input
                           id="register-password"
                           type="password"
@@ -222,11 +223,11 @@ export default function AuthPage() {
                           onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
                           required
                           data-testid="input-password"
-                          className="bg-background/50 border-muted"
+                          className="bg-background/50 border-muted text-sm sm:text-base"
                           placeholder="••••••••"
                         />
-                        <p className="text-xs text-muted-foreground">
-                          8+ characters with uppercase, number, and special character
+                        <p className="text-[10px] sm:text-xs text-muted-foreground">
+                          8+ characters recommended
                         </p>
                       </div>
                       <Button 
@@ -252,16 +253,16 @@ export default function AuthPage() {
                 </Card>
               </TabsContent>
 
-              <TabsContent value="login" className="mt-6">
+              <TabsContent value="login" className="mt-4 sm:mt-6">
                 <Card className="border-muted/50 bg-card/80 backdrop-blur-sm shadow-2xl">
-                  <CardHeader>
-                    <CardTitle className="text-2xl">Welcome Back</CardTitle>
-                    <CardDescription>Continue your color grading journey</CardDescription>
+                  <CardHeader className="space-y-1 pb-4">
+                    <CardTitle className="text-xl sm:text-2xl">Welcome Back</CardTitle>
+                    <CardDescription className="text-xs sm:text-sm">Continue your color grading journey</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <form onSubmit={handleLogin} className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="login-email">Email Address</Label>
+                      <div className="space-y-1.5 sm:space-y-2">
+                        <Label htmlFor="login-email" className="text-xs sm:text-sm">Email Address</Label>
                         <Input
                           id="login-email"
                           type="email"
@@ -269,12 +270,12 @@ export default function AuthPage() {
                           onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
                           required
                           data-testid="input-email"
-                          className="bg-background/50 border-muted"
+                          className="bg-background/50 border-muted text-sm sm:text-base"
                           placeholder="you@example.com"
                         />
                       </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="login-password">Password</Label>
+                      <div className="space-y-1.5 sm:space-y-2">
+                        <Label htmlFor="login-password" className="text-xs sm:text-sm">Password</Label>
                         <Input
                           id="login-password"
                           type="password"
@@ -282,7 +283,7 @@ export default function AuthPage() {
                           onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
                           required
                           data-testid="input-password"
-                          className="bg-background/50 border-muted"
+                          className="bg-background/50 border-muted text-sm sm:text-base"
                           placeholder="••••••••"
                         />
                       </div>
