@@ -6,7 +6,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Upload, Download, RefreshCw, CheckCircle, AlertCircle, Crown, Bookmark, Sparkles } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Upload, Download, RefreshCw, CheckCircle, AlertCircle, Crown, Bookmark, Sparkles, Folder } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
@@ -17,6 +18,7 @@ interface Preset {
   id: number;
   name: string;
   format: string;
+  folder: string | null;
   createdAt: string;
 }
 
@@ -475,12 +477,18 @@ export default function Convert() {
                 <div className="p-2 rounded-lg bg-gradient-to-br from-chart-2/20 to-chart-3/20">
                   <Bookmark className="w-5 h-5 text-chart-2" />
                 </div>
-                <div>
+                <div className="flex-1">
                   <CardTitle>My Saved Presets</CardTitle>
                   <CardDescription>
                     Load and download your saved LUT presets
+                    {isCreatorOrHigher && " • Organized by folders"}
                   </CardDescription>
                 </div>
+                {isCreatorOrHigher && (
+                  <Badge className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white border-0">
+                    <Sparkles className="w-3 h-3 mr-1" />Creator+
+                  </Badge>
+                )}
               </div>
             </CardHeader>
             <CardContent>
@@ -493,7 +501,80 @@ export default function Convert() {
                     No saved presets yet. Convert a LUT and save it from the dashboard.
                   </p>
                 </div>
-              ) : (
+              ) : isCreatorOrHigher && Array.isArray(presets) ? (
+                // Creator+ view with folder organization
+                <div className="space-y-4">
+                  {(() => {
+                    // Group presets by folder
+                    const folderMap: Record<string, Preset[]> = {};
+                    presets.forEach((preset) => {
+                      const folderName = preset.folder || "Uncategorized";
+                      if (!folderMap[folderName]) {
+                        folderMap[folderName] = [];
+                      }
+                      folderMap[folderName].push(preset);
+                    });
+                    
+                    const folders = Object.keys(folderMap).sort((a, b) => {
+                      if (a === "Uncategorized") return 1;
+                      if (b === "Uncategorized") return -1;
+                      return a.localeCompare(b);
+                    });
+
+                    return (
+                      <Accordion type="multiple" defaultValue={folders} className="space-y-2">
+                        {folders.map((folderName) => (
+                          <AccordionItem key={folderName} value={folderName} className="border rounded-lg bg-background/30">
+                            <AccordionTrigger className="px-4 hover:no-underline" data-testid={`folder-${folderName}`}>
+                              <div className="flex items-center gap-2">
+                                <Folder className="w-4 h-4 text-primary" />
+                                <span className="font-semibold">{folderName}</span>
+                                <Badge variant="secondary" className="ml-2">
+                                  {folderMap[folderName].length}
+                                </Badge>
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="px-4 pb-4 space-y-2">
+                              {folderMap[folderName].map((preset) => (
+                                <Card key={preset.id} className={`hover-elevate transition-all duration-300 ${selectedPreset === preset.id ? 'border-primary ring-2 ring-primary/20' : ''}`}>
+                                  <CardContent className="flex items-center justify-between gap-3 p-4">
+                                    <div className="flex-1">
+                                      <h3 className="font-semibold">{preset.name}</h3>
+                                      <p className="text-sm text-muted-foreground">
+                                        {preset.format.toUpperCase()} • {new Date(preset.createdAt).toLocaleDateString()}
+                                      </p>
+                                    </div>
+                                    <div className="flex gap-2">
+                                      <Button
+                                        size="sm"
+                                        onClick={() => handleApplyPreset(preset.id, preset.name, preset.format)}
+                                        data-testid={`button-apply-preset-${preset.id}`}
+                                        className="bg-gradient-to-r from-primary to-chart-2"
+                                      >
+                                        <Upload className="w-4 h-4 mr-2" />
+                                        Apply
+                                      </Button>
+                                      <Button
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={() => handleDownloadPreset(preset.id)}
+                                        data-testid={`button-download-preset-${preset.id}`}
+                                      >
+                                        <Download className="w-4 h-4" />
+                                      </Button>
+                                    </div>
+                                  </CardContent>
+                                </Card>
+                              ))}
+                            </AccordionContent>
+                          </AccordionItem>
+                        ))}
+                      </Accordion>
+                    );
+                  })()}
+                </div>
+              ) : Array.isArray(presets) ? (
+                // Free tier view (flat list)
                 <div className="space-y-3">
                   {presets.map((preset) => (
                     <Card key={preset.id} className={`hover-elevate transition-all duration-300 ${selectedPreset === preset.id ? 'border-primary ring-2 ring-primary/20' : ''}`}>
@@ -527,7 +608,7 @@ export default function Convert() {
                     </Card>
                   ))}
                 </div>
-              )}
+              ) : null}
             </CardContent>
           </Card>
         </TabsContent>
