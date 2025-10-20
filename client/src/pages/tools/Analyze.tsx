@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Upload, CheckCircle, AlertCircle, AlertTriangle, Info, Sparkles, BarChart3 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { BeforeAfterSlider } from "@/components/lut/BeforeAfterSlider";
+import { LutFileUpload } from "@/components/lut/LutFileUpload";
 import demoImageBefore from "@assets/stock_images/cinematic_film_scene_3b85db8f.jpg";
 import demoImageAfter from "@assets/stock_images/cinematic_film_scene_1a3fcc2b.jpg";
 import { Footer } from "@/components/layout/Footer";
@@ -34,44 +35,41 @@ export default function Analyze() {
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
   const { toast } = useToast();
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setUploadedFile(file);
-      setAnalysisResult(null);
-      setIsAnalyzing(true);
+  const handleFileUpload = async (file: File) => {
+    setUploadedFile(file);
+    setAnalysisResult(null);
+    setIsAnalyzing(true);
+    
+    const formData = new FormData();
+    formData.append("file", file);
+    
+    try {
+      const response = await fetch("/api/lut/analyze", {
+        method: "POST",
+        body: formData,
+      });
       
-      const formData = new FormData();
-      formData.append("file", file);
-      
-      try {
-        const response = await fetch("/api/lut/analyze", {
-          method: "POST",
-          body: formData,
-        });
-        
-        if (response.ok) {
-          const result = await response.json();
-          setAnalysisResult(result);
-        } else {
-          const error = await response.json();
-          toast({
-            title: "Analysis failed",
-            description: error.error || "Failed to analyze LUT file",
-            variant: "destructive",
-          });
-        }
-      } catch (error) {
-        console.error("Analysis error:", error);
+      if (response.ok) {
+        const result = await response.json();
+        setAnalysisResult(result);
+      } else {
+        const error = await response.json();
         toast({
           title: "Analysis failed",
-          description: "An error occurred during analysis",
+          description: error.error || "Failed to analyze LUT file",
           variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Analysis error:", error);
+      toast({
+        title: "Analysis failed",
+        description: "An error occurred during analysis",
+        variant: "destructive",
         });
       } finally {
         setIsAnalyzing(false);
       }
-    }
   };
 
   const getQualityScore = (quality: QualityInfo): { score: number; label: string; variant: "default" | "secondary" | "destructive" } => {
@@ -104,46 +102,12 @@ export default function Analyze() {
         </CardHeader>
         <CardContent>
           {/* Upload Zone */}
-          <div className="relative group">
-            <div className="absolute inset-0 bg-gradient-to-r from-chart-2/20 via-chart-3/20 to-primary/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <div className="relative border-2 border-dashed rounded-lg p-12 text-center hover-elevate bg-background">
-              <input
-                type="file"
-                accept=".cube,.3dl"
-                onChange={handleFileUpload}
-                className="hidden"
-                id="lut-analyze-upload"
-                data-testid="input-analyze-file"
-              />
-              <label htmlFor="lut-analyze-upload" className="cursor-pointer">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-chart-2/10 to-chart-3/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  {isAnalyzing ? (
-                    <BarChart3 className="w-8 h-8 text-chart-2 animate-pulse" />
-                  ) : (
-                    <Upload className="w-8 h-8 text-chart-2" />
-                  )}
-                </div>
-                {uploadedFile ? (
-                  <div>
-                    <p className="font-semibold text-lg">{uploadedFile.name}</p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {(uploadedFile.size / 1024).toFixed(2)} KB
-                    </p>
-                    {isAnalyzing && (
-                      <p className="text-sm text-chart-2 mt-2 font-medium animate-pulse">Analyzing color data...</p>
-                    )}
-                  </div>
-                ) : (
-                  <div>
-                    <p className="font-semibold text-lg mb-2">Drop LUT file or click to browse</p>
-                    <p className="text-sm text-muted-foreground">
-                      Supports .cube and .3dl formats
-                    </p>
-                  </div>
-                )}
-              </label>
-            </div>
-          </div>
+          <LutFileUpload
+            onFileUpload={handleFileUpload}
+            isProcessing={isAnalyzing}
+            uploadedFile={uploadedFile}
+            acceptedFormats={[".cube", ".3dl"]}
+          />
         </CardContent>
       </Card>
 

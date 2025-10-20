@@ -11,6 +11,7 @@ import { Upload, Download, RefreshCw, CheckCircle, AlertCircle, Crown, Bookmark,
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 import { BeforeAfterSlider } from "@/components/lut/BeforeAfterSlider";
+import { LutFileUpload } from "@/components/lut/LutFileUpload";
 import { Footer } from "@/components/layout/Footer";
 
 interface Preset {
@@ -58,59 +59,40 @@ export default function Convert() {
     enabled: !!user,
   });
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setUploadedFile(file);
-      setParseResult(null);
+  const handleFileUpload = async (file: File) => {
+    setUploadedFile(file);
+    setParseResult(null);
+    
+    const formData = new FormData();
+    formData.append("file", file);
+    
+    try {
+      const response = await fetch("/api/lut/parse", {
+        method: "POST",
+        body: formData,
+      });
       
-      const formData = new FormData();
-      formData.append("file", file);
-      
-      try {
-        const response = await fetch("/api/lut/parse", {
-          method: "POST",
-          body: formData,
-        });
+      if (response.ok) {
+        const result = await response.json();
+        setParseResult(result);
         
-        if (response.ok) {
-          const result = await response.json();
-          setParseResult(result);
-          
-          if (!result.success) {
-            toast({
-              title: "Invalid LUT File",
-              description: result.errors.join(", "),
-              variant: "destructive",
-            });
-          } else {
-            toast({
-              title: "LUT validated successfully",
-              description: `Valid ${result.format.toUpperCase()} file detected`,
-            });
-          }
-        } else {
-          const error = await response.json();
+        if (!result.success) {
           toast({
-            title: "Validation failed",
-            description: error.error || "Failed to parse LUT file",
+            title: "Invalid LUT File",
+            description: result.errors.join(", "),
             variant: "destructive",
           });
-          
-          setParseResult({
-            success: false,
-            format: "unknown",
-            size: 0,
-            errors: [error.error || "Failed to parse LUT file"],
-            warnings: [],
-            dataPoints: 0
+        } else {
+          toast({
+            title: "LUT validated successfully",
+            description: `Valid ${result.format.toUpperCase()} file detected`,
           });
         }
-      } catch (error) {
-        console.error("Parse error:", error);
+      } else {
+        const error = await response.json();
         toast({
           title: "Validation failed",
-          description: "An error occurred while validating the file",
+          description: error.error || "Failed to parse LUT file",
           variant: "destructive",
         });
         
@@ -118,11 +100,27 @@ export default function Convert() {
           success: false,
           format: "unknown",
           size: 0,
-          errors: ["An error occurred while validating the file"],
+          errors: [error.error || "Failed to parse LUT file"],
           warnings: [],
           dataPoints: 0
         });
       }
+    } catch (error) {
+      console.error("Parse error:", error);
+      toast({
+        title: "Validation failed",
+        description: "An error occurred while validating the file",
+        variant: "destructive",
+      });
+      
+      setParseResult({
+        success: false,
+        format: "unknown",
+        size: 0,
+        errors: ["An error occurred while validating the file"],
+        warnings: [],
+        dataPoints: 0
+      });
     }
   };
 
@@ -348,39 +346,12 @@ export default function Convert() {
               )}
 
               {/* Upload Zone */}
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-chart-2/20 to-chart-3/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative border-2 border-dashed rounded-lg p-12 text-center hover-elevate bg-background">
-                  <input
-                    type="file"
-                    accept=".cube,.3dl,.lut"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                    id="lut-upload"
-                    data-testid="input-lut-file"
-                  />
-                  <label htmlFor="lut-upload" className="cursor-pointer">
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary/10 to-chart-2/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <Upload className="w-8 h-8 text-primary" />
-                    </div>
-                    {uploadedFile ? (
-                      <div>
-                        <p className="font-semibold text-lg">{uploadedFile.name}</p>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          {(uploadedFile.size / 1024).toFixed(2)} KB
-                        </p>
-                      </div>
-                    ) : (
-                      <div>
-                        <p className="font-semibold text-lg mb-2">Drop LUT file or click to browse</p>
-                        <p className="text-sm text-muted-foreground">
-                          Supports .cube, .3dl, and .lut formats
-                        </p>
-                      </div>
-                    )}
-                  </label>
-                </div>
-              </div>
+              <LutFileUpload
+                onFileUpload={handleFileUpload}
+                isProcessing={false}
+                uploadedFile={uploadedFile}
+                acceptedFormats={[".cube", ".3dl", ".lut"]}
+              />
 
               {/* Output Format - Always .cube */}
               <Alert className="bg-primary/5 border-primary/20">

@@ -21,58 +21,63 @@ export default function LearnMore() {
         <div className="absolute inset-0 opacity-[0.015] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuNSIvPjwvc3ZnPg==')]" />
       </div>
 
-      <div className="container mx-auto px-4 py-20 max-w-6xl relative z-10">
+      <div className="container mx-auto px-4 py-20 max-w-7xl relative z-10">
         {/* Header */}
-        <div className="text-center space-y-4 mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
-            Cinema-Grade Chroma Science
+        <div className="text-center space-y-6 mb-20">
+          <div className="inline-block mb-4">
+            <span className="text-sm font-semibold uppercase tracking-wider text-primary/80">Professional Color Science</span>
+          </div>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground leading-tight">
+            Cinema-Grade<br />Chroma Science
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            CHROMA implements professional chroma science standards verified against VES Technology Committee and CIE specifications for production-ready LUT generation
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+            Industry-verified color science pipeline built on VES Technology Committee and CIE specifications for production-ready LUT generation
           </p>
         </div>
 
         {/* Professional Pipeline Overview */}
-        <div className="mb-16">
-          <Card className="border-primary/30 bg-gradient-to-br from-background to-primary/5 backdrop-blur-sm">
-            <CardHeader className="text-center space-y-3 pb-6">
-              <CardTitle className="text-3xl md:text-4xl font-bold">Professional Color Pipeline</CardTitle>
-              <CardDescription className="text-base max-w-2xl mx-auto">
+        <div className="mb-24">
+          <Card className="border-primary/30 bg-gradient-to-br from-background via-background/50 to-primary/5 backdrop-blur-sm shadow-2xl">
+            <CardHeader className="text-center space-y-4 pb-8 pt-8">
+              <CardTitle className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground to-primary/80 bg-clip-text text-transparent">
+                Professional Color Pipeline
+              </CardTitle>
+              <CardDescription className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
                 Unlike simple filters or presets, CHROMA uses cinema-grade chroma science to extract authentic grading from reference images
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center">
-                      <Check className="w-5 h-5 text-primary" />
+            <CardContent className="pb-8">
+              <div className="grid md:grid-cols-3 gap-8">
+                <div className="space-y-4 group">
+                  <div className="flex items-center gap-3">
+                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/30 to-chart-2/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Check className="w-7 h-7 text-primary" />
                     </div>
-                    <h3 className="font-semibold text-lg">Industry Standards</h3>
+                    <h3 className="font-bold text-xl">Industry Standards</h3>
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-base text-muted-foreground leading-relaxed pl-1">
                     Built on VES Technology Committee white papers and CIE chroma science specifications with industry-standard color space transformations
                   </p>
                 </div>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-chart-2/20 to-chart-3/20 flex items-center justify-center">
-                      <Box className="w-5 h-5 text-chart-2" />
+                <div className="space-y-4 group">
+                  <div className="flex items-center gap-3">
+                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-chart-2/30 to-chart-3/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Box className="w-7 h-7 text-chart-2" />
                     </div>
-                    <h3 className="font-semibold text-lg">Perceptual Color Space</h3>
+                    <h3 className="font-bold text-xl">Perceptual Color Space</h3>
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-base text-muted-foreground leading-relaxed pl-1">
                     CIE L*a*b* perceptually uniform transformations ensure natural-looking color grading that matches human vision, not just mathematical RGB manipulation
                   </p>
                 </div>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-chart-3/20 to-primary/20 flex items-center justify-center">
-                      <Layers className="w-5 h-5 text-chart-3" />
+                <div className="space-y-4 group">
+                  <div className="flex items-center gap-3">
+                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-chart-3/30 to-primary/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Layers className="w-7 h-7 text-chart-3" />
                     </div>
-                    <h3 className="font-semibold text-lg">Production Ready</h3>
+                    <h3 className="font-bold text-xl">Production Ready</h3>
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-base text-muted-foreground leading-relaxed pl-1">
                     Generates 3D LUTs with comprehensive metadata compatible with DaVinci Resolve, Premiere Pro, Final Cut Pro, and all professional color grading software
                   </p>
                 </div>
@@ -82,15 +87,17 @@ export default function LearnMore() {
         </div>
 
         {/* Six-Stage Professional Pipeline */}
-        <div className="mb-16">
-          <div className="text-center space-y-3 mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold">Six-Stage Chroma Science Architecture</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+        <div className="mb-24">
+          <div className="text-center space-y-5 mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground to-primary/70 bg-clip-text text-transparent">
+              Six-Stage Chroma Science Architecture
+            </h2>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               Professional pipeline for cinema-quality color extraction
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {/* Stage 1: CIE Lab */}
             <Card className="border-primary/30 bg-gradient-to-br from-background to-primary/5 backdrop-blur-sm">
               <CardHeader className="space-y-2">
