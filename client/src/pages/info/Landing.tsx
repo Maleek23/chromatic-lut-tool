@@ -75,7 +75,7 @@ export default function Landing() {
               </CardHeader>
               <CardContent className="text-center">
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Extract <span className="text-foreground font-medium">cinema-grade color science</span> using CIE L*a*b* and K-means clustering
+                  Extract <span className="text-foreground font-medium">cinema-grade chroma science</span> using perceptual color space analysis
                 </p>
               </CardContent>
             </Card>

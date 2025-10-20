@@ -51,7 +51,7 @@ export default function LearnMore() {
                     <h3 className="font-semibold text-lg">Industry Standards</h3>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Built on VES Technology Committee white papers and CIE chroma science specifications. Uses D65 illuminant, sRGB gamma (2.4 exponent), and blue-fastest indexing
+                    Built on VES Technology Committee white papers and CIE chroma science specifications with industry-standard color space transformations
                   </p>
                 </div>
                 <div className="space-y-3">
@@ -103,7 +103,7 @@ export default function LearnMore() {
               </CardHeader>
               <CardContent className="space-y-2">
                 <p className="text-sm text-muted-foreground">
-                  Perceptually uniform color space (CIE 1976) with D65 white point. Enables natural-looking grading that matches human vision, not just math.
+                  Perceptually uniform color space (CIE 1976) ensures natural-looking grading that matches human vision, not just mathematical RGB manipulation.
                 </p>
               </CardContent>
             </Card>
@@ -120,7 +120,7 @@ export default function LearnMore() {
               </CardHeader>
               <CardContent className="space-y-2">
                 <p className="text-sm text-muted-foreground">
-                  12-cluster intelligent sampling extracts dominant colors and comprehensive coverage from reference images for authentic color mapping.
+                  Intelligent multi-cluster sampling extracts dominant colors and comprehensive coverage from reference images for authentic color mapping.
                 </p>
               </CardContent>
             </Card>
@@ -137,7 +137,7 @@ export default function LearnMore() {
               </CardHeader>
               <CardContent className="space-y-2">
                 <p className="text-sm text-muted-foreground">
-                  John Hable-style shoulder/toe curves create cinema-quality tonality with smooth highlight rolloff and shadow detail preservation.
+                  Cinema-grade shoulder/toe curves create professional tonality with smooth highlight rolloff and shadow detail preservation.
                 </p>
               </CardContent>
             </Card>
@@ -154,7 +154,7 @@ export default function LearnMore() {
               </CardHeader>
               <CardContent className="space-y-2">
                 <p className="text-sm text-muted-foreground">
-                  Lab distance-based preservation maintains natural skin tones even under aggressive color grading, critical for professional workflows.
+                  Perceptual preservation maintains natural skin tones even under aggressive color grading, critical for professional workflows.
                 </p>
               </CardContent>
             </Card>
@@ -171,7 +171,7 @@ export default function LearnMore() {
               </CardHeader>
               <CardContent className="space-y-2">
                 <p className="text-sm text-muted-foreground">
-                  Hue-preserving binary search in LCh space ensures Rec.709 compliance while maintaining color intent for broadcast delivery.
+                  Hue-preserving gamut compression ensures broadcast compliance while maintaining color intent for professional delivery.
                 </p>
               </CardContent>
             </Card>
@@ -188,7 +188,7 @@ export default function LearnMore() {
               </CardHeader>
               <CardContent className="space-y-2">
                 <p className="text-sm text-muted-foreground">
-                  Gray World algorithm provides automatic white balance correction, essential for consistent color across varied lighting conditions.
+                  Automatic white balance correction provides consistent color across varied lighting conditions.
                 </p>
               </CardContent>
             </Card>
@@ -215,7 +215,7 @@ export default function LearnMore() {
                 <p className="text-muted-foreground leading-relaxed">
                   Our flagship tool uses <span className="text-foreground font-semibold">cinema-grade chroma science</span> to extract authentic color grading from reference images. 
                   Unlike simple filters or presets, CHROMA implements a professional pipeline using <span className="text-foreground font-semibold">CIE L*a*b* perceptual color space</span>, 
-                  <span className="text-foreground font-semibold">K-means clustering</span> (12 clusters), <span className="text-foreground font-semibold">filmic tone curves</span>, 
+                  <span className="text-foreground font-semibold">intelligent clustering</span>, <span className="text-foreground font-semibold">cinema-grade tone curves</span>, 
                   and <span className="text-foreground font-semibold">hue-preserving gamut compression</span> to recreate the exact chroma science from your reference image.
                 </p>
               </div>
@@ -225,27 +225,27 @@ export default function LearnMore() {
                 <div className="grid grid-cols-1 gap-2 text-xs text-muted-foreground">
                   <div className="flex items-start gap-2">
                     <span className="text-primary font-semibold">1.</span>
-                    <span><strong className="text-foreground">CIE L*a*b* Color Space:</strong> Perceptually uniform transformations (VES/CIE standards) with D65 white point</span>
+                    <span><strong className="text-foreground">CIE L*a*b* Color Space:</strong> Perceptually uniform transformations using industry-standard color science</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-primary font-semibold">2.</span>
-                    <span><strong className="text-foreground">K-means Clustering:</strong> Intelligent color sampling with 12 clusters for comprehensive color coverage</span>
+                    <span><strong className="text-foreground">Intelligent Clustering:</strong> Multi-cluster sampling for comprehensive color coverage</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-primary font-semibold">3.</span>
-                    <span><strong className="text-foreground">Filmic Tone Curves:</strong> John Hable-style shoulder/toe curves for cinema-quality tonality</span>
+                    <span><strong className="text-foreground">Cinema-Grade Tone Curves:</strong> Professional shoulder/toe curves for film-quality tonality</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-primary font-semibold">4.</span>
-                    <span><strong className="text-foreground">Skin Tone Protection:</strong> Lab distance-based preservation to maintain natural skin tones</span>
+                    <span><strong className="text-foreground">Skin Tone Protection:</strong> Perceptual preservation to maintain natural skin tones</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-primary font-semibold">5.</span>
-                    <span><strong className="text-foreground">Gamut Compression:</strong> Hue-preserving binary search in LCh space for Rec.709 compliance</span>
+                    <span><strong className="text-foreground">Gamut Compression:</strong> Hue-preserving compression for broadcast compliance</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-primary font-semibold">6.</span>
-                    <span><strong className="text-foreground">Chromatic Adaptation:</strong> Gray World algorithm for automatic white balance correction</span>
+                    <span><strong className="text-foreground">Chromatic Adaptation:</strong> Automatic white balance correction</span>
                   </div>
                 </div>
               </div>
@@ -257,7 +257,7 @@ export default function LearnMore() {
                     Industry Standards
                   </div>
                   <p className="text-sm text-muted-foreground pl-4">
-                    Built on VES Technology Committee and CIE chroma science standards. Uses sRGB gamma (2.4 exponent), D65 illuminant, and blue-fastest indexing for professional compatibility
+                    Built on VES Technology Committee and CIE chroma science standards with industry-standard color transformations for professional compatibility
                   </p>
                 </div>
                 <div className="space-y-2">

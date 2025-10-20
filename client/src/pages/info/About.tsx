@@ -44,9 +44,9 @@ export default function About() {
                 be locked behind expensive software or require years of training.
               </p>
               <p>
-                By combining industry-standard techniques (CIE L*a*b* perceptual color space, K-means clustering, filmic
-                tone curves) with modern web technology, we make professional LUT generation accessible to everyone—from
-                hobbyists testing their first color grade to Hollywood colorists working on feature films.
+                By combining industry-standard color science techniques with modern web technology, we make professional 
+                LUT generation accessible to everyone—from hobbyists testing their first color grade to Hollywood colorists 
+                working on feature films.
               </p>
             </CardContent>
           </Card>
@@ -71,28 +71,28 @@ export default function About() {
                 <div className="space-y-2">
                   <h3 className="font-semibold text-foreground">Perceptual Accuracy</h3>
                   <p className="text-sm">
-                    CIE L*a*b* color space with D65 white point ensures color transformations match human vision,
+                    Industry-standard perceptual color space ensures transformations match human vision,
                     not just mathematical RGB manipulation.
                   </p>
                 </div>
                 <div className="space-y-2">
                   <h3 className="font-semibold text-foreground">Intelligent Sampling</h3>
                   <p className="text-sm">
-                    K-means clustering with 12 clusters extracts dominant colors and comprehensive coverage from
+                    Multi-cluster analysis extracts dominant colors and comprehensive coverage from
                     reference images for authentic color mapping.
                   </p>
                 </div>
                 <div className="space-y-2">
                   <h3 className="font-semibold text-foreground">Cinema-Quality Tonality</h3>
                   <p className="text-sm">
-                    John Hable-style filmic tone curves with shoulder/toe create professional highlight rolloff
+                    Cinema-grade tone curves create professional highlight rolloff
                     and shadow detail preservation.
                   </p>
                 </div>
                 <div className="space-y-2">
                   <h3 className="font-semibold text-foreground">Production Ready</h3>
                   <p className="text-sm">
-                    Hue-preserving gamut compression, skin tone protection, and blue-fastest indexing ensure
+                    Hue-preserving gamut compression and skin tone protection ensure
                     compatibility with all professional color grading software.
                   </p>
                 </div>
