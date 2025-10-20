@@ -8,7 +8,22 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (October 20, 2025)
 
-### UI/UX Enhancement - Professional Upload Experience & Mobile Optimization (Latest)
+### Password Recovery System Implemented (Latest)
+- **Complete Password Reset Flow** (Architect-approved):
+  - Database schema: `password_reset_tokens` table with cascade delete on user deletion, 1-hour token expiry, one-time use flag
+  - Backend security: Crypto-secure random token generation (32 bytes hex), bcrypt password hashing, no user enumeration
+  - Email integration: Professional reset email via Resend with secure token links and clear instructions
+  - Frontend pages: `/forgot-password` (email submission with success states), `/reset-password` (token validation, password confirmation)
+  - UX integration: "Forgot password?" link added to login form with professional styling
+  - Routes: Added to App.tsx with navbar hidden on all auth pages
+  - E2E tested: All flows verified including email submission, success states, navigation, and token validation
+- **Storage Layer**: Complete CRUD operations for password reset tokens in both PostgresStorage and MemStorage
+- **API Endpoints**: 
+  - POST /api/auth/forgot-password - Accepts email, creates token, sends email (prevents user enumeration)
+  - POST /api/auth/reset-password - Validates token expiry/usage, securely updates password
+- **Security Features**: Timing-attack resistant, no information leakage, proper token lifecycle management
+
+### UI/UX Enhancement - Professional Upload Experience & Mobile Optimization
 - **Upload Components Redesigned** (Architect-approved):
   - Created `UploadZone.tsx` - Dramatic drag-and-drop for Image-to-LUT generation with 450px height, gradient backgrounds, 20x20 icons, animated glow effects, sparkle overlays on drag, and large gradient CTA button
   - Created `LutFileUpload.tsx` - Professional upload component for Convert/Analyze tools with 320px height, chart-2 color scheme, 16x16 icons, format badges, and state-driven animations
