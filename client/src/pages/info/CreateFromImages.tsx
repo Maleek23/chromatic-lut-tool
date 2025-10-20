@@ -143,7 +143,8 @@ export default function CreateFromImages() {
                         <ul className="text-xs sm:text-sm text-muted-foreground space-y-1.5 ml-6 list-disc">
                           <li>Use properly exposed images with visible detail</li>
                           <li>Avoid over-processed or heavily filtered sources</li>
-                          <li>JPG or PNG format, 5MB maximum on Free tier</li>
+                          <li>Multiple formats supported: JPG, PNG, WEBP, HEIC, TIFF, BMP, GIF</li>
+                          <li>File size limits: Free 5MB, Creator 25MB, Pro 50MB, Studio 100MB</li>
                         </ul>
                       </CardContent>
                     </Card>

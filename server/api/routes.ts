@@ -29,26 +29,36 @@ const upload = multer({
   storage: multer.memoryStorage(),
   fileFilter: (req, file, cb) => {
     const allowedMimeTypes = [
-      'text/plain',           // .cube, .3dl
+      'text/plain',           // .cube, .3dl, .lut
       'application/octet-stream', // generic
       'image/png',            // .png
       'image/jpeg',           // .jpg, .jpeg
+      'image/webp',           // .webp
+      'image/heic',           // .heic
+      'image/heif',           // .heif
+      'image/tiff',           // .tiff, .tif
+      'image/bmp',            // .bmp
+      'image/gif',            // .gif
       'video/mp4',            // .mp4
       'video/quicktime',      // .mov
       'video/x-msvideo'       // .avi
     ];
     
-    const allowedExtensions = ['.cube', '.3dl', '.lut', '.png', '.jpg', '.jpeg', '.mp4', '.mov', '.avi'];
+    const allowedExtensions = [
+      '.cube', '.3dl', '.lut', '.look',  // LUT formats
+      '.png', '.jpg', '.jpeg', '.webp', '.heic', '.heif', '.tiff', '.tif', '.bmp', '.gif',  // Image formats
+      '.mp4', '.mov', '.avi'  // Video formats
+    ];
     const ext = file.originalname.toLowerCase().substring(file.originalname.lastIndexOf('.'));
     
     if (allowedMimeTypes.includes(file.mimetype) || allowedExtensions.includes(ext)) {
       cb(null, true);
     } else {
-      cb(new Error(`Unsupported file type: ${file.mimetype}. Supported: .cube, .3dl, .lut, .png, .jpg, .mp4, .mov, .avi`));
+      cb(new Error(`Unsupported file type: ${file.mimetype}. Supported formats: LUT (.cube, .3dl, .lut), Images (.png, .jpg, .webp, .heic, .tiff, .bmp, .gif), Video (.mp4, .mov, .avi)`));
     }
   },
   limits: {
-    fileSize: 100 * 1024 * 1024 // 100MB limit for video files
+    fileSize: 100 * 1024 * 1024 // 100MB max upload size
   }
 });
 
@@ -254,10 +264,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Analyze image endpoint
+  // Analyze image endpoint - supports both authenticated and unauthenticated access
   app.post("/api/analyze", async (req, res) => {
     try {
       const { imageData } = req.body;
+      // Use authenticated user tier, or default to 'free' for unauthenticated requests
+      const userTier = req.user?.tier || 'free';
 
       if (!imageData) {
         return res.status(400).json({ error: "No image data provided" });
@@ -272,10 +284,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const base64Data = imageData.replace(/^data:image\/\w+;base64,/, "");
       const imageBuffer = Buffer.from(base64Data, "base64");
 
-      // Validate buffer size (max 25MB)
-      const MAX_SIZE = 25 * 1024 * 1024;
-      if (imageBuffer.length > MAX_SIZE) {
-        return res.status(400).json({ error: "Image too large. Maximum size is 25MB" });
+      // Validate buffer size based on tier (authenticated) or free tier (unauthenticated)
+      const FILE_SIZE_LIMITS: Record<string, number> = {
+        free: 5 * 1024 * 1024,      // 5MB
+        creator: 25 * 1024 * 1024,  // 25MB
+        pro: 50 * 1024 * 1024,      // 50MB
+        studio: 100 * 1024 * 1024   // 100MB
+      };
+      
+      const maxSize = FILE_SIZE_LIMITS[userTier] || FILE_SIZE_LIMITS.free;
+      const maxSizeMB = Math.floor(maxSize / (1024 * 1024));
+      
+      if (imageBuffer.length > maxSize) {
+        const upgradeMsg = req.user 
+          ? `Your ${userTier} tier allows up to ${maxSizeMB}MB.`
+          : `Free tier allows up to ${maxSizeMB}MB. Sign up for larger file sizes.`;
+        return res.status(400).json({ error: `Image too large. ${upgradeMsg}` });
       }
 
       // Analyze the image (Sharp will validate the image format and size)

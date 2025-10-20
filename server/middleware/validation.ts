@@ -27,7 +27,7 @@ export const FILE_SIZE_LIMITS = {
   free: 5 * 1024 * 1024, // 5MB
   creator: 25 * 1024 * 1024, // 25MB
   pro: 50 * 1024 * 1024, // 50MB
-  studio: 500 * 1024 * 1024, // 500MB
+  studio: 100 * 1024 * 1024, // 100MB
 };
 
 // Feature limits by tier

@@ -55,23 +55,32 @@ export default function Tool() {
   const atMonthlyLimit = isFree && conversionsUsed >= conversionsLimit;
 
   const handleImageUpload = async (file: File) => {
-    // Validate file size (max 25MB)
-    const MAX_FILE_SIZE = 25 * 1024 * 1024;
-    if (file.size > MAX_FILE_SIZE) {
+    // Validate file size based on user tier
+    const FILE_SIZE_LIMITS: Record<string, number> = {
+      free: 5 * 1024 * 1024,      // 5MB
+      creator: 25 * 1024 * 1024,  // 25MB
+      pro: 50 * 1024 * 1024,      // 50MB
+      studio: 100 * 1024 * 1024   // 100MB
+    };
+    
+    const maxFileSize = FILE_SIZE_LIMITS[user.tier] || FILE_SIZE_LIMITS.free;
+    const maxFileSizeMB = Math.floor(maxFileSize / (1024 * 1024));
+    
+    if (file.size > maxFileSize) {
       toast({
         title: "File Too Large",
-        description: "Please upload an image smaller than 25MB.",
+        description: `Your ${user.tier} tier allows files up to ${maxFileSizeMB}MB. ${user.tier === 'free' ? 'Upgrade to Creator for 25MB.' : 'Upgrade for larger file sizes.'}`,
         variant: "destructive",
       });
       return;
     }
 
-    // Validate file type
-    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/heic', 'image/heif', 'image/webp', 'image/tiff', 'image/tif'];
-    if (!validTypes.includes(file.type)) {
+    // Validate file type - support multiple image formats
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/heic', 'image/heif', 'image/webp', 'image/tiff', 'image/tif', 'image/bmp', 'image/gif'];
+    if (!validTypes.includes(file.type) && !validTypes.includes('image/' + file.name.split('.').pop()?.toLowerCase())) {
       toast({
         title: "Invalid File Type",
-        description: "Please upload a valid image file (JPG, PNG, HEIC, WEBP, or TIFF).",
+        description: "Please upload a valid image file (JPG, PNG, HEIC, WEBP, TIFF, BMP, or GIF).",
         variant: "destructive",
       });
       return;
