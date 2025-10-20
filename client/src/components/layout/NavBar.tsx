@@ -73,18 +73,25 @@ export function NavBar() {
     <>
       {user ? (
         <>
-          <div className={`flex items-center gap-2 ${mobile ? 'py-2' : 'px-3'}`} data-testid="user-info">
-            <User className="w-4 h-4" />
-            <span className="text-sm">{user.username}</span>
-            <Badge variant="secondary" className="text-xs uppercase">
+          {mobile && (
+            <div className="flex items-center gap-2 py-2" data-testid="user-info">
+              <User className="w-4 h-4" />
+              <span className="text-sm">{user.username}</span>
+              <Badge variant="secondary" className="text-xs uppercase">
+                {user.tier}
+              </Badge>
+            </div>
+          )}
+          {!mobile && (
+            <Badge variant="secondary" className="text-xs uppercase" data-testid="user-tier-badge">
               {user.tier}
             </Badge>
-          </div>
+          )}
           {user.tier !== "pro" && user.tier !== "studio" && (
             <Link href="/upgrade" onClick={() => mobile && setOpen(false)}>
               <Button
                 variant="default"
-                size="sm"
+                size={mobile ? "sm" : "sm"}
                 data-testid="button-upgrade"
                 className={mobile ? "w-full justify-start" : ""}
               >
@@ -96,17 +103,17 @@ export function NavBar() {
           <Link href="/settings" onClick={() => mobile && setOpen(false)}>
             <Button
               variant="ghost"
-              size="sm"
+              size={mobile ? "sm" : "icon"}
               data-testid="button-settings"
               className={mobile ? "w-full justify-start" : ""}
             >
-              <Settings className="w-4 h-4 mr-2" />
-              Settings
+              <Settings className="w-4 h-4" />
+              {mobile && <span className="ml-2">Settings</span>}
             </Button>
           </Link>
           <Button
             variant="ghost"
-            size="sm"
+            size={mobile ? "sm" : "icon"}
             onClick={() => {
               logoutMutation.mutate();
               mobile && setOpen(false);
@@ -114,8 +121,8 @@ export function NavBar() {
             data-testid="button-logout"
             className={mobile ? "w-full justify-start" : ""}
           >
-            <LogOut className="w-4 h-4 mr-2" />
-            Logout
+            <LogOut className="w-4 h-4" />
+            {mobile && <span className="ml-2">Logout</span>}
           </Button>
         </>
       ) : (
@@ -135,9 +142,9 @@ export function NavBar() {
         {/* Logo */}
         <Link href="/">
           <Button variant="ghost" className="hover-elevate px-2" data-testid="button-home">
-            <div className="flex items-center gap-1.5">
-              <img src={logoImage} alt="Chroma" className="h-8 w-auto" />
-              <div className="hidden lg:flex items-center text-[9px] font-medium text-muted-foreground tracking-[0.15em] -ml-1 group">
+            <div className="flex items-center gap-2">
+              <img src={logoImage} alt="Chroma" className="h-11 w-auto" />
+              <div className="hidden lg:flex items-center text-[10px] font-medium text-muted-foreground tracking-[0.15em] group">
                 <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by</span>
                 <div className="flex items-center gap-0 ml-0.5">
                   <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">UN</span>
