@@ -24,10 +24,10 @@ export default function Landing() {
       {/* Hero Section */}
       <section className="relative z-10 pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          {/* Main logo with branding */}
-          <div className="flex items-center justify-center gap-2 mb-8">
+          {/* Main logo - centered */}
+          <div className="flex flex-col items-center justify-center mb-8">
             <img src={logoImage} alt="CHROMA" className="h-24 sm:h-28 md:h-32 lg:h-36 w-auto" />
-            <div className="flex items-center text-[10px] sm:text-[11px] text-muted-foreground tracking-[0.1em] group">
+            <div className="flex items-center text-[10px] sm:text-[11px] text-muted-foreground tracking-[0.1em] group mt-2">
               <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">By</span>
               <div className="flex items-center gap-0 ml-0.5">
                 <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">UN</span>
