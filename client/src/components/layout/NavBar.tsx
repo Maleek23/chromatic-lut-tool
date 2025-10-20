@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
-import logoImage from "@assets/logo.png";
+import logoImage from "@assets/logo-icon-transparent.png";
 
 export function NavBar() {
   const [location] = useLocation();
@@ -135,17 +135,14 @@ export function NavBar() {
         {/* Logo */}
         <Link href="/">
           <Button variant="ghost" className="hover-elevate px-2 sm:px-3" data-testid="button-home">
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <img src={logoImage} alt="Chroma" className="w-16 h-16 sm:w-20 sm:h-20" />
-              <div className="flex flex-col items-start leading-none">
-                <span className="font-bold text-lg sm:text-xl tracking-tight">CHROMA</span>
-                <div className="hidden sm:flex items-center text-[10px] font-medium text-muted-foreground tracking-[0.15em] group">
-                  <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by</span>
-                  <div className="flex items-center gap-0 ml-0.5">
-                    <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">UN</span>
-                    <span className="text-primary mx-0.5 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rotate-180">/</span>
-                    <span className="transition-all duration-500 ease-in-out group-hover:-translate-x-2 group-hover:opacity-0 group-hover:scale-50">TITLD</span>
-                  </div>
+            <div className="flex flex-col items-center gap-0.5">
+              <img src={logoImage} alt="Chroma" className="w-10 h-10 sm:w-12 sm:h-12" />
+              <div className="flex items-center text-[9px] sm:text-[10px] font-medium text-muted-foreground tracking-[0.15em] group">
+                <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by</span>
+                <div className="flex items-center gap-0 ml-0.5">
+                  <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">UN</span>
+                  <span className="text-primary mx-0.5 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rotate-180">/</span>
+                  <span className="transition-all duration-500 ease-in-out group-hover:-translate-x-2 group-hover:opacity-0 group-hover:scale-50">TITLD</span>
                 </div>
               </div>
             </div>
