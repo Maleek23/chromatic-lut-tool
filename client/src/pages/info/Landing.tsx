@@ -150,7 +150,7 @@ export default function Landing() {
           <div className="flex flex-col lg:flex-row gap-6 justify-center items-end max-w-[1200px] mx-auto">
             {/* Free Tier */}
             <div className="relative w-full lg:w-[260px]">
-              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col h-[600px]">
+              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col min-h-[480px]">
                 <CardHeader className="space-y-4 pb-6">
                   <div>
                     <CardTitle className="text-2xl flex items-center gap-2">
@@ -208,7 +208,7 @@ export default function Landing() {
 
             {/* Creator Tier */}
             <div className="relative w-full lg:w-[260px]">
-              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-blue-500/20 flex flex-col h-[600px]">
+              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-blue-500/20 flex flex-col min-h-[520px]">
                 <CardHeader className="space-y-4 pb-6">
                   <div>
                     <CardTitle className="text-2xl flex items-center gap-2">
@@ -271,7 +271,7 @@ export default function Landing() {
                 Most Popular
               </Badge>
               
-              <Card className="border-primary shadow-lg shadow-primary/10 hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col h-[600px]">
+              <Card className="border-primary shadow-lg shadow-primary/10 hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col min-h-[560px]">
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-chart-2 to-chart-3 rounded-t-lg" />
                 
                 <CardHeader className="space-y-4 pb-6 pt-8">
@@ -339,7 +339,7 @@ export default function Landing() {
                 Coming Soon
               </Badge>
               
-              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-yellow-500/20 opacity-90 flex flex-col h-[600px]">
+              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 border-yellow-500/20 opacity-90 flex flex-col min-h-[600px]">
                 <CardHeader className="space-y-4 pb-6 pt-8">
                   <div>
                     <CardTitle className="text-2xl flex items-center gap-2">
