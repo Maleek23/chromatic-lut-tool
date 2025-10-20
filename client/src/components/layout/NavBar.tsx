@@ -135,9 +135,12 @@ export function NavBar() {
         {/* Logo */}
         <Link href="/">
           <Button variant="ghost" className="hover-elevate px-2 sm:px-3" data-testid="button-home">
-            <div className="flex flex-col items-center gap-0.5">
-              <img src={logoImage} alt="Chroma" className="w-10 h-10 sm:w-12 sm:h-12" />
-              <div className="flex items-center text-[9px] sm:text-[10px] font-medium text-muted-foreground tracking-[0.15em] group">
+            <div className="flex items-center gap-2">
+              <div className="flex flex-col items-center leading-none">
+                <img src={logoImage} alt="Chroma" className="w-10 h-10 sm:w-12 sm:h-12" />
+                <span className="font-bold text-sm sm:text-base tracking-tight mt-0.5">CHROMA</span>
+              </div>
+              <div className="hidden sm:flex items-center text-[10px] font-medium text-muted-foreground tracking-[0.15em] group">
                 <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by</span>
                 <div className="flex items-center gap-0 ml-0.5">
                   <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">UN</span>
