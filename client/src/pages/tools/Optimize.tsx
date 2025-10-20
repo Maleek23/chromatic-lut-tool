@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Upload } from "lucide-react";
+import { Footer } from "@/components/layout/Footer";
 
 export default function Optimize() {
   return (
@@ -27,6 +28,8 @@ export default function Optimize() {
           </CardContent>
         </Card>
       </div>
+      
+      <Footer />
     </div>
   );
 }

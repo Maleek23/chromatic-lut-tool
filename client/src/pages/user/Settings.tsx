@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { useQuery } from "@tanstack/react-query";
 import { Progress } from "@/components/ui/progress";
 import { useTheme } from "@/components/layout/ThemeProvider";
+import { Footer } from "@/components/layout/Footer";
 
 type UsageStats = {
   tier: string;
@@ -315,6 +316,8 @@ export default function Settings() {
           </CardContent>
         </Card>
       </div>
+      
+      <Footer />
     </div>
   );
 }

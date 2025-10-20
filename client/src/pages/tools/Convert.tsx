@@ -11,6 +11,7 @@ import { Upload, Download, RefreshCw, CheckCircle, AlertCircle, Crown, Bookmark,
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 import { BeforeAfterSlider } from "@/components/lut/BeforeAfterSlider";
+import { Footer } from "@/components/layout/Footer";
 
 interface Preset {
   id: number;
@@ -611,7 +612,8 @@ export default function Convert() {
           </Card>
         </TabsContent>
       </Tabs>
-
+      
+      <Footer />
     </div>
   );
 }

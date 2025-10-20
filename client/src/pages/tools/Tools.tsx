@@ -9,6 +9,7 @@ import { useLocation } from "wouter";
 import { UpgradePrompt } from "@/components/shared/UpgradePrompt";
 import { canUseAnalyzer, canUseOptimizer, getUpgradeMessage } from "@shared/tiers";
 import type { TierType } from "@shared/tiers";
+import { Footer } from "@/components/layout/Footer";
 
 export default function Tools() {
   const [activeTab, setActiveTab] = useState("convert");
@@ -139,6 +140,8 @@ export default function Tools() {
           </TabsContent>
         </Tabs>
       </div>
+      
+      <Footer />
     </div>
   );
 }

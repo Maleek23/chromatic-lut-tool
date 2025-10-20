@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { BeforeAfterSlider } from "@/components/lut/BeforeAfterSlider";
 import demoImageBefore from "@assets/stock_images/cinematic_film_scene_3b85db8f.jpg";
 import demoImageAfter from "@assets/stock_images/cinematic_film_scene_1a3fcc2b.jpg";
+import { Footer } from "@/components/layout/Footer";
 
 interface QualityInfo {
   hasInvalidPoints: boolean;
@@ -314,6 +315,8 @@ export default function Analyze() {
           />
         </CardContent>
       </Card>
+      
+      <Footer />
     </div>
   );
 }

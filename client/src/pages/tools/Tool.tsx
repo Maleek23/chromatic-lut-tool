@@ -14,6 +14,7 @@ import { useLocation } from "wouter";
 import type { LutAnalysis, LutResponse } from "@shared/schema";
 import { getUserTier, isGridSizeAllowed, isFormatAllowed } from "@/lib/tier-utils";
 import { queryClient } from "@/lib/queryClient";
+import { Footer } from "@/components/layout/Footer";
 
 export default function Tool() {
   const { toast } = useToast();
@@ -450,6 +451,8 @@ export default function Tool() {
           </div>
         )}
       </main>
+      
+      <Footer />
     </div>
   );
 }

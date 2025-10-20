@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Check, Zap, Film, Sparkles, Palette, Crown, ArrowRight } from "lucide-react";
+import { Footer } from "@/components/layout/Footer";
 
 export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
@@ -420,6 +421,8 @@ export default function AuthPage() {
           </div>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 }
