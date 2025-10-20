@@ -190,6 +190,10 @@ export default function Landing() {
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                      <span className="text-sm text-muted-foreground">10MB file size limit</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
                       <span className="text-sm text-muted-foreground">Save up to 3 LUTs</span>
                     </div>
                   </div>
@@ -232,7 +236,11 @@ export default function Landing() {
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">.cube format only</span>
+                      <span className="text-sm text-muted-foreground">.cube, .3dl, .look (3 formats)</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                      <span className="text-sm text-muted-foreground">50MB file size limit</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
@@ -240,7 +248,7 @@ export default function Landing() {
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">Lightroom presets (soon)</span>
+                      <span className="text-sm text-muted-foreground">Folder organization</span>
                     </div>
                   </div>
                 </CardContent>

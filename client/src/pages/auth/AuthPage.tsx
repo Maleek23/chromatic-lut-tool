@@ -147,7 +147,7 @@ export default function AuthPage() {
                               <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary flex-shrink-0" />
                               <span className="font-semibold text-sm sm:text-base">Free</span>
                             </div>
-                            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 leading-tight">3 free LUTs</p>
+                            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 leading-tight">3 generations/month</p>
                             <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">$2.50 per extra</p>
                           </div>
 
