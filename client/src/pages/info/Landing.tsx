@@ -181,7 +181,11 @@ export default function Landing() {
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">Convert any LUT to .cube</span>
+                      <span className="text-sm text-muted-foreground">Output: .cube format</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                      <span className="text-sm text-muted-foreground">Convert any LUT → .cube</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
@@ -235,11 +239,11 @@ export default function Landing() {
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">Convert between 3 formats</span>
+                      <span className="text-sm text-muted-foreground">Output: .cube, .3dl, .look</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">.cube, .3dl, .look support</span>
+                      <span className="text-sm text-muted-foreground">Convert between 3 formats</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
@@ -310,12 +314,16 @@ export default function Landing() {
                       <span className="text-sm font-semibold text-purple-500">All grid sizes (up to 65³)</span>
                     </div>
                     <div className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">Unlimited saved LUTs</span>
+                      <ArrowRight className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
+                      <span className="text-sm font-semibold text-purple-500">All 5 formats (.cube/.3dl/.lut/.look/.xmp)</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">Email delivery (soon)</span>
+                      <span className="text-sm text-muted-foreground">Convert between any formats</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                      <span className="text-sm text-muted-foreground">Unlimited saved LUTs</span>
                     </div>
                   </div>
                 </CardContent>
