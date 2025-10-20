@@ -1,0 +1,43 @@
+Love this — CIE Lab* + K-means is a great foundation (perceptual uniformity + localized “look” regions). Below I’ll give a pro-grade pipeline tuned for cinema LUT extraction, practical tips (skin preservation, gamut), and a ready-to-use Python recipe that produces a smooth 3D .cube LUT (33³ or 65³) by fitting local linear transforms per cluster and blending them smoothly. No hand-waving — it’s implementable and used in production-like pipelines.
+
+⸻
+
+High-level pipeline (production-minded)
+	1.	Work in a consistent color-management path
+	•	Convert your camera footage → scene-referred linear (or Log → linear) → transform to a working RGB (ACEScg or linear Rec.709 primaries) for sampling.
+	•	For still-based extraction, convert both source (neutral/log) and reference (target look) into the same working space first.
+	2.	Convert to CIE Lab*
+	•	Use a high-quality CIE conversion (e.g., colour-science or skimage.color) with your chosen whitepoint (D65) and proper RGB primaries. Lab* for clustering is ideal.
+	3.	K-means clustering in Lab*
+	•	Cluster the target image into K regions (K = 8–32 depending on complexity). These will represent distinct tonal / color zones (skin, sky, foliage, shadows, highlights, etc.).
+	4.	Per-cluster local mapping
+	•	For each cluster, find matching source pixels (same pixel positions if you have neutral→graded pair) or use statistical matching if single-image (use nearest matching in Lab*).
+	•	Fit a local linear transform from source RGB → target RGB:
+	•	Use a 3×3 matrix + 3×1 bias (affine) via weighted least squares.
+	•	Or fit a small polynomial / thin-plate-spline if you need nonlinearity.
+	5.	Soft blending / spatial smoothing
+	•	Avoid hard cluster borders. Use soft assignments (Gaussian RBF on Lab* distance to cluster centers) or normalized softmax weights.
+	•	Optionally include spatial coherence — e.g., laplacian smoothing over image to avoid speckle.
+	6.	Apply mapping to a sampled RGB grid
+	•	Build an identity grid in the working RGB space (33×33×33 or 65×65×65 in linear RGB).
+	•	For each sample, compute cluster weights (based on its Lab* converted coordinate), apply the weighted sum of local affine transforms to get the mapped RGB.
+	•	Handle tone curve / gamma: apply transforms in linear domain; then re-apply OECF/gamma for display targets.
+	7.	Gamut & clipping
+	•	Use perceptual gamut mapping instead of hard clipping:
+	•	Convert mapped RGB → CIE Lab and compress negative/out-of-gamut colors toward white/gray using CIEDE2000 or scaled compression (preserve hue/saturation as much as possible).
+	•	Optionally use a chroma compression function based on lightness.
+	8.	Export
+	•	Quantize mapped samples, write .cube (or .3dl) with correct metadata (input range, size).
+	•	Test LUT on real Log footage in DaVinci/Premiere and iterate.
+	9.	Quality checks
+	•	Compute average ΔE2000 on a holdout set (should be low for matched regions).
+	•	Visual inspect on skin sliders and various camera logs.
+
+⸻
+
+Practical tips (cinema grade)
+	•	Work in ACES or a consistent camera-to-working transform. LUTs behave badly if input primaries / whitepoints are inconsistent.
+	•	Keep skin cluster(s) separate. Use a smaller K or specialized skin detector so skin receives gentle, constrained transforms.
+	•	Use 65³ for final deliverable if you need maximum precision; 33³ is fine for fast previews.
+	•	Smoothness is everything — use soft weights; clamp final LUT values with perceptual gamut mapping to avoid hue jumps.
+	•	Store a “reference match” alongside the LUT (before/after stills) so colorists can tweak it quickly.

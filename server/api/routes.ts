@@ -277,12 +277,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Validate base64 format
       if (!imageData.startsWith('data:image/')) {
-        return res.status(400).json({ error: "Invalid image data format" });
+        return res.status(400).json({ error: "Invalid image data format. Expected base64-encoded image." });
       }
 
       // Convert base64 to buffer
-      const base64Data = imageData.replace(/^data:image\/\w+;base64,/, "");
-      const imageBuffer = Buffer.from(base64Data, "base64");
+      let imageBuffer: Buffer;
+      try {
+        const base64Data = imageData.replace(/^data:image\/\w+;base64,/, "");
+        imageBuffer = Buffer.from(base64Data, "base64");
+        
+        // Validate we have actual data
+        if (imageBuffer.length === 0) {
+          return res.status(400).json({ error: "Empty image data provided" });
+        }
+      } catch (error) {
+        console.error("Base64 decode error:", error);
+        return res.status(400).json({ error: "Failed to decode image data. Please ensure the image is properly formatted." });
+      }
 
       // Validate buffer size based on tier (authenticated) or free tier (unauthenticated)
       const FILE_SIZE_LIMITS: Record<string, number> = {
@@ -302,14 +313,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: `Image too large. ${upgradeMsg}` });
       }
 
-      // Analyze the image (Sharp will validate the image format and size)
+      // Validate image format before analysis
+      try {
+        const tempImage = sharp(imageBuffer, { failOn: 'none' });
+        const metadata = await tempImage.metadata();
+        
+        if (!metadata.format) {
+          return res.status(400).json({ error: "Unrecognized image format. Please upload a valid image file (PNG, JPEG, WEBP, etc.)." });
+        }
+        
+        if (!metadata.width || !metadata.height) {
+          return res.status(400).json({ error: "Invalid image: missing dimensions" });
+        }
+        
+        if (metadata.width < 2 || metadata.height < 2) {
+          return res.status(400).json({ error: "Image too small: minimum size is 2x2 pixels for color analysis" });
+        }
+      } catch (validationError) {
+        console.error("Image validation error:", validationError);
+        return res.status(400).json({ error: "Invalid or corrupted image file. Please try a different image." });
+      }
+
+      // Analyze the image
       const analysis = await analyzeImage(imageBuffer);
 
       res.json(analysis);
     } catch (error) {
       console.error("Analysis error:", error);
       const message = error instanceof Error ? error.message : "Failed to analyze image";
-      res.status(500).json({ error: message });
+      // Return 400 for client errors, 500 for server errors
+      const statusCode = error instanceof Error && error.message.includes("Image") ? 400 : 500;
+      res.status(statusCode).json({ error: message });
     }
   });
 
