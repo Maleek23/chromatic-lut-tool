@@ -25,11 +25,11 @@ export default function InstallLuts() {
         <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 via-cyan-400 to-pink-500">
-              LUT Installation
+              LUT & Preset Installation
             </span>
           </h1>
           <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl">
-            Platform-specific installation guides for professional editing software. Integrate LUTs into your color grading workflow.
+            Platform-specific installation guides for professional editing software. Video apps use LUTs, photo apps use presets.
           </p>
         </div>
       </section>
@@ -281,7 +281,7 @@ export default function InstallLuts() {
                 <CardHeader>
                   <CardTitle>Installing LUTs in Adobe Photoshop</CardTitle>
                   <CardDescription>
-                    Photoshop supports .cube, .3dl, and .look formats via Color Lookup adjustment layers (CS6+).
+                    Photoshop uses LUTs (not presets) via Color Lookup adjustment layers. Supports .cube, .3dl, and .look formats (CS6+).
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -356,16 +356,16 @@ export default function InstallLuts() {
             <TabsContent value="lightroom" className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Using LUTs in Adobe Lightroom</CardTitle>
+                  <CardTitle>Installing Presets in Adobe Lightroom</CardTitle>
                   <CardDescription>
-                    Lightroom Classic 7.3+ supports .cube LUTs as profiles. Older versions use .xmp presets only.
+                    Lightroom uses .xmp preset files (not LUTs). Available for Pro+ tier users.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-4">
-                    <p className="text-sm font-semibold mb-1">Important Note</p>
+                    <p className="text-sm font-semibold mb-1">Lightroom Uses Presets, Not LUTs</p>
                     <p className="text-sm text-muted-foreground">
-                      Lightroom treats LUTs differently than video editing software. LUTs are imported as <strong>profiles</strong>, not traditional presets. You need Lightroom Classic 7.3 or later for direct .cube support.
+                      Unlike video editing software, Lightroom uses <strong>.xmp preset files</strong> that include tone curves, split toning, and HSL adjustments. CHROMA generates complete Lightroom presets for Pro+ tier users.
                     </p>
                   </div>
 
@@ -375,9 +375,9 @@ export default function InstallLuts() {
                         1
                       </div>
                       <div>
-                        <h3 className="font-semibold mb-1">Check your version</h3>
+                        <h3 className="font-semibold mb-1">Download your .xmp preset</h3>
                         <p className="text-sm text-muted-foreground">
-                          Verify you have Lightroom Classic 7.3 or later. Go to Help → System Info to check.
+                          Generate a Lightroom preset (.xmp format) using CHROMA. This format is only available for Pro+ tier users.
                         </p>
                       </div>
                     </div>
@@ -387,10 +387,15 @@ export default function InstallLuts() {
                         2
                       </div>
                       <div>
-                        <h3 className="font-semibold mb-1">Download your LUT file</h3>
-                        <p className="text-sm text-muted-foreground">
-                          Generate a .cube format LUT using CHROMA. This is the only format Lightroom accepts as profiles.
+                        <h3 className="font-semibold mb-1">Copy preset to Lightroom folder</h3>
+                        <p className="text-sm text-muted-foreground mb-2">
+                          Navigate to the Lightroom presets folder:
                         </p>
+                        <code className="text-xs bg-muted px-3 py-2 rounded block">
+                          <strong>Mac:</strong> ~/Library/Application Support/Adobe/CameraRaw/Settings/
+                          <br /><br />
+                          <strong>Windows:</strong> C:\Users\[YourUsername]\AppData\Roaming\Adobe\CameraRaw\Settings\
+                        </code>
                       </div>
                     </div>
 
@@ -399,9 +404,9 @@ export default function InstallLuts() {
                         3
                       </div>
                       <div>
-                        <h3 className="font-semibold mb-1">Import as profile</h3>
+                        <h3 className="font-semibold mb-1">Restart Lightroom</h3>
                         <p className="text-sm text-muted-foreground">
-                          Open Develop tab → Click Profile Browser (four squares icon at top of Basic panel) → Click '+' icon → "Import Profiles" → Select your .cube file
+                          Close and reopen Lightroom Classic for the preset to appear in the Presets panel.
                         </p>
                       </div>
                     </div>
@@ -411,9 +416,9 @@ export default function InstallLuts() {
                         4
                       </div>
                       <div>
-                        <h3 className="font-semibold mb-1">Apply and adjust</h3>
+                        <h3 className="font-semibold mb-1">Apply the preset</h3>
                         <p className="text-sm text-muted-foreground">
-                          Your LUT will appear in the Profile Browser → Select it to apply → Use the Amount slider (0-200%) to control intensity
+                          Open Develop tab → Find your preset in the Presets panel (left sidebar) → Click to apply → Adjust sliders as needed
                         </p>
                       </div>
                     </div>
@@ -423,7 +428,7 @@ export default function InstallLuts() {
                     <div className="flex items-start gap-2">
                       <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5" />
                       <p className="text-sm text-muted-foreground">
-                        <strong>Pro tip:</strong> Unlike Photoshop presets, profiles (LUTs) in Lightroom are non-destructive and can be combined with all other Develop adjustments. They're applied at the start of the editing pipeline.
+                        <strong>Pro tip:</strong> Lightroom presets are fully editable. After applying, you can tweak any slider (exposure, contrast, HSL, etc.) to fine-tune the look.
                       </p>
                     </div>
                   </div>
