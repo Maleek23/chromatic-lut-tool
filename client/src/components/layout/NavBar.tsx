@@ -44,14 +44,14 @@ export function NavBar() {
           Tools
         </Button>
       </Link>
-      <Link href="/how-it-works" onClick={() => mobile && setOpen(false)}>
+      <Link href="/color-science" onClick={() => mobile && setOpen(false)}>
         <Button 
-          variant={location === "/how-it-works" ? "default" : "ghost"} 
+          variant={location === "/color-science" ? "default" : "ghost"} 
           size="sm"
-          data-testid="nav-how-it-works"
+          data-testid="nav-color-science"
           className={mobile ? "w-full justify-start" : ""}
         >
-          How It Works
+          Color Science
         </Button>
       </Link>
       <Link href="/resources" onClick={() => mobile && setOpen(false)}>

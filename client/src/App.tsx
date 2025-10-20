@@ -29,7 +29,7 @@ function Router() {
         <Route path="/" component={Landing} />
         <Route path="/generate" component={Generate} />
         <Route path="/tools" component={Tools} />
-        <Route path="/how-it-works" component={LearnMore} />
+        <Route path="/color-science" component={LearnMore} />
         <Route path="/resources" component={Resources} />
         <Route path="/resources/install-luts" component={InstallLuts} />
         <Route path="/resources/lut-formats" component={LutFormats} />
