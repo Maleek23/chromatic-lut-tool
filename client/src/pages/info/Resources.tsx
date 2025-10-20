@@ -18,7 +18,7 @@ export default function Resources() {
     },
     {
       title: "Format Selection",
-      description: "Choose the optimal LUT format (.cube, .3dl, .lut) based on your editing software and workflow requirements.",
+      description: "Choose the optimal LUT format (.cube, .3dl, .lut, .look, .xmp) based on your editing software, tier, and workflow requirements.",
       icon: HelpCircle,
       href: "/resources/lut-formats"
     }

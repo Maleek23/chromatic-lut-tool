@@ -265,7 +265,7 @@ export default function LearnMore() {
                     Professional Output
                   </div>
                   <p className="text-sm text-muted-foreground pl-4">
-                    Generates production-ready 3D LUTs (.cube, .3dl, .look, .lut, .xmp) with comprehensive metadata compatible with all professional color grading software
+                    Generates production-ready 3D LUTs with comprehensive metadata. Free tier: .cube only. Creator: .cube/.3dl/.look. Pro: All 5 formats (.cube/.3dl/.lut/.look/.xmp). Compatible with DaVinci Resolve, Premiere Pro, Final Cut Pro
                   </p>
                 </div>
                 <div className="space-y-2">
