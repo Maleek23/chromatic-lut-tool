@@ -58,7 +58,7 @@ const upload = multer({
     }
   },
   limits: {
-    fileSize: 100 * 1024 * 1024 // 100MB max upload size
+    fileSize: 200 * 1024 * 1024 // 200MB max upload size (Studio tier limit)
   }
 });
 
@@ -286,10 +286,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Validate buffer size based on tier (authenticated) or free tier (unauthenticated)
       const FILE_SIZE_LIMITS: Record<string, number> = {
-        free: 5 * 1024 * 1024,      // 5MB
-        creator: 25 * 1024 * 1024,  // 25MB
-        pro: 50 * 1024 * 1024,      // 50MB
-        studio: 100 * 1024 * 1024   // 100MB
+        free: 10 * 1024 * 1024,     // 10MB
+        creator: 50 * 1024 * 1024,  // 50MB
+        pro: 100 * 1024 * 1024,     // 100MB
+        studio: 200 * 1024 * 1024   // 200MB
       };
       
       const maxSize = FILE_SIZE_LIMITS[userTier] || FILE_SIZE_LIMITS.free;

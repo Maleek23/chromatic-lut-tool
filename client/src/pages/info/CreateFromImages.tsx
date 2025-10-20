@@ -59,7 +59,7 @@ export default function CreateFromImages() {
                     <rect x="30" y="60" width="180" height="80" rx="8" fill="url(#step1)" stroke="hsl(var(--border))" strokeWidth="1.5"/>
                     <text x="120" y="90" fill="hsl(var(--foreground))" fontSize="14" fontWeight="600" textAnchor="middle">Upload Reference</text>
                     <text x="120" y="110" fill="hsl(var(--muted-foreground))" fontSize="11" textAnchor="middle">Color-graded image</text>
-                    <text x="120" y="126" fill="hsl(var(--muted-foreground))" fontSize="11" textAnchor="middle">5MB max (Free tier)</text>
+                    <text x="120" y="126" fill="hsl(var(--muted-foreground))" fontSize="11" textAnchor="middle">10MB max (Free tier)</text>
                   </g>
                   
                   <path d="M 215 100 L 250 100" stroke="hsl(var(--primary))" strokeWidth="2" markerEnd="url(#arrowhead)"/>
@@ -92,7 +92,7 @@ export default function CreateFromImages() {
               <div className="sm:hidden space-y-4">
                 <div className="p-4 rounded-lg border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-pink-500/5">
                   <p className="font-semibold text-sm mb-1">1. Upload Reference</p>
-                  <p className="text-xs text-muted-foreground">Color-graded image (5MB max)</p>
+                  <p className="text-xs text-muted-foreground">Color-graded image (10MB max)</p>
                 </div>
                 <div className="flex justify-center">
                   <ArrowRight className="w-5 h-5 text-primary rotate-90" />
@@ -144,7 +144,7 @@ export default function CreateFromImages() {
                           <li>Use properly exposed images with visible detail</li>
                           <li>Avoid over-processed or heavily filtered sources</li>
                           <li>Multiple formats supported: JPG, PNG, WEBP, HEIC, TIFF, BMP, GIF</li>
-                          <li>File size limits: Free 5MB, Creator 25MB, Pro 50MB, Studio 100MB</li>
+                          <li>File size limits: Free 10MB, Creator 50MB, Pro 100MB, Studio 200MB</li>
                         </ul>
                       </CardContent>
                     </Card>

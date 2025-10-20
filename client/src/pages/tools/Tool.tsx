@@ -57,10 +57,10 @@ export default function Tool() {
   const handleImageUpload = async (file: File) => {
     // Validate file size based on user tier
     const FILE_SIZE_LIMITS: Record<string, number> = {
-      free: 5 * 1024 * 1024,      // 5MB
-      creator: 25 * 1024 * 1024,  // 25MB
-      pro: 50 * 1024 * 1024,      // 50MB
-      studio: 100 * 1024 * 1024   // 100MB
+      free: 10 * 1024 * 1024,     // 10MB
+      creator: 50 * 1024 * 1024,  // 50MB
+      pro: 100 * 1024 * 1024,     // 100MB
+      studio: 200 * 1024 * 1024   // 200MB
     };
     
     const maxFileSize = FILE_SIZE_LIMITS[user.tier] || FILE_SIZE_LIMITS.free;
@@ -69,7 +69,7 @@ export default function Tool() {
     if (file.size > maxFileSize) {
       toast({
         title: "File Too Large",
-        description: `Your ${user.tier} tier allows files up to ${maxFileSizeMB}MB. ${user.tier === 'free' ? 'Upgrade to Creator for 25MB.' : 'Upgrade for larger file sizes.'}`,
+        description: `Your ${user.tier} tier allows files up to ${maxFileSizeMB}MB. ${user.tier === 'free' ? 'Upgrade to Creator for 50MB.' : 'Upgrade for larger file sizes.'}`,
         variant: "destructive",
       });
       return;
