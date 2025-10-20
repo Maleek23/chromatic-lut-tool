@@ -189,7 +189,7 @@ export default function Landing() {
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                      <span className="text-sm text-muted-foreground">10MB file size limit</span>
+                      <span className="text-sm text-muted-foreground">25MB file size limit</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />

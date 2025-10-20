@@ -22,6 +22,9 @@ import Resources from "@/pages/info/Resources";
 import InstallLuts from "@/pages/info/InstallLuts";
 import LutFormats from "@/pages/info/LutFormats";
 import CreateFromImages from "@/pages/info/CreateFromImages";
+import Privacy from "@/pages/legal/Privacy";
+import Terms from "@/pages/legal/Terms";
+import About from "@/pages/info/About";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -40,6 +43,9 @@ function Router() {
         <Route path="/resources/install-luts" component={InstallLuts} />
         <Route path="/resources/lut-formats" component={LutFormats} />
         <Route path="/resources/create-from-images" component={CreateFromImages} />
+        <Route path="/privacy" component={Privacy} />
+        <Route path="/terms" component={Terms} />
+        <Route path="/about" component={About} />
         <ProtectedRoute path="/settings" component={Settings} />
         <Route path="/upgrade" component={Upgrade} />
         <Route path="/auth" component={AuthPage} />

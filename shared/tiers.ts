@@ -52,7 +52,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
       "17×17×17 grid size (Preview quality)",
       "Export: .cube format only",
       "Convert any LUT to .cube format",
-      "10MB file size limit",
+      "25MB file size limit",
       "Save up to 3 LUTs",
       "Community presets access (read-only)",
     ],

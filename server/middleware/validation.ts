@@ -24,7 +24,7 @@ export function validatePassword(password: string): { valid: boolean; errors: st
 
 // File size limits based on tier (in bytes)
 export const FILE_SIZE_LIMITS = {
-  free: 10 * 1024 * 1024, // 10MB
+  free: 25 * 1024 * 1024, // 25MB
   creator: 50 * 1024 * 1024, // 50MB
   pro: 100 * 1024 * 1024, // 100MB
   studio: 200 * 1024 * 1024, // 200MB
