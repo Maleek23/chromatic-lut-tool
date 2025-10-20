@@ -274,7 +274,7 @@ export default function LearnMore() {
                     Precision Control
                   </div>
                   <p className="text-sm text-muted-foreground pl-4">
-                    Adjustable intensity (0-100%), multiple grid sizes (17³ to 65³), and 8/10/12-bit precision. Supports ACEScg for ACES film emulation workflows
+                    Adjustable intensity (0-100%). Grid sizes: Free (17³), Creator (17³/33³), Pro (17³/33³/65³). Precision: 8/10-bit all tiers, 12-bit Pro+. Supports ACEScg for ACES film emulation workflows
                   </p>
                 </div>
                 <div className="space-y-2">
