@@ -14,6 +14,7 @@ import { dynamicRateLimiter } from "../middleware/rateLimiter";
 import { hasFeature, canConvert } from "../middleware/validation";
 import { checkUsageLimit, incrementUsage, getUsageLimits } from "../features/usage/tracker";
 import { sendLutEmail } from "../features/email/sender";
+import { logger } from "../utils/logger";
 
 // Helper to normalize format strings for file extensions
 const EXTENSION_MAP = {
@@ -94,7 +95,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         conversionsRemaining: limits.unlimited ? Infinity : Math.max(0, limits.limit - relevantUsage)
       });
     } catch (error) {
-      console.error("Usage stats error:", error);
+      logger.error("Usage stats error", error);
       res.status(500).json({ error: "Failed to get usage statistics" });
     }
   });
@@ -417,12 +418,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Generate LUT endpoint
   app.post("/api/generate-lut", requireAuth, async (req, res) => {
     try {
-      console.log("[DEBUG] generate-lut request body:", JSON.stringify(req.body, null, 2));
-      
       const validationResult = extendedLutGenerationSchema.safeParse(req.body);
 
       if (!validationResult.success) {
-        console.log("[DEBUG] Validation failed:", JSON.stringify(validationResult.error, null, 2));
+        logger.dev.error("Validation failed", validationResult.error);
         return res.status(400).json({ 
           error: "Invalid request", 
           details: validationResult.error 

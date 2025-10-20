@@ -161,7 +161,35 @@ curl -X POST https://your-domain.replit.app/api/test-email \
 
 ---
 
-## 🔒 Security Audit Recommendations
+## 🔒 Security Audit & Remediation
+
+### ⚠️ CRITICAL: Security Issues Requiring Immediate Attention
+
+**READ FIRST:** `SECURITY.md` - Comprehensive security audit with detailed remediation steps
+
+**MUST FIX BEFORE PRODUCTION:**
+
+1. **Remove DEBUG Logging** (CRITICAL)
+   - 4 `console.log("[DEBUG]")` statements in `server/api/routes.ts`
+   - These expose request bodies, validation errors, and internal details
+   - See `SECURITY.md` for exact line numbers and removal instructions
+
+2. **Sanitize Error Messages**
+   - Raw server errors currently shown to users
+   - Could expose internal implementation details
+   - Replace with generic user-friendly messages
+
+3. **Replace Console Logging**
+   - 50+ `console.error()` statements throughout codebase
+   - Should use secure logger (`server/utils/logger.ts`) instead
+   - Production logs should not expose sensitive data
+
+**Quick Security Checklist:**
+- [ ] Read `SECURITY.md` in full
+- [ ] Remove all `[DEBUG]` logs from `server/api/routes.ts`
+- [ ] Set `NODE_ENV=production` in deployment
+- [ ] Test that browser console is clean (no sensitive errors)
+- [ ] Run `npm audit` and fix critical vulnerabilities
 
 ### Current Security Measures ✅
 - Password hashing with bcrypt
@@ -171,16 +199,9 @@ curl -X POST https://your-domain.replit.app/api/test-email \
 - Input validation with Zod
 - File size limits by tier
 - Images processed in-memory (deleted after generation)
-
-### Pre-Production Security Checklist
-- [ ] Review all API endpoints for authorization checks
-- [ ] Verify tier-based access control on all protected features
-- [ ] Test CSRF protection on all forms
-- [ ] Confirm rate limiting thresholds are appropriate
-- [ ] Review error messages (don't leak sensitive info)
-- [ ] Check for SQL injection vulnerabilities (using Drizzle ORM ✅)
-- [ ] Verify file upload validation (mime type, size, magic bytes)
-- [ ] Scan dependencies for vulnerabilities (`npm audit`)
+- No hardcoded secrets in frontend code ✅
+- Passwords removed from API responses ✅
+- Secure logging utility created (`server/utils/logger.ts`) ✅
 
 ### Post-Launch Security (Recommended)
 - Monitor failed login attempts
