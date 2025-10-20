@@ -274,19 +274,51 @@ export default function LearnMore() {
             <CardContent className="space-y-6">
               <div className="prose prose-sm dark:prose-invert max-w-none">
                 <p className="text-muted-foreground leading-relaxed">
-                  Our flagship tool uses <span className="text-foreground font-semibold">zone-based color analysis</span> to extract the exact color science from any reference image. 
-                  Unlike simple filters or presets, CHROMA analyzes your image across <span className="text-foreground font-semibold">three luminance zones</span> (shadows, midtones, highlights) 
-                  to derive authentic color transformations that recreate the original grading.
+                  Our flagship tool uses <span className="text-foreground font-semibold">cinema-grade color science</span> to extract authentic color grading from reference images. 
+                  Unlike simple filters or presets, CHROMA implements a professional pipeline using <span className="text-foreground font-semibold">CIE L*a*b* perceptual color space</span>, 
+                  <span className="text-foreground font-semibold">K-means clustering</span> (12 clusters), <span className="text-foreground font-semibold">filmic tone curves</span>, 
+                  and <span className="text-foreground font-semibold">hue-preserving gamut compression</span> to recreate the exact color science from your reference image.
                 </p>
               </div>
+              
+              <div className="bg-gradient-to-r from-primary/5 via-chart-2/5 to-chart-3/5 rounded-lg p-5 border border-primary/20">
+                <h3 className="text-sm font-semibold mb-3 text-foreground">Professional Color Science Pipeline</h3>
+                <div className="grid grid-cols-1 gap-2 text-xs text-muted-foreground">
+                  <div className="flex items-start gap-2">
+                    <span className="text-primary font-semibold">1.</span>
+                    <span><strong className="text-foreground">CIE L*a*b* Color Space:</strong> Perceptually uniform transformations (VES/CIE standards) with D65 white point</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-primary font-semibold">2.</span>
+                    <span><strong className="text-foreground">K-means Clustering:</strong> Intelligent color sampling with 12 clusters for comprehensive color coverage</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-primary font-semibold">3.</span>
+                    <span><strong className="text-foreground">Filmic Tone Curves:</strong> John Hable-style shoulder/toe curves for cinema-quality tonality</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-primary font-semibold">4.</span>
+                    <span><strong className="text-foreground">Skin Tone Protection:</strong> Lab distance-based preservation to maintain natural skin tones</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-primary font-semibold">5.</span>
+                    <span><strong className="text-foreground">Gamut Compression:</strong> Hue-preserving binary search in LCh space for Rec.709 compliance</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-primary font-semibold">6.</span>
+                    <span><strong className="text-foreground">Chromatic Adaptation:</strong> Gray World algorithm for automatic white balance correction</span>
+                  </div>
+                </div>
+              </div>
+
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm font-semibold">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                    Color Science Analysis
+                    Industry Standards
                   </div>
                   <p className="text-sm text-muted-foreground pl-4">
-                    Analyzes brightness, contrast, saturation, and hue shifts across shadow/midtone/highlight zones using industry-standard luminance calculation (0.299×R + 0.587×G + 0.114×B)
+                    Built on VES Technology Committee and CIE color science standards. Uses sRGB gamma (2.4 exponent), D65 illuminant, and blue-fastest indexing for professional compatibility
                   </p>
                 </div>
                 <div className="space-y-2">
@@ -295,7 +327,7 @@ export default function LearnMore() {
                     Professional Output
                   </div>
                   <p className="text-sm text-muted-foreground pl-4">
-                    Generates industry-standard 3D LUTs (.cube, .3dl) compatible with DaVinci Resolve, Premiere Pro, Final Cut Pro, and all professional grading software
+                    Generates production-ready 3D LUTs (.cube, .3dl, .look, .lut, .xmp) with comprehensive metadata compatible with all professional color grading software
                   </p>
                 </div>
                 <div className="space-y-2">
@@ -304,7 +336,7 @@ export default function LearnMore() {
                     Precision Control
                   </div>
                   <p className="text-sm text-muted-foreground pl-4">
-                    Adjustable intensity (0-100%), multiple grid sizes (17×17×17 to 65×65×65), and 8/10/12-bit precision for perfect color accuracy
+                    Adjustable intensity (0-100%), multiple grid sizes (17³ to 65³), and 8/10/12-bit precision. Supports ACEScg for ACES film emulation workflows
                   </p>
                 </div>
                 <div className="space-y-2">
@@ -313,7 +345,7 @@ export default function LearnMore() {
                     Real-time Preview
                   </div>
                   <p className="text-sm text-muted-foreground pl-4">
-                    See your LUT applied in real-time with adjustable intensity before export, ensuring the perfect look for your project
+                    See your LUT applied in real-time with adjustable intensity before export, ensuring the perfect look for your professional project
                   </p>
                 </div>
               </div>
