@@ -27,7 +27,7 @@ export default function Landing() {
           {/* Main logo with branding */}
           <div className="relative flex justify-center mb-8">
             <img src={logoImage} alt="CHROMA" className="h-24 sm:h-28 md:h-32 lg:h-36 w-auto" />
-            <div className="absolute left-1/2 top-1/2 -translate-y-1/2 ml-[calc(50%+0.75rem)] flex items-center text-xs sm:text-sm text-muted-foreground tracking-[0.15em] group">
+            <div className="absolute left-1/2 top-1/2 -translate-y-1/2 ml-[calc(50%+0.5rem)] flex items-center text-[8px] sm:text-[9px] text-muted-foreground tracking-[0.15em] group">
               <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by</span>
               <div className="flex items-center gap-0 ml-0.5">
                 <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">UN</span>
