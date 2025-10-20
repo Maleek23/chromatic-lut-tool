@@ -25,10 +25,10 @@ export default function LearnMore() {
         {/* Header */}
         <div className="text-center space-y-4 mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
-            Cinema-Grade Color Science
+            Cinema-Grade Chroma Science
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            CHROMA implements professional color science standards verified against VES Technology Committee and CIE specifications for production-ready LUT generation
+            CHROMA implements professional chroma science standards verified against VES Technology Committee and CIE specifications for production-ready LUT generation
           </p>
         </div>
 
@@ -38,7 +38,7 @@ export default function LearnMore() {
             <CardHeader className="text-center space-y-3 pb-6">
               <CardTitle className="text-3xl md:text-4xl font-bold">Professional Color Pipeline</CardTitle>
               <CardDescription className="text-base max-w-2xl mx-auto">
-                Unlike simple filters or presets, CHROMA uses cinema-grade color science to extract authentic grading from reference images
+                Unlike simple filters or presets, CHROMA uses cinema-grade chroma science to extract authentic grading from reference images
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -51,7 +51,7 @@ export default function LearnMore() {
                     <h3 className="font-semibold text-lg">Industry Standards</h3>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Built on VES Technology Committee white papers and CIE color science specifications. Uses D65 illuminant, sRGB gamma (2.4 exponent), and blue-fastest indexing
+                    Built on VES Technology Committee white papers and CIE chroma science specifications. Uses D65 illuminant, sRGB gamma (2.4 exponent), and blue-fastest indexing
                   </p>
                 </div>
                 <div className="space-y-3">
@@ -84,7 +84,7 @@ export default function LearnMore() {
         {/* Six-Stage Professional Pipeline */}
         <div className="mb-16">
           <div className="text-center space-y-3 mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold">Six-Stage Color Science Architecture</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">Six-Stage Chroma Science Architecture</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Professional pipeline for cinema-quality color extraction
             </p>
@@ -213,15 +213,15 @@ export default function LearnMore() {
             <CardContent className="space-y-6">
               <div className="prose prose-sm dark:prose-invert max-w-none">
                 <p className="text-muted-foreground leading-relaxed">
-                  Our flagship tool uses <span className="text-foreground font-semibold">cinema-grade color science</span> to extract authentic color grading from reference images. 
+                  Our flagship tool uses <span className="text-foreground font-semibold">cinema-grade chroma science</span> to extract authentic color grading from reference images. 
                   Unlike simple filters or presets, CHROMA implements a professional pipeline using <span className="text-foreground font-semibold">CIE L*a*b* perceptual color space</span>, 
                   <span className="text-foreground font-semibold">K-means clustering</span> (12 clusters), <span className="text-foreground font-semibold">filmic tone curves</span>, 
-                  and <span className="text-foreground font-semibold">hue-preserving gamut compression</span> to recreate the exact color science from your reference image.
+                  and <span className="text-foreground font-semibold">hue-preserving gamut compression</span> to recreate the exact chroma science from your reference image.
                 </p>
               </div>
               
               <div className="bg-gradient-to-r from-primary/5 via-chart-2/5 to-chart-3/5 rounded-lg p-5 border border-primary/20">
-                <h3 className="text-sm font-semibold mb-3 text-foreground">Professional Color Science Pipeline</h3>
+                <h3 className="text-sm font-semibold mb-3 text-foreground">Professional Chroma Science Pipeline</h3>
                 <div className="grid grid-cols-1 gap-2 text-xs text-muted-foreground">
                   <div className="flex items-start gap-2">
                     <span className="text-primary font-semibold">1.</span>
@@ -257,7 +257,7 @@ export default function LearnMore() {
                     Industry Standards
                   </div>
                   <p className="text-sm text-muted-foreground pl-4">
-                    Built on VES Technology Committee and CIE color science standards. Uses sRGB gamma (2.4 exponent), D65 illuminant, and blue-fastest indexing for professional compatibility
+                    Built on VES Technology Committee and CIE chroma science standards. Uses sRGB gamma (2.4 exponent), D65 illuminant, and blue-fastest indexing for professional compatibility
                   </p>
                 </div>
                 <div className="space-y-2">

@@ -51,7 +51,7 @@ export function NavBar() {
           data-testid="nav-color-science"
           className={mobile ? "w-full justify-start" : ""}
         >
-          Color Science
+          Chroma Science
         </Button>
       </Link>
       <Link href="/resources" onClick={() => mobile && setOpen(false)}>

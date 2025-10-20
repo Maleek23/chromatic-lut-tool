@@ -55,7 +55,7 @@ CHROMA's LUT generation pipeline has been verified against industry standards:
   - ✓ Blue-fastest indexing (industry standard for 3D LUTs)
   - ✓ Comprehensive LUT metadata with input requirements and color science documentation
 
-**Color Science Page**: Renamed from "How It Works" to "Color Science" (/color-science route) to reflect professional positioning. Page showcases six-stage cinema-grade pipeline verified against VES/CIE standards (verified by architect).
+**Chroma Science Page**: Renamed from "How It Works" to "Chroma Science" (/color-science route) to reflect professional positioning and brand consistency. Page showcases six-stage cinema-grade pipeline verified against VES/CIE standards (verified by architect).
 
 ## System Architecture
 

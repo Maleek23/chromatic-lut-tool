@@ -11,7 +11,7 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-4">CHROMA</h3>
             <p className="text-sm text-muted-foreground">
-              Cinema-grade LUT tools for professionals and creators. By UN/TITLD.
+              Cinema-grade LUT tools for professionals and creators.
             </p>
           </div>
 
@@ -21,7 +21,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link href="/color-science" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Color Science
+                  Chroma Science
                 </Link>
               </li>
               <li>
@@ -83,7 +83,7 @@ export function Footer() {
           
           <div className="flex items-center gap-4">
             <p className="text-xs text-muted-foreground">
-              Powered by <span className="text-primary font-medium">professional color science</span>
+              Powered by <span className="text-primary font-medium">professional chroma science</span>
             </p>
           </div>
         </div>
