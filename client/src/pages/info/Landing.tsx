@@ -41,14 +41,6 @@ export default function Landing() {
             </div>
           </div>
 
-          {/* Professional Standards Badge */}
-          <div className="flex justify-center mb-6">
-            <Badge className="bg-gradient-to-r from-primary/10 to-chart-2/10 border border-primary/20 text-foreground px-4 py-1.5 text-xs font-medium backdrop-blur-sm" data-testid="badge-professional-standards">
-              <Check className="w-3 h-3 mr-1.5 text-primary" />
-              Built on VES & CIE Color Science Standards
-            </Badge>
-          </div>
-
           {/* Subtitle */}
           <div className="text-center max-w-3xl mx-auto mb-12">
             <p className="text-lg sm:text-xl md:text-2xl mb-4">
