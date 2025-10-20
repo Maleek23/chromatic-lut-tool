@@ -1,7 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, LogIn, LogOut, User, Menu, Settings, Crown } from "lucide-react";
-import { useTheme } from "@/components/layout/ThemeProvider";
+import { LogIn, LogOut, User, Menu, Settings, Crown } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -10,7 +9,6 @@ import logoImage from "@assets/logo-full-transparent-v2.png";
 
 export function NavBar() {
   const [location] = useLocation();
-  const { theme, toggleTheme } = useTheme();
   const { user, logoutMutation } = useAuth();
   const [open, setOpen] = useState(false);
 
@@ -161,36 +159,11 @@ export function NavBar() {
           <NavLinks />
           <div className="border-l pl-2 ml-2 flex items-center gap-2">
             <UserSection />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-              data-testid="button-theme-toggle"
-            >
-              {theme === "dark" ? (
-                <Sun className="w-5 h-5" />
-              ) : (
-                <Moon className="w-5 h-5" />
-              )}
-            </Button>
           </div>
         </div>
 
         {/* Mobile Navigation */}
         <div className="flex md:hidden items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleTheme}
-            data-testid="button-theme-toggle-mobile"
-          >
-            {theme === "dark" ? (
-              <Sun className="w-5 h-5" />
-            ) : (
-              <Moon className="w-5 h-5" />
-            )}
-          </Button>
-
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" data-testid="button-mobile-menu">
