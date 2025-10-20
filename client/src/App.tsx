@@ -15,6 +15,8 @@ import Convert from "@/pages/tools/Convert";
 import Analyze from "@/pages/tools/Analyze";
 import Optimize from "@/pages/tools/Optimize";
 import AuthPage from "@/pages/auth/AuthPage";
+import ForgotPassword from "@/pages/auth/ForgotPassword";
+import ResetPassword from "@/pages/auth/ResetPassword";
 import Upgrade from "@/pages/user/Upgrade";
 import LearnMore from "@/pages/info/LearnMore";
 import Settings from "@/pages/user/Settings";
@@ -29,7 +31,7 @@ import NotFound from "@/pages/not-found";
 
 function Router() {
   const [location] = useLocation();
-  const hideNavbar = location === "/auth";
+  const hideNavbar = location === "/auth" || location === "/forgot-password" || location.startsWith("/reset-password");
 
   return (
     <>
@@ -52,6 +54,8 @@ function Router() {
         <ProtectedRoute path="/settings" component={Settings} />
         <Route path="/upgrade" component={Upgrade} />
         <Route path="/auth" component={AuthPage} />
+        <Route path="/forgot-password" component={ForgotPassword} />
+        <Route path="/reset-password" component={ResetPassword} />
         <Route component={NotFound} />
       </Switch>
     </>

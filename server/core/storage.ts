@@ -1,10 +1,10 @@
 // Reference: blueprint:javascript_auth_all_persistance
-import { type User, type InsertUser, type SavedPreset, type InsertPreset } from "@shared/schema";
+import { type User, type InsertUser, type SavedPreset, type InsertPreset, type PasswordResetToken, type InsertPasswordResetToken } from "@shared/schema";
 import session from "express-session";
 import createMemoryStore from "memorystore";
 import connectPgSimple from "connect-pg-simple";
 import { db } from "./db";
-import { users, presets } from "@shared/schema";
+import { users, presets, passwordResetTokens } from "@shared/schema";
 import { eq, and, desc } from "drizzle-orm";
 
 const MemoryStore = createMemoryStore(session);
@@ -19,6 +19,7 @@ export interface IStorage {
   updateUserTier(userId: number, tier: string, expiresAt: Date | null): Promise<User | undefined>;
   updateUserStripeInfo(userId: number, customerId: string, subscriptionId: string): Promise<User | undefined>;
   updateUserProfile(userId: number, updates: Partial<Pick<User, 'avatarUrl' | 'bannerUrl' | 'bio' | 'website' | 'twitter' | 'instagram' | 'linkedin'>>): Promise<User | undefined>;
+  updateUserPassword(userId: number, hashedPassword: string): Promise<void>;
   incrementConversions(userId: number): Promise<void>;
   incrementPreviews(userId: number): Promise<void>;
   resetMonthlyLimits(userId: number): Promise<void>;
@@ -30,6 +31,11 @@ export interface IStorage {
   createPreset(preset: InsertPreset): Promise<SavedPreset>;
   updatePresetFolder(presetId: number, userId: number, folder: string | null): Promise<SavedPreset | null>;
   deletePreset(presetId: number, userId: number): Promise<boolean>;
+  
+  // Password reset methods
+  createPasswordResetToken(token: InsertPasswordResetToken): Promise<PasswordResetToken>;
+  getPasswordResetToken(token: string): Promise<PasswordResetToken | null>;
+  markResetTokenUsed(tokenId: number): Promise<void>;
   
   sessionStore: session.Store;
 }
@@ -201,6 +207,25 @@ export class MemStorage implements IStorage {
     this.presets.delete(presetId);
     return true;
   }
+
+  async updateUserPassword(userId: number, hashedPassword: string): Promise<void> {
+    const user = this.users.get(userId);
+    if (!user) return;
+    user.password = hashedPassword;
+    this.users.set(userId, user);
+  }
+
+  async createPasswordResetToken(token: InsertPasswordResetToken): Promise<PasswordResetToken> {
+    throw new Error("Password reset not supported in memory storage - please use PostgreSQL");
+  }
+
+  async getPasswordResetToken(token: string): Promise<PasswordResetToken | null> {
+    throw new Error("Password reset not supported in memory storage - please use PostgreSQL");
+  }
+
+  async markResetTokenUsed(tokenId: number): Promise<void> {
+    throw new Error("Password reset not supported in memory storage - please use PostgreSQL");
+  }
 }
 
 // PostgreSQL Storage Implementation
@@ -348,6 +373,33 @@ export class PostgresStorage implements IStorage {
       .where(and(eq(presets.id, presetId), eq(presets.userId, userId)))
       .returning();
     return result.length > 0;
+  }
+
+  async updateUserPassword(userId: number, hashedPassword: string): Promise<void> {
+    await db
+      .update(users)
+      .set({ password: hashedPassword })
+      .where(eq(users.id, userId));
+  }
+
+  async createPasswordResetToken(token: InsertPasswordResetToken): Promise<PasswordResetToken> {
+    const [newToken] = await db.insert(passwordResetTokens).values(token).returning();
+    return newToken;
+  }
+
+  async getPasswordResetToken(token: string): Promise<PasswordResetToken | null> {
+    const [resetToken] = await db
+      .select()
+      .from(passwordResetTokens)
+      .where(eq(passwordResetTokens.token, token));
+    return resetToken || null;
+  }
+
+  async markResetTokenUsed(tokenId: number): Promise<void> {
+    await db
+      .update(passwordResetTokens)
+      .set({ used: true })
+      .where(eq(passwordResetTokens.id, tokenId));
   }
 }
 
