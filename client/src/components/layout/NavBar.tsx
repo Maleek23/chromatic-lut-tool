@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
-import logoImage from "@assets/logo-full-transparent.png";
+import logoImage from "@assets/logo-full-transparent-v2.png";
 
 export function NavBar() {
   const [location] = useLocation();
