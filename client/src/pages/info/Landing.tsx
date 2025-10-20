@@ -147,7 +147,7 @@ export default function Landing() {
           </div>
           
           {/* Pricing Cards - Fixed Layout */}
-          <div className="flex flex-col lg:flex-row gap-6 justify-center items-end max-w-[1200px] mx-auto">
+          <div className="flex flex-col lg:flex-row gap-6 justify-center items-start max-w-[1200px] mx-auto">
             {/* Free Tier */}
             <div className="relative w-full lg:w-[260px]">
               <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col min-h-[480px]">
