@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, ArrowRight, Check, Lightbulb, Layers, Zap, Crown, TrendingUp } from "lucide-react";
+import logoImage from "@assets/logo-full-transparent-v2.png";
 
 export default function Landing() {
   return (
@@ -23,13 +24,11 @@ export default function Landing() {
       {/* Hero Section */}
       <section className="relative z-10 pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          {/* Main heading with logo-matching gradient */}
+          {/* Main logo */}
           <div className="text-center mb-8">
-            <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold mb-4 relative inline-block">
-              <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 via-cyan-400 to-pink-500">
-                CHROMA
-              </span>
-            </h1>
+            <div className="flex justify-center mb-4">
+              <img src={logoImage} alt="CHROMA" className="h-24 sm:h-28 md:h-32 lg:h-36 w-auto" />
+            </div>
             <div className="flex items-center justify-center text-sm sm:text-base text-muted-foreground tracking-[0.2em]">
               <span className="inline-flex items-center group">
                 <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by</span>
@@ -56,7 +55,7 @@ export default function Landing() {
               Extract <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-chart-2 font-semibold">cinema-grade color science</span> from any reference image.
             </p>
             <p className="text-base sm:text-lg text-muted-foreground">
-              Professional LUT generation using CIE L*a*b* color space, K-means clustering, and filmic tone curves.
+              Professional LUT generation for colorists and cinematographers.
             </p>
           </div>
 
