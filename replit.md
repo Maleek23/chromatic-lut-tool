@@ -6,6 +6,30 @@ CHROMA is a professional toolkit for cinematographers and colorists, offering co
 ## User Preferences
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes (October 20, 2025)
+
+### Production Readiness Updates
+- **File Limits Updated**: Free tier file upload limit increased from 10MB to 25MB across all configuration files (shared/tiers.ts, server/middleware/validation.ts, client/src/pages/info/Landing.tsx).
+- **Legal Pages Created**: 
+  - Privacy Policy (`/privacy`) - Comprehensive privacy policy covering data collection, usage, storage, security, and user rights.
+  - Terms of Service (`/terms`) - Complete terms covering subscriptions, payments, acceptable use, intellectual property, and liability.
+  - About Page (`/about`) - Brand story explaining CHROMA's mission, technology, UN/TITLD team, and values.
+- **Footer Component**: Created reusable Footer component with links to Privacy, Terms, About, Resources, Pricing, and Contact. Added to Landing, Privacy, Terms, and About pages.
+- **Payment Security Trust Indicators**: Enhanced Upgrade page with security trust section featuring Stripe badge, SSL encryption messaging, and privacy-first guarantees.
+- **Deployment Documentation**: Created comprehensive `DEPLOYMENT.md` guide covering:
+  - Pre-deployment checklist (legal, security, features)
+  - Resend email domain verification steps
+  - Stripe webhook configuration instructions
+  - Mobile responsiveness testing checklist
+  - Security audit recommendations
+  - Monitoring and observability setup
+  - Go-live decision matrix
+  - Post-launch action items
+
+### Navigation & Routing
+- Routes added for `/privacy`, `/terms`, `/about` in App.tsx
+- All legal pages accessible from footer navigation
+
 ## Professional Standards Verification (October 2025)
 CHROMA's LUT generation pipeline has been verified against industry standards:
 - **VES Technology Committee White Paper**: "Cinematic Color: From Your Monitor to the Big Screen" (2012) - Confirmed correct implementation of CIE L*a*b* perceptual color space, scene-referred vs display-referred colorimetry, and sRGB gamma encoding (2.4 exponent).
@@ -44,7 +68,7 @@ CHROMA's LUT generation pipeline has been verified against industry standards:
     - **Converter**: Converts between supported formats with grid resampling (17x17x17, 33x33x33, 65x65x65) using trilinear interpolation.
     - **Analyzer**: Detects invalid points, identifies banding, reports quality metrics, and provides quality scoring.
     - **Optimizer**: Clamps RGB values to [0,1] range, handles invalid values, and supports format conversion during optimization.
-- **File Handling**: Multer for `multipart/form-data` with in-memory storage. File size limits: Free 10MB, Creator 50MB, Pro 100MB, Studio 200MB.
+- **File Handling**: Multer for `multipart/form-data` with in-memory storage. File size limits: Free 25MB, Creator 50MB, Pro 100MB, Studio 200MB.
 
 ### LUT Format Specifications
 - **.cube (3D LUT)**: Primary format, widely compatible (Adobe, DaVinci Resolve), variable grid sizes. Available for all tiers.
@@ -62,7 +86,7 @@ CHROMA's LUT generation pipeline has been verified against industry standards:
 ### System Design Choices
 - **UI/UX**: Cinematic color grading aesthetic.
 - **Navigation Architecture**: Hub-and-spoke model with Image-to-LUT generation as the main entry point.
-- **Pricing Strategy**: Freemium model: Free tier (3 monthly Image-to-LUT generations, then pay-per-use), Creator tier ($7/mo for unlimited), Pro tier ($12/mo for unlimited, all tools, all formats), Studio tier ($25/mo for team features). Stripe integration is prepared.
+- **Pricing Strategy**: Freemium model: Free tier (3 monthly Image-to-LUT generations with 25MB file limit, then $2.50 pay-per-use), Creator tier ($7/mo for unlimited), Pro tier ($12/mo for unlimited, all tools, all formats), Studio tier ($25/mo for team features). Stripe integration configured, webhook setup required for production.
 - **Technical Implementations**: Professional color science pipeline with ACEScg/Lab/LCh perceptual transforms, k-means clustering, filmic tone curves, gamut mapping, skin tone protection, industry-standard blue-fastest indexing, trilinear interpolation, server-side validation, and real-time preview.
 - **Feature Specifications**:
     - **Image to LUT**: Cinema-grade color extraction, tier-dependent grid size and output format selection.
