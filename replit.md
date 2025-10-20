@@ -26,7 +26,7 @@ Preferred communication style: Simple, everyday language.
     - **Converter**: Converts between supported formats with grid resampling (17x17x17, 33x33x33, 65x65x65) using trilinear interpolation.
     - **Analyzer**: Detects invalid points, identifies banding, reports quality metrics, and provides quality scoring.
     - **Optimizer**: Clamps RGB values to [0,1] range, handles invalid values, and supports format conversion during optimization.
-- **File Handling**: Multer for `multipart/form-data` with in-memory storage.
+- **File Handling**: Multer for `multipart/form-data` with in-memory storage. File size limits: Free 10MB, Creator 50MB, Pro 100MB, Studio 200MB.
 
 ### LUT Format Specifications
 - **.cube (3D LUT)**: Primary format, widely compatible (Adobe, DaVinci Resolve), variable grid sizes. Available for all tiers.
