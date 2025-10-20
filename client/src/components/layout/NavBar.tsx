@@ -144,7 +144,7 @@ export function NavBar() {
           <Button variant="ghost" className="hover-elevate px-2" data-testid="button-home">
             <div className="flex items-center gap-2">
               <img src={logoImage} alt="Chroma" className="h-11 w-auto" />
-              <div className="hidden lg:flex items-center text-[10px] font-medium text-muted-foreground tracking-[0.15em] group">
+              <div className="hidden lg:flex items-center text-[8px] font-medium text-muted-foreground tracking-[0.15em] group">
                 <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by</span>
                 <div className="flex items-center gap-0 ml-0.5">
                   <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">UN</span>
