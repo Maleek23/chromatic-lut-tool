@@ -3,7 +3,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, X, Sparkles, Zap, Crown, Film, Lightbulb, Layers } from "lucide-react";
+import { Check, X, Sparkles, Zap, Crown, Film, Lightbulb, Layers, Shield, Lock, CreditCard } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { Redirect } from "wouter";
@@ -386,9 +386,61 @@ export default function Upgrade() {
           </div>
         </div>
 
-        <div className="mt-12 text-center text-sm text-muted-foreground">
-          <p>Secure payment powered by Stripe • Cancel anytime • No hidden fees</p>
-        </div>
+        {/* Security Trust Indicators */}
+        <Card className="mt-16 max-w-3xl mx-auto border-primary/20 bg-gradient-to-br from-card to-primary/5">
+          <CardHeader className="text-center">
+            <div className="flex justify-center mb-2">
+              <div className="p-3 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-500/20">
+                <Shield className="w-6 h-6 text-green-500" />
+              </div>
+            </div>
+            <CardTitle className="text-xl">Secure & Trusted Payment</CardTitle>
+            <CardDescription>Your payment information is always protected</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-3 gap-6 text-center">
+              <div className="space-y-2">
+                <div className="flex justify-center">
+                  <div className="p-2 rounded-lg bg-blue-500/10">
+                    <CreditCard className="w-5 h-5 text-blue-500" />
+                  </div>
+                </div>
+                <h4 className="font-semibold text-sm">Stripe Payments</h4>
+                <p className="text-xs text-muted-foreground">
+                  Industry-leading payment security. We never store your card details.
+                </p>
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-center">
+                  <div className="p-2 rounded-lg bg-green-500/10">
+                    <Lock className="w-5 h-5 text-green-500" />
+                  </div>
+                </div>
+                <h4 className="font-semibold text-sm">256-bit SSL</h4>
+                <p className="text-xs text-muted-foreground">
+                  All connections encrypted with bank-level security.
+                </p>
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-center">
+                  <div className="p-2 rounded-lg bg-purple-500/10">
+                    <Shield className="w-5 h-5 text-purple-500" />
+                  </div>
+                </div>
+                <h4 className="font-semibold text-sm">Privacy First</h4>
+                <p className="text-xs text-muted-foreground">
+                  Your images are processed in-memory and deleted immediately.
+                </p>
+              </div>
+            </div>
+            <div className="mt-6 text-center text-xs text-muted-foreground space-y-1">
+              <p>Cancel anytime • No hidden fees • Instant access</p>
+              <p className="text-primary font-medium">
+                Protected by <a href="https://stripe.com" target="_blank" rel="noopener noreferrer" className="hover:underline">Stripe</a> payment processing
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
