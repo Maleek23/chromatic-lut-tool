@@ -740,13 +740,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Tier validation for conversion direction
-      const userTier = req.user!.tier as "free" | "pro" | "studio";
-      const actualSourceFormat = parsed.format;
-      if (!canConvert(userTier, actualSourceFormat, targetFormat)) {
+      const userTier = req.user!.tier as "free" | "creator" | "pro" | "studio";
+      // Normalize format strings by adding dot prefix if not present
+      const actualSourceFormat = parsed.format.startsWith('.') ? parsed.format : `.${parsed.format}`;
+      const normalizedTargetFormat = targetFormat.startsWith('.') ? targetFormat : `.${targetFormat}`;
+      if (!canConvert(userTier, actualSourceFormat, normalizedTargetFormat)) {
+        // Provide tier-specific error messages
+        let errorMsg = `Converting .${actualSourceFormat} → .${targetFormat} is not available for your tier.`;
+        if (userTier === "free") {
+          errorMsg = `Free tier can convert any LUT format (.cube, .3dl, .lut, .look) TO .cube format only. To convert TO other formats, upgrade to Creator ($7/mo).`;
+        } else if (userTier === "creator") {
+          errorMsg = `Creator tier can convert between .cube, .3dl, and .look formats. To convert TO/FROM .lut format, upgrade to Pro ($12/mo).`;
+        }
+        
         return res.status(403).json({
-          error: `Converting .${actualSourceFormat} → .${targetFormat} requires Pro tier. Free tier can only convert .cube → .3dl`,
+          error: errorMsg,
           upgradeRequired: true,
-          requiredTier: "pro"
+          requiredTier: userTier === "free" ? "creator" : "pro"
         });
       }
 
@@ -770,9 +780,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Convert to target format with optional grid size resampling
       const converted = convertLUT(parsed, targetFormat, gridSize);
 
-      // Track usage
-      const { storage } = await import("../core/storage");
-      await storage.incrementConversions(req.user!.id);
+      // Note: LUT conversion is UNLIMITED and does NOT count against monthly Image-to-LUT generation limit
+      // Usage tracking (incrementUsage) is only for Image-to-LUT generation endpoint
 
       // Generate filename
       const originalName = req.file.originalname.replace(/\.[^/.]+$/, "");

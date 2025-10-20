@@ -11,6 +11,9 @@ import { ProtectedRoute } from "@/lib/protected-route";
 import Landing from "@/pages/info/Landing";
 import Generate from "@/pages/tools/Tool";
 import Tools from "@/pages/tools/Tools";
+import Convert from "@/pages/tools/Convert";
+import Analyze from "@/pages/tools/Analyze";
+import Optimize from "@/pages/tools/Optimize";
 import AuthPage from "@/pages/auth/AuthPage";
 import Upgrade from "@/pages/user/Upgrade";
 import LearnMore from "@/pages/info/LearnMore";
@@ -29,6 +32,9 @@ function Router() {
         <Route path="/" component={Landing} />
         <Route path="/generate" component={Generate} />
         <Route path="/tools" component={Tools} />
+        <ProtectedRoute path="/convert" component={Convert} />
+        <ProtectedRoute path="/analyze" component={Analyze} />
+        <ProtectedRoute path="/optimize" component={Optimize} />
         <Route path="/color-science" component={LearnMore} />
         <Route path="/resources" component={Resources} />
         <Route path="/resources/install-luts" component={InstallLuts} />
