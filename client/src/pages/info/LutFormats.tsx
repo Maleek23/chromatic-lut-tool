@@ -19,27 +19,27 @@ export default function LutFormats() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative z-10 pt-16 pb-12 px-4 sm:px-6 lg:px-8">
+      <section className="relative z-10 pt-20 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 via-cyan-400 to-pink-500">
               LUT Format Selection
             </span>
           </h1>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl">
             Choose the optimal format for your color grading software and workflow. Understanding format compatibility ensures seamless integration.
           </p>
         </div>
       </section>
 
       {/* Decision Tree */}
-      <section className="relative z-10 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto space-y-8">
-          <h2 className="text-2xl font-semibold">Format Decision Tree</h2>
+      <section className="relative z-10 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
+          <h2 className="text-xl sm:text-2xl font-semibold">Format Decision Tree</h2>
           <Card className="bg-background/80 backdrop-blur-sm">
-            <CardContent className="p-8 sm:p-12">
-              {/* Decision Tree SVG */}
-              <svg viewBox="0 0 800 420" className="w-full h-auto">
+            <CardContent className="p-4 sm:p-8 md:p-12">
+              {/* Decision Tree SVG - hidden on small screens */}
+              <svg viewBox="0 0 800 420" className="hidden md:block w-full h-auto">
                 <defs>
                   <linearGradient id="cubeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" style={{ stopColor: '#a855f7', stopOpacity: 0.2 }} />
@@ -123,17 +123,42 @@ export default function LutFormats() {
                 <rect x="200" y="375" width="400" height="35" rx="4" fill="hsl(var(--primary))" fillOpacity="0.1" stroke="hsl(var(--primary))" strokeWidth="1.5"/>
                 <text x="400" y="398" fill="hsl(var(--foreground))" fontSize="12" fontWeight="600" textAnchor="middle">.cube format provides optimal compatibility across professional applications</text>
               </svg>
+              
+              {/* Mobile-friendly list */}
+              <div className="md:hidden space-y-4">
+                <div className="p-4 rounded-lg border-2 border-primary/40 bg-gradient-to-br from-primary/10 to-pink-500/5">
+                  <p className="font-bold text-sm mb-1">.cube Format</p>
+                  <p className="text-xs text-muted-foreground mb-2">DaVinci, Premiere, Final Cut</p>
+                  <div className="px-2 py-1 rounded bg-primary/20 border border-primary/40 text-xs text-primary font-semibold text-center">
+                    RECOMMENDED FOR MOST
+                  </div>
+                </div>
+                <div className="p-4 rounded-lg border border-chart-2/30 bg-gradient-to-br from-chart-2/10 to-cyan-400/5">
+                  <p className="font-bold text-sm mb-1">.3dl Format</p>
+                  <p className="text-xs text-muted-foreground mb-2">Avid, Nuke, Broadcast</p>
+                  <div className="px-2 py-1 rounded bg-muted border border-border text-xs text-muted-foreground font-semibold text-center">
+                    HIGH-END PRO
+                  </div>
+                </div>
+                <div className="p-4 rounded-lg border border-chart-3/30 bg-gradient-to-br from-chart-3/10 to-green-500/5">
+                  <p className="font-bold text-sm mb-1">.lut Format (1D)</p>
+                  <p className="text-xs text-muted-foreground mb-2">Simple tone curves, gamma only</p>
+                  <div className="px-2 py-1 rounded bg-muted border border-border text-xs text-muted-foreground font-semibold text-center">
+                    SPECIALIZED USE
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </div>
       </section>
 
       {/* Format Comparison */}
-      <section className="relative z-10 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto space-y-8">
-          <h2 className="text-2xl font-semibold">Format Specifications</h2>
+      <section className="relative z-10 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
+          <h2 className="text-xl sm:text-2xl font-semibold">Format Specifications</h2>
           
-          <div className="grid lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
             {/* .cube Format */}
             <Card className="bg-background/80 backdrop-blur-sm">
               <CardHeader>
@@ -160,7 +185,7 @@ export default function LutFormats() {
                   </div>
                   <div className="flex items-start gap-2 text-sm">
                     <CheckCircle2 className="w-4 h-4 mt-0.5 text-green-600 dark:text-green-500 flex-shrink-0" />
-                    <span>Available on Free tier</span>
+                    <span>Available on Free tier (.cube only)</span>
                   </div>
                 </div>
                 <Card className="bg-muted/30">
@@ -252,11 +277,11 @@ export default function LutFormats() {
       </section>
 
       {/* Recommendation */}
-      <section className="relative z-10 py-12 px-4 sm:px-6 lg:px-8">
+      <section className="relative z-10 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
           <Card className="bg-background/80 backdrop-blur-sm border-2">
-            <CardContent className="p-8">
-              <div className="flex items-start gap-6">
+            <CardContent className="p-4 sm:p-6 md:p-8">
+              <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
                 <div className="flex-shrink-0">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center">
                     <HelpCircle className="w-6 h-6 text-primary" />
@@ -277,7 +302,7 @@ export default function LutFormats() {
                         <li>Working with DaVinci Resolve, Premiere Pro, or Final Cut Pro</li>
                         <li>Need maximum software compatibility</li>
                         <li>Starting with color grading workflows</li>
-                        <li>Want free tier availability</li>
+                        <li>Want Free tier availability (.cube format only)</li>
                       </ul>
                     </CardContent>
                   </Card>
@@ -289,10 +314,10 @@ export default function LutFormats() {
       </section>
 
       {/* Next Steps */}
-      <section className="relative z-10 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto space-y-6">
-          <h2 className="text-xl font-semibold">Continue Learning</h2>
-          <div className="grid md:grid-cols-2 gap-6">
+      <section className="relative z-10 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="max-w-5xl mx-auto space-y-4 sm:space-y-6">
+          <h2 className="text-lg sm:text-xl font-semibold">Continue Learning</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <Link href="/resources/create-from-images">
               <Card className="hover-elevate active-elevate-2 bg-background/80 backdrop-blur-sm cursor-pointer group h-full">
                 <CardHeader>

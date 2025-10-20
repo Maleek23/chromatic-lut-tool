@@ -20,14 +20,14 @@ export default function InstallLuts() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative z-10 pt-16 pb-12 px-4 sm:px-6 lg:px-8">
+      <section className="relative z-10 pt-20 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 via-cyan-400 to-pink-500">
               LUT Installation
             </span>
           </h1>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl">
             Platform-specific installation guides for professional editing software. Integrate LUTs into your color grading workflow.
           </p>
         </div>

@@ -39,33 +39,33 @@ export default function Resources() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative z-10 pt-16 pb-12 px-4 sm:px-6 lg:px-8">
+      <section className="relative z-10 pt-20 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 via-cyan-400 to-pink-500">
               Resources & Guides
             </span>
           </h1>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
             Comprehensive documentation for CHROMA workflows. Learn to generate, convert, and implement professional LUTs.
           </p>
         </div>
       </section>
 
       {/* Resource Cards */}
-      <section className="relative z-10 py-12 px-4 sm:px-6 lg:px-8">
+      <section className="relative z-10 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
             {resources.map((resource) => (
               <Link key={resource.href} href={resource.href}>
                 <Card className="hover-elevate active-elevate-2 bg-background/80 backdrop-blur-sm h-full cursor-pointer group" data-testid={`card-${resource.href.split('/').pop()}`}>
-                  <CardHeader>
-                    <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center">
-                      <resource.icon className="w-7 h-7 text-primary" />
+                  <CardHeader className="p-4 sm:p-6">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-3 sm:mb-4 rounded-xl bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center">
+                      <resource.icon className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
                     </div>
-                    <CardTitle className="text-lg text-center flex items-center justify-center gap-2">
+                    <CardTitle className="text-base sm:text-lg text-center flex items-center justify-center gap-2">
                       {resource.title}
-                      <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity hidden sm:inline" />
                     </CardTitle>
                     <CardDescription className="text-sm leading-relaxed text-center pt-2">
                       {resource.description}
@@ -79,22 +79,22 @@ export default function Resources() {
       </section>
 
       {/* Additional Resources */}
-      <section className="relative z-10 py-12 px-4 sm:px-6 lg:px-8">
+      <section className="relative z-10 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 pb-16">
         <div className="max-w-6xl mx-auto">
           <div className="max-w-3xl mx-auto">
             <Link href="/learn-more">
               <Card className="hover-elevate active-elevate-2 bg-background/80 backdrop-blur-sm cursor-pointer group">
-                <CardHeader>
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-chart-3/20 to-primary/20 flex items-center justify-center flex-shrink-0">
-                      <BookOpen className="w-6 h-6 text-chart-3" />
+                <CardHeader className="p-4 sm:p-6">
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-chart-3/20 to-primary/20 flex items-center justify-center flex-shrink-0">
+                      <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-chart-3" />
                     </div>
-                    <div className="flex-1">
-                      <CardTitle className="text-lg flex items-center justify-between">
-                        How CHROMA Works
-                        <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="flex-1 min-w-0">
+                      <CardTitle className="text-base sm:text-lg flex items-center justify-between">
+                        <span>How CHROMA Works</span>
+                        <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity hidden sm:inline flex-shrink-0" />
                       </CardTitle>
-                      <CardDescription className="text-sm pt-1">
+                      <CardDescription className="text-xs sm:text-sm pt-1">
                         Deep dive into color science, LUT generation algorithms, and processing pipeline
                       </CardDescription>
                     </div>
