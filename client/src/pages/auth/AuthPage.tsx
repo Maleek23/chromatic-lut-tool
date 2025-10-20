@@ -1,14 +1,16 @@
 // Reference: blueprint:javascript_auth_all_persistance
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
-import { Redirect } from "wouter";
+import { Redirect, Link } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Check, Zap, Film, Sparkles, Palette, Crown, ArrowRight } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Check, Zap, Film, Sparkles, Palette, Crown, ArrowRight, Layers, Star, Shield } from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
+import logoImage from "@assets/logo-full-transparent-v2.png";
 
 export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
@@ -69,14 +71,14 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Animated gradient background - matching landing page */}
+      {/* Animated gradient background - cinematic aesthetic */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
         
-        {/* Animated color orbs - matching landing page timing */}
-        <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-        <div className="absolute bottom-1/3 left-1/4 w-[400px] h-[400px] bg-chart-2/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-chart-3/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '2s' }} />
+        {/* Animated color orbs - larger and more dramatic */}
+        <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
+        <div className="absolute bottom-1/3 left-1/4 w-[500px] h-[500px] bg-chart-2/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-chart-3/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '2s' }} />
         
         {/* Film grain overlay */}
         <div className="absolute inset-0 opacity-[0.015] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuNSIvPjwvc3ZnPg==')]" />
@@ -84,13 +86,17 @@ export default function AuthPage() {
 
       <div className="relative z-10 min-h-screen grid lg:grid-cols-2">
         {/* Left Column - Forms */}
-        <div className="flex items-center justify-center p-4 sm:p-6 md:p-8">
-          <div className="w-full max-w-md space-y-6 sm:space-y-8">
-            {/* Branding Header - matching landing page */}
-            <div className="text-center space-y-3 sm:space-y-4">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
-                CHROMA
-              </h1>
+        <div className="flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
+          <div className="w-full max-w-md space-y-8">
+            {/* Branding Header with Logo */}
+            <div className="text-center space-y-6">
+              <Link href="/">
+                <img 
+                  src={logoImage} 
+                  alt="CHROMA" 
+                  className="h-20 sm:h-24 w-auto mx-auto hover:scale-105 transition-transform duration-300 cursor-pointer" 
+                />
+              </Link>
               
               <div className="flex items-center justify-center gap-0 text-sm font-medium text-muted-foreground group cursor-default">
                 <span className="transition-all duration-700 ease-in-out group-hover:translate-x-4 group-hover:opacity-0">by UN</span>
@@ -98,109 +104,148 @@ export default function AuthPage() {
                 <span className="transition-all duration-700 ease-in-out group-hover:-translate-x-4 group-hover:opacity-0">TITLD</span>
               </div>
               
-              <p className="text-muted-foreground text-sm sm:text-base max-w-md mx-auto px-4">
-                Extract <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-chart-2 to-chart-3 font-semibold">authentic color grading</span> from any reference image
-              </p>
+              <div className="space-y-2">
+                <Badge variant="outline" className="text-xs px-3 py-1">
+                  <Sparkles className="w-3 h-3 mr-1" />
+                  Professional Color Science
+                </Badge>
+                <p className="text-muted-foreground text-sm sm:text-base max-w-md mx-auto px-4">
+                  Extract <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-chart-2 to-chart-3 font-semibold">cinema-quality color grading</span> from any reference image
+                </p>
+              </div>
             </div>
 
             {/* Enhanced Form Tabs */}
             <Tabs defaultValue="register" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 bg-muted/50 backdrop-blur-sm p-1.5">
+              <TabsList className="grid w-full grid-cols-2 bg-muted/50 backdrop-blur-sm p-1.5 h-12">
                 <TabsTrigger 
                   value="register" 
                   data-testid="tab-register"
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-chart-2 data-[state=active]:text-primary-foreground transition-all duration-300"
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-chart-2 data-[state=active]:text-primary-foreground transition-all duration-300 text-sm font-semibold"
                 >
                   <Sparkles className="w-4 h-4 mr-2" />
-                  Get Started
+                  Get Started Free
                 </TabsTrigger>
                 <TabsTrigger 
                   value="login" 
                   data-testid="tab-login"
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-chart-2 data-[state=active]:to-primary data-[state=active]:text-primary-foreground transition-all duration-300"
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-chart-2 data-[state=active]:to-primary data-[state=active]:text-primary-foreground transition-all duration-300 text-sm font-semibold"
                 >
                   Sign In
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="register" className="mt-4 sm:mt-6">
-                <Card className="border-muted/50 bg-card/80 backdrop-blur-sm shadow-2xl">
-                  <CardHeader className="space-y-1 pb-4">
-                    <CardTitle className="text-xl sm:text-2xl">Start Creating</CardTitle>
-                    <CardDescription className="text-xs sm:text-sm">Pick your plan, unlock your creativity</CardDescription>
+              <TabsContent value="register" className="mt-6">
+                <Card className="border-muted/50 bg-card/90 backdrop-blur-sm shadow-2xl">
+                  <CardHeader className="space-y-2 pb-6">
+                    <CardTitle className="text-2xl sm:text-3xl">Start Creating</CardTitle>
+                    <CardDescription className="text-sm">Choose your plan and unlock professional color grading</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <form onSubmit={handleRegister} className="space-y-4">
-                      {/* Tier Selection */}
-                      <div className="space-y-2">
-                        <Label className="text-xs sm:text-sm text-muted-foreground">Choose Your Tier</Label>
-                        <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                    <form onSubmit={handleRegister} className="space-y-6">
+                      {/* Enhanced Tier Selection */}
+                      <div className="space-y-3">
+                        <Label className="text-sm font-semibold text-foreground">Choose Your Plan</Label>
+                        <div className="grid grid-cols-2 gap-3">
+                          {/* Free Tier */}
                           <div
                             onClick={() => setRegisterData({ ...registerData, tier: "free" })}
                             data-testid="tier-card-free"
-                            className={`p-3 sm:p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                            className={`group p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 hover:shadow-lg ${
                               registerData.tier === "free"
-                                ? "border-primary bg-primary/5"
-                                : "border-muted hover:border-muted-foreground/50"
+                                ? "border-primary bg-primary/10 shadow-lg shadow-primary/20"
+                                : "border-muted hover:border-primary/50 hover-elevate"
                             }`}
                           >
-                            <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
-                              <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary flex-shrink-0" />
-                              <span className="font-semibold text-sm sm:text-base">Free</span>
+                            <div className="flex items-center gap-2 mb-3">
+                              <div className={`w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center ${registerData.tier === "free" ? "ring-2 ring-primary" : ""}`}>
+                                <Sparkles className="w-4 h-4 text-primary" />
+                              </div>
+                              <span className="font-bold text-base">Free</span>
                             </div>
-                            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 leading-tight">3 generations/month</p>
-                            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">$2.50 per extra</p>
+                            <div className="space-y-1">
+                              <p className="text-xs text-muted-foreground leading-tight">3 generations/month</p>
+                              <p className="text-xs text-muted-foreground leading-tight">$2.50 per additional</p>
+                              <p className="text-xs font-semibold text-primary mt-2">$0/forever</p>
+                            </div>
                           </div>
 
+                          {/* Creator Tier */}
                           <div
                             onClick={() => setRegisterData({ ...registerData, tier: "creator" })}
                             data-testid="tier-card-creator"
-                            className={`p-3 sm:p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                            className={`group p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 hover:shadow-lg ${
                               registerData.tier === "creator"
-                                ? "border-blue-500 bg-blue-500/5"
-                                : "border-muted hover:border-muted-foreground/50"
+                                ? "border-blue-500 bg-blue-500/10 shadow-lg shadow-blue-500/20"
+                                : "border-muted hover:border-blue-500/50 hover-elevate"
                             }`}
                           >
-                            <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
-                              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-500 flex-shrink-0" />
-                              <span className="font-semibold text-sm sm:text-base">Creator</span>
+                            <div className="flex items-center gap-2 mb-3">
+                              <div className={`w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/10 flex items-center justify-center ${registerData.tier === "creator" ? "ring-2 ring-blue-500" : ""}`}>
+                                <Layers className="w-4 h-4 text-blue-500" />
+                              </div>
+                              <span className="font-bold text-base">Creator</span>
                             </div>
-                            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 leading-tight">$7/mo</p>
-                            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">Unlimited gen</p>
+                            <div className="space-y-1">
+                              <p className="text-xs text-muted-foreground leading-tight">Unlimited generations</p>
+                              <p className="text-xs text-muted-foreground leading-tight">3 export formats</p>
+                              <p className="text-xs font-semibold text-blue-500 mt-2">$7/month</p>
+                            </div>
                           </div>
 
+                          {/* Pro Tier */}
                           <div
                             onClick={() => setRegisterData({ ...registerData, tier: "pro" })}
                             data-testid="tier-card-pro"
-                            className={`p-3 sm:p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                            className={`group p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 hover:shadow-lg relative ${
                               registerData.tier === "pro"
-                                ? "border-purple-500 bg-purple-500/5"
-                                : "border-muted hover:border-muted-foreground/50"
+                                ? "border-purple-500 bg-purple-500/10 shadow-lg shadow-purple-500/20"
+                                : "border-muted hover:border-purple-500/50 hover-elevate"
                             }`}
                           >
-                            <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
-                              <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-500 flex-shrink-0" />
-                              <span className="font-semibold text-sm sm:text-base">Pro</span>
+                            <Badge className="absolute -top-2 -right-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-[10px] px-2 py-0.5 border-0">
+                              <Star className="w-2.5 h-2.5 mr-1" />
+                              Popular
+                            </Badge>
+                            <div className="flex items-center gap-2 mb-3">
+                              <div className={`w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/10 flex items-center justify-center ${registerData.tier === "pro" ? "ring-2 ring-purple-500" : ""}`}>
+                                <Zap className="w-4 h-4 text-purple-500" />
+                              </div>
+                              <span className="font-bold text-base">Pro</span>
                             </div>
-                            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 leading-tight">$12/mo</p>
-                            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">All tools</p>
+                            <div className="space-y-1">
+                              <p className="text-xs text-muted-foreground leading-tight">All tools & formats</p>
+                              <p className="text-xs text-muted-foreground leading-tight">Batch processing</p>
+                              <p className="text-xs font-semibold text-purple-500 mt-2">$12/month</p>
+                            </div>
                           </div>
 
+                          {/* Studio Tier */}
                           <div
                             data-testid="tier-card-studio-disabled"
-                            className="p-3 sm:p-4 rounded-lg border-2 border-muted opacity-50 cursor-not-allowed"
+                            className="p-4 rounded-lg border-2 border-muted/50 opacity-50 cursor-not-allowed relative"
                           >
-                            <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
-                              <Crown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-yellow-500 flex-shrink-0" />
-                              <span className="font-semibold text-sm sm:text-base">Studio</span>
+                            <Badge className="absolute -top-2 -right-2 bg-muted text-muted-foreground text-[10px] px-2 py-0.5 border-0">
+                              Soon
+                            </Badge>
+                            <div className="flex items-center gap-2 mb-3">
+                              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-yellow-500/10 to-orange-500/10 flex items-center justify-center">
+                                <Crown className="w-4 h-4 text-yellow-500/50" />
+                              </div>
+                              <span className="font-bold text-base text-muted-foreground">Studio</span>
                             </div>
-                            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight">Coming Soon</p>
-                            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 leading-tight">Team tools</p>
+                            <div className="space-y-1">
+                              <p className="text-xs text-muted-foreground leading-tight">Team collaboration</p>
+                              <p className="text-xs text-muted-foreground leading-tight">AI-powered tools</p>
+                              <p className="text-xs font-semibold text-muted-foreground mt-2">$25/month</p>
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <div className="space-y-1.5 sm:space-y-2">
-                        <Label htmlFor="register-email" className="text-xs sm:text-sm">Email Address</Label>
+
+                      {/* Email Input */}
+                      <div className="space-y-2">
+                        <Label htmlFor="register-email" className="text-sm font-medium">Email Address</Label>
                         <Input
                           id="register-email"
                           type="email"
@@ -208,15 +253,17 @@ export default function AuthPage() {
                           onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
                           required
                           data-testid="input-email"
-                          className="bg-background/50 border-muted text-sm sm:text-base"
+                          className="bg-background/50 border-muted h-11"
                           placeholder="you@example.com"
                         />
-                        <p className="text-[10px] sm:text-xs text-muted-foreground">
-                          Use a valid email for account recovery
+                        <p className="text-xs text-muted-foreground">
+                          Used for account recovery and LUT delivery
                         </p>
                       </div>
-                      <div className="space-y-1.5 sm:space-y-2">
-                        <Label htmlFor="register-password" className="text-xs sm:text-sm">Password</Label>
+
+                      {/* Password Input */}
+                      <div className="space-y-2">
+                        <Label htmlFor="register-password" className="text-sm font-medium">Password</Label>
                         <Input
                           id="register-password"
                           type="password"
@@ -224,46 +271,55 @@ export default function AuthPage() {
                           onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
                           required
                           data-testid="input-password"
-                          className="bg-background/50 border-muted text-sm sm:text-base"
+                          className="bg-background/50 border-muted h-11"
                           placeholder="••••••••"
                         />
-                        <p className="text-[10px] sm:text-xs text-muted-foreground">
-                          8+ characters recommended
+                        <p className="text-xs text-muted-foreground">
+                          At least 8 characters recommended
                         </p>
                       </div>
+
+                      {/* Submit Button */}
                       <Button 
                         type="submit" 
-                        className="w-full bg-gradient-to-r from-primary to-chart-2 hover:from-primary/90 hover:to-chart-2/90 text-primary-foreground shadow-lg" 
+                        className="w-full h-11 bg-gradient-to-r from-primary to-chart-2 hover:from-primary/90 hover:to-chart-2/90 text-primary-foreground shadow-lg font-semibold text-base" 
                         disabled={registerMutation.isPending}
                         data-testid="button-signup"
                       >
                         {registerMutation.isPending ? (
                           <>
-                            <Film className="w-4 h-4 mr-2 animate-spin" />
-                            Creating account...
+                            <Film className="w-5 h-5 mr-2 animate-spin" />
+                            Creating your account...
                           </>
                         ) : (
                           <>
-                            <Sparkles className="w-4 h-4 mr-2" />
+                            <Sparkles className="w-5 h-5 mr-2" />
                             Create Free Account
                           </>
                         )}
                       </Button>
+
+                      <p className="text-xs text-center text-muted-foreground pt-2">
+                        By signing up, you agree to our{" "}
+                        <Link href="/terms" className="text-primary hover:underline">Terms</Link>
+                        {" "}and{" "}
+                        <Link href="/privacy" className="text-primary hover:underline">Privacy Policy</Link>
+                      </p>
                     </form>
                   </CardContent>
                 </Card>
               </TabsContent>
 
-              <TabsContent value="login" className="mt-4 sm:mt-6">
-                <Card className="border-muted/50 bg-card/80 backdrop-blur-sm shadow-2xl">
-                  <CardHeader className="space-y-1 pb-4">
-                    <CardTitle className="text-xl sm:text-2xl">Welcome Back</CardTitle>
-                    <CardDescription className="text-xs sm:text-sm">Continue your color grading journey</CardDescription>
+              <TabsContent value="login" className="mt-6">
+                <Card className="border-muted/50 bg-card/90 backdrop-blur-sm shadow-2xl">
+                  <CardHeader className="space-y-2 pb-6">
+                    <CardTitle className="text-2xl sm:text-3xl">Welcome Back</CardTitle>
+                    <CardDescription className="text-sm">Continue your color grading journey</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <form onSubmit={handleLogin} className="space-y-4">
-                      <div className="space-y-1.5 sm:space-y-2">
-                        <Label htmlFor="login-email" className="text-xs sm:text-sm">Email Address</Label>
+                    <form onSubmit={handleLogin} className="space-y-6">
+                      <div className="space-y-2">
+                        <Label htmlFor="login-email" className="text-sm font-medium">Email Address</Label>
                         <Input
                           id="login-email"
                           type="email"
@@ -271,12 +327,12 @@ export default function AuthPage() {
                           onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
                           required
                           data-testid="input-email"
-                          className="bg-background/50 border-muted text-sm sm:text-base"
+                          className="bg-background/50 border-muted h-11"
                           placeholder="you@example.com"
                         />
                       </div>
-                      <div className="space-y-1.5 sm:space-y-2">
-                        <Label htmlFor="login-password" className="text-xs sm:text-sm">Password</Label>
+                      <div className="space-y-2">
+                        <Label htmlFor="login-password" className="text-sm font-medium">Password</Label>
                         <Input
                           id="login-password"
                           type="password"
@@ -284,25 +340,25 @@ export default function AuthPage() {
                           onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
                           required
                           data-testid="input-password"
-                          className="bg-background/50 border-muted text-sm sm:text-base"
+                          className="bg-background/50 border-muted h-11"
                           placeholder="••••••••"
                         />
                       </div>
                       <Button 
                         type="submit" 
-                        className="w-full bg-gradient-to-r from-chart-2 to-primary hover:from-chart-2/90 hover:to-primary/90 text-primary-foreground shadow-lg" 
+                        className="w-full h-11 bg-gradient-to-r from-chart-2 to-primary hover:from-chart-2/90 hover:to-primary/90 text-primary-foreground shadow-lg font-semibold text-base" 
                         disabled={loginMutation.isPending}
                         data-testid="button-login"
                       >
                         {loginMutation.isPending ? (
                           <>
-                            <Film className="w-4 h-4 mr-2 animate-spin" />
-                            Signing in...
+                            <Film className="w-5 h-5 mr-2 animate-spin" />
+                            Signing you in...
                           </>
                         ) : (
                           <>
-                            <Palette className="w-4 h-4 mr-2" />
-                            Sign In
+                            <Palette className="w-5 h-5 mr-2" />
+                            Sign In to CHROMA
                           </>
                         )}
                       </Button>
@@ -314,108 +370,120 @@ export default function AuthPage() {
           </div>
         </div>
 
-        {/* Right Column - Enhanced Features */}
-        <div className="hidden lg:flex flex-col items-center justify-center p-12 relative">
-          <div className="max-w-lg space-y-8">
-            {/* Animated icon */}
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-chart-2 mb-6 animate-pulse" style={{ animationDuration: '3s' }}>
-                <Film className="w-10 h-10 text-primary-foreground" />
+        {/* Right Column - Enhanced Benefits Showcase */}
+        <div className="hidden lg:flex flex-col items-center justify-center p-12 relative bg-muted/20 backdrop-blur-sm border-l border-muted/50">
+          <div className="max-w-lg space-y-10">
+            {/* Hero Section */}
+            <div className="text-center space-y-4">
+              <div className="inline-flex items-center justify-center w-24 h-24 rounded-2xl bg-gradient-to-br from-primary to-chart-2 shadow-2xl shadow-primary/30 animate-pulse" style={{ animationDuration: '3s' }}>
+                <Film className="w-12 h-12 text-primary-foreground" />
               </div>
-              <h2 className="text-4xl font-bold mb-3">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
-                  Free Toolkit
-                </span>
-              </h2>
-              <p className="text-muted-foreground text-lg">
-                Included with your free account
-              </p>
+              <div className="space-y-2">
+                <h2 className="text-5xl font-bold">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
+                    Free Forever
+                  </span>
+                </h2>
+                <p className="text-muted-foreground text-lg">
+                  Professional tools at no cost
+                </p>
+              </div>
             </div>
 
-            {/* Free Features Card */}
-            <Card className="border-muted/50 bg-card/80 backdrop-blur-sm shadow-2xl">
-              <CardHeader>
-                <CardTitle className="text-2xl flex items-center gap-2">
-                  <Sparkles className="w-6 h-6 text-primary" />
-                  Free Forever
-                </CardTitle>
-                <CardDescription className="text-base">No limits on essentials</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <div className="rounded-full bg-primary/10 p-1 mt-0.5">
-                    <Check className="w-4 h-4 text-primary" />
+            {/* Features Grid */}
+            <div className="space-y-4">
+              {/* Feature 1 */}
+              <Card className="border-muted/50 bg-card/50 backdrop-blur-sm hover-elevate transition-all duration-300">
+                <CardContent className="p-5">
+                  <div className="flex items-start gap-4">
+                    <div className="rounded-full bg-primary/20 p-2.5 mt-0.5">
+                      <Check className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-base mb-1">Cinema-Quality LUT Generation</p>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        Extract authentic color science from reference images with our VES/CIE-verified pipeline
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-semibold">3 Free Image-to-LUT Generations</p>
-                    <p className="text-sm text-muted-foreground">Then $2.50 per additional LUT</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="rounded-full bg-primary/10 p-1 mt-0.5">
-                    <Check className="w-4 h-4 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-semibold">Basic Format Conversion</p>
-                    <p className="text-sm text-muted-foreground">.cube → .3dl conversions</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="rounded-full bg-primary/10 p-1 mt-0.5">
-                    <Check className="w-4 h-4 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-semibold">Banding Detection</p>
-                    <p className="text-sm text-muted-foreground">Preview quality analysis</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="rounded-full bg-primary/10 p-1 mt-0.5">
-                    <Check className="w-4 h-4 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-semibold">Export in .cube Format</p>
-                    <p className="text-sm text-muted-foreground">All precision options (8/10/12-bit)</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
 
-            {/* Pro Upgrade Teaser */}
-            <Card className="border-primary/50 bg-gradient-to-br from-primary/5 to-chart-2/5 backdrop-blur-sm shadow-2xl relative overflow-hidden">
-              {/* Animated gradient border effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-primary via-chart-2 to-primary opacity-20 blur-xl" />
+              {/* Feature 2 */}
+              <Card className="border-muted/50 bg-card/50 backdrop-blur-sm hover-elevate transition-all duration-300">
+                <CardContent className="p-5">
+                  <div className="flex items-start gap-4">
+                    <div className="rounded-full bg-chart-2/20 p-2.5 mt-0.5">
+                      <Check className="w-5 h-5 text-chart-2" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-base mb-1">Universal Format Support</p>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        Export to .cube, .3dl, .lut, .look, and .xmp for DaVinci Resolve, Premiere, Final Cut Pro
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Feature 3 */}
+              <Card className="border-muted/50 bg-card/50 backdrop-blur-sm hover-elevate transition-all duration-300">
+                <CardContent className="p-5">
+                  <div className="flex items-start gap-4">
+                    <div className="rounded-full bg-chart-3/20 p-2.5 mt-0.5">
+                      <Check className="w-5 h-5 text-chart-3" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-base mb-1">Professional Color Analysis</p>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        Banding detection, quality metrics, and precision optimization tools
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Upgrade CTA */}
+            <Card className="border-primary/30 bg-gradient-to-br from-primary/10 to-chart-2/10 backdrop-blur-sm shadow-xl relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-chart-2/10 to-primary/10 opacity-50 blur-xl" />
               
-              <CardHeader className="relative">
-                <div className="flex items-center gap-2">
-                  <Zap className="w-6 h-6 text-primary" />
-                  <CardTitle className="text-2xl">Unlock Pro</CardTitle>
+              <CardContent className="p-6 relative">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-chart-2 flex items-center justify-center">
+                    <Zap className="w-5 h-5 text-primary-foreground" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-lg">Upgrade to Pro</p>
+                    <p className="text-sm text-muted-foreground">$12/month or $99/year</p>
+                  </div>
                 </div>
-                <CardDescription className="text-base">
-                  $12/month or $99/year for power users
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3 relative">
-                <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-primary flex-shrink-0" />
-                  <span className="text-sm font-medium">All grid sizes (17×17×17 → 65×65×65)</span>
+                
+                <div className="space-y-2.5">
+                  <div className="flex items-center gap-2">
+                    <Shield className="w-4 h-4 text-primary flex-shrink-0" />
+                    <span className="text-sm font-medium">65×65×65 master quality grids</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Shield className="w-4 h-4 text-primary flex-shrink-0" />
+                    <span className="text-sm font-medium">Batch processing (10 files at once)</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Shield className="w-4 h-4 text-primary flex-shrink-0" />
+                    <span className="text-sm font-medium">Unlimited preset library</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Shield className="w-4 h-4 text-primary flex-shrink-0" />
+                    <span className="text-sm font-medium">Priority support</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-primary flex-shrink-0" />
-                  <span className="text-sm font-medium">All format conversions (.cube ↔ .3dl ↔ .lut)</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-primary flex-shrink-0" />
-                  <span className="text-sm font-medium">Full-quality analysis & precision exports</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-primary flex-shrink-0" />
-                  <span className="text-sm font-medium">Unlimited preset saving & organization</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-primary flex-shrink-0" />
-                  <span className="text-sm font-medium">Priority support</span>
-                </div>
+
+                <Link href="/upgrade">
+                  <Button className="w-full mt-5 bg-gradient-to-r from-primary to-chart-2 hover:from-primary/90 hover:to-chart-2/90" data-testid="button-upgrade-cta">
+                    <Crown className="w-4 h-4 mr-2" />
+                    View All Plans
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </div>
