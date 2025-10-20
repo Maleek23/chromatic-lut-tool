@@ -27,7 +27,7 @@ export default function Landing() {
           {/* Main logo - centered with side branding */}
           <div className="flex items-center justify-center mb-8 relative">
             <img src={logoImage} alt="CHROMA" className="h-24 sm:h-28 md:h-32 lg:h-36 w-auto" />
-            <div className="flex items-center text-[10px] sm:text-[11px] text-muted-foreground tracking-[0.1em] group absolute left-[calc(50%+80px)] sm:left-[calc(50%+100px)] md:left-[calc(50%+120px)] lg:left-[calc(50%+140px)]">
+            <div className="flex items-center text-[10px] sm:text-[11px] text-muted-foreground tracking-[0.1em] group absolute left-[calc(50%+55px)] sm:left-[calc(50%+70px)] md:left-[calc(50%+90px)] lg:left-[calc(50%+110px)]">
               <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">By</span>
               <div className="flex items-center gap-0 ml-0.5">
                 <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">UN</span>
