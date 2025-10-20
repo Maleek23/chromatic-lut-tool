@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
-import logoImage from "@assets/logo-icon-transparent.png";
+import logoImage from "@assets/logo-full-transparent.png";
 
 export function NavBar() {
   const [location] = useLocation();
@@ -131,16 +131,13 @@ export function NavBar() {
 
   return (
     <nav className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/">
-          <Button variant="ghost" className="hover-elevate px-2 sm:px-3" data-testid="button-home">
-            <div className="flex items-center gap-2">
-              <div className="flex flex-col items-center leading-none">
-                <img src={logoImage} alt="Chroma" className="w-10 h-10 sm:w-12 sm:h-12" />
-                <span className="font-bold text-sm sm:text-base tracking-tight mt-0.5">CHROMA</span>
-              </div>
-              <div className="hidden sm:flex items-center text-[10px] font-medium text-muted-foreground tracking-[0.15em] group">
+          <Button variant="ghost" className="hover-elevate px-2" data-testid="button-home">
+            <div className="flex items-center gap-1.5">
+              <img src={logoImage} alt="Chroma" className="h-8 w-auto" />
+              <div className="hidden lg:flex items-center text-[9px] font-medium text-muted-foreground tracking-[0.15em] -ml-1 group">
                 <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by</span>
                 <div className="flex items-center gap-0 ml-0.5">
                   <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">UN</span>
