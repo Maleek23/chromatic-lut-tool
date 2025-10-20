@@ -150,11 +150,9 @@ export function NavBar() {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-4 flex-wrap">
-          <div className="flex items-center gap-1">
-            <NavLinks />
-          </div>
-          <div className="flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-2 flex-1 justify-end">
+          <NavLinks />
+          <div className="border-l pl-2 ml-2 flex items-center gap-2">
             <UserSection />
             <Button
               variant="ghost"
