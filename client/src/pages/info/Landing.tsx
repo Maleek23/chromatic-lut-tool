@@ -25,9 +25,9 @@ export default function Landing() {
       <section className="relative z-10 pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           {/* Main logo with branding */}
-          <div className="relative flex justify-center mb-8">
+          <div className="flex items-center justify-center gap-2 mb-8">
             <img src={logoImage} alt="CHROMA" className="h-24 sm:h-28 md:h-32 lg:h-36 w-auto" />
-            <div className="absolute left-1/2 top-1/2 -translate-y-1/2 ml-[calc(50%+0.5rem)] flex items-center text-[8px] sm:text-[9px] text-muted-foreground tracking-[0.15em] group">
+            <div className="flex items-center text-[10px] sm:text-[11px] text-muted-foreground tracking-[0.1em] group">
               <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by</span>
               <div className="flex items-center gap-0 ml-0.5">
                 <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">UN</span>
