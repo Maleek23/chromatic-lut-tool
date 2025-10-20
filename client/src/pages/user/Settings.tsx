@@ -3,10 +3,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { Link } from "wouter";
-import { User, Crown, TrendingUp, Settings as SettingsIcon, Zap } from "lucide-react";
+import { User, Crown, TrendingUp, Settings as SettingsIcon, Zap, Sun, Moon, Palette } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { useQuery } from "@tanstack/react-query";
 import { Progress } from "@/components/ui/progress";
+import { useTheme } from "@/components/layout/ThemeProvider";
 
 type UsageStats = {
   tier: string;
@@ -22,6 +23,7 @@ type UsageStats = {
 
 export default function Settings() {
   const { user } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   // Fetch usage statistics
   const { data: usageStats, isLoading: usageLoading } = useQuery<UsageStats>({
@@ -90,6 +92,46 @@ export default function Settings() {
             <div className="space-y-2">
               <label className="text-sm font-medium text-muted-foreground">Username</label>
               <p className="text-lg" data-testid="text-username">{user.username || 'Not set'}</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Theme Settings */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Palette className="w-5 h-5" />
+              Appearance
+            </CardTitle>
+            <CardDescription>Customize your visual experience</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <label className="text-sm font-medium">Theme</label>
+                  <p className="text-sm text-muted-foreground">
+                    Switch between light and dark mode
+                  </p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={toggleTheme}
+                  className="hover-elevate"
+                  data-testid="button-theme-toggle"
+                >
+                  {theme === "dark" ? (
+                    <Sun className="w-5 h-5" />
+                  ) : (
+                    <Moon className="w-5 h-5" />
+                  )}
+                </Button>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <span className="capitalize">{theme}</span>
+                <span className="text-xs">mode active</span>
+              </div>
             </div>
           </CardContent>
         </Card>
