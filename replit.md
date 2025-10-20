@@ -6,6 +6,24 @@ CHROMA is a professional toolkit for cinematographers and colorists, offering co
 ## User Preferences
 Preferred communication style: Simple, everyday language.
 
+## Professional Standards Verification (October 2025)
+CHROMA's LUT generation pipeline has been verified against industry standards:
+- **VES Technology Committee White Paper**: "Cinematic Color: From Your Monitor to the Big Screen" (2012) - Confirmed correct implementation of CIE L*a*b* perceptual color space, scene-referred vs display-referred colorimetry, and sRGB gamma encoding (2.4 exponent).
+- **CIE Color Spaces (FilmLight Technical Note)**: Confirmed proper D65 white point, CIE XYZ tristimulus transformations, and Lab/LCh color space mathematics.
+- **Key Verification Points**:
+  - ✓ CIE L*a*b* with D65 illuminant (per CIE 1976 recommendation)
+  - ✓ sRGB gamma handling (2.4 exponent with offset per VES spec)
+  - ✓ K-means clustering for intelligent color sampling
+  - ✓ Filmic tone curves (John Hable) for cinema-quality tonality
+  - ✓ Skin tone protection using Lab distance metrics
+  - ✓ Hue-preserving gamut compression (binary search in LCh space)
+  - ✓ Chromatic adaptation (Gray World algorithm)
+  - ✓ ACEScg support for ACES film emulation workflows
+  - ✓ Blue-fastest indexing (industry standard for 3D LUTs)
+  - ✓ Comprehensive LUT metadata with input requirements and color science documentation
+
+**Educational Content**: LearnMore.tsx updated to accurately reflect professional color science pipeline (verified by architect).
+
 ## System Architecture
 
 ### Frontend
