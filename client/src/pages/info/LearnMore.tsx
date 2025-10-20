@@ -8,6 +8,7 @@ import {
   Box,
   Layers
 } from "lucide-react";
+import { Footer } from "@/components/layout/Footer";
 
 export default function LearnMore() {
   return (
@@ -453,6 +454,8 @@ export default function LearnMore() {
           </Card>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 }

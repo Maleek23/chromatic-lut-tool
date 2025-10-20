@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Upload, Settings, Download, ArrowRight, Lightbulb, Sparkles } from "lucide-react";
+import { Footer } from "@/components/layout/Footer";
 
 export default function CreateFromImages() {
   return (
@@ -259,6 +260,8 @@ export default function CreateFromImages() {
           </div>
         </div>
       </section>
+      
+      <Footer />
     </div>
   );
 }

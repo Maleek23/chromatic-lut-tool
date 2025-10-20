@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle2, ArrowRight } from "lucide-react";
+import { Footer } from "@/components/layout/Footer";
 
 export default function InstallLuts() {
   return (
@@ -452,6 +453,8 @@ export default function InstallLuts() {
           </Card>
         </div>
       </section>
+      
+      <Footer />
     </div>
   );
 }

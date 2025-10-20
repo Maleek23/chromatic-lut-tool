@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { HelpCircle, CheckCircle2, ArrowRight, XCircle, FileCode } from "lucide-react";
+import { Footer } from "@/components/layout/Footer";
 
 export default function LutFormats() {
   return (
@@ -348,6 +349,8 @@ export default function LutFormats() {
           </div>
         </div>
       </section>
+      
+      <Footer />
     </div>
   );
 }

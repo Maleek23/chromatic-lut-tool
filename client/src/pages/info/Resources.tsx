@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Download, Zap, HelpCircle, ArrowRight, BookOpen } from "lucide-react";
+import { Footer } from "@/components/layout/Footer";
 
 export default function Resources() {
   const resources = [
@@ -105,6 +106,8 @@ export default function Resources() {
           </div>
         </div>
       </section>
+      
+      <Footer />
     </div>
   );
 }
