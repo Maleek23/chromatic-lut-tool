@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, ArrowRight, Check, Lightbulb, Layers, Zap, Crown, TrendingUp } from "lucide-react";
 import logoImage from "@assets/logo-full-transparent-v2.png";
+import { Footer } from "@/components/layout/Footer";
 
 export default function Landing() {
   return (
@@ -389,12 +390,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t py-8 px-6 bg-background">
-        <div className="max-w-6xl mx-auto text-center text-sm text-muted-foreground">
-          <p>CHROMA • Professional LUT tools for cinematographers and colorists</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Footer } from "@/components/layout/Footer";
 
 export default function Terms() {
   return (
@@ -250,6 +251,8 @@ export default function Terms() {
           </Card>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sparkles, Target, Users, Zap } from "lucide-react";
+import { Footer } from "@/components/layout/Footer";
 
 export default function About() {
   return (
@@ -192,6 +193,8 @@ export default function About() {
           </Card>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 }
