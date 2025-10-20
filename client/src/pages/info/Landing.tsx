@@ -24,20 +24,16 @@ export default function Landing() {
       {/* Hero Section */}
       <section className="relative z-10 pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          {/* Main logo */}
-          <div className="text-center mb-8">
-            <div className="flex justify-center mb-4">
-              <img src={logoImage} alt="CHROMA" className="h-24 sm:h-28 md:h-32 lg:h-36 w-auto" />
-            </div>
-            <div className="flex items-center justify-center text-sm sm:text-base text-muted-foreground tracking-[0.2em]">
-              <span className="inline-flex items-center group">
-                <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by</span>
-                <span className="inline-flex items-center gap-0 ml-0.5">
-                  <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">UN</span>
-                  <span className="text-primary mx-0.5 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rotate-180">/</span>
-                  <span className="transition-all duration-500 ease-in-out group-hover:-translate-x-2 group-hover:opacity-0 group-hover:scale-50">TITLD</span>
-                </span>
-              </span>
+          {/* Main logo with branding */}
+          <div className="flex items-center justify-center gap-3 mb-8">
+            <img src={logoImage} alt="CHROMA" className="h-24 sm:h-28 md:h-32 lg:h-36 w-auto" />
+            <div className="flex items-center text-xs sm:text-sm text-muted-foreground tracking-[0.15em] group">
+              <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by</span>
+              <div className="flex items-center gap-0 ml-0.5">
+                <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">UN</span>
+                <span className="text-primary mx-0.5 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rotate-180">/</span>
+                <span className="transition-all duration-500 ease-in-out group-hover:-translate-x-2 group-hover:opacity-0 group-hover:scale-50">TITLD</span>
+              </div>
             </div>
           </div>
 
