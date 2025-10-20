@@ -93,7 +93,7 @@ export default function Upgrade() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto mb-12">
           {/* Free Tier */}
           <Card 
-            className={`relative border-muted/50 bg-card/80 backdrop-blur-sm ${currentTier === "free" ? "ring-2 ring-primary" : ""}`}
+            className={`relative border-muted/50 bg-card/80 backdrop-blur-sm flex flex-col h-full ${currentTier === "free" ? "ring-2 ring-primary" : ""}`}
             data-testid="card-tier-free"
           >
             {currentTier === "free" && (
@@ -112,7 +112,7 @@ export default function Upgrade() {
                 $0<span className="text-sm font-normal text-muted-foreground">/forever</span>
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-3 flex-1">
               <p className="text-xs text-muted-foreground font-medium mb-3">
                 For new users & hobbyists
               </p>
@@ -129,7 +129,7 @@ export default function Upgrade() {
                 </li>
               </ul>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="mt-auto">
               <Button variant="outline" className="w-full" disabled>
                 <Film className="w-4 h-4 mr-2" />
                 {currentTier === "free" ? "Current Plan" : "Downgrade"}
@@ -139,7 +139,7 @@ export default function Upgrade() {
 
           {/* Creator Tier */}
           <Card 
-            className={`relative border-blue-500/30 bg-gradient-to-br from-card/80 to-blue-500/5 backdrop-blur-sm ${currentTier === "creator" ? "ring-2 ring-blue-500" : ""}`}
+            className={`relative border-blue-500/30 bg-gradient-to-br from-card/80 to-blue-500/5 backdrop-blur-sm flex flex-col h-full ${currentTier === "creator" ? "ring-2 ring-blue-500" : ""}`}
             data-testid="card-tier-creator"
           >
             {currentTier === "creator" && (
@@ -158,7 +158,7 @@ export default function Upgrade() {
                 $7<span className="text-sm font-normal text-muted-foreground">/month</span>
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-3 flex-1">
               <p className="text-xs text-muted-foreground font-medium mb-3">
                 For growing colorists
               </p>
@@ -182,7 +182,7 @@ export default function Upgrade() {
                 })}
               </ul>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="mt-auto">
               <Button 
                 className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:opacity-90"
                 onClick={() => handleUpgrade("creator")}
@@ -208,7 +208,7 @@ export default function Upgrade() {
 
           {/* Pro Tier */}
           <Card 
-            className={`relative border-purple-500/30 shadow-lg shadow-purple-500/10 bg-gradient-to-br from-card/80 to-purple-500/5 backdrop-blur-sm ${currentTier === "pro" ? "ring-2 ring-purple-500" : ""}`}
+            className={`relative border-purple-500/30 shadow-lg shadow-purple-500/10 bg-gradient-to-br from-card/80 to-purple-500/5 backdrop-blur-sm flex flex-col h-full ${currentTier === "pro" ? "ring-2 ring-purple-500" : ""}`}
             data-testid="card-tier-pro"
           >
             {currentTier !== "pro" && currentTier !== "studio" && (
@@ -237,7 +237,7 @@ export default function Upgrade() {
               </CardDescription>
               <p className="text-xs text-muted-foreground pt-1">or $99/year (save $45)</p>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-3 flex-1">
               <p className="text-xs text-muted-foreground font-medium mb-3">
                 For professional creators
               </p>
@@ -261,7 +261,7 @@ export default function Upgrade() {
                 })}
               </ul>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="mt-auto">
               <Button 
                 className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90"
                 onClick={() => handleUpgrade("pro")}
@@ -287,7 +287,7 @@ export default function Upgrade() {
 
           {/* Studio Tier */}
           <Card 
-            className={`relative border-yellow-500/30 bg-gradient-to-br from-card/80 to-yellow-500/5 backdrop-blur-sm ${currentTier === "studio" ? "ring-2 ring-yellow-500" : ""}`}
+            className={`relative border-yellow-500/30 bg-gradient-to-br from-card/80 to-yellow-500/5 backdrop-blur-sm flex flex-col h-full ${currentTier === "studio" ? "ring-2 ring-yellow-500" : ""}`}
             data-testid="card-tier-studio"
           >
             {currentTier === "studio" && (
@@ -306,7 +306,7 @@ export default function Upgrade() {
                 $25<span className="text-sm font-normal text-muted-foreground">/month</span>
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-3 flex-1">
               <p className="text-xs text-muted-foreground font-medium mb-3">
                 For agencies & teams
               </p>
@@ -319,7 +319,7 @@ export default function Upgrade() {
                 ))}
               </ul>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="mt-auto">
               <Button 
                 className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:opacity-90"
                 onClick={() => handleUpgrade("studio")}
