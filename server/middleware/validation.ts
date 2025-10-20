@@ -84,7 +84,7 @@ export const TIER_FEATURES = {
     savedPresets: 30, // 20-30 presets
     
     // Batch
-    batchSize: 3, // Small batch
+    batchSize: 1, // No batch processing - Pro tier feature
     
     // Special Features
     folderOrganization: true,
