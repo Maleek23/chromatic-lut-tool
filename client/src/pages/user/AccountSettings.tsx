@@ -450,23 +450,16 @@ export default function AccountSettings() {
             </CardContent>
           </Card>
 
-          {/* Danger Zone */}
-          <Card className="border-destructive/50">
-            <CardHeader>
-              <CardTitle className="text-destructive">Danger Zone</CardTitle>
-              <CardDescription>Irreversible account actions</CardDescription>
-            </CardHeader>
-            <CardContent>
+          {/* Sign Out */}
+          <Card>
+            <CardContent className="pt-6">
               <Button
-                variant="destructive"
-                onClick={() => {
-                  if (confirm("Are you sure you want to log out?")) {
-                    logoutMutation.mutate();
-                  }
-                }}
+                variant="outline"
+                onClick={() => logoutMutation.mutate()}
                 data-testid="button-logout"
+                className="w-full"
               >
-                Log Out
+                Sign Out
               </Button>
             </CardContent>
           </Card>
