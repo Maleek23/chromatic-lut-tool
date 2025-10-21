@@ -14,7 +14,9 @@ Preferred communication style: Simple, everyday language.
 - **State Management**: Local React state, custom auth context, React Query for server state.
 - **UI Components**: Radix UI primitives and shadcn/ui for accessible components.
 - **Styling**: Tailwind CSS with a cinematic aesthetic (gradient effects, animated color orbs, film grain, chromatic aberration typography, backdrop blur).
-- **Design Patterns**: Component composition, controlled components, custom hooks, tabbed navigation, debounced real-time preview updates.
+- **Typography System**: Inter (headlines), JetBrains Mono (technical values), Montserrat (cinematic titles), Playfair Display (editorial content).
+- **Visual Components**: Cinema-grade web-native components built with Canvas API, CSS 3D transforms, and SVG animations (ColorParticles, FilmGrain, QualityGauge, ColorCube3D, SpectrumLoader, BeforeAfterSlider, HeroSection, SixStageArchitecture).
+- **Design Patterns**: Component composition, controlled components, custom hooks, tabbed navigation, debounced real-time preview updates, horizontal scrolling journeys with snap-scroll and keyboard navigation.
 - **SEO**: Comprehensive meta tags (Open Graph, Twitter Cards) and keyword optimization.
 
 ### Backend
