@@ -21,7 +21,7 @@ export function NavBar() {
           data-testid="nav-home"
           className={mobile ? "w-full justify-start" : ""}
         >
-          Home
+          {user ? "Dashboard" : "Home"}
         </Button>
       </Link>
       <Link href="/generate" onClick={() => mobile && setOpen(false)}>

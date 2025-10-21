@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { AuthProvider } from "@/hooks/use-auth";
 import { NavBar } from "@/components/layout/NavBar";
 import { ProtectedRoute } from "@/lib/protected-route";
-import Landing from "@/pages/info/Landing";
+import Home from "@/pages/Home";
 import Generate from "@/pages/tools/Tool";
 import Tools from "@/pages/tools/Tools";
 import Convert from "@/pages/tools/Convert";
@@ -37,7 +37,7 @@ function Router() {
     <>
       {!hideNavbar && <NavBar />}
       <Switch>
-        <Route path="/" component={Landing} />
+        <Route path="/" component={Home} />
         <Route path="/generate" component={Generate} />
         <Route path="/tools" component={Tools} />
         <ProtectedRoute path="/convert" component={Convert} />
