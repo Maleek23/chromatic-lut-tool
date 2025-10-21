@@ -72,13 +72,14 @@ export default function Visuals() {
                   <QualityGauge score={gaugeScore} size={250} strokeWidth={24} />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Adjust Score: {gaugeScore}</label>
+                  <label className="text-sm font-medium" data-testid="text-gauge-score">Adjust Score: {gaugeScore}</label>
                   <Slider
                     value={[gaugeScore]}
                     onValueChange={(v) => setGaugeScore(v[0])}
                     min={0}
                     max={100}
                     step={1}
+                    data-testid="slider-gauge-score"
                   />
                 </div>
               </CardContent>
@@ -117,13 +118,14 @@ export default function Visuals() {
               <CardContent className="space-y-6">
                 <SpectrumLoader progress={loaderProgress} height={8} showPercentage />
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Adjust Progress: {loaderProgress}%</label>
+                  <label className="text-sm font-medium" data-testid="text-loader-progress">Adjust Progress: {loaderProgress}%</label>
                   <Slider
                     value={[loaderProgress]}
                     onValueChange={(v) => setLoaderProgress(v[0])}
                     min={0}
                     max={100}
                     step={1}
+                    data-testid="slider-loader-progress"
                   />
                 </div>
                 <div className="space-y-2">
