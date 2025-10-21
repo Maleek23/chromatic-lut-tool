@@ -32,12 +32,9 @@ import Support from "@/pages/info/Support";
 import NotFound from "@/pages/not-found";
 
 function Router() {
-  const [location] = useLocation();
-  const hideNavbar = location === "/auth" || location === "/forgot-password" || location.startsWith("/reset-password");
-
   return (
     <>
-      {!hideNavbar && <NavBar />}
+      <NavBar />
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/generate" component={Generate} />
