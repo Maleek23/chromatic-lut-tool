@@ -2,6 +2,7 @@ import { useCallback, useState, useRef, useId, useEffect } from "react";
 import { CloudUpload, Image as ImageIcon, Sparkles, Loader2, Zap, Palette, Wand2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ColorParticles } from "@/components/visual/ColorParticles";
 
 interface UploadZoneProps {
   onImageUpload: (file: File) => void;
@@ -97,6 +98,9 @@ export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: Upl
     >
       {/* Cinematic background with color science accents */}
       <div className="absolute inset-0 pointer-events-none">
+        {/* Animated color particles */}
+        <ColorParticles count={20} speed={0.3} />
+        
         <div 
           className="absolute inset-0 opacity-40"
           style={{

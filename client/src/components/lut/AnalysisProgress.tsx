@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { SpectrumLoader } from "@/components/visual/SpectrumLoader";
 import { 
   Loader2, 
   Scan, 
@@ -169,13 +169,13 @@ export function AnalysisProgress({ isActive, onComplete }: AnalysisProgressProps
           )}
         </div>
 
-        {/* Progress Bar */}
+        {/* Cinema-grade Progress Bar */}
         <div className="space-y-2">
-          <Progress value={progress} className="h-2" />
+          <SpectrumLoader progress={progress} height={6} />
           <div className="flex justify-between text-xs text-muted-foreground">
-            <span>{Math.round(progress)}%</span>
+            <span className="font-mono">{Math.round(progress)}%</span>
             <span className="font-mono">
-              {completed ? "Done" : `${currentStageIndex + 1}/${ANALYSIS_STAGES.length}`}
+              {completed ? "Complete" : `Stage ${currentStageIndex + 1}/${ANALYSIS_STAGES.length}`}
             </span>
           </div>
         </div>
