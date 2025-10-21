@@ -44,10 +44,11 @@ Preferred communication style: Simple, everyday language.
     - **LUT Analysis**: Quality scoring, banding/invalid point detection, RGB statistics.
     - **LUT Optimization**: Clamps RGB values.
     - **Authentication**: Email/password with crypto.scrypt hashing, session management, tier-based feature access, password reset.
-    - **User Profiles**: Professional details, bio, social links, editable in Account Settings.
+    - **User Profiles**: Professional details (occupation, company, experience), bio, social links (website, Twitter, Instagram, LinkedIn), editable in Account Settings.
     - **Preset Management**: Saving and organization with tier-dependent limits and metadata.
     - **Usage Tracking**: Monthly conversions tracked for Free tier.
     - **Email Delivery**: Automatic email delivery of generated LUT files and password reset emails via Resend.
+    - **Support Page**: Comprehensive support center (`/support`) with email contact (hello@untitld.co), FAQ section, and documentation links.
 
 ## External Dependencies
 

@@ -47,12 +47,9 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <a 
-                  href="mailto:hello@untitld.co" 
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Contact
-                </a>
+                <Link href="/support" className="text-sm text-muted-foreground hover:text-primary transition-colors" data-testid="link-support">
+                  Support
+                </Link>
               </li>
             </ul>
           </div>
