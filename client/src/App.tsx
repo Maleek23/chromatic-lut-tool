@@ -29,6 +29,7 @@ import Privacy from "@/pages/legal/Privacy";
 import Terms from "@/pages/legal/Terms";
 import About from "@/pages/info/About";
 import Support from "@/pages/info/Support";
+import Visuals from "@/pages/Visuals";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -51,6 +52,7 @@ function Router() {
         <Route path="/terms" component={Terms} />
         <Route path="/about" component={About} />
         <Route path="/support" component={Support} />
+        <Route path="/visuals" component={Visuals} />
         <ProtectedRoute path="/settings" component={AccountSettings} />
         <ProtectedRoute path="/dashboard" component={Dashboard} />
         <Route path="/upgrade" component={Upgrade} />
