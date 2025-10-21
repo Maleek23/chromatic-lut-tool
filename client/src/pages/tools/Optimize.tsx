@@ -7,7 +7,6 @@ import { LutFileUpload } from "@/components/lut/LutFileUpload";
 import { Footer } from "@/components/layout/Footer";
 import { AlertCircle, CheckCircle2, Download, Sparkles } from "lucide-react";
 import { canUseOptimizer } from "@shared/tiers";
-import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { User } from "@shared/schema";
 import { Link } from "wouter";
 
@@ -33,9 +32,10 @@ export default function Optimize() {
       const formData = new FormData();
       formData.append("file", file);
       
-      const response = await apiRequest("/api/lut/optimize", {
+      const response = await fetch("/api/lut/optimize", {
         method: "POST",
         body: formData,
+        credentials: "include",
       });
       
       if (!response.ok) {
