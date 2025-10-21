@@ -58,7 +58,8 @@ export function buildLUTFromColorScience(
     }
   }
   
-  return lutMap;
+  // Apply smoothing to reduce banding
+  return smoothLUT(lutMap, gridSize);
 }
 
 /**
@@ -111,7 +112,8 @@ function applyColorScience(
 }
 
 /**
- * Apply color shifts based on k-means clusters
+ * Apply color shifts based on k-means clusters with smooth interpolation
+ * IMPROVED: Use weighted multi-cluster interpolation to prevent hard edges
  */
 function applyClusterColorShifts(
   lab: Lab,
@@ -122,25 +124,51 @@ function applyClusterColorShifts(
     return lab;
   }
   
-  // Find closest cluster
-  let minDist = Infinity;
-  let closestCluster = analysis.clusters[0];
+  // Calculate distances to all clusters
+  const clusterDistances = analysis.clusters.map(cluster => ({
+    cluster,
+    distance: labDistance(lab, cluster.center)
+  }));
   
-  for (const cluster of analysis.clusters) {
-    const dist = labDistance(lab, cluster.center);
-    if (dist < minDist) {
-      minDist = dist;
-      closestCluster = cluster;
-    }
+  // Sort by distance
+  clusterDistances.sort((a, b) => a.distance - b.distance);
+  
+  // Use top 3 closest clusters for smooth interpolation
+  const numClustersToUse = Math.min(3, clusterDistances.length);
+  const closeClusters = clusterDistances.slice(0, numClustersToUse);
+  
+  // Calculate weights using inverse distance with cluster importance
+  const smoothingFactor = 15; // Higher = smoother transitions
+  let totalWeight = 0;
+  const weights = closeClusters.map(({ distance, cluster }) => {
+    const weight = (cluster.weight) / (distance + smoothingFactor);
+    totalWeight += weight;
+    return weight;
+  });
+  
+  // Normalize weights to sum to 1
+  const normalizedWeights = weights.map(w => w / totalWeight);
+  
+  // Blend between multiple clusters for smooth gradients
+  let shiftedL = 0;
+  let shiftedA = 0;
+  let shiftedB = 0;
+  
+  for (let i = 0; i < closeClusters.length; i++) {
+    const { cluster } = closeClusters[i];
+    const weight = normalizedWeights[i];
+    shiftedL += cluster.center.l * weight;
+    shiftedA += cluster.center.a * weight;
+    shiftedB += cluster.center.b * weight;
   }
   
-  // Apply subtle shift towards cluster center (weighted by intensity and cluster weight)
-  const shiftAmount = intensity * closestCluster.weight * 0.2;
+  // Reduced shift amount to prevent over-correction
+  const shiftAmount = intensity * 0.15; // Reduced from 0.2
   
   return {
-    l: lab.l * (1 - shiftAmount) + closestCluster.center.l * shiftAmount,
-    a: lab.a * (1 - shiftAmount) + closestCluster.center.a * shiftAmount,
-    b: lab.b * (1 - shiftAmount) + closestCluster.center.b * shiftAmount,
+    l: lab.l * (1 - shiftAmount) + shiftedL * shiftAmount,
+    a: lab.a * (1 - shiftAmount) + shiftedA * shiftAmount,
+    b: lab.b * (1 - shiftAmount) + shiftedB * shiftAmount,
   };
 }
 
@@ -303,4 +331,69 @@ function hexToLab(hex: string): Lab {
   };
   
   return rgbToLab(rgb);
+}
+
+/**
+ * Smooth 3D LUT to reduce banding
+ * Applies a 3x3x3 box filter to each LUT point while preserving identity corners
+ */
+function smoothLUT(lutMap: LUTPoint[], gridSize: number): LUTPoint[] {
+  const smoothed: LUTPoint[] = [];
+  const maxIdx = gridSize - 1;
+  
+  for (let b = 0; b < gridSize; b++) {
+    for (let g = 0; g < gridSize; g++) {
+      for (let r = 0; r < gridSize; r++) {
+        const idx = b * gridSize * gridSize + g * gridSize + r;
+        
+        // Preserve the 8 cube corners (identity points)
+        const isCorner = (r === 0 || r === maxIdx) && 
+                         (g === 0 || g === maxIdx) && 
+                         (b === 0 || b === maxIdx);
+        
+        if (isCorner) {
+          smoothed.push(lutMap[idx]);
+          continue;
+        }
+        
+        // Collect neighboring points (3x3x3 kernel)
+        let sumR = 0, sumG = 0, sumB = 0;
+        let count = 0;
+        
+        for (let db = -1; db <= 1; db++) {
+          for (let dg = -1; dg <= 1; dg++) {
+            for (let dr = -1; dr <= 1; dr++) {
+              const nb = b + db;
+              const ng = g + dg;
+              const nr = r + dr;
+              
+              // Check bounds
+              if (nb >= 0 && nb < gridSize && 
+                  ng >= 0 && ng < gridSize && 
+                  nr >= 0 && nr < gridSize) {
+                const nidx = nb * gridSize * gridSize + ng * gridSize + nr;
+                const point = lutMap[nidx];
+                
+                // Weight: center point gets more weight
+                const weight = (dr === 0 && dg === 0 && db === 0) ? 3 : 1;
+                
+                sumR += point.r * weight;
+                sumG += point.g * weight;
+                sumB += point.b * weight;
+                count += weight;
+              }
+            }
+          }
+        }
+        
+        smoothed.push({
+          r: sumR / count,
+          g: sumG / count,
+          b: sumB / count,
+        });
+      }
+    }
+  }
+  
+  return smoothed;
 }
