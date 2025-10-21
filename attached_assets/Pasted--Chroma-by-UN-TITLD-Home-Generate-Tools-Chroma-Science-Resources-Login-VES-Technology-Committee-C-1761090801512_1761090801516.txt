@@ -1,0 +1,231 @@
+
+
+Chroma
+by
+UN
+/
+TITLD
+Home
+Generate
+Tools
+Chroma Science
+Resources
+Login
+VES Technology Committee
+CIE 1976 Standard
+Cinema-Grade
+Color Science.
+Zero Guesswork.
+Professional LUT generation built on VES + CIE standards. Extract authentic color science from any reference image.
+
+Get Started Free
+See The Science
+10K+
+Colorists Worldwide
+1.2M
+Color Points Processed
+Processing 1.2M color points...
+Cinema-Grade Pipeline
+Six-Stage Color Science Architecture
+Professional color pipeline built on VES and CIE standards. Each stage is scientifically validated.
+
+
+1
+CIE L*a*b* Transform
+Perceptually Uniform Color Space
+
+Transforms RGB colors into the CIE L*a*b* color space, ensuring perceptually uniform color processing.
+
+Why This Matters
+
+RGB values don't match human perception. L*a*b* ensures equal mathematical changes produce equal visual changes.
+
+Technical Implementation:
+
+→
+Converts from device-dependent RGB to perceptual L*a*b*
+→
+Lightness (L*) separated from color (a*, b*)
+→
+Enables accurate skin tone detection and protection
+→
+Foundation for professional color grading
+frontbackrightlefttopbottom
+Stage 1 Visualization
+2
+K-means Clustering
+Dominant Color Extraction
+
+Analyzes image to extract 5-8 dominant color clusters, identifying the essential color palette.
+
+Why This Matters
+
+Reduces millions of colors to core palette without losing visual essence. Essential for authentic LUT generation.
+
+Technical Implementation:
+
+→
+Identifies 5-8 dominant color clusters
+→
+Preserves color relationships and intensity
+→
+Handles complex gradients smoothly
+→
+Optimized for cinematic color palettes
+Extracted Color Palette
+
+Stage 2 Visualization
+3
+Filmic Tone Curves
+Cinema S-Curve Application
+
+Applies professional film-style tone curves for natural highlight rolloff and shadow detail preservation.
+
+Why This Matters
+
+Linear curves look harsh. Filmic S-curves create the organic, cinema-grade tonal response viewers expect.
+
+Technical Implementation:
+
+→
+Smooth highlight rolloff (prevents clipping)
+→
+Rich shadow detail retention
+→
+Emulates film stock response curves
+→
+Professional cinema-grade tonality
+Input →
+Output →
+Stage 3 Visualization
+4
+Skin Tone Protection
+Selective Color Preservation
+
+Detects and protects skin tone ranges to prevent unnatural color shifts in portraits and people.
+
+Why This Matters
+
+Aggressive color grading can make skin tones look alien. Protection ensures natural, flattering skin across all ethnicities.
+
+Technical Implementation:
+
+→
+Identifies skin tone vector in L*a*b* space
+→
+Protects hues from 15°-50° (skin tone line)
+→
+Works across all skin tones and ethnicities
+→
+Prevents unnatural green/magenta casts
+Protected Zone
+Stage 4 Visualization
+5
+Gamut Compression
+Color Space Mapping
+
+Safely compresses out-of-gamut colors into target color space (Rec.709/P3/Rec.2020) while preserving hue.
+
+Why This Matters
+
+Different displays have different color ranges. Compression ensures your LUT works everywhere without clipping.
+
+Technical Implementation:
+
+→
+Supports Rec.709, P3, and Rec.2020 gamuts
+→
+Hue-preserving compression algorithm
+→
+Prevents color clipping artifacts
+→
+Broadcast and cinema-safe output
+Rec.709
+
+P3
+
+Rec.2020
+
+Stage 5 Visualization
+6
+Chromatic Adaptation
+White Balance Correction
+
+Adapts colors to different lighting conditions, ensuring consistent look across varying white points.
+
+Why This Matters
+
+Reference images shot in different lighting look inconsistent. Adaptation neutralizes lighting bias for universal application.
+
+Technical Implementation:
+
+→
+Detects image white point (color temperature)
+→
+Applies chromatic adaptation transform
+→
+Neutralizes lighting color cast
+→
+Ensures consistent color reproduction
+3200K
+
+Warm
+
+5500K
+
+Neutral
+
+7500K
+
+Cool
+
+Stage 6 Visualization
+Previous
+Stage 6 of 6
+Next
+
+1
+CIE L*a*b* Transform
+
+2
+K-means Clustering
+
+3
+Filmic Tone Curves
+
+4
+Skin Tone Protection
+
+5
+Gamut Compression
+
+6
+Chromatic Adaptation
+CHROMA Visual Components
+Cinema-grade visual elements built with web-native technologies
+
+Particles
+Gauge
+3D Cube
+Loader
+Slider
+Film Grain
+3D Color Space Cube
+Interactive CSS 3D cube - drag to rotate
+frontbackrightlefttopbottom
+Click and drag to manually rotate the cube
+
+Typography System
+Cinema-grade typefaces: Montserrat (headlines), Inter (body), JetBrains Mono (technical)
+Cinematic Headline
+Montserrat Bold, -0.02em tracking
+
+Secondary Heading
+Montserrat Semibold
+
+Body text uses Inter for excellent readability and professional appearance. This is the primary font for all interface text and descriptions.
+
+Inter Regular
+
+RGB(107, 45, 217) → #6b2dd9
+JetBrains Mono for technical values
