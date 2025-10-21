@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { UploadZone } from "@/components/lut/UploadZone";
+import { AnalysisProgress } from "@/components/lut/AnalysisProgress";
 import { PreviewGallery } from "@/components/lut/PreviewGallery";
 import { ColorStatistics } from "@/components/lut/ColorStatistics";
 import { HistogramVisualization } from "@/components/lut/HistogramVisualization";
@@ -366,19 +367,8 @@ export default function Tool() {
             
             {/* Analysis Dashboard */}
             {isAnalyzing ? (
-              <div className="flex flex-col items-center justify-center min-h-96 gap-6">
-                <div className="relative">
-                  <Loader2 className="w-16 h-16 text-primary animate-spin" />
-                  <div className="absolute inset-0 w-16 h-16 rounded-full bg-primary/20 blur-xl animate-pulse" />
-                </div>
-                <div className="text-center space-y-2">
-                  <p className="text-xl font-semibold">
-                    Analyzing color profile...
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Extracting color science from your image
-                  </p>
-                </div>
+              <div className="max-w-4xl mx-auto">
+                <AnalysisProgress isActive={isAnalyzing} />
               </div>
             ) : analysis ? (
               <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
