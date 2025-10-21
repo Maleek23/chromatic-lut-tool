@@ -18,7 +18,7 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   updateUserTier(userId: number, tier: string, expiresAt: Date | null): Promise<User | undefined>;
   updateUserStripeInfo(userId: number, customerId: string, subscriptionId: string): Promise<User | undefined>;
-  updateUserProfile(userId: number, updates: Partial<Pick<User, 'avatarUrl' | 'bannerUrl' | 'bio' | 'website' | 'twitter' | 'instagram' | 'linkedin'>>): Promise<User | undefined>;
+  updateUserProfile(userId: number, updates: Partial<Pick<User, 'username' | 'occupation' | 'company' | 'yearsExperience' | 'avatarUrl' | 'bannerUrl' | 'bio' | 'website' | 'twitter' | 'instagram' | 'linkedin'>>): Promise<User | undefined>;
   updateUserPassword(userId: number, hashedPassword: string): Promise<void>;
   incrementConversions(userId: number): Promise<void>;
   incrementPreviews(userId: number): Promise<void>;
@@ -102,6 +102,9 @@ export class MemStorage implements IStorage {
       twitter: null,
       instagram: null,
       linkedin: null,
+      occupation: null,
+      company: null,
+      yearsExperience: null,
     };
     this.users.set(id, user);
     return user;
@@ -127,7 +130,7 @@ export class MemStorage implements IStorage {
     return user;
   }
 
-  async updateUserProfile(userId: number, updates: Partial<Pick<User, 'avatarUrl' | 'bannerUrl' | 'bio' | 'website' | 'twitter' | 'instagram' | 'linkedin'>>): Promise<User | undefined> {
+  async updateUserProfile(userId: number, updates: Partial<Pick<User, 'username' | 'occupation' | 'company' | 'yearsExperience' | 'avatarUrl' | 'bannerUrl' | 'bio' | 'website' | 'twitter' | 'instagram' | 'linkedin'>>): Promise<User | undefined> {
     const user = this.users.get(userId);
     if (!user) return undefined;
     
@@ -286,7 +289,7 @@ export class PostgresStorage implements IStorage {
     return user;
   }
 
-  async updateUserProfile(userId: number, updates: Partial<Pick<User, 'avatarUrl' | 'bannerUrl' | 'bio' | 'website' | 'twitter' | 'instagram' | 'linkedin'>>): Promise<User | undefined> {
+  async updateUserProfile(userId: number, updates: Partial<Pick<User, 'username' | 'occupation' | 'company' | 'yearsExperience' | 'avatarUrl' | 'bannerUrl' | 'bio' | 'website' | 'twitter' | 'instagram' | 'linkedin'>>): Promise<User | undefined> {
     const [user] = await db
       .update(users)
       .set(updates)

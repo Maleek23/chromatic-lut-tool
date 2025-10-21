@@ -8,14 +8,22 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Check, Zap, Film, Sparkles, Palette, Crown, ArrowRight, Layers, Star, Shield } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Check, Zap, Film, Sparkles, Palette, Crown, ArrowRight, Layers, Star, Shield, Briefcase, Building2 } from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
 import logoImage from "@assets/logo-full-transparent-v2.png";
 
 export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
   const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const [registerData, setRegisterData] = useState({ email: "", password: "", tier: "free" });
+  const [registerData, setRegisterData] = useState({ 
+    email: "", 
+    password: "", 
+    tier: "free",
+    occupation: "",
+    company: "",
+    yearsExperience: ""
+  });
 
   // SEO Meta Tags
   useEffect(() => {
@@ -277,6 +285,71 @@ export default function AuthPage() {
                         <p className="text-xs text-muted-foreground">
                           At least 8 characters recommended
                         </p>
+                      </div>
+
+                      {/* Professional Details */}
+                      <div className="space-y-4 pt-2 border-t border-border/50">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Briefcase className="w-4 h-4 text-primary" />
+                          <Label className="text-sm font-semibold">Tell us about yourself (optional)</Label>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="register-occupation" className="text-sm font-medium">What do you do?</Label>
+                          <Select
+                            value={registerData.occupation}
+                            onValueChange={(value) => setRegisterData({ ...registerData, occupation: value })}
+                          >
+                            <SelectTrigger className="bg-background/50 border-muted h-11" data-testid="select-occupation">
+                              <SelectValue placeholder="Select your role" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="cinematographer">Cinematographer</SelectItem>
+                              <SelectItem value="colorist">Colorist</SelectItem>
+                              <SelectItem value="editor">Video Editor</SelectItem>
+                              <SelectItem value="director">Director</SelectItem>
+                              <SelectItem value="photographer">Photographer</SelectItem>
+                              <SelectItem value="content_creator">Content Creator</SelectItem>
+                              <SelectItem value="student">Student</SelectItem>
+                              <SelectItem value="hobbyist">Hobbyist</SelectItem>
+                              <SelectItem value="other">Other</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="space-y-2">
+                            <Label htmlFor="register-company" className="text-sm font-medium">Company/Studio</Label>
+                            <Input
+                              id="register-company"
+                              type="text"
+                              value={registerData.company}
+                              onChange={(e) => setRegisterData({ ...registerData, company: e.target.value })}
+                              data-testid="input-company"
+                              className="bg-background/50 border-muted h-11"
+                              placeholder="Freelance"
+                            />
+                          </div>
+
+                          <div className="space-y-2">
+                            <Label htmlFor="register-experience" className="text-sm font-medium">Experience</Label>
+                            <Select
+                              value={registerData.yearsExperience}
+                              onValueChange={(value) => setRegisterData({ ...registerData, yearsExperience: value })}
+                            >
+                              <SelectTrigger className="bg-background/50 border-muted h-11" data-testid="select-experience">
+                                <SelectValue placeholder="Years" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="beginner">Just starting</SelectItem>
+                                <SelectItem value="1-2">1-2 years</SelectItem>
+                                <SelectItem value="3-5">3-5 years</SelectItem>
+                                <SelectItem value="6-10">6-10 years</SelectItem>
+                                <SelectItem value="10+">10+ years</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
                       </div>
 
                       {/* Submit Button */}

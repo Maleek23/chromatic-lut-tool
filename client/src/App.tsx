@@ -19,7 +19,8 @@ import ForgotPassword from "@/pages/auth/ForgotPassword";
 import ResetPassword from "@/pages/auth/ResetPassword";
 import Upgrade from "@/pages/user/Upgrade";
 import LearnMore from "@/pages/info/LearnMore";
-import Settings from "@/pages/user/Settings";
+import AccountSettings from "@/pages/user/AccountSettings";
+import Dashboard from "@/pages/user/Dashboard";
 import Resources from "@/pages/info/Resources";
 import InstallLuts from "@/pages/info/InstallLuts";
 import LutFormats from "@/pages/info/LutFormats";
@@ -51,7 +52,8 @@ function Router() {
         <Route path="/privacy" component={Privacy} />
         <Route path="/terms" component={Terms} />
         <Route path="/about" component={About} />
-        <ProtectedRoute path="/settings" component={Settings} />
+        <ProtectedRoute path="/settings" component={AccountSettings} />
+        <ProtectedRoute path="/dashboard" component={Dashboard} />
         <Route path="/upgrade" component={Upgrade} />
         <Route path="/auth" component={AuthPage} />
         <Route path="/forgot-password" component={ForgotPassword} />

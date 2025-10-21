@@ -100,6 +100,89 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Update user profile
+  app.patch("/api/user/profile", requireAuth, async (req, res) => {
+    try {
+      const user = req.user!;
+      const { storage } = await import("../core/storage");
+      
+      // Only include fields that are actually provided (not undefined or empty string)
+      const updates: any = {};
+      const allowedFields = ['username', 'occupation', 'company', 'yearsExperience', 'bio', 'website', 'twitter', 'instagram', 'linkedin'];
+      
+      for (const field of allowedFields) {
+        if (req.body[field] !== undefined) {
+          // Convert empty strings to null for optional fields
+          updates[field] = req.body[field] === '' ? null : req.body[field];
+        }
+      }
+
+      // Validate occupation and yearsExperience if provided
+      if (updates.occupation && !['cinematographer', 'colorist', 'editor', 'director', 'photographer', 'content_creator', 'student', 'hobbyist', 'other'].includes(updates.occupation)) {
+        return res.status(400).json({ error: "Invalid occupation value" });
+      }
+
+      if (updates.yearsExperience && !['beginner', '1-2', '3-5', '6-10', '10+'].includes(updates.yearsExperience)) {
+        return res.status(400).json({ error: "Invalid experience value" });
+      }
+
+      // Only update if there are actual changes
+      if (Object.keys(updates).length === 0) {
+        return res.json({ success: true, message: "No changes to update" });
+      }
+      
+      await storage.updateUserProfile(user.id, updates);
+
+      res.json({ success: true });
+    } catch (error) {
+      logger.error("Profile update error", error);
+      res.status(500).json({ error: "Failed to update profile" });
+    }
+  });
+
+  // Update user password
+  app.patch("/api/user/password", requireAuth, async (req, res) => {
+    try {
+      const user = req.user!;
+      const { storage } = await import("../core/storage");
+      const bcrypt = await import("bcryptjs");
+      
+      const { currentPassword, newPassword } = req.body;
+
+      // Validate input
+      if (!currentPassword || typeof currentPassword !== 'string') {
+        return res.status(400).json({ error: "Current password is required" });
+      }
+
+      if (!newPassword || typeof newPassword !== 'string') {
+        return res.status(400).json({ error: "New password is required" });
+      }
+
+      if (newPassword.length < 6) {
+        return res.status(400).json({ error: "New password must be at least 6 characters" });
+      }
+
+      if (newPassword.length > 100) {
+        return res.status(400).json({ error: "New password is too long" });
+      }
+
+      // Verify current password
+      const isValid = await bcrypt.compare(currentPassword, user.password);
+      if (!isValid) {
+        return res.status(401).json({ error: "Current password is incorrect" });
+      }
+
+      // Hash new password and update
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      await storage.updateUserPassword(user.id, hashedPassword);
+
+      res.json({ success: true });
+    } catch (error) {
+      logger.error("Password update error", error);
+      res.status(500).json({ error: "Failed to update password" });
+    }
+  });
+
   // Reference: blueprint:javascript_stripe
   // Initialize Stripe (only if keys are present)
   let stripe: Stripe | null = null;

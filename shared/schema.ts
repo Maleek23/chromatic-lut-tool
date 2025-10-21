@@ -25,6 +25,10 @@ export const users = pgTable("users", {
   twitter: text("twitter"),
   instagram: text("instagram"),
   linkedin: text("linkedin"),
+  // Professional details
+  occupation: text("occupation"), // e.g. "Cinematographer", "Colorist", "Editor", "Director", "Hobbyist"
+  company: text("company"), // Optional company/studio name
+  yearsExperience: text("years_experience"), // e.g. "0-2", "3-5", "6-10", "10+"
 });
 
 export const insertUserSchema = createInsertSchema(users).omit({
