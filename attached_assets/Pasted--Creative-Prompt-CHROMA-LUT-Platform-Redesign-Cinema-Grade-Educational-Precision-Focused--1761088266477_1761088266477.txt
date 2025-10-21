@@ -1,0 +1,735 @@
+# 🎨 Creative Prompt: CHROMA LUT Platform Redesign (Cinema-Grade + Educational + Precision-Focused)
+
+---
+
+## **Prompt Title:**
+**"Design a Cinema-Grade Color Science Platform with Immersive Visual Education & Professional Workflow Integration"**
+
+---
+
+## **Prompt Body:**
+
+You are a senior product designer tasked with redesigning **CHROMA by UN/TITLD**, a professional color science platform that generates cinema-grade LUTs from reference images. The goal is to transform complex color theory into an intuitive, visually stunning experience that educates users about professional color grading while delivering production-ready tools.
+
+The platform serves both professional colorists seeking precise tools and content creators wanting to understand cinema-grade color science. The design must balance technical sophistication with visual education.
+
+---
+
+## 🎯 **Brand Concept**
+
+**Brand Vibe:** Cinema precision meets color artistry. Scientific yet beautiful. Professional but accessible.
+
+**Audience:** 
+- **Primary:** Professional colorists, cinematographers, video editors (25-45)
+- **Secondary:** Content creators, filmmakers, color enthusiasts learning professional workflows
+- **Psychographics:** Value technical accuracy, appreciate craftsmanship, want to understand *why* not just *how*
+
+**Brand Values:** Scientific precision, cinema heritage, educational transparency, professional standards, visual artistry
+
+**Visual Identity:**
+- **Primary Colors:** Deep cinematic blacks (#0a0a0a) + pure whites (#ffffff) for maximum contrast
+- **Accent Colors:** 
+  - **Color Science Spectrum:** Gradient from deep purple (#6b2dd9) → electric cyan (#00d4ff) → vibrant magenta (#ff0080)
+  - **Status Colors:** Success emerald (#00ff88), warning amber (#ffb800), error crimson (#ff3366)
+- **Supporting Palette:** Warm film grain textures, subtle color wheel gradients, CIE L*a*b* color space visualizations
+
+---
+
+## 🧭 **UX Flow & Key Sections**
+
+### **1. Hero Section: The Color Science Promise**
+
+**Visual Concept:**
+- Full-viewport cinematic hero with split-screen transformation:
+  - **Left:** "Before" - Flat, ungraded reference image
+  - **Right:** "After" - Cinema-graded result with CHROMA-generated LUT
+- Center divider: Interactive slider user can drag to reveal transformation
+- Background: Subtle animated color particles flowing from left to right (representing color transformation)
+- Hero headline: *"Cinema-Grade Color Science. Zero Guesswork."*
+- Subtext: *"Professional LUT generation built on VES + CIE standards"*
+
+**Interaction:**
+- Drag slider to see before/after (with smooth transition)
+- Auto-play animation: Slider sweeps left-to-right every 5 seconds
+- Click "See The Science" → Smooth scroll to architecture section
+- Floating "verified standards" badges: VES Technology Committee, CIE 1976
+- Real-time processing indicator: "Processing 1.2M color points..." with animated progress
+
+**Trust Elements:**
+- Discrete badges: "Cinema-Grade Pipeline" | "Industry Standards" | "Production Ready"
+- Used by professionals counter: "Trusted by 10K+ colorists worldwide"
+
+---
+
+### **2. Six-Stage Architecture (Visual Education Centerpiece)**
+
+**Visual Concept:**
+- Horizontal scrolling journey through the 6-stage pipeline
+- Each stage is a full-screen "station" with:
+  - Stage number (large, cinematic typography)
+  - Stage name + technical description
+  - **Interactive 3D visualization** showing the transformation
+  - Real-time demo: Upload reference image → See this specific stage in action
+  - "Why This Matters" educational callout
+
+**Stage Visualizations:**
+
+**Stage 1: CIE L*a*b* Transform**
+- 3D color space cube rotating (RGB → L*a*b* transformation)
+- Before: RGB cube with harsh transitions
+- After: Perceptually uniform L*a*b* sphere with smooth gradients
+- Interactive: Click points to see RGB vs L*a*b* values
+
+**Stage 2: K-means Clustering**
+- Animated clustering visualization: Scattered color points → organized clusters
+- Show dominant color palettes extracted (5-8 color swatches)
+- Heatmap showing color density distribution
+- Interactive: Adjust cluster count (3-12) to see different extractions
+
+**Stage 3: Filmic Tone Curves**
+- Split graph: Linear curve vs Cinema S-curve
+- Real-time image preview showing highlight rolloff and shadow detail
+- Overlay showing film emulation (ARRI, RED, Kodak reference curves)
+- Interactive: Drag curve points to see effect on image tonality
+
+**Stage 4: Skin Tone Protection**
+- Before/After comparison: Aggressive grading with/without protection
+- Skin tone vector scope overlay (showing protected hues)
+- Educational: Highlight the "skin tone line" in CIE space
+- Interactive: Toggle protection on/off to see difference
+
+**Stage 5: Gamut Compression**
+- 3D gamut boundary visualization (Rec.709, P3, Rec.2020)
+- Animated compression: Out-of-gamut colors smoothly compressed inward
+- Color wheel showing hue preservation during compression
+- Interactive: Switch between broadcast standards to see different gamuts
+
+**Stage 6: Chromatic Adaptation**
+- Side-by-side white balance comparison (warm/cool reference → neutral result)
+- Color temperature slider showing adaptive correction
+- Before/After with Kelvin temperature readout
+- Interactive: Upload images with different white balances to see auto-correction
+
+**Navigation:**
+- Horizontal scroll with progress indicator (dots showing current stage)
+- Arrow keys or swipe to navigate between stages
+- "Skip to Generator" CTA always visible (sticky bottom bar)
+- Minimap showing all 6 stages (click to jump)
+
+---
+
+### **3. Image to LUT Generator (Hero Tool Interface)**
+
+**Visual Concept:**
+- Cinema-inspired interface with film strip aesthetic
+- Three-panel layout:
+  - **Left:** Reference image upload zone (drag-and-drop with preview)
+  - **Center:** Real-time preview with LUT applied (before/after slider)
+  - **Right:** Control panel (intensity, grid size, format, precision)
+
+**Upload Zone Design:**
+- Drag-and-drop area with subtle film grain texture
+- Animated upload indicator: Color particles swirling into upload icon
+- Supported formats clearly labeled: JPG, PNG, TIFF (up to 50MB)
+- Recent uploads carousel below (quick re-apply)
+
+**Real-Time Preview:**
+- Large preview viewport (16:9 cinematic ratio)
+- Before/After slider (vertical or horizontal toggle)
+- Zoom controls (25%, 50%, 100%, 200%)
+- Split-screen comparison mode (side-by-side)
+- Color scope overlay toggle (waveform, vectorscope, histogram)
+- "Processing" state: Animated color transformation visualization (not boring spinner)
+
+**Control Panel:**
+- **Intensity Slider:** 0-100% with real-time preview update
+  - Visual feedback: Color bar showing intensity gradient
+  - Presets: 25% (subtle), 50% (balanced), 75% (strong), 100% (full)
+  
+- **Grid Size Selector:**
+  - Free: 17³ (visualized as small cube)
+  - Creator: 17³/33³ (medium cube with "Recommended" tag)
+  - Pro: 17³/33³/65³ (large cube with "Cinema Grade" tag)
+  - Explainer tooltip: "Higher grid = smoother gradients"
+  
+- **Format Dropdown:**
+  - Visual icons for each format (.cube, .3dl, .lut, .look, .xmp)
+  - Tier-locked formats have "Upgrade" badge
+  - Hover shows compatibility: "DaVinci Resolve, Premiere Pro, FCP"
+  
+- **Precision Selector:**
+  - 8-bit | 10-bit (all tiers) | 12-bit (Pro badge)
+  - Visual comparison: Gradient showing banding at 8-bit vs smooth at 12-bit
+  
+- **Advanced Options (Collapsible):**
+  - ACEScg workflow toggle (for ACES film emulation)
+  - Skin tone protection strength (0-100%)
+  - Chromatic adaptation toggle (auto white balance)
+  - Tone curve style (Film / Log / Linear)
+
+**Export CTA:**
+- Large "Generate LUT" button (gradient, glowing effect)
+- Processing state: Animated progress bar with stage indicators
+- Success state: Confetti animation + download modal
+- Download modal shows: File size, format, grid size, precision
+- Quick actions: "Download" | "Convert Format" | "Share Settings"
+
+---
+
+### **4. LUT Format Converter (Utility Tool)**
+
+**Visual Concept:**
+- Two-column layout: Input → Output
+- Center: Animated conversion flow (file icon transforming)
+- Drag-and-drop input zone with format auto-detection
+- Output format selector with tier-based availability
+
+**Input Section:**
+- Drag-and-drop zone with format icons floating
+- Auto-detect current format with confidence indicator
+- File validation: Shows grid size, precision, total color points
+- Preview: Thumbnail showing LUT applied to test image
+
+**Conversion Flow Visualization:**
+- Animated arrow showing format transformation
+- Technical details overlay: "Trilinear interpolation in progress..."
+- Processing stages: "Reading LUT → Resampling → Writing format → Complete"
+- Grid size conversion indicator (e.g., 33³ → 17³ with "Downsampling" label)
+
+**Output Section:**
+- Format selector (cards with icons + descriptions)
+- Tier indicators: Free (.cube only), Creator (.cube/.3dl/.look), Pro (all formats)
+- Grid size selector (if resampling needed)
+- Precision selector (8/10/12-bit)
+- Preview: Same test image with converted LUT applied
+
+**Smart Features:**
+- "Intelligent Resampling" badge with tooltip explaining trilinear interpolation
+- Quality preservation indicator (Green = no quality loss, Yellow = minor resampling, Red = significant change)
+- Side-by-side comparison: Original LUT vs Converted LUT (zoomed gradient)
+
+---
+
+### **5. LUT Quality Analyzer (Pro Feature)**
+
+**Visual Concept:**
+- Dashboard-style interface with quality score meter
+- Center: Large circular quality score gauge (0-100) with color-coded zones
+  - 90-100: Green (Excellent)
+  - 70-89: Yellow (Good)
+  - 50-69: Orange (Fair)
+  - Below 50: Red (Poor)
+- Surrounding cards showing specific issue detection
+
+**Quality Metrics Cards:**
+
+**Banding Detection Card:**
+- Gradient preview showing detected banding areas (highlighted in red)
+- Count: "12 banding issues detected"
+- Severity indicator (Low/Medium/High)
+- "Fix with Optimizer" CTA
+
+**Invalid Points Card:**
+- RGB cube visualization with invalid points highlighted
+- Count: "8 out-of-range values"
+- List showing exact RGB coordinates (e.g., R:256, G:128, B:64)
+- "Clamp to valid range" quick action
+
+**RGB Statistics Card:**
+- Three channel graphs (R, G, B) showing value distribution
+- Min/Max/Average values per channel
+- Histogram overlay showing color distribution
+- Highlight clipping zones (pure blacks/whites)
+
+**Smoothness Analysis Card:**
+- Gradient smoothness score with visual representation
+- Detected discontinuities (sudden jumps in values)
+- Color space coverage heatmap
+- Recommendation: "Increase grid size for smoother gradients"
+
+**Issue List:**
+- Expandable list of all detected problems
+- Each issue has: Severity badge, description, location, fix suggestion
+- "Auto-Fix All" CTA (links to Optimizer)
+
+---
+
+### **6. LUT Optimizer (Pro Feature)**
+
+**Visual Concept:**
+- Before/After comparison interface
+- Left: Original LUT with highlighted issues
+- Right: Optimized LUT with fixes applied
+- Center: Optimization actions list with toggles
+
+**Optimization Actions:**
+- **Clamp Out-of-Range Values** (toggle)
+  - Preview: Shows RGB values being clamped to 0-255/1023/4095
+  - Count: "8 values will be clamped"
+  
+- **Remove Invalid Points** (toggle)
+  - Preview: Shows invalid color points being removed
+  - Count: "3 invalid entries will be deleted"
+  
+- **Smooth Gradients** (toggle with intensity slider)
+  - Preview: Gradient before/after smoothing
+  - Algorithm: "Gaussian blur (3x3 kernel)"
+  
+- **Validate Format Specs** (automatic)
+  - Checks: Grid size correctness, bit depth compliance, structure validity
+  - Status indicators: ✓ Grid valid | ✗ Bit depth mismatch
+
+**Processing Flow:**
+- Click "Optimize LUT" → Animated processing with progress steps
+- Real-time preview updates showing each optimization applied
+- Final comparison: Original vs Optimized with quality score improvement
+- Export options: Save optimized LUT, download comparison report
+
+---
+
+### **7. Documentation Hub (Educational Resource Center)**
+
+**Visual Concept:**
+- Card-based grid layout with category-based organization
+- Each resource card has:
+  - Category icon (color-coded)
+  - Resource title + brief description
+  - Estimated time (e.g., "5 min read")
+  - Difficulty badge (Beginner/Intermediate/Advanced)
+  - Preview thumbnail or icon
+
+**Resource Categories:**
+
+**Quick Start Guide:**
+- Step-by-step visual walkthrough (illustrated)
+- Interactive tutorial: Upload sample image → Generate LUT → Download
+- Embedded video: 2-minute overview
+- Checklist: "Complete these 5 steps to generate your first LUT"
+
+**Installation Guides:**
+- Software-specific tabs: DaVinci Resolve | Premiere Pro | Final Cut Pro | Others
+- Animated GIF showing installation process
+- Troubleshooting accordion (common issues + solutions)
+- Version compatibility chart
+
+**Format Selection Guide:**
+- Comparison table: Format vs Software vs Tier
+- Interactive selector: "Answer 3 questions, we'll recommend a format"
+- Decision tree diagram: Start → Software? → Workflow? → Recommended format
+- Download format reference sheet (PDF)
+
+**Chroma Science Deep Dive:**
+- Six-stage architecture explained (links to main visualization)
+- Technical white papers (CIE L*a*b*, VES standards)
+- Video series: Each stage explained in detail (5-10 min each)
+- Color science glossary (interactive definitions)
+
+**Visual Enhancement:**
+- Resources have "New" badge if published in last 30 days
+- "Most Popular" label on frequently accessed guides
+- Progress tracking: Checkmarks on completed resources (logged-in users)
+- Related resources sidebar: "If you liked this, try..."
+
+---
+
+### **8. Pricing & Tier Comparison**
+
+**Visual Concept:**
+- Three-column card layout (Free | Creator | Pro)
+- Cards have elevation hierarchy: Free (flat), Creator (medium lift), Pro (highest elevation + glow)
+- "Most Popular" badge on Creator tier
+- Each card shows: Price, key features, CTA button
+
+**Free Tier Card:**
+- Price: $0/mo
+- Icon: Unlocked padlock
+- Features (condensed):
+  - ✓ .cube format export
+  - ✓ 17³ grid size
+  - ✓ 8/10-bit precision
+  - ✓ Basic converter (to .cube)
+  - ✗ Advanced formats
+  - ✗ Quality analyzer
+- CTA: "Start Free" (ghost button)
+
+**Creator Tier Card:**
+- Price: $XX/mo (display actual price)
+- Icon: Film reel
+- Badge: "Most Popular"
+- Features:
+  - ✓ All Free features
+  - ✓ .cube/.3dl/.look formats
+  - ✓ 17³/33³ grid sizes
+  - ✓ Format converter (3 formats)
+  - ✓ Real-time preview enhancements
+  - ✗ Quality analyzer/optimizer
+- CTA: "Upgrade to Creator" (solid button, gradient)
+- Highlight: "Best for content creators"
+
+**Pro Tier Card:**
+- Price: $XX/mo
+- Icon: Crown / Diamond
+- Badge: "Cinema Grade"
+- Features:
+  - ✓ All Creator features
+  - ✓ All 5 formats (.cube/.3dl/.lut/.look/.xmp)
+  - ✓ 17³/33³/65³ grid sizes
+  - ✓ 12-bit precision
+  - ✓ ACEScg workflow support
+  - ✓ Quality Analyzer
+  - ✓ LUT Optimizer
+- CTA: "Go Pro" (premium gradient button with glow)
+- Highlight: "Professional colorist tools"
+
+**Comparison Table (Below Cards):**
+- Expandable detailed feature comparison
+- Categories: Export Formats | Grid Sizes | Precision | Tools | Support
+- Visual indicators: ✓ (included), ✗ (not included), "Up to X" (limits)
+- Hover feature names → Tooltip explaining what it means
+
+**Trust Elements:**
+- "30-day money-back guarantee" badge
+- "Used by X professionals" social proof
+- Payment processor logos (Stripe, PayPal)
+- "Cancel anytime" text (visible, not hidden)
+
+---
+
+### **9. Chroma Science Standards (Trust Builder)**
+
+**Visual Concept:**
+- Split-screen section:
+  - Left: Industry standard logos + badges (VES, CIE, SMPTE, DCI)
+  - Right: Technical specification breakdown
+
+**Industry Standards Showcase:**
+- VES Technology Committee badge with description:
+  - "Visual Effects Society professional color pipeline standards"
+  - Link to VES white papers
+- CIE 1976 L*a*b* badge:
+  - "Perceptually uniform color space - CIE international standard"
+  - Interactive color space visualization
+- SMPTE / DCI compatibility indicators:
+  - "Broadcast and cinema-grade output compliance"
+
+**Technical Specifications:**
+- Color space support: sRGB, Rec.709, P3, Rec.2020, ACEScg
+- Tone curve standards: Film log, Linear, S-curve
+- Bit depth precision: 8-bit (consumer), 10-bit (prosumer), 12-bit (cinema)
+- LUT table sizes: 17³ (standard), 33³ (high quality), 65³ (cinema grade)
+
+**Why This Matters Section:**
+- Educational callout: "What makes CHROMA different from filters/presets?"
+- Comparison table:
+  - Simple Filters: RGB manipulation, no color science, inconsistent results
+  - CHROMA: CIE L*a*b* perceptual space, professional pipeline, cinema standards
+- Visual proof: Side-by-side comparison (filter vs CHROMA result)
+
+---
+
+### **10. Footer: Professional Resources**
+
+**Visual Concept:**
+- Full-width dark footer with subtle film grain texture
+- Four-column layout: Product | Resources | Company | Legal
+- Bottom bar: Copyright, social links, "Powered by professional chroma science" tagline
+
+**Product Links:**
+- Chroma Science (anchor link to architecture section)
+- Pricing (anchor to tier cards)
+- Documentation (link to docs hub)
+- API Access (link to developer docs - if applicable)
+
+**Resources Links:**
+- Quick Start Guide
+- Video Tutorials
+- Color Science Glossary
+- Community Showcase (user-submitted graded work)
+
+**Company Links:**
+- About UN/TITLD
+- Contact Support (link to Discord/email)
+- Professional Services (custom LUT creation)
+- Press Kit
+
+**Legal Links:**
+- Privacy Policy
+- Terms of Service
+- Refund Policy
+- Software Compatibility
+
+**Social Proof Footer:**
+- "Trusted by colorists at:" (logos of studios/production companies - if available)
+- Testimonial carousel (3-4 rotating quotes)
+- "Join X,XXX+ professionals" subscriber count
+
+---
+
+## 🎨 **Visual & Interaction Style**
+
+### **Color System**
+- **Primary Background:** Cinema black (#0a0a0a) with subtle film grain overlay
+- **Surface Panels:** Elevated dark gray (#1a1a1a) with 8px border-radius
+- **Accent Gradient:** Purple (#6b2dd9) → Cyan (#00d4ff) → Magenta (#ff0080)
+- **Status Colors:**
+  - Success: Emerald (#00ff88)
+  - Warning: Amber (#ffb800)
+  - Error: Crimson (#ff3366)
+  - Info: Cyan (#00d4ff)
+- **Text Primary:** Pure white (#ffffff) with 95% opacity
+- **Text Secondary:** Cool gray (#a0a0a0) with 70% opacity
+- **Interactive Elements:** Accent gradient with glow effect on hover
+
+### **Typography**
+- **Headlines:** Inter/SF Pro Display (bold, 700 weight, tracking: -0.02em)
+- **Body:** Inter/SF Pro Text (regular, 400-500 weight)
+- **Technical:** JetBrains Mono (for color values, RGB coordinates)
+- **Cinematic Titles:** Montserrat/Bebas Neue (for hero headlines, stage numbers)
+- **Accent:** Playfair Display (for "Chroma Science" branding moments)
+
+### **Component Patterns**
+
+**Cards:**
+- Dark panels (#1a1a1a) with subtle gradient border (1px, accent colors)
+- 8px border-radius (consistent across platform)
+- Hover: Lift 8px with shadow, border glow intensifies
+- Active: Scale down 98%
+
+**Buttons:**
+- **Primary:** Gradient (purple → cyan), hover adds glow + lift
+- **Secondary:** White outline, hover fills with white (text inverts to black)
+- **Tertiary:** Ghost style, hover shows subtle background
+- **Disabled:** 30% opacity with "locked" icon
+
+**Inputs:**
+- Dark background (#0f0f0f) with 1px cyan border
+- Focus: Border glow (cyan, 4px blur)
+- Validation: Green checkmark (success) or red X (error) appears inline
+
+**Sliders:**
+- Track: Dark gray with accent gradient fill
+- Thumb: Large circular handle (20px) with glow effect
+- Real-time value display above thumb
+- Tick marks at key intervals (0%, 25%, 50%, 75%, 100%)
+
+**Badges:**
+- Pill-shaped with 2px colored border
+- Tier badges: Gold (Pro), Silver (Creator), Bronze (Free)
+- Status badges: Colored background with white text
+- "New" badges: Animated pulse effect
+
+### **Animations**
+
+**Page Transitions:**
+- Fade-in + slight upward movement (20px)
+- Duration: 0.4s, easing: cubic-bezier(0.4, 0.0, 0.2, 1)
+
+**Scroll-Triggered:**
+- Elements fade in at 80% viewport
+- Stagger animation for multiple elements (0.1s delay between)
+- Scale from 95% → 100%
+
+**Interactive Feedback:**
+- Button hover: Lift 4px, shadow intensifies (0.2s)
+- Card hover: Lift 8px, border glow (0.3s)
+- Slider drag: Smooth follow with slight spring easing
+
+**Loading States:**
+- LUT generation: Animated color spectrum bar (left to right)
+- File upload: Circular progress with percentage
+- Processing stages: Step-by-step indicator with checkmarks
+- Skeleton screens: Shimmer effect (gradient sweep)
+
+**Success States:**
+- Confetti animation on LUT generation complete
+- Checkmark with scale-in effect (spring animation)
+- Success message slides in from top
+
+### **Micro-interactions**
+- Hover color swatches → Shows RGB/Hex values in tooltip
+- Click stage number → Expands detailed technical explanation
+- Drag before/after slider → Real-time smooth transition (no lag)
+- Format icon hover → Shows compatible software logos
+- Quality score gauge fills with animated arc (2s smooth transition)
+
+---
+
+## 🛠️ **Platform Features & Functionality**
+
+### **Dashboard (Logged-In Users)**
+- Recent projects grid (thumbnail + metadata)
+- Quick actions: "New LUT" | "Convert Format" | "Analyze Quality"
+- Usage stats: LUTs generated this month, storage used (if applicable)
+- Learning progress: Completed tutorials, achievement badges
+
+### **Project Management**
+- Save LUT generation settings for reuse
+- Organize projects by client/project name
+- Version control: Keep history of generated LUTs
+- Batch processing: Generate multiple LUTs from folder of reference images
+
+### **Collaboration Features (Future Enhancement)**
+- Share LUT settings with team (link sharing)
+- Comments/notes on specific LUTs
+- Project folders with team access
+- Version approval workflow
+
+### **Advanced Tools (Pro Tier)**
+- Custom tone curve editor (Bezier curve manipulation)
+- 3D LUT visualization (rotate/zoom 3D color cube)
+- A/B comparison tool (compare 2 LUTs side-by-side)
+- LUT mathematics: Combine/subtract/blend multiple LUTs
+
+### **Mobile Responsiveness**
+- Mobile-optimized generator interface
+- Touch-friendly sliders and controls
+- Before/after comparison with touch swipe
+- Responsive documentation with collapsible sections
+- Download LUTs directly to mobile device
+
+---
+
+## ✨ **Extra Design Touches**
+
+### **Educational Moments**
+- Tooltip system explaining every technical term
+- "Learn More" links embedded contextually (open modals, not new tabs)
+- Video snippets (15-30 sec) explaining complex concepts
+- Interactive demos for each color science stage
+
+### **Easter Eggs & Delighters**
+- Konami code → Unlocks "Film Emulation Pack" (preset LUT styles)
+- Click CHROMA logo 5 times → Shows developer credits with color animation
+- 404 page: "LUT Not Found" with broken color wheel illustration
+- Hover RGB values → Shows color swatch preview
+- Seasonal color grading styles (holiday themes)
+
+### **Accessibility**
+- WCAG AAA contrast ratios (white on black = maximum contrast)
+- Keyboard navigation for all tools (tab order, enter to activate)
+- Screen reader labels for all visual elements
+- Color blindness modes (deuteranopia, protanopia, tritanopia)
+- Reduced motion respect (disable animations if requested)
+
+### **Performance Optimization**
+- Lazy load documentation images
+- Preload common UI assets
+- Debounce real-time preview updates (16ms/60fps)
+- Web Workers for LUT processing (don't block main thread)
+- Progressive image loading (blur-up effect)
+
+### **Custom Error States**
+- Upload error: "Unsupported format" with supported formats list
+- Processing error: "LUT generation failed" with diagnostic info
+- API error: "Temporary processing delay" with retry countdown
+- Tier limit: "Upgrade to access this feature" with comparison modal
+
+---
+
+## 🧠 **Deliverables**
+
+Generate:
+
+1. **High-fidelity mockups** for all major interfaces (desktop + mobile)
+2. **Interactive prototype** for LUT Generator tool (upload → preview → export flow)
+3. **Six-stage architecture visualization** (horizontal scroll experience with animations)
+4. **Component design system:**
+   - Color tokens (background, surface, accent, status)
+   - Typography scale (h1-h6, body, caption, mono)
+   - Button variants (primary, secondary, tertiary, disabled)
+   - Card styles (default, hover, active)
+   - Form elements (inputs, sliders, dropdowns, toggles)
+5. **Before/After comparison interactions** (slider, split-screen, toggle modes)
+6. **Quality analyzer dashboard** (Pro feature) with metric visualizations
+7. **Pricing tier cards** with tier-locked feature indicators
+8. **Documentation hub layout** with resource card designs
+9. **Animation specification sheet:**
+   - Scroll-triggered animations
+   - Loading states
+   - Success/error feedback
+   - Interactive micro-animations
+10. **Mobile adaptation strategy** (responsive breakpoints, touch interactions)
+
+---
+
+## 💬 **Tone of Voice**
+
+**Brand Personality:** Precise, authoritative, educational, cinema-obsessed, quality-focused
+
+**Writing Style:**
+- **Technical yet accessible:** Explain color science without dumbing down
+- **Cinema-centric:** Reference film industry standards and workflows
+- **Educational:** Always explain *why* this matters professionally
+- **No marketing fluff:** Speak to professionals who value substance
+- **Confidence:** This is cinema-grade - we don't need to oversell
+
+**Example Headlines:**
+- Hero: *"Cinema-Grade Color Science. Zero Guesswork."*
+- Architecture: *"Six Stages Between Reference and Perfection"*
+- Quality: *"Professional Standards. Pixel-Perfect Precision."*
+- Education: *"Understand the Science Behind the Grade"*
+
+**Button Copy:**
+- Primary CTA: "Generate LUT" (not "Create Now")
+- Secondary: "Explore Tools" (not "Get Started")
+- Upgrade: "Go Pro" or "Upgrade for Cinema Tools"
+- Documentation: "Learn the Science" (not "Read More")
+
+**Technical Descriptions:**
+- Use industry terminology correctly (don't simplify incorrectly)
+- Provide tooltips for complex terms
+- Reference actual standards (VES, CIE, SMPTE)
+- Show formulas/algorithms when relevant
+
+**Error Messages:**
+- Clear, actionable, professional tone
+- Example: "LUT generation requires RGB color space. Your image appears to be CMYK. Convert to RGB and try again."
+- Not: "Oops! Something went wrong."
+
+---
+
+## 🎯 **Design Principles**
+
+1. **Cinema First:** Every design decision should feel like professional color grading software
+2. **Educational Transparency:** Show the science, don't hide complexity
+3. **Visual Proof:** Before/after comparisons everywhere - show don't tell
+4. **Professional Standards:** Reference real industry standards (VES, CIE, SMPTE)
+5. **Precision Over Speed:** Accurate color > fast processing (but optimize both)
+6. **Tier Value Clarity:** Make upgrade value obvious without annoying free users
+7. **Mobile-Capable:** Professional tools should work on mobile (preview, not full editing)
+
+---
+
+## 🚀 **Success Metrics to Design For**
+
+- **Conversion:** Free → Creator/Pro (clear tier value communication)
+- **Engagement:** Time spent in Six-Stage Architecture (make it captivating)
+- **Education:** Documentation completion rate (make learning rewarding)
+- **Trust:** Return usage (professionals return because results are reliable)
+- **Quality:** LUT download → actual usage in production (track if possible)
+- **Advocacy:** User-submitted showcase work (social proof through results)
+
+---
+
+## 🎬 **Inspiration References**
+
+**Visual Style:**
+- DaVinci Resolve color grading interface (professional, data-dense, precise)
+- Cinema camera UI (RED, ARRI) - technical but beautiful
+- Film color theory diagrams (CIE chromaticity, color wheels)
+- Professional video editing suites (Premiere Pro, Final Cut Pro color tools)
+
+**Interaction Patterns:**
+- Before/after sliders (modern web implementations)
+- Real-time preview systems (responsive, no lag)
+- Data visualization dashboards (clean, informative, actionable)
+- Educational platforms (Khan Academy, Brilliant - interactive learning)
+
+**Color Grading References:**
+- Film colorist showreels (look development)
+- Professional LUT packs (show range of possibilities)
+- Cinema color palettes (Wes Anderson, Roger Deakins, etc.)
+
+---
+
+**Final Note:** CHROMA is a tool for professionals who value precision and understand color science. The design must respect their expertise while educating those learning. Every feature should answer "why does this matter in a professional workflow?" Visual beauty supports function - this isn't just a pretty tool, it's a precision instrument that happens to be beautiful. Avoid oversimplification, embrace complexity with clarity.

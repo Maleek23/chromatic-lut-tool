@@ -95,35 +95,41 @@ export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: Upl
       onClick={() => !isAnalyzing && inputRef.current?.click()}
       data-testid="upload-zone"
     >
-      {/* Subtle minimal background effects */}
+      {/* Cinematic background with color science accents */}
       <div className="absolute inset-0 pointer-events-none">
         <div 
-          className="absolute inset-0 opacity-30"
+          className="absolute inset-0 opacity-40"
           style={{
             background: `
-              radial-gradient(circle at ${mousePos.x}% ${mousePos.y}%, rgba(var(--primary-rgb, 23, 23, 23), 0.04) 0%, transparent 50%),
-              linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%)
+              radial-gradient(circle at ${mousePos.x}% ${mousePos.y}%, rgba(var(--primary-rgb), 0.08) 0%, transparent 50%),
+              radial-gradient(circle at ${100 - mousePos.x}% ${100 - mousePos.y}%, rgba(var(--chart-2-rgb), 0.05) 0%, transparent 50%),
+              linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--card)) 100%)
             `,
-            transition: 'background 0.5s ease',
+            transition: 'background 0.4s ease',
           }}
         />
         
-        {/* Subtle animated orb */}
-        <div className={`absolute top-1/3 left-1/2 -translate-x-1/2 w-96 h-96 bg-foreground/5 rounded-full blur-3xl transition-all duration-1000 ${isDragging ? 'scale-125 opacity-100' : 'scale-100 opacity-40'}`} 
+        {/* Color science spectrum orbs */}
+        <div className={`absolute top-1/4 right-1/3 w-72 h-72 bg-primary/15 rounded-full blur-3xl transition-all duration-1000 ${isDragging ? 'scale-140 opacity-100' : 'scale-100 opacity-50'}`} 
           style={{ 
-            animation: isDragging ? 'none' : 'float 8s ease-in-out infinite',
+            animation: isDragging ? 'pulse 2s ease-in-out infinite' : 'float 7s ease-in-out infinite',
+          }} 
+        />
+        <div className={`absolute bottom-1/3 left-1/4 w-64 h-64 bg-chart-2/12 rounded-full blur-3xl transition-all duration-1000 ${isDragging ? 'scale-140 opacity-100' : 'scale-100 opacity-40'}`} 
+          style={{ 
+            animation: isDragging ? 'pulse 2s ease-in-out infinite 0.5s' : 'float 9s ease-in-out infinite 1s',
           }} 
         />
         
-        {/* Minimal grid overlay */}
+        {/* Sophisticated grid overlay */}
         <div 
-          className={`absolute inset-0 transition-opacity duration-500 ${isDragging ? 'opacity-20' : 'opacity-0'}`}
+          className={`absolute inset-0 transition-opacity duration-500 ${isDragging ? 'opacity-25' : 'opacity-0'}`}
           style={{
             backgroundImage: `
-              linear-gradient(hsl(var(--border)) 1px, transparent 1px),
-              linear-gradient(90deg, hsl(var(--border)) 1px, transparent 1px)
+              linear-gradient(hsl(var(--primary) / 0.15) 1px, transparent 1px),
+              linear-gradient(90deg, hsl(var(--primary) / 0.15) 1px, transparent 1px)
             `,
-            backgroundSize: '48px 48px',
+            backgroundSize: '40px 40px',
           }}
         />
 
@@ -151,46 +157,57 @@ export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: Upl
       />
 
       <div className="flex flex-col items-center gap-8 pointer-events-none relative z-10 px-6 max-w-2xl">
-        {/* Minimal icon container */}
+        {/* Cinema-grade icon with color accents */}
         <div className={`
-          relative transition-all duration-500 ease-out
-          ${isDragging ? 'scale-105' : 'group-hover:scale-102'}
+          relative transition-all duration-600 ease-out
+          ${isDragging ? 'scale-110 -rotate-3' : 'group-hover:scale-105'}
         `}>
-          {/* Subtle outer glow */}
-          <div className={`absolute inset-0 rounded-full transition-all duration-700 ${isDragging || isAnalyzing ? 'opacity-100 scale-125' : 'opacity-0 scale-100'}`}>
-            <div className="absolute inset-0 rounded-full bg-foreground/10 blur-2xl" />
+          {/* Cinematic glow rings */}
+          <div className={`absolute inset-0 rounded-full transition-all duration-700 ${isDragging || isAnalyzing ? 'opacity-100 scale-140' : 'opacity-0 scale-100'}`}>
+            <div className="absolute inset-0 rounded-full bg-primary/25 blur-2xl animate-pulse" />
+            <div className="absolute inset-0 rounded-full bg-chart-2/15 blur-3xl animate-pulse" style={{ animationDelay: '0.5s' }} />
           </div>
           
-          {/* Clean icon container */}
+          {/* Professional icon container */}
           <div className={`
             relative p-10 rounded-full
-            bg-card border border-border
-            transition-all duration-300
-            ${isAnalyzing ? 'animate-pulse' : ''}
-            ${isDragging ? 'border-foreground/20 bg-muted' : ''}
+            bg-gradient-to-br from-card via-card to-primary/5
+            border-2 transition-all duration-400
+            ${isAnalyzing ? 'animate-pulse border-primary/40' : ''}
+            ${isDragging ? 'border-primary/50 shadow-lg shadow-primary/20' : 'border-border'}
           `}>
+            {/* Subtle inner glow */}
+            <div className={`absolute inset-4 rounded-full bg-gradient-to-br from-primary/10 to-chart-2/5 blur-xl transition-opacity ${isDragging || isAnalyzing ? 'opacity-100' : 'opacity-0'}`} />
+            
             {/* Icon */}
             <div className="relative z-10">
               {isAnalyzing ? (
-                <Loader2 className="w-24 h-24 text-foreground animate-spin" />
+                <Loader2 className="w-24 h-24 text-primary animate-spin" />
               ) : isDragging ? (
-                <Sparkles className="w-24 h-24 text-foreground" />
+                <div className="relative">
+                  <Sparkles className="w-24 h-24 text-primary animate-pulse" />
+                  <Zap className="absolute top-0 left-0 w-24 h-24 text-chart-2 animate-ping opacity-60" />
+                </div>
               ) : (
-                <CloudUpload className="w-24 h-24 text-foreground/70 transition-all group-hover:text-foreground group-hover:-translate-y-1" />
+                <div className="relative">
+                  <CloudUpload className="w-24 h-24 text-foreground/60 transition-all group-hover:text-primary group-hover:-translate-y-1" />
+                  <Palette className="absolute -bottom-2 -right-2 w-8 h-8 text-chart-2 opacity-0 group-hover:opacity-100 transition-all group-hover:rotate-12" />
+                </div>
               )}
             </div>
           </div>
         </div>
 
-        {/* Clean minimal text */}
+        {/* Cinematic typography with subtle gradient */}
         <div className="text-center space-y-4">
           <h3 className={`
-            text-4xl md:text-5xl font-bold transition-all duration-300 text-foreground
-            ${isDragging ? 'scale-102' : ''}
+            text-4xl md:text-5xl font-bold transition-all duration-300
+            bg-gradient-to-r from-foreground via-foreground to-primary/70 bg-clip-text text-transparent
+            ${isDragging ? 'scale-105' : ''}
           `}>
             {isAnalyzing ? (
               <span className="inline-flex items-center gap-3">
-                <Wand2 className="w-10 h-10 text-foreground animate-spin" />
+                <Wand2 className="w-10 h-10 text-primary animate-spin" />
                 Extracting Colors
               </span>
             ) : isDragging ? (
@@ -203,9 +220,9 @@ export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: Upl
           </h3>
           <p className="text-lg md:text-xl text-muted-foreground max-w-lg leading-relaxed">
             {isAnalyzing 
-              ? "Analyzing with professional color science algorithms" 
+              ? "Analyzing with cinema-grade color science algorithms" 
               : isDragging
-              ? "Release to extract color grading"
+              ? "Release to extract professional color grading"
               : `Drag and drop ${multiple ? "images" : "your image"} here, or click to browse`
             }
           </p>
@@ -234,19 +251,28 @@ export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: Upl
               ))}
             </div>
             
-            {/* Clean CTA button */}
+            {/* Cinema-grade CTA button */}
             <Button 
               size="lg" 
               variant="default"
-              className="pointer-events-auto mt-2 text-lg px-10 py-6"
+              className={`
+                pointer-events-auto mt-2 text-lg px-10 py-6
+                bg-gradient-to-r from-primary to-chart-2
+                hover:shadow-xl hover:shadow-primary/30 hover:scale-105
+                transition-all duration-300 border border-primary/20
+                relative overflow-hidden group/btn
+              `}
               onClick={(e) => {
                 e.stopPropagation();
                 inputRef.current?.click();
               }}
               data-testid="button-select-file"
             >
+              {/* Subtle shine effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000" />
+              
               <ImageIcon className="w-5 h-5 mr-2" />
-              <span className="font-medium">Select Image</span>
+              <span className="font-semibold">Select Image</span>
             </Button>
 
             {/* Subtle hint text */}
