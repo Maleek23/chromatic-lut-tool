@@ -5,64 +5,21 @@ import { Badge } from "@/components/ui/badge";
 import { Sparkles, ArrowRight, Check, Lightbulb, Layers, Zap, Crown, TrendingUp } from "lucide-react";
 import logoImage from "@assets/logo-full-transparent-v2.png";
 import { Footer } from "@/components/layout/Footer";
+import { HeroSection } from "@/components/visual/HeroSection";
+import { SixStageArchitecture } from "@/components/education/SixStageArchitecture";
 
 export default function Landing() {
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
-      {/* Background effects */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* Animated color orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[100px] animate-pulse" style={{ animationDuration: '4s' }} />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-chart-2/20 rounded-full blur-[100px] animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
-        <div className="absolute top-1/2 right-1/3 w-96 h-96 bg-chart-3/20 rounded-full blur-[100px] animate-pulse" style={{ animationDuration: '6s', animationDelay: '2s' }} />
-        
-        {/* Film grain overlay */}
-        <div className="absolute inset-0 opacity-[0.015]" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E")`,
-        }} />
-      </div>
+      {/* Cinema-Grade Hero Section */}
+      <HeroSection />
 
-      {/* Hero Section */}
-      <section className="relative z-10 pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+      {/* Six-Stage Architecture Educational Section */}
+      <SixStageArchitecture />
+
+      {/* Feature Grid Section */}
+      <section className="relative z-10 py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          {/* Main logo - centered with side branding */}
-          <div className="flex items-center justify-center mb-8 relative">
-            <img src={logoImage} alt="CHROMA" className="h-24 sm:h-28 md:h-32 lg:h-36 w-auto" />
-            <div className="flex items-center text-[10px] sm:text-[11px] text-muted-foreground tracking-[0.1em] group absolute left-[calc(50%+55px)] sm:left-[calc(50%+70px)] md:left-[calc(50%+90px)] lg:left-[calc(50%+110px)]">
-              <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">By</span>
-              <div className="flex items-center gap-0 ml-0.5">
-                <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">UN</span>
-                <span className="text-primary mx-0.5 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rotate-180">/</span>
-                <span className="transition-all duration-500 ease-in-out group-hover:-translate-x-2 group-hover:opacity-0 group-hover:scale-50">TITLD</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Subtitle */}
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <p className="text-lg sm:text-xl md:text-2xl mb-4">
-              Extract <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-chart-2 font-semibold">cinema-grade color science</span> from any reference image.
-            </p>
-            <p className="text-base sm:text-lg text-muted-foreground">
-              Professional LUT generation for colorists and cinematographers.
-            </p>
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-20">
-            <Button size="lg" className="text-base px-8" data-testid="button-get-started" asChild>
-              <Link href="/auth">
-                <Sparkles className="w-4 h-4 mr-2" />
-                Get Started — Free Forever
-              </Link>
-            </Button>
-            <Button variant="outline" size="lg" className="text-base px-8" data-testid="button-learn-more" asChild>
-              <Link href="/learn-more">
-                Learn More <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
-            </Button>
-          </div>
-
           {/* Feature Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
             {/* Image to LUT Generator */}
