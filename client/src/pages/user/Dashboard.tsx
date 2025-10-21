@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/use-auth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,20 +9,17 @@ import {
   Crown, 
   Zap, 
   TrendingUp, 
-  FileImage, 
-  Bookmark,
+  Upload,
+  BarChart3,
+  Layers,
   ArrowUpCircle,
-  AlertCircle,
   Sparkles,
-  Activity,
-  Clock,
-  Palette,
-  Film,
-  Sun,
-  Moon,
-  Sunset,
-  Eye
+  Play,
+  Download
 } from "lucide-react";
+import { UploadZone } from "@/components/lut/UploadZone";
+import { BeforeAfterSlider } from "@/components/lut/BeforeAfterSlider";
+import { HistogramVisualization } from "@/components/lut/HistogramVisualization";
 
 interface DashboardStats {
   savedPresets: number;
@@ -37,14 +34,21 @@ export default function Dashboard() {
     enabled: !!user,
   });
 
-  // Auth guard - redirect to auth page if not logged in
+  // Live preview state
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [beforeImage, setBeforeImage] = useState<string | null>(null);
+  const [afterImage, setAfterImage] = useState<string | null>(null);
+  const [currentLUT, setCurrentLUT] = useState<string | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [rgbHistogram, setRgbHistogram] = useState<{red: number[]; green: number[]; blue: number[]} | null>(null);
+
+  // Auth guard
   useEffect(() => {
     if (!user) {
       navigate("/auth");
     }
   }, [user, navigate]);
 
-  // Don't render until we know auth status
   if (!user) {
     return null;
   }
@@ -52,387 +56,240 @@ export default function Dashboard() {
   const isPro = user.tier === "pro" || user.tier === "studio";
   const isStudio = user.tier === "studio";
 
-  // Animated counter effect
-  const [displayConversions, setDisplayConversions] = useState(0);
-  const [displayPreviews, setDisplayPreviews] = useState(0);
-
-  useEffect(() => {
-    const conversionsTarget = user.conversionsThisMonth || 0;
-    const previewsTarget = user.previewsToday || 0;
-    
-    const duration = 1500;
-    const steps = 30;
-    const stepTime = duration / steps;
-    
-    let currentStep = 0;
-    const timer = setInterval(() => {
-      currentStep++;
-      const progress = currentStep / steps;
-      const easeOut = 1 - Math.pow(1 - progress, 3);
+  const handleImageUpload = useCallback((file: File) => {
+    setIsAnalyzing(true);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target?.result as string;
+      setPreviewImage(dataUrl);
+      setBeforeImage(dataUrl);
+      setAfterImage(dataUrl);
       
-      setDisplayConversions(Math.floor(conversionsTarget * easeOut));
-      setDisplayPreviews(Math.floor(previewsTarget * easeOut));
-      
-      if (currentStep >= steps) {
-        setDisplayConversions(conversionsTarget);
-        setDisplayPreviews(previewsTarget);
-        clearInterval(timer);
-      }
-    }, stepTime);
-    
-    return () => clearInterval(timer);
-  }, [user.conversionsThisMonth, user.previewsToday]);
+      // Analyze histogram
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0);
+          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const data = imageData.data;
+          
+          const red = new Array(256).fill(0);
+          const green = new Array(256).fill(0);
+          const blue = new Array(256).fill(0);
+          
+          for (let i = 0; i < data.length; i += 4) {
+            red[data[i]]++;
+            green[data[i + 1]]++;
+            blue[data[i + 2]]++;
+          }
+          
+          setRgbHistogram({ red, green, blue });
+        }
+        setIsAnalyzing(false);
+      };
+      img.src = dataUrl;
+    };
+    reader.readAsDataURL(file);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Cinematic animated background */}
-      <div className="absolute inset-0 z-0">
+    <div className="min-h-screen bg-background">
+      {/* Cinematic Background */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
-        
-        {/* Animated color orbs - more dramatic */}
-        <div className="absolute top-1/4 right-1/3 w-[600px] h-[600px] bg-chart-2/30 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '3s' }} />
-        <div className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-primary/25 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s', animationDelay: '0.5s' }} />
-        <div className="absolute top-1/2 left-1/2 w-[450px] h-[450px] bg-chart-3/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '3.5s', animationDelay: '1s' }} />
-        <div className="absolute top-10 left-10 w-[300px] h-[300px] bg-red-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '2s' }} />
-        <div className="absolute bottom-10 right-10 w-[350px] h-[350px] bg-blue-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4.5s', animationDelay: '1.5s' }} />
-        
-        {/* Film grain overlay */}
-        <div className="absolute inset-0 opacity-[0.015] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuNSIvPjwvc3ZnPg==')]" />
+        <div className="absolute top-1/4 right-1/3 w-[600px] h-[600px] bg-chart-2/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
+        <div className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-primary/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
       </div>
 
-      <div className="container mx-auto p-6 max-w-7xl relative z-10">
-        {/* Header with dramatic gradient */}
-        <div className="flex items-start justify-between mb-12">
-          <div>
-            <div className="relative inline-block mb-2">
-              <h1 className="text-5xl font-bold tracking-tight relative">
-                <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-red-500/20 via-transparent to-transparent blur-sm translate-x-[-2px]">
-                  Dashboard
-                </span>
-                <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-transparent via-transparent to-blue-500/20 blur-sm translate-x-[2px]">
-                  Dashboard
-                </span>
-                <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
-                  Dashboard
-                </span>
+      <div className="relative z-10">
+        {/* Compact Header */}
+        <div className="border-b border-border/50 bg-background/80 backdrop-blur-sm sticky top-0 z-20">
+          <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
+                Color Command Center
               </h1>
+              <p className="text-sm text-muted-foreground">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-chart-2 font-medium">{user.username}</span> · {user.conversionsThisMonth || 0} LUTs this month
+              </p>
             </div>
-            <p className="text-lg text-muted-foreground">
-              Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-chart-2 font-semibold">{user.username}</span>
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <Badge 
-              data-testid="badge-user-tier"
-              variant={isPro ? "default" : "secondary"}
-              className={`text-sm px-4 py-2 ${isPro ? 'bg-gradient-to-r from-primary to-chart-2' : ''}`}
-            >
-              {isStudio ? (
-                <><Crown className="w-4 h-4 mr-1" /> Studio</>
-              ) : isPro ? (
-                <><Zap className="w-4 h-4 mr-1" /> Pro</>
-              ) : (
-                "Free"
-              )}
-            </Badge>
-            {!isPro && (
-              <Button 
-                data-testid="button-upgrade-header"
-                className="bg-gradient-to-r from-primary via-chart-2 to-chart-3 hover:opacity-90"
-                asChild
+            <div className="flex items-center gap-3">
+              <Badge 
+                data-testid="badge-user-tier"
+                variant={isPro ? "default" : "secondary"}
+                className={`px-3 py-1 ${isPro ? 'bg-gradient-to-r from-primary to-chart-2' : ''}`}
               >
-                <Link href="/upgrade">
-                  <ArrowUpCircle className="w-4 h-4 mr-2" />
-                  Upgrade to Pro
-                </Link>
-              </Button>
-            )}
-          </div>
-        </div>
-
-        {/* Free tier upgrade prompt - Cinematic style */}
-        {!isPro && (
-          <Card className="mb-8 border-primary/30 bg-gradient-to-br from-primary/10 via-chart-2/5 to-chart-3/10 backdrop-blur-sm overflow-hidden relative group">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <CardHeader className="relative">
-              <CardTitle className="flex items-center gap-2 text-2xl">
-                <Zap className="w-6 h-6 text-primary animate-pulse" />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-chart-2 to-chart-3">
-                  Unlock Pro Features
-                </span>
-              </CardTitle>
-              <CardDescription className="text-base">
-                Get unlimited grid sizes, all formats, full analysis, unlimited preset saving, and priority support for $12/month
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="relative">
-              <Button 
-                data-testid="button-upgrade-card" 
-                size="lg"
-                className="bg-gradient-to-r from-primary via-chart-2 to-chart-3 hover:opacity-90 transition-all duration-300"
-                asChild
-              >
-                <Link href="/upgrade">
-                  <Crown className="w-5 h-5 mr-2" />
-                  Upgrade to Pro
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Usage Stats Grid - Cinematic cards */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
-        {/* LUT Generation */}
-        <Card 
-          data-testid="card-conversions" 
-          className="border-primary/20 bg-gradient-to-br from-background to-primary/5 hover-elevate transition-all duration-300 group relative overflow-hidden"
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/0 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative">
-            <CardTitle className="text-sm font-medium">
-              LUT Generation
-            </CardTitle>
-            <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-              <TrendingUp className="h-4 w-4 text-primary" />
-            </div>
-          </CardHeader>
-          <CardContent className="relative">
-            <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-chart-2 tabular-nums" data-testid="text-conversions-count">
-              {displayConversions}
-            </div>
-            <div className="mt-2 h-1 bg-muted rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-gradient-to-r from-primary to-chart-2 transition-all duration-500"
-                style={{ width: isPro ? '100%' : `${Math.min(100, ((user.conversionsThisMonth || 0) / 3) * 100)}%` }}
-              />
-            </div>
-            <p className="text-xs text-muted-foreground mt-2">
-              {isPro || user.tier === "creator" 
-                ? "Unlimited generations" 
-                : `${user.conversionsThisMonth || 0} / 3 this month`
-              }
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* Format Conversion */}
-        <Card 
-          data-testid="card-previews"
-          className="border-chart-2/20 bg-gradient-to-br from-background to-chart-2/5 hover-elevate transition-all duration-300 group relative overflow-hidden"
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-chart-2/0 to-chart-2/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative">
-            <CardTitle className="text-sm font-medium">
-              Format Conversions
-            </CardTitle>
-            <div className="p-2 rounded-lg bg-chart-2/10 group-hover:bg-chart-2/20 transition-colors">
-              <FileImage className="h-4 w-4 text-chart-2" />
-            </div>
-          </CardHeader>
-          <CardContent className="relative">
-            <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-chart-2 to-chart-3 tabular-nums" data-testid="text-previews-count">
-              {displayPreviews}
-            </div>
-            <p className="text-xs text-muted-foreground mt-4">
-              Unlimited for all users
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* Saved Presets */}
-        <Card 
-          data-testid="card-presets"
-          className="border-chart-3/20 bg-gradient-to-br from-background to-chart-3/5 hover-elevate transition-all duration-300 group relative overflow-hidden"
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-chart-3/0 to-chart-3/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative">
-            <CardTitle className="text-sm font-medium">
-              Saved Presets
-            </CardTitle>
-            <div className="p-2 rounded-lg bg-chart-3/10 group-hover:bg-chart-3/20 transition-colors">
-              <Bookmark className="h-4 w-4 text-chart-3" />
-            </div>
-          </CardHeader>
-          <CardContent className="relative">
-            <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-chart-3 to-primary tabular-nums" data-testid="text-presets-count">
-              {stats?.savedPresets || 0}
-            </div>
-            <p className="text-xs text-muted-foreground mt-4">
-              {isPro ? "Unlimited storage" : (
-                <span className="flex items-center gap-1">
-                  <AlertCircle className="w-3 h-3" />
-                  Pro feature only
-                </span>
-              )}
-            </p>
-          </CardContent>
-        </Card>
-        </div>
-
-        {/* Cinematic Color Palettes - Visual Inspiration */}
-        <Card className="border-muted/50 bg-gradient-to-br from-background to-muted/20 backdrop-blur-sm overflow-hidden relative">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 via-teal-500 to-blue-500" />
-          <CardHeader>
-            <CardTitle className="text-2xl flex items-center gap-2">
-              <Palette className="w-6 h-6 text-primary" />
-              Cinematic Color Styles
-            </CardTitle>
-            <CardDescription className="text-base">
-              Popular <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-teal-500">color grading</span> looks used in professional cinema
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {/* Blockbuster Teal & Orange */}
-              <button 
-                onClick={() => window.location.href = '/generate'}
-                className="group p-4 rounded-lg hover-elevate active-elevate-2 border border-muted/50 bg-gradient-to-br from-background to-muted/10 text-left transition-all"
-                data-testid="button-style-blockbuster"
-              >
-                <div className="flex gap-1.5 mb-3 h-8">
-                  <div className="flex-1 rounded bg-gradient-to-br from-orange-600 to-orange-400" />
-                  <div className="flex-1 rounded bg-gradient-to-br from-teal-600 to-teal-400" />
-                  <div className="flex-1 rounded bg-gradient-to-br from-amber-700 to-amber-500" />
-                </div>
-                <div className="flex items-center gap-2 mb-1">
-                  <Film className="w-4 h-4 text-orange-500" />
-                  <p className="font-semibold text-sm">Blockbuster</p>
-                </div>
-                <p className="text-xs text-muted-foreground">Teal & Orange Hollywood look</p>
-              </button>
-
-              {/* Golden Hour */}
-              <button 
-                onClick={() => window.location.href = '/generate'}
-                className="group p-4 rounded-lg hover-elevate active-elevate-2 border border-muted/50 bg-gradient-to-br from-background to-muted/10 text-left transition-all"
-                data-testid="button-style-golden"
-              >
-                <div className="flex gap-1.5 mb-3 h-8">
-                  <div className="flex-1 rounded bg-gradient-to-br from-amber-500 to-yellow-300" />
-                  <div className="flex-1 rounded bg-gradient-to-br from-orange-500 to-amber-400" />
-                  <div className="flex-1 rounded bg-gradient-to-br from-yellow-600 to-amber-500" />
-                </div>
-                <div className="flex items-center gap-2 mb-1">
-                  <Sun className="w-4 h-4 text-amber-500" />
-                  <p className="font-semibold text-sm">Golden Hour</p>
-                </div>
-                <p className="text-xs text-muted-foreground">Warm sunset cinematic glow</p>
-              </button>
-
-              {/* Noir Cool */}
-              <button 
-                onClick={() => window.location.href = '/generate'}
-                className="group p-4 rounded-lg hover-elevate active-elevate-2 border border-muted/50 bg-gradient-to-br from-background to-muted/10 text-left transition-all"
-                data-testid="button-style-noir"
-              >
-                <div className="flex gap-1.5 mb-3 h-8">
-                  <div className="flex-1 rounded bg-gradient-to-br from-slate-700 to-slate-500" />
-                  <div className="flex-1 rounded bg-gradient-to-br from-blue-900 to-blue-700" />
-                  <div className="flex-1 rounded bg-gradient-to-br from-cyan-900 to-slate-700" />
-                </div>
-                <div className="flex items-center gap-2 mb-1">
-                  <Moon className="w-4 h-4 text-blue-400" />
-                  <p className="font-semibold text-sm">Noir Cool</p>
-                </div>
-                <p className="text-xs text-muted-foreground">Moody blue-tinted shadows</p>
-              </button>
-
-              {/* Vintage Film */}
-              <button 
-                onClick={() => window.location.href = '/generate'}
-                className="group p-4 rounded-lg hover-elevate active-elevate-2 border border-muted/50 bg-gradient-to-br from-background to-muted/10 text-left transition-all"
-                data-testid="button-style-vintage"
-              >
-                <div className="flex gap-1.5 mb-3 h-8">
-                  <div className="flex-1 rounded bg-gradient-to-br from-rose-800 to-rose-600" />
-                  <div className="flex-1 rounded bg-gradient-to-br from-amber-700 to-amber-600" />
-                  <div className="flex-1 rounded bg-gradient-to-br from-emerald-900 to-emerald-700" />
-                </div>
-                <div className="flex items-center gap-2 mb-1">
-                  <Sunset className="w-4 h-4 text-rose-500" />
-                  <p className="font-semibold text-sm">Vintage Film</p>
-                </div>
-                <p className="text-xs text-muted-foreground">Faded retro color palette</p>
-              </button>
-            </div>
-
-            <div className="mt-4 pt-4 border-t border-muted/50">
-              <Button 
-                asChild 
-                variant="outline" 
-                className="w-full hover-elevate bg-gradient-to-r from-primary/5 to-chart-2/5 border-primary/20"
-                data-testid="button-all-tools"
-              >
-                <Link href="/generate">
-                  <Eye className="w-4 h-4 mr-2" />
-                  Create Your Own Color Grade
-                </Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Recent Activity - Cinematic Timeline */}
-        <Card className="mt-8 border-muted/50 bg-gradient-to-br from-background to-muted/20 backdrop-blur-sm overflow-hidden relative">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-chart-2 to-chart-3" />
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-2xl">
-              <Activity className="w-6 h-6 text-primary" />
-              Recent Activity
-            </CardTitle>
-            <CardDescription className="text-base">
-              Your latest <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-chart-2">color grading</span> workflow
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {user.conversionsThisMonth > 0 || user.previewsToday > 0 ? (
-              <div className="space-y-3">
-                {user.conversionsThisMonth > 0 && (
-                  <div className="flex items-start gap-4 group p-3 rounded-lg hover-elevate border border-primary/10 bg-gradient-to-r from-primary/5 to-transparent">
-                    <div className="p-2 rounded-lg bg-primary/20 group-hover:bg-primary/30 transition-colors">
-                      <Sparkles className="w-4 h-4 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-medium">Generated {user.conversionsThisMonth} LUT{user.conversionsThisMonth > 1 ? 's' : ''}</p>
-                      <p className="text-sm text-muted-foreground flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        This month
-                      </p>
-                    </div>
-                  </div>
-                )}
-                {user.previewsToday > 0 && (
-                  <div className="flex items-start gap-4 group p-3 rounded-lg hover-elevate border border-chart-2/10 bg-gradient-to-r from-chart-2/5 to-transparent">
-                    <div className="p-2 rounded-lg bg-chart-2/20 group-hover:bg-chart-2/30 transition-colors">
-                      <TrendingUp className="w-4 h-4 text-chart-2" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-medium">Converted {user.previewsToday} format{user.previewsToday > 1 ? 's' : ''}</p>
-                      <p className="text-sm text-muted-foreground flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        Today
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <div className="inline-flex p-4 rounded-full bg-muted/50 mb-4">
-                  <Activity className="w-8 h-8 text-muted-foreground" />
-                </div>
-                <p className="text-muted-foreground mb-4">No activity yet</p>
-                <Button asChild variant="outline" className="hover-elevate">
-                  <Link href="/generate">
-                    <Sparkles className="w-4 h-4 mr-2" />
-                    Create Your First LUT
+                {isStudio ? <><Crown className="w-3 h-3 mr-1" /> Studio</> : isPro ? <><Zap className="w-3 h-3 mr-1" /> Pro</> : "Free"}
+              </Badge>
+              {!isPro && (
+                <Button size="sm" data-testid="button-upgrade-header" className="bg-gradient-to-r from-primary to-chart-2" asChild>
+                  <Link href="/upgrade">
+                    <ArrowUpCircle className="w-3 h-3 mr-2" />
+                    Upgrade
                   </Link>
                 </Button>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* 3-Column Workspace */}
+        <div className="container mx-auto p-6 max-w-[1800px]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            {/* LEFT: Live Preview Workspace */}
+            <div className="lg:col-span-7">
+              <Card className="h-full border-primary/20 bg-gradient-to-br from-background to-primary/5">
+                <CardHeader className="pb-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="flex items-center gap-2">
+                        <Play className="w-5 h-5 text-primary" />
+                        Live Preview
+                      </CardTitle>
+                      <CardDescription>Drop an image to see LUT effects in real-time</CardDescription>
+                    </div>
+                    {previewImage && (
+                      <Button size="sm" variant="outline" className="hover-elevate" data-testid="button-download-preview">
+                        <Download className="w-3 h-3 mr-2" />
+                        Export
+                      </Button>
+                    )}
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {!previewImage ? (
+                    <UploadZone
+                      onImageUpload={handleImageUpload}
+                      isAnalyzing={isAnalyzing}
+                      data-testid="upload-preview-image"
+                    />
+                  ) : (
+                    <div className="space-y-4">
+                      {beforeImage && afterImage ? (
+                        <div className="rounded-lg overflow-hidden border border-primary/20">
+                          <BeforeAfterSlider
+                            beforeImage={beforeImage}
+                            afterImage={afterImage}
+                            beforeLabel="Original"
+                            afterLabel={currentLUT || "No LUT Applied"}
+                          />
+                        </div>
+                      ) : (
+                        <div className="aspect-video rounded-lg overflow-hidden border border-primary/20 bg-muted">
+                          <img src={previewImage} alt="Preview" className="w-full h-full object-contain" />
+                        </div>
+                      )}
+                      
+                      <div className="flex gap-2">
+                        <Button 
+                          size="sm" 
+                          variant="outline" 
+                          className="flex-1 hover-elevate"
+                          onClick={() => {
+                            setPreviewImage(null);
+                            setBeforeImage(null);
+                            setAfterImage(null);
+                            setCurrentLUT(null);
+                          }}
+                          data-testid="button-clear-preview"
+                        >
+                          Clear Preview
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          variant="default" 
+                          className="flex-1 bg-gradient-to-r from-primary to-chart-2"
+                          asChild
+                          data-testid="button-generate-lut"
+                        >
+                          <Link href="/generate">
+                            <Sparkles className="w-3 h-3 mr-2" />
+                            Generate LUT from This
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* RIGHT: Scopes & Tools */}
+            <div className="lg:col-span-5 space-y-6">
+              
+              {/* Color Scopes */}
+              <Card className="border-chart-2/20 bg-gradient-to-br from-background to-chart-2/5">
+                <CardHeader className="pb-4">
+                  <CardTitle className="flex items-center gap-2">
+                    <BarChart3 className="w-5 h-5 text-chart-2" />
+                    Color Scopes
+                  </CardTitle>
+                  <CardDescription>Real-time color analysis</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {previewImage && rgbHistogram ? (
+                    <div className="space-y-4">
+                      <HistogramVisualization rgbHistogram={rgbHistogram} />
+                    </div>
+                  ) : (
+                    <div className="text-center py-12 text-muted-foreground">
+                      <BarChart3 className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                      <p className="text-sm">Upload an image to see color analysis</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Quick Stats */}
+              <Card className="border-chart-3/20 bg-gradient-to-br from-background to-chart-3/5">
+                <CardHeader className="pb-4">
+                  <CardTitle className="flex items-center gap-2">
+                    <Layers className="w-5 h-5 text-chart-3" />
+                    Your Usage
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-primary/10 border border-primary/20">
+                    <div className="flex items-center gap-2">
+                      <TrendingUp className="w-4 h-4 text-primary" />
+                      <span className="text-sm font-medium">LUTs Generated</span>
+                    </div>
+                    <Badge variant="secondary" data-testid="text-conversions-count">
+                      {user.conversionsThisMonth || 0} / {isPro ? "∞" : "3"}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-chart-2/10 border border-chart-2/20">
+                    <div className="flex items-center gap-2">
+                      <Upload className="w-4 h-4 text-chart-2" />
+                      <span className="text-sm font-medium">Conversions</span>
+                    </div>
+                    <Badge variant="secondary" data-testid="text-previews-count">
+                      {user.previewsToday || 0}
+                    </Badge>
+                  </div>
+
+                  {!isPro && (
+                    <div className="mt-4 p-4 rounded-lg bg-gradient-to-r from-primary/10 to-chart-2/10 border border-primary/20">
+                      <p className="text-sm font-medium mb-2">Unlock Pro Tools</p>
+                      <p className="text-xs text-muted-foreground mb-3">65x65 grids, optimizer, unlimited LUTs</p>
+                      <Button size="sm" className="w-full bg-gradient-to-r from-primary to-chart-2" asChild data-testid="button-upgrade-card">
+                        <Link href="/upgrade">
+                          <Zap className="w-3 h-3 mr-2" />
+                          Upgrade to Pro
+                        </Link>
+                      </Button>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
