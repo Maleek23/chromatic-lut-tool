@@ -15,7 +15,13 @@ import {
   AlertCircle,
   Sparkles,
   Activity,
-  Clock
+  Clock,
+  Palette,
+  Film,
+  Sun,
+  Moon,
+  Sunset,
+  Eye
 } from "lucide-react";
 
 interface DashboardStats {
@@ -264,72 +270,105 @@ export default function Dashboard() {
         </Card>
         </div>
 
-        {/* Tier Benefits - What You Can Do */}
+        {/* Cinematic Color Palettes - Visual Inspiration */}
         <Card className="border-muted/50 bg-gradient-to-br from-background to-muted/20 backdrop-blur-sm overflow-hidden relative">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-chart-3 via-primary to-chart-2" />
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 via-teal-500 to-blue-500" />
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
-              {isStudio ? (
-                <><Crown className="w-6 h-6 text-amber-500" /> Studio Tier Benefits</>
-              ) : isPro ? (
-                <><Zap className="w-6 h-6 text-primary" /> Pro Tier Benefits</>
-              ) : (
-                <><Sparkles className="w-6 h-6 text-muted-foreground" /> Free Tier</>
-              )}
+              <Palette className="w-6 h-6 text-primary" />
+              Cinematic Color Styles
             </CardTitle>
             <CardDescription className="text-base">
-              {isPro ? "Everything unlocked" : "Your current capabilities"}
+              Popular <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-teal-500">color grading</span> looks used in professional cinema
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <div className="flex items-start gap-3 p-3 rounded-lg bg-gradient-to-r from-primary/10 to-transparent border border-primary/20">
-                <div className="p-1.5 rounded-md bg-primary/20">
-                  <TrendingUp className="w-4 h-4 text-primary" />
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {/* Blockbuster Teal & Orange */}
+              <button 
+                onClick={() => window.location.href = '/generate'}
+                className="group p-4 rounded-lg hover-elevate active-elevate-2 border border-muted/50 bg-gradient-to-br from-background to-muted/10 text-left transition-all"
+                data-testid="button-style-blockbuster"
+              >
+                <div className="flex gap-1.5 mb-3 h-8">
+                  <div className="flex-1 rounded bg-gradient-to-br from-orange-600 to-orange-400" />
+                  <div className="flex-1 rounded bg-gradient-to-br from-teal-600 to-teal-400" />
+                  <div className="flex-1 rounded bg-gradient-to-br from-amber-700 to-amber-500" />
                 </div>
-                <div className="flex-1">
-                  <p className="font-medium text-sm">Image to LUT</p>
-                  <p className="text-xs text-muted-foreground">
-                    {isPro ? "Unlimited generations" : "3 per month"}
-                  </p>
+                <div className="flex items-center gap-2 mb-1">
+                  <Film className="w-4 h-4 text-orange-500" />
+                  <p className="font-semibold text-sm">Blockbuster</p>
                 </div>
-              </div>
+                <p className="text-xs text-muted-foreground">Teal & Orange Hollywood look</p>
+              </button>
 
-              <div className="flex items-start gap-3 p-3 rounded-lg bg-gradient-to-r from-chart-2/10 to-transparent border border-chart-2/20">
-                <div className="p-1.5 rounded-md bg-chart-2/20">
-                  <FileImage className="w-4 h-4 text-chart-2" />
+              {/* Golden Hour */}
+              <button 
+                onClick={() => window.location.href = '/generate'}
+                className="group p-4 rounded-lg hover-elevate active-elevate-2 border border-muted/50 bg-gradient-to-br from-background to-muted/10 text-left transition-all"
+                data-testid="button-style-golden"
+              >
+                <div className="flex gap-1.5 mb-3 h-8">
+                  <div className="flex-1 rounded bg-gradient-to-br from-amber-500 to-yellow-300" />
+                  <div className="flex-1 rounded bg-gradient-to-br from-orange-500 to-amber-400" />
+                  <div className="flex-1 rounded bg-gradient-to-br from-yellow-600 to-amber-500" />
                 </div>
-                <div className="flex-1">
-                  <p className="font-medium text-sm">Grid Sizes</p>
-                  <p className="text-xs text-muted-foreground">
-                    {isPro ? "17×17×17, 33×33×33, 65×65×65" : "17×17×17 only"}
-                  </p>
+                <div className="flex items-center gap-2 mb-1">
+                  <Sun className="w-4 h-4 text-amber-500" />
+                  <p className="font-semibold text-sm">Golden Hour</p>
                 </div>
-              </div>
+                <p className="text-xs text-muted-foreground">Warm sunset cinematic glow</p>
+              </button>
 
-              <div className={`flex items-start gap-3 p-3 rounded-lg ${isPro ? 'bg-gradient-to-r from-chart-3/10 to-transparent border border-chart-3/20' : 'bg-muted/50 border border-muted'}`}>
-                <div className={`p-1.5 rounded-md ${isPro ? 'bg-chart-3/20' : 'bg-muted'}`}>
-                  <Bookmark className={`w-4 h-4 ${isPro ? 'text-chart-3' : 'text-muted-foreground'}`} />
+              {/* Noir Cool */}
+              <button 
+                onClick={() => window.location.href = '/generate'}
+                className="group p-4 rounded-lg hover-elevate active-elevate-2 border border-muted/50 bg-gradient-to-br from-background to-muted/10 text-left transition-all"
+                data-testid="button-style-noir"
+              >
+                <div className="flex gap-1.5 mb-3 h-8">
+                  <div className="flex-1 rounded bg-gradient-to-br from-slate-700 to-slate-500" />
+                  <div className="flex-1 rounded bg-gradient-to-br from-blue-900 to-blue-700" />
+                  <div className="flex-1 rounded bg-gradient-to-br from-cyan-900 to-slate-700" />
                 </div>
-                <div className="flex-1">
-                  <p className={`font-medium text-sm ${!isPro && 'text-muted-foreground'}`}>Preset Saving</p>
-                  <p className="text-xs text-muted-foreground">
-                    {isPro ? "Unlimited storage" : "Pro feature"}
-                  </p>
+                <div className="flex items-center gap-2 mb-1">
+                  <Moon className="w-4 h-4 text-blue-400" />
+                  <p className="font-semibold text-sm">Noir Cool</p>
                 </div>
-              </div>
+                <p className="text-xs text-muted-foreground">Moody blue-tinted shadows</p>
+              </button>
 
-              <div className={`flex items-start gap-3 p-3 rounded-lg ${isPro ? 'bg-gradient-to-r from-primary/10 to-transparent border border-primary/20' : 'bg-muted/50 border border-muted'}`}>
-                <div className={`p-1.5 rounded-md ${isPro ? 'bg-primary/20' : 'bg-muted'}`}>
-                  <Zap className={`w-4 h-4 ${isPro ? 'text-primary' : 'text-muted-foreground'}`} />
+              {/* Vintage Film */}
+              <button 
+                onClick={() => window.location.href = '/generate'}
+                className="group p-4 rounded-lg hover-elevate active-elevate-2 border border-muted/50 bg-gradient-to-br from-background to-muted/10 text-left transition-all"
+                data-testid="button-style-vintage"
+              >
+                <div className="flex gap-1.5 mb-3 h-8">
+                  <div className="flex-1 rounded bg-gradient-to-br from-rose-800 to-rose-600" />
+                  <div className="flex-1 rounded bg-gradient-to-br from-amber-700 to-amber-600" />
+                  <div className="flex-1 rounded bg-gradient-to-br from-emerald-900 to-emerald-700" />
                 </div>
-                <div className="flex-1">
-                  <p className={`font-medium text-sm ${!isPro && 'text-muted-foreground'}`}>LUT Optimizer</p>
-                  <p className="text-xs text-muted-foreground">
-                    {isPro ? "Fix banding & artifacts" : "Pro feature"}
-                  </p>
+                <div className="flex items-center gap-2 mb-1">
+                  <Sunset className="w-4 h-4 text-rose-500" />
+                  <p className="font-semibold text-sm">Vintage Film</p>
                 </div>
-              </div>
+                <p className="text-xs text-muted-foreground">Faded retro color palette</p>
+              </button>
+            </div>
+
+            <div className="mt-4 pt-4 border-t border-muted/50">
+              <Button 
+                asChild 
+                variant="outline" 
+                className="w-full hover-elevate bg-gradient-to-r from-primary/5 to-chart-2/5 border-primary/20"
+                data-testid="button-all-tools"
+              >
+                <Link href="/generate">
+                  <Eye className="w-4 h-4 mr-2" />
+                  Create Your Own Color Grade
+                </Link>
+              </Button>
             </div>
           </CardContent>
         </Card>
