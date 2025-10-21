@@ -264,82 +264,74 @@ export default function Dashboard() {
         </Card>
         </div>
 
-        {/* Quick Actions - Cinematic */}
-        <Card className="border-muted/50 bg-gradient-to-br from-background to-muted/20 backdrop-blur-sm">
-        <CardHeader>
-          <CardTitle className="text-2xl">Quick Actions</CardTitle>
-          <CardDescription className="text-base">
-            Jump right into your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-chart-2">cinematic workflow</span>
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <Button
-            data-testid="button-convert"
-            variant="outline"
-            className="h-auto py-6 flex flex-col items-start gap-3 hover-elevate border-primary/20 bg-gradient-to-br from-background to-primary/5 group relative overflow-hidden"
-            asChild
-          >
-            <Link href="/tools">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/0 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <TrendingUp className="w-6 h-6 text-primary relative z-10" />
-              <div className="relative z-10">
-                <div className="font-semibold text-lg">Convert LUT</div>
-                <div className="text-xs text-muted-foreground">
-                  .cube ↔ .3dl ↔ .lut conversion
+        {/* Tier Benefits - What You Can Do */}
+        <Card className="border-muted/50 bg-gradient-to-br from-background to-muted/20 backdrop-blur-sm overflow-hidden relative">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-chart-3 via-primary to-chart-2" />
+          <CardHeader>
+            <CardTitle className="text-2xl flex items-center gap-2">
+              {isStudio ? (
+                <><Crown className="w-6 h-6 text-amber-500" /> Studio Tier Benefits</>
+              ) : isPro ? (
+                <><Zap className="w-6 h-6 text-primary" /> Pro Tier Benefits</>
+              ) : (
+                <><Sparkles className="w-6 h-6 text-muted-foreground" /> Free Tier</>
+              )}
+            </CardTitle>
+            <CardDescription className="text-base">
+              {isPro ? "Everything unlocked" : "Your current capabilities"}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="flex items-start gap-3 p-3 rounded-lg bg-gradient-to-r from-primary/10 to-transparent border border-primary/20">
+                <div className="p-1.5 rounded-md bg-primary/20">
+                  <TrendingUp className="w-4 h-4 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <p className="font-medium text-sm">Image to LUT</p>
+                  <p className="text-xs text-muted-foreground">
+                    {isPro ? "Unlimited generations" : "3 per month"}
+                  </p>
                 </div>
               </div>
-            </Link>
-          </Button>
 
-          <Button
-            data-testid="button-analyze"
-            variant="outline"
-            className="h-auto py-6 flex flex-col items-start gap-3 hover-elevate border-chart-2/20 bg-gradient-to-br from-background to-chart-2/5 group relative overflow-hidden"
-            asChild
-          >
-            <Link href="/tools">
-              <div className="absolute inset-0 bg-gradient-to-br from-chart-2/0 to-chart-2/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <FileImage className="w-6 h-6 text-chart-2 relative z-10" />
-              <div className="relative z-10">
-                <div className="font-semibold text-lg">Analyze Quality</div>
-                <div className="text-xs text-muted-foreground">
-                  Check for banding and issues
+              <div className="flex items-start gap-3 p-3 rounded-lg bg-gradient-to-r from-chart-2/10 to-transparent border border-chart-2/20">
+                <div className="p-1.5 rounded-md bg-chart-2/20">
+                  <FileImage className="w-4 h-4 text-chart-2" />
+                </div>
+                <div className="flex-1">
+                  <p className="font-medium text-sm">Grid Sizes</p>
+                  <p className="text-xs text-muted-foreground">
+                    {isPro ? "17×17×17, 33×33×33, 65×65×65" : "17×17×17 only"}
+                  </p>
                 </div>
               </div>
-            </Link>
-          </Button>
 
-          <Button
-            data-testid="button-presets"
-            variant="outline"
-            className="h-auto py-6 flex flex-col items-start gap-3 hover-elevate border-chart-3/20 bg-gradient-to-br from-background to-chart-3/5 group relative overflow-hidden"
-            disabled={!isPro}
-            asChild={isPro}
-          >
-            {isPro ? (
-              <Link href="/generate">
-                <div className="absolute inset-0 bg-gradient-to-br from-chart-3/0 to-chart-3/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <Bookmark className="w-6 h-6 text-chart-3 relative z-10" />
-                <div className="relative z-10">
-                  <div className="font-semibold text-lg">My Presets</div>
-                  <div className="text-xs text-muted-foreground">
-                    Browse saved LUTs
-                  </div>
+              <div className={`flex items-start gap-3 p-3 rounded-lg ${isPro ? 'bg-gradient-to-r from-chart-3/10 to-transparent border border-chart-3/20' : 'bg-muted/50 border border-muted'}`}>
+                <div className={`p-1.5 rounded-md ${isPro ? 'bg-chart-3/20' : 'bg-muted'}`}>
+                  <Bookmark className={`w-4 h-4 ${isPro ? 'text-chart-3' : 'text-muted-foreground'}`} />
                 </div>
-              </Link>
-            ) : (
-              <>
-                <Bookmark className="w-6 h-6 text-muted-foreground" />
-                <div>
-                  <div className="font-semibold text-lg text-muted-foreground">My Presets</div>
-                  <div className="text-xs text-muted-foreground">
-                    <Badge variant="secondary" className="text-xs">Pro Only</Badge>
-                  </div>
+                <div className="flex-1">
+                  <p className={`font-medium text-sm ${!isPro && 'text-muted-foreground'}`}>Preset Saving</p>
+                  <p className="text-xs text-muted-foreground">
+                    {isPro ? "Unlimited storage" : "Pro feature"}
+                  </p>
                 </div>
-              </>
-            )}
-          </Button>
-        </CardContent>
+              </div>
+
+              <div className={`flex items-start gap-3 p-3 rounded-lg ${isPro ? 'bg-gradient-to-r from-primary/10 to-transparent border border-primary/20' : 'bg-muted/50 border border-muted'}`}>
+                <div className={`p-1.5 rounded-md ${isPro ? 'bg-primary/20' : 'bg-muted'}`}>
+                  <Zap className={`w-4 h-4 ${isPro ? 'text-primary' : 'text-muted-foreground'}`} />
+                </div>
+                <div className="flex-1">
+                  <p className={`font-medium text-sm ${!isPro && 'text-muted-foreground'}`}>LUT Optimizer</p>
+                  <p className="text-xs text-muted-foreground">
+                    {isPro ? "Fix banding & artifacts" : "Pro feature"}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
         </Card>
 
         {/* Recent Activity - Cinematic Timeline */}
