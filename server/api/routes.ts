@@ -3,6 +3,8 @@ import { createServer, type Server } from "http";
 import multer from "multer";
 import JSZip from "jszip";
 import sharp from "sharp";
+import { scrypt, randomBytes, timingSafeEqual } from "crypto";
+import { promisify } from "util";
 import Stripe from "stripe";
 import { analyzeImage } from "../features/lut/analyzer";
 import { generateLUT, applyLUTToImage } from "../features/lut/generator";
@@ -140,12 +142,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Helper functions for password hashing (from auth.ts)
+  const scryptAsync = promisify(scrypt);
+
+  async function hashPassword(password: string) {
+    const salt = randomBytes(16).toString("hex");
+    const buf = (await scryptAsync(password, salt, 64)) as Buffer;
+    return `${buf.toString("hex")}.${salt}`;
+  }
+
+  async function comparePasswords(supplied: string, stored: string) {
+    const [hashed, salt] = stored.split(".");
+    const hashedBuf = Buffer.from(hashed, "hex");
+    const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
+    return timingSafeEqual(hashedBuf, suppliedBuf);
+  }
+
   // Update user password
   app.patch("/api/user/password", requireAuth, async (req, res) => {
     try {
       const user = req.user!;
       const { storage } = await import("../core/storage");
-      const bcrypt = await import("bcryptjs");
       
       const { currentPassword, newPassword } = req.body;
 
@@ -167,13 +184,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Verify current password
-      const isValid = await bcrypt.compare(currentPassword, user.password);
+      const isValid = await comparePasswords(currentPassword, user.password);
       if (!isValid) {
         return res.status(401).json({ error: "Current password is incorrect" });
       }
 
       // Hash new password and update
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      const hashedPassword = await hashPassword(newPassword);
       await storage.updateUserPassword(user.id, hashedPassword);
 
       res.json({ success: true });
