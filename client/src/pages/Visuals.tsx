@@ -8,6 +8,7 @@ import { ColorCube3D } from '@/components/visual/ColorCube3D';
 import { SpectrumLoader } from '@/components/visual/SpectrumLoader';
 import { BeforeAfterSlider } from '@/components/visual/BeforeAfterSlider';
 import { HeroSection } from '@/components/visual/HeroSection';
+import { SixStageArchitecture } from '@/components/education/SixStageArchitecture';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 
@@ -19,6 +20,9 @@ export default function Visuals() {
     <div className="min-h-screen">
       {/* Hero Section Showcase */}
       <HeroSection />
+
+      {/* Six-Stage Architecture */}
+      <SixStageArchitecture />
 
       <div className="container mx-auto px-4 py-20 space-y-12">
         <div className="text-center space-y-4">
