@@ -27,8 +27,6 @@ import {
   Save,
   Loader2
 } from "lucide-react";
-import { CinemaBackground } from "@/components/visual/CinemaBackground";
-
 export default function AccountSettings() {
   const { user, logoutMutation } = useAuth();
   const [, navigate] = useLocation();
@@ -139,7 +137,6 @@ export default function AccountSettings() {
   };
 
   return (
-    <CinemaBackground variant="default">
       <div className="container mx-auto p-6 max-w-4xl">
         {/* Header */}
         <div className="mb-8">
@@ -459,6 +456,5 @@ export default function AccountSettings() {
           </Card>
         </div>
       </div>
-    </CinemaBackground>
   );
 }
