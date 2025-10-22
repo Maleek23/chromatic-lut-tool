@@ -210,31 +210,31 @@ export function SixStageArchitecture() {
   const stage = stages[currentStage];
 
   return (
-    <section className="py-20 relative z-10" data-section="six-stage">
+    <section className="py-16 relative z-10" data-section="six-stage">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-12">
-          <Badge variant="outline" className="mb-4" data-testid="badge-architecture-label">
+        <div className="text-center mb-10">
+          <Badge variant="outline" className="mb-3" data-testid="badge-architecture-label">
             Cinema-Grade Pipeline
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-3">
             Six-Stage Color Science Architecture
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base text-muted-foreground max-w-2xl mx-auto">
             Professional color pipeline built on VES and CIE standards. Each stage is scientifically validated.
           </p>
         </div>
 
         {/* Progress Dots */}
-        <div className="flex justify-center gap-2 mb-8">
+        <div className="flex justify-center gap-2 mb-6">
           {stages.map((_, index) => (
             <button
               key={index}
               onClick={() => goToStage(index)}
-              className={`h-2 rounded-full transition-all ${
+              className={`h-1.5 rounded-full transition-all ${
                 index === currentStage
-                  ? 'w-8 bg-primary'
-                  : 'w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                  ? 'w-12 bg-gradient-to-r from-primary to-chart-2'
+                  : 'w-1.5 bg-muted-foreground/20 hover:bg-muted-foreground/40'
               }`}
               data-testid={`button-stage-dot-${index + 1}`}
               aria-label={`Go to stage ${index + 1}`}
@@ -243,12 +243,12 @@ export function SixStageArchitecture() {
         </div>
 
         {/* Main Stage Display */}
-        <div ref={containerRef} className="max-w-5xl mx-auto mb-8">
+        <div ref={containerRef} className="max-w-5xl mx-auto mb-6">
           <Card
-            className="overflow-hidden transition-all duration-500"
+            className="overflow-hidden transition-all duration-500 hover-elevate bg-background/80 backdrop-blur-sm"
             data-testid={`card-stage-${currentStage + 1}`}
           >
-            <div className="grid md:grid-cols-2 gap-8 p-8">
+            <div className="grid md:grid-cols-2 gap-6 p-6 md:p-8">
               {/* Left: Content */}
               <div className="space-y-4">
                 {/* Stage Number */}
@@ -299,53 +299,53 @@ export function SixStageArchitecture() {
         </div>
 
         {/* Navigation */}
-        <div className="flex justify-center gap-4 mb-12 items-center">
+        <div className="flex justify-center gap-3 mb-8 items-center">
           <Button
             variant="outline"
-            size="lg"
             onClick={() => goToStage(currentStage - 1)}
             disabled={currentStage === 0}
             data-testid="button-prev-stage"
           >
-            <ChevronLeft className="w-4 h-4 mr-2" />
+            <ChevronLeft className="w-4 h-4 mr-1" />
             Previous
           </Button>
           
-          <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-muted">
-            <span className="text-sm font-medium">
-              Stage {currentStage + 1} of {stages.length}
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-muted/50 backdrop-blur-sm">
+            <span className="text-xs font-medium">
+              {currentStage + 1} / {stages.length}
             </span>
           </div>
 
           <Button
             variant="outline"
-            size="lg"
             onClick={() => goToStage(currentStage + 1)}
             disabled={currentStage === stages.length - 1}
             data-testid="button-next-stage"
           >
             Next
-            <ChevronRight className="w-4 h-4 ml-2" />
+            <ChevronRight className="w-4 h-4 ml-1" />
           </Button>
         </div>
 
         {/* Minimap */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
           {stages.map((s, index) => (
             <button
               key={index}
               onClick={() => goToStage(index)}
-              className={`p-4 rounded-lg border-2 transition-all text-left hover-elevate ${
+              className={`p-3 rounded-lg border transition-all text-left hover-elevate ${
                 index === currentStage
-                  ? 'border-primary bg-primary/5'
-                  : 'border-border'
+                  ? 'border-primary bg-primary/10 shadow-sm'
+                  : 'border-border/50 bg-background/60 backdrop-blur-sm'
               }`}
               data-testid={`button-minimap-stage-${index + 1}`}
             >
-              <div className="text-3xl font-bold text-primary/40 mb-1">
+              <div className={`text-2xl font-bold mb-1 ${
+                index === currentStage ? 'text-primary' : 'text-primary/30'
+              }`}>
                 {s.number}
               </div>
-              <div className="text-xs font-semibold line-clamp-2">{s.name}</div>
+              <div className="text-[10px] font-semibold line-clamp-2">{s.name}</div>
             </button>
           ))}
         </div>
