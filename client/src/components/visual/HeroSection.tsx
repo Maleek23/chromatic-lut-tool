@@ -21,10 +21,10 @@ export function HeroSection() {
             <img 
               src={logoImage} 
               alt="CHROMA" 
-              className="h-20 sm:h-24 w-auto mx-auto mb-4 hover:scale-105 transition-transform duration-300 cursor-pointer" 
+              className="h-20 sm:h-24 w-auto mx-auto mb-4 hover:scale-105 transition-transform duration-300 cursor-pointer animate-in fade-in duration-700" 
             />
           </Link>
-          <p className="text-sm text-muted-foreground mb-6">
+          <p className="text-sm text-muted-foreground mb-6 animate-in fade-in duration-700 delay-150">
             by <span className="font-semibold">UN/TITLD</span>
           </p>
 
