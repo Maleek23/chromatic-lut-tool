@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { LutFileUpload } from "@/components/lut/LutFileUpload";
 import { Footer } from "@/components/layout/Footer";
-import { CinemaBackground } from "@/components/visual/CinemaBackground";
 import { AlertCircle, CheckCircle2, Download, Sparkles } from "lucide-react";
 import { canUseOptimizer } from "@shared/tiers";
 import type { User } from "@shared/schema";
@@ -90,7 +89,6 @@ export default function Optimize() {
   const canAccess = user && canUseOptimizer(user.tier as any);
 
   return (
-    <CinemaBackground variant="subtle">
       <div className="max-w-4xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-3">
@@ -223,6 +221,5 @@ export default function Optimize() {
         
         <Footer />
       </div>
-    </CinemaBackground>
   );
 }

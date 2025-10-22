@@ -16,7 +16,6 @@ import type { LutAnalysis, LutResponse } from "@shared/schema";
 import { getUserTier, isGridSizeAllowed, isFormatAllowed } from "@/lib/tier-utils";
 import { queryClient } from "@/lib/queryClient";
 import { Footer } from "@/components/layout/Footer";
-import { CinemaBackground } from "@/components/visual/CinemaBackground";
 
 export default function Tool() {
   const { toast } = useToast();
@@ -282,7 +281,6 @@ export default function Tool() {
 
   return (
     <div className="relative min-h-screen">
-      <CinemaBackground variant="default" />
       <main className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-16">
         {!uploadedImage ? (
           <div className="max-w-3xl mx-auto">
