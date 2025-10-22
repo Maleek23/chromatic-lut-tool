@@ -444,7 +444,7 @@ export default function AuthPage() {
           <div className="max-w-lg space-y-10">
             {/* Hero Section */}
             <div className="text-center space-y-4">
-              <div className="inline-flex items-center justify-center w-24 h-24 rounded-2xl bg-gradient-to-br from-primary to-chart-2 shadow-2xl shadow-primary/30 animate-pulse" style={{ animationDuration: '3s' }}>
+              <div className="inline-flex items-center justify-center w-24 h-24 rounded-2xl bg-gradient-to-br from-primary to-chart-2 shadow-2xl shadow-primary/30">
                 <Film className="w-12 h-12 text-primary-foreground" />
               </div>
               <div className="space-y-2">

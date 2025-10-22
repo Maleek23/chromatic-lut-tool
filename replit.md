@@ -13,10 +13,11 @@ Preferred communication style: Simple, everyday language.
 - **Routing**: Wouter for client-side routing.
 - **State Management**: Local React state, custom auth context, React Query for server state.
 - **UI Components**: Radix UI primitives and shadcn/ui for accessible components.
-- **Styling**: Minimal, professional aesthetic with subtle animated color orbs and gradient effects.
-- **Visual Components**: Science-based visualizations demonstrating actual color processing (ColorCube3D for 3D L*a*b* color space, tone curve graphs, color cluster displays, gamut visualization).
-- **CinemaBackground**: Centralized layout-level background component with "subtle" variant (smaller orbs: 400px/350px, lower opacity: 10%/8%), providing consistent theming across all pages. Single instance in App.tsx ensures optimal performance.
-- **Design Patterns**: Component composition, controlled components, custom hooks, tabbed navigation, debounced real-time preview updates, horizontal scrolling journeys with snap-scroll and keyboard navigation.
+- **Typography**: Inter font family exclusively for clean, professional aesthetic.
+- **Styling**: Strict minimalism - static backgrounds with simple gradients, no decorative animations or effects.
+- **Visual Components**: Only science-based visualizations that demonstrate actual color processing (ColorCube3D for 3D L*a*b* color space, tone curve graphs, color cluster displays, gamut visualization, histogram charts, before/after LUT comparisons, quality gauges).
+- **CinemaBackground**: Centralized static background component with simple gradient (no animations or orbs), providing consistent minimal theming across all pages. Single instance in App.tsx ensures optimal performance.
+- **Design Patterns**: Component composition, controlled components, custom hooks, tabbed navigation, debounced real-time preview updates.
 - **SEO**: Comprehensive meta tags (Open Graph, Twitter Cards) and keyword optimization.
 
 ### Backend
@@ -36,7 +37,7 @@ Preferred communication style: Simple, everyday language.
 - **Session Management**: Express session with `connect-pg-simple` and Passport.js.
 
 ### System Design Choices
-- **UI/UX**: Cinematic color grading aesthetic.
+- **UI/UX**: Strict minimalism - clean, professional interface focused on functionality and color science tools only.
 - **Navigation Architecture**: Hub-and-spoke model with Image-to-LUT generation as the main entry point.
 - **Pricing Strategy**: Freemium model with Free, Creator, Pro, and Studio tiers, integrated with Stripe.
 - **Technical Implementations**: Professional color science pipeline verified against VES/CIE standards (ACEScg/Lab/LCh transforms, k-means clustering, filmic tone curves, gamut mapping, skin tone protection, blue-fastest indexing, trilinear interpolation, server-side validation, real-time preview).
