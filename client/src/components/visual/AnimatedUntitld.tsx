@@ -8,7 +8,7 @@ interface AnimatedUntitldProps {
 
 export function AnimatedUntitld({ 
   className = "", 
-  autoPlay = true,
+  autoPlay = false,
   interval = 3000 
 }: AnimatedUntitldProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -26,8 +26,8 @@ export function AnimatedUntitld({
   return (
     <span 
       className={`inline-flex items-center justify-center ${className}`}
-      onMouseEnter={() => !autoPlay && setIsCollapsed(true)}
-      onMouseLeave={() => !autoPlay && setIsCollapsed(false)}
+      onMouseEnter={() => setIsCollapsed(true)}
+      onMouseLeave={() => setIsCollapsed(false)}
     >
       {/* UN text - gets sucked into the portal */}
       <span 

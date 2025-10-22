@@ -17,17 +17,19 @@ export function HeroSection() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
       <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="max-w-4xl mx-auto text-center space-y-8">
-          {/* Logo with animation */}
-          <Link href="/">
-            <img 
-              src={logoImage} 
-              alt="CHROMA" 
-              className="h-20 sm:h-24 w-auto mx-auto mb-4 hover:scale-105 transition-transform duration-300 cursor-pointer animate-in fade-in duration-700" 
-            />
-          </Link>
-          <p className="text-sm text-muted-foreground mb-6 animate-in fade-in duration-700 delay-150">
-            by <span className="font-semibold"><AnimatedUntitld /></span>
-          </p>
+          {/* Logo with by UN/TITLD */}
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Link href="/">
+              <img 
+                src={logoImage} 
+                alt="CHROMA" 
+                className="h-16 sm:h-20 w-auto hover:scale-105 transition-transform duration-300 cursor-pointer animate-in fade-in duration-700" 
+              />
+            </Link>
+            <span className="text-xs text-muted-foreground animate-in fade-in duration-700 delay-150">
+              by <span className="font-semibold"><AnimatedUntitld /></span>
+            </span>
+          </div>
 
           {/* Trust badges */}
           <div className="flex flex-wrap gap-2 justify-center">

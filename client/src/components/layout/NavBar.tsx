@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import logoImage from "@assets/logo-full-transparent-v2.png";
+import { AnimatedUntitld } from "@/components/visual/AnimatedUntitld";
 
 export function NavBar() {
   const [location] = useLocation();
@@ -16,40 +17,56 @@ export function NavBar() {
     <>
       <Link href="/" onClick={() => mobile && setOpen(false)}>
         <Button 
-          variant={location === "/" ? "default" : "ghost"} 
+          variant="ghost"
           size="sm"
           data-testid="nav-home"
-          className={mobile ? "w-full justify-start" : ""}
+          className={`${mobile ? "w-full justify-start" : ""} ${
+            location === "/" 
+              ? "bg-primary/10 text-primary" 
+              : "text-muted-foreground hover:text-foreground"
+          }`}
         >
           {user ? "Dashboard" : "Home"}
         </Button>
       </Link>
       <Link href="/generate" onClick={() => mobile && setOpen(false)}>
         <Button 
-          variant={location === "/generate" ? "default" : "ghost"} 
+          variant="ghost"
           size="sm"
           data-testid="nav-generate"
-          className={mobile ? "w-full justify-start" : ""}
+          className={`${mobile ? "w-full justify-start" : ""} ${
+            location === "/generate" 
+              ? "bg-primary/10 text-primary" 
+              : "text-muted-foreground hover:text-foreground"
+          }`}
         >
           Generate
         </Button>
       </Link>
       <Link href="/tools" onClick={() => mobile && setOpen(false)}>
         <Button 
-          variant={location === "/tools" ? "default" : "ghost"} 
+          variant="ghost"
           size="sm"
           data-testid="nav-tools"
-          className={mobile ? "w-full justify-start" : ""}
+          className={`${mobile ? "w-full justify-start" : ""} ${
+            location === "/tools" 
+              ? "bg-primary/10 text-primary" 
+              : "text-muted-foreground hover:text-foreground"
+          }`}
         >
           Tools
         </Button>
       </Link>
       <Link href="/color-science" onClick={() => mobile && setOpen(false)}>
         <Button 
-          variant={location === "/color-science" ? "default" : "ghost"} 
+          variant="ghost"
           size="sm"
           data-testid="nav-color-science"
-          className={mobile ? "w-full justify-start" : ""}
+          className={`${mobile ? "w-full justify-start" : ""} ${
+            location === "/color-science" 
+              ? "bg-primary/10 text-primary" 
+              : "text-muted-foreground hover:text-foreground"
+          }`}
         >
           Science
         </Button>
@@ -62,17 +79,20 @@ export function NavBar() {
       {user ? (
         <>
           {!mobile && (
-            <Badge variant="secondary" className="text-xs uppercase" data-testid="user-tier-badge">
+            <Badge 
+              variant="secondary" 
+              className="text-xs uppercase bg-primary/10 text-primary border-primary/20" 
+              data-testid="user-tier-badge"
+            >
               {user.tier}
             </Badge>
           )}
           {user.tier !== "pro" && user.tier !== "studio" && (
             <Link href="/upgrade" onClick={() => mobile && setOpen(false)}>
               <Button
-                variant="default"
                 size="sm"
                 data-testid="button-upgrade"
-                className={mobile ? "w-full justify-start" : ""}
+                className={`bg-gradient-to-r from-primary to-chart-2 text-white ${mobile ? "w-full justify-start" : ""}`}
               >
                 <Crown className="w-4 h-4 mr-2" />
                 Upgrade
@@ -116,14 +136,22 @@ export function NavBar() {
   );
 
   return (
-    <nav className="border-b sticky top-0 bg-background/95 backdrop-blur z-50">
+    <nav className="border-b border-border/40 sticky top-0 bg-background/80 backdrop-blur-md z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/">
-          <Button variant="ghost" className="hover-elevate px-2" data-testid="button-home">
-            <img src={logoImage} alt="Chroma" className="h-11 w-auto" />
-          </Button>
-        </Link>
+        {/* Logo with by UN/TITLD */}
+        <div className="flex items-center gap-2">
+          <Link href="/">
+            <img 
+              src={logoImage} 
+              alt="Chroma" 
+              className="h-10 w-auto hover:scale-105 transition-transform duration-300 cursor-pointer" 
+              data-testid="button-home"
+            />
+          </Link>
+          <span className="text-[9px] text-muted-foreground hidden sm:inline-block">
+            by <span className="font-semibold"><AnimatedUntitld /></span>
+          </span>
+        </div>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-2 flex-1 justify-end">

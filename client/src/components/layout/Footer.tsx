@@ -11,16 +11,18 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
           {/* About */}
           <div className="col-span-2 md:col-span-1">
-            <Link href="/">
-              <img 
-                src={logoImage} 
-                alt="CHROMA" 
-                className="h-12 w-auto mb-3 hover:scale-105 transition-transform duration-300 cursor-pointer" 
-              />
-            </Link>
-            <p className="text-xs text-muted-foreground mb-1">
-              by <span className="font-semibold"><AnimatedUntitld interval={3000} /></span>
-            </p>
+            <div className="flex items-center gap-2 mb-3">
+              <Link href="/">
+                <img 
+                  src={logoImage} 
+                  alt="CHROMA" 
+                  className="h-10 w-auto hover:scale-105 transition-transform duration-300 cursor-pointer" 
+                />
+              </Link>
+              <span className="text-[10px] text-muted-foreground">
+                by <span className="font-semibold"><AnimatedUntitld /></span>
+              </span>
+            </div>
             <p className="text-sm text-muted-foreground">
               Cinema-grade LUT tools.
             </p>
