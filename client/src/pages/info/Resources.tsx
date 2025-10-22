@@ -34,7 +34,7 @@ export default function Resources() {
             <span className="text-sm font-semibold uppercase tracking-wider text-primary/80">Documentation Hub</span>
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 leading-tight">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 via-cyan-400 to-pink-500">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
               Resources & Guides
             </span>
           </h1>
