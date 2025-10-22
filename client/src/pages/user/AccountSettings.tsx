@@ -27,6 +27,7 @@ import {
   Save,
   Loader2
 } from "lucide-react";
+import { CinemaBackground } from "@/components/visual/CinemaBackground";
 
 export default function AccountSettings() {
   const { user, logoutMutation } = useAuth();
@@ -138,15 +139,8 @@ export default function AccountSettings() {
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Cinematic Background */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
-        <div className="absolute top-1/4 right-1/3 w-[500px] h-[500px] bg-chart-2/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
-        <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
-      </div>
-
-      <div className="container mx-auto p-6 max-w-4xl relative z-10">
+    <CinemaBackground variant="default">
+      <div className="container mx-auto p-6 max-w-4xl">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
@@ -465,6 +459,6 @@ export default function AccountSettings() {
           </Card>
         </div>
       </div>
-    </div>
+    </CinemaBackground>
   );
 }

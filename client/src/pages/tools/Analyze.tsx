@@ -9,6 +9,7 @@ import { LutFileUpload } from "@/components/lut/LutFileUpload";
 import demoImageBefore from "@assets/stock_images/cinematic_film_scene_3b85db8f.jpg";
 import demoImageAfter from "@assets/stock_images/cinematic_film_scene_1a3fcc2b.jpg";
 import { Footer } from "@/components/layout/Footer";
+import { CinemaBackground } from "@/components/visual/CinemaBackground";
 
 interface QualityInfo {
   hasInvalidPoints: boolean;
@@ -85,7 +86,8 @@ export default function Analyze() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8">
+    <CinemaBackground variant="subtle">
+      <div className="max-w-5xl mx-auto px-4 py-12 space-y-8">
       <Card className="border-chart-2/30 bg-background/50 backdrop-blur-sm hover-elevate transition-all duration-300">
         <CardHeader>
           <div className="flex items-center gap-2">
@@ -279,8 +281,9 @@ export default function Analyze() {
           />
         </CardContent>
       </Card>
+      </div>
       
       <Footer />
-    </div>
+    </CinemaBackground>
   );
 }

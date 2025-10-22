@@ -1,10 +1,12 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { AlertCircle } from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
+import { CinemaBackground } from "@/components/visual/CinemaBackground";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
+    <CinemaBackground variant="subtle">
+      <div className="min-h-screen w-full flex items-center justify-center">
       <Card className="w-full max-w-md mx-4">
         <CardContent className="pt-6">
           <div className="flex mb-4 gap-2">
@@ -19,6 +21,7 @@ export default function NotFound() {
       </Card>
       
       <Footer />
-    </div>
+      </div>
+    </CinemaBackground>
   );
 }

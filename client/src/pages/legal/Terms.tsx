@@ -1,9 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Footer } from "@/components/layout/Footer";
+import { CinemaBackground } from "@/components/visual/CinemaBackground";
 
 export default function Terms() {
   return (
-    <div className="min-h-screen bg-background">
+    <CinemaBackground variant="subtle">
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-4">Terms of Service</h1>
@@ -250,9 +251,9 @@ export default function Terms() {
             </CardContent>
           </Card>
         </div>
+        
+        <Footer />
       </div>
-      
-      <Footer />
-    </div>
+    </CinemaBackground>
   );
 }

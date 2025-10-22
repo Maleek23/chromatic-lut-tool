@@ -13,6 +13,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { BeforeAfterSlider } from "@/components/lut/BeforeAfterSlider";
 import { LutFileUpload } from "@/components/lut/LutFileUpload";
 import { Footer } from "@/components/layout/Footer";
+import { CinemaBackground } from "@/components/visual/CinemaBackground";
 
 interface Preset {
   id: number;
@@ -292,7 +293,8 @@ export default function Convert() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8">
+    <CinemaBackground variant="subtle">
+      <div className="max-w-5xl mx-auto px-4 py-12 space-y-8">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted/50 backdrop-blur-sm">
           <TabsTrigger value="upload" data-testid="tab-upload" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-chart-2 data-[state=active]:text-primary-foreground">
@@ -585,6 +587,7 @@ export default function Convert() {
       </Tabs>
       
       <Footer />
-    </div>
+      </div>
+    </CinemaBackground>
   );
 }
