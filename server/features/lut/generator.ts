@@ -147,9 +147,10 @@ interface ZoneColorData {
 }
 
 async function deriveColorTransform(imageBuffer: Buffer): Promise<ColorTransform> {
-  // Single-pass processing: decode, resize, and extract pixels efficiently
+  // PRODUCTION FIX: Changed failOn from 'none' to 'warning' for better error visibility
+  // 'none' silently ignores corrupted images, producing broken LUTs without warning users
   const { data, info } = await sharp(imageBuffer, {
-    failOn: 'none',
+    failOn: 'warning', // Fail on corrupted/invalid images (professional-grade)
     limitInputPixels: 268402689, // Max 16384x16384 pixels
   })
     .resize(200, 200, { fit: "inside", withoutEnlargement: true })
@@ -184,8 +185,12 @@ async function deriveColorTransform(imageBuffer: Buffer): Promise<ColorTransform
   const midtoneData = analyzeZone(midtones);
   const highlightData = analyzeZone(highlights);
 
-  // Calculate overall color shifts weighted by zone importance
+  // PRODUCTION FIX: Prevent division by zero for empty/corrupted images
   const totalPixels = shadows.length + midtones.length + highlights.length;
+  if (totalPixels === 0) {
+    throw new Error('Image contains no valid pixels - cannot generate LUT');
+  }
+  
   const shadowWeight = shadows.length / totalPixels;
   const midtoneWeight = midtones.length / totalPixels;
   const highlightWeight = highlights.length / totalPixels;

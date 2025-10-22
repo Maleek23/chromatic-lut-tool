@@ -146,6 +146,16 @@ function applyClusterColorShifts(
     return weight;
   });
   
+  // PRODUCTION FIX: Prevent division by zero if all weights are zero
+  if (totalWeight === 0) {
+    // Fallback to equal weights if somehow all weights are zero
+    const equalWeight = 1.0 / closeClusters.length;
+    const normalizedWeights = weights.map(() => equalWeight);
+    
+    // Return original lab value since we can't compute valid weights
+    return lab;
+  }
+  
   // Normalize weights to sum to 1
   const normalizedWeights = weights.map(w => w / totalWeight);
   
