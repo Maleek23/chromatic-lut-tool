@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import logoImage from "@assets/logo-full-transparent-v2.png";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -9,7 +10,16 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
           {/* About */}
           <div className="col-span-2 md:col-span-1">
-            <h3 className="font-semibold mb-3">CHROMA</h3>
+            <Link href="/">
+              <img 
+                src={logoImage} 
+                alt="CHROMA" 
+                className="h-12 w-auto mb-3 hover:scale-105 transition-transform duration-300 cursor-pointer" 
+              />
+            </Link>
+            <p className="text-xs text-muted-foreground mb-1">
+              by <span className="font-semibold">UN/TITLD</span>
+            </p>
             <p className="text-sm text-muted-foreground">
               Cinema-grade LUT tools.
             </p>

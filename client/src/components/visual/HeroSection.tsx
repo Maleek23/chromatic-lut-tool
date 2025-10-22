@@ -2,6 +2,7 @@ import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ChevronDown, Check } from 'lucide-react';
+import logoImage from "@assets/logo-full-transparent-v2.png";
 
 export function HeroSection() {
   const scrollToScience = () => {
@@ -15,6 +16,18 @@ export function HeroSection() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
       <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="max-w-4xl mx-auto text-center space-y-8">
+          {/* Logo with animation */}
+          <Link href="/">
+            <img 
+              src={logoImage} 
+              alt="CHROMA" 
+              className="h-20 sm:h-24 w-auto mx-auto mb-4 hover:scale-105 transition-transform duration-300 cursor-pointer" 
+            />
+          </Link>
+          <p className="text-sm text-muted-foreground mb-6">
+            by <span className="font-semibold">UN/TITLD</span>
+          </p>
+
           {/* Trust badges */}
           <div className="flex flex-wrap gap-2 justify-center">
             <Badge variant="outline" className="text-xs">
