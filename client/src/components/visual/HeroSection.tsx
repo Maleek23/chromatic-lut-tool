@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ChevronDown, Check } from 'lucide-react';
 import logoImage from "@assets/logo-full-transparent-v2.png";
+import { AnimatedUntitld } from '@/components/visual/AnimatedUntitld';
 
 export function HeroSection() {
   const scrollToScience = () => {
@@ -25,7 +26,7 @@ export function HeroSection() {
             />
           </Link>
           <p className="text-sm text-muted-foreground mb-6 animate-in fade-in duration-700 delay-150">
-            by <span className="font-semibold">UN/TITLD</span>
+            by <span className="font-semibold"><AnimatedUntitld /></span>
           </p>
 
           {/* Trust badges */}

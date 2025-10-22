@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import logoImage from "@assets/logo-full-transparent-v2.png";
+import { AnimatedUntitld } from "@/components/visual/AnimatedUntitld";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -17,8 +18,8 @@ export function Footer() {
                 className="h-12 w-auto mb-3 hover:scale-105 transition-transform duration-300 cursor-pointer" 
               />
             </Link>
-            <p className="text-xs text-muted-foreground mb-1 transition-opacity duration-300 hover:opacity-70">
-              by <span className="font-semibold">UN/TITLD</span>
+            <p className="text-xs text-muted-foreground mb-1">
+              by <span className="font-semibold"><AnimatedUntitld interval={3000} /></span>
             </p>
             <p className="text-sm text-muted-foreground">
               Cinema-grade LUT tools.
