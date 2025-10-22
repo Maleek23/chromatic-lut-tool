@@ -8,7 +8,8 @@ import { LutControls } from "@/components/lut/LutControls";
 import { DownloadSection } from "@/components/lut/DownloadSection";
 import { UsageStatus } from "@/components/shared/UsageStatus";
 import { Card, CardContent } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Sparkles, Wand2, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 import { useLocation } from "wouter";
@@ -28,7 +29,7 @@ export default function Tool() {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   
   const [intensity, setIntensity] = useState(100);
-  const [gridSize, setGridSize] = useState<"17" | "33" | "65">("17"); // Start with universally available grid
+  const [gridSize, setGridSize] = useState<"17" | "33" | "65">("17");
   const [format, setFormat] = useState<"cube" | "3dl" | "lut" | "look" | "xmp">("cube");
   const [precision, setPrecision] = useState<"8" | "10" | "12">("10");
   const [exportPreview, setExportPreview] = useState(false);
@@ -233,7 +234,7 @@ export default function Tool() {
           imageData: uploadedImage,
           intensity,
           gridSize,
-          format: `.${format}`, // Add dot prefix to match backend enum
+          format: `.${format}`,
           precision,
           exportPreview,
         }),
@@ -273,7 +274,7 @@ export default function Tool() {
     setPreviewImage(null);
     setLutResult(null);
     setIntensity(100);
-    setGridSize("17"); // Reset to universally available grid
+    setGridSize("17");
     setFormat("cube");
     setPrecision("10");
     setExportPreview(false);
@@ -281,89 +282,84 @@ export default function Tool() {
 
   return (
     <div className="relative min-h-screen">
-      <main className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-16">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12">
         {!uploadedImage ? (
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-4xl mx-auto">
             {/* Hero Section */}
-            <div className="text-center mb-12 space-y-4">
-              <div className="inline-flex items-center gap-3 mb-2">
-                <div className="p-3 rounded-xl bg-primary/10 border border-primary/20">
-                  <svg 
-                    className="w-8 h-8 text-primary" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                  </svg>
+            <div className="text-center mb-10 space-y-5">
+              <div className="inline-flex items-center justify-center mb-3">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-chart-2/10 border border-primary/20">
+                  <Wand2 className="w-7 h-7 text-primary" />
                 </div>
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4" data-testid="heading-generator">
-                Image to LUT Generator
-              </h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                Extract color grading from any image and convert it into a professional LUT file. 
-                Upload a color-graded reference image and let our algorithm analyze its color science.
-              </p>
+              
+              <div>
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3" data-testid="heading-generator">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
+                    Image to LUT Generator
+                  </span>
+                </h1>
+                <p className="text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                  Extract professional color grading from any image. Upload a reference image and our algorithm analyzes its color science to generate a cinema-grade LUT.
+                </p>
+              </div>
 
-              {/* Usage Status - Show for all tiers */}
-              <div className="mt-6">
+              {/* Usage Status */}
+              <div className="pt-2">
                 <UsageStatus user={user} />
               </div>
               
               {/* Feature badges */}
-              <div className="flex flex-wrap items-center justify-center gap-2 pt-4">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                  </svg>
-                  Zone-Based Analysis
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                  </svg>
+              <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+                <Badge variant="outline" className="px-3 py-1 bg-gradient-to-r from-primary/5 to-chart-2/5 border-primary/20 text-xs">
+                  <CheckCircle2 className="w-3 h-3 mr-1.5" />
+                  Zone Analysis
+                </Badge>
+                <Badge variant="outline" className="px-3 py-1 bg-gradient-to-r from-chart-2/5 to-chart-3/5 border-chart-2/20 text-xs">
+                  <Sparkles className="w-3 h-3 mr-1.5" />
                   Real-Time Preview
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                  </svg>
-                  Professional Export
-                </span>
+                </Badge>
+                <Badge variant="outline" className="px-3 py-1 bg-gradient-to-r from-chart-3/5 to-primary/5 border-chart-3/20 text-xs">
+                  <Wand2 className="w-3 h-3 mr-1.5" />
+                  Pro Export
+                </Badge>
               </div>
             </div>
             
             <UploadZone onImageUpload={handleImageUpload} isAnalyzing={isAnalyzing} />
             
             {/* Quick info */}
-            <div className="mt-8 p-6 rounded-lg border bg-card">
-              <h3 className="font-semibold mb-3 flex items-center gap-2">
-                <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                How it works
-              </h3>
-              <ol className="space-y-2 text-sm text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary/10 text-primary font-medium text-xs mt-0.5">1</span>
-                  <span>Upload a color-graded reference image (movie still, photo, etc.)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary/10 text-primary font-medium text-xs mt-0.5">2</span>
-                  <span>Our algorithm analyzes color distribution across shadows, midtones, and highlights</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary/10 text-primary font-medium text-xs mt-0.5">3</span>
-                  <span>Generate a LUT that captures the reference image's color science</span>
-                </li>
-              </ol>
-            </div>
+            <Card className="mt-8 bg-background/80 backdrop-blur-sm">
+              <CardContent className="p-5">
+                <h3 className="font-semibold mb-3 text-sm flex items-center gap-2">
+                  <div className="p-1 rounded bg-primary/10">
+                    <Sparkles className="w-3.5 h-3.5 text-primary" />
+                  </div>
+                  How it works
+                </h3>
+                <ol className="space-y-2.5 text-sm text-muted-foreground">
+                  <li className="flex items-start gap-2.5">
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gradient-to-br from-primary/10 to-chart-2/10 text-primary font-semibold text-xs shrink-0 mt-0.5">1</span>
+                    <span>Upload a color-graded reference image (movie still, photo, etc.)</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gradient-to-br from-chart-2/10 to-chart-3/10 text-chart-2 font-semibold text-xs shrink-0 mt-0.5">2</span>
+                    <span>Our algorithm analyzes color distribution across shadows, midtones, and highlights</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gradient-to-br from-chart-3/10 to-primary/10 text-chart-3 font-semibold text-xs shrink-0 mt-0.5">3</span>
+                    <span>Generate a LUT that captures the reference image's color science</span>
+                  </li>
+                </ol>
+              </CardContent>
+            </Card>
           </div>
         ) : (
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* Usage Status - Persistent across both views */}
-            <UsageStatus user={user} />
+            <div className="flex justify-center">
+              <UsageStatus user={user} />
+            </div>
             
             {/* Analysis Dashboard */}
             {isAnalyzing ? (
@@ -371,20 +367,23 @@ export default function Tool() {
                 <AnalysisProgress isActive={isAnalyzing} />
               </div>
             ) : analysis ? (
-              <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
+              <div className="grid lg:grid-cols-3 gap-6">
                 {/* Main Preview */}
                 <div className="lg:col-span-2 space-y-6">
                   {/* Show source image before LUT generation */}
                   {!lutResult && (
-                    <Card>
-                      <CardContent className="p-6">
-                        <div className="space-y-4">
-                          <div className="text-center space-y-2">
-                            <h3 className="font-semibold">Your Reference Image</h3>
-                            <p className="text-sm text-muted-foreground">
-                              Color science will be extracted from this image
-                            </p>
+                    <Card className="bg-background/80 backdrop-blur-sm">
+                      <CardContent className="p-5">
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <h3 className="font-semibold text-sm">Reference Image</h3>
+                            <Badge variant="outline" className="text-[10px] px-2 py-0.5">
+                              Analyzed
+                            </Badge>
                           </div>
+                          <p className="text-xs text-muted-foreground">
+                            Color science will be extracted from this image
+                          </p>
                           <img 
                             src={uploadedImage} 
                             alt="Reference" 
