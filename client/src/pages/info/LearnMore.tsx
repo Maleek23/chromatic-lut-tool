@@ -1,457 +1,444 @@
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
 import { 
   Sparkles, 
   ArrowRight, 
   TrendingUp, 
   Zap,
   Check,
-  Box,
-  Layers
+  Atom,
+  Layers,
+  Palette,
+  Shield,
+  Activity,
+  Sun
 } from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
 
 export default function LearnMore() {
+  const [hoveredStage, setHoveredStage] = useState<number | null>(null);
+
+  const pipelineStages = [
+    {
+      id: 1,
+      icon: Atom,
+      title: "CIE L*a*b* Transform",
+      gradient: "from-primary to-chart-2",
+      bgGradient: "from-primary/10 to-chart-2/10",
+      description: "Perceptually uniform color space ensures natural-looking grading that matches human vision"
+    },
+    {
+      id: 2,
+      icon: Activity,
+      title: "K-means Clustering",
+      gradient: "from-chart-2 to-chart-3",
+      bgGradient: "from-chart-2/10 to-chart-3/10",
+      description: "Intelligent multi-cluster sampling extracts dominant colors from reference images"
+    },
+    {
+      id: 3,
+      icon: TrendingUp,
+      title: "Filmic Tone Curves",
+      gradient: "from-chart-3 to-primary",
+      bgGradient: "from-chart-3/10 to-primary/10",
+      description: "Cinema-grade curves create professional tonality with smooth highlight rolloff"
+    },
+    {
+      id: 4,
+      icon: Shield,
+      title: "Skin Tone Protection",
+      gradient: "from-primary to-chart-2",
+      bgGradient: "from-primary/10 to-chart-2/10",
+      description: "Perceptual preservation maintains natural skin tones under aggressive grading"
+    },
+    {
+      id: 5,
+      icon: Palette,
+      title: "Gamut Compression",
+      gradient: "from-chart-2 to-chart-3",
+      bgGradient: "from-chart-2/10 to-chart-3/10",
+      description: "Hue-preserving compression ensures broadcast compliance"
+    },
+    {
+      id: 6,
+      icon: Sun,
+      title: "Chromatic Adaptation",
+      gradient: "from-chart-3 to-primary",
+      bgGradient: "from-chart-3/10 to-primary/10",
+      description: "Automatic white balance correction across varied lighting"
+    }
+  ];
+
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <div className="container mx-auto px-4 py-20 max-w-7xl relative z-10">
-        {/* Header */}
-        <div className="text-center space-y-6 mb-20">
-          <div className="inline-block mb-4">
-            <span className="text-sm font-semibold uppercase tracking-wider text-primary/80">Professional Color Science</span>
-          </div>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground leading-tight">
-            Cinema-Grade<br />Chroma Science
-          </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-            Industry-verified color science pipeline built on VES Technology Committee and CIE specifications for production-ready LUT generation
-          </p>
-        </div>
-
-        {/* Professional Pipeline Overview */}
-        <div className="mb-24">
-          <Card className="hover-elevate border-primary/30 bg-background/80 backdrop-blur-sm shadow-2xl transition-all duration-300">
-            <CardHeader className="text-center space-y-4 pb-8 pt-8">
-              <CardTitle className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground to-primary/80 bg-clip-text text-transparent">
-                Professional Color Pipeline
-              </CardTitle>
-              <CardDescription className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
-                Unlike simple filters or presets, CHROMA uses cinema-grade chroma science to extract authentic grading from reference images
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="pb-8">
-              <div className="grid md:grid-cols-3 gap-8">
-                <div className="space-y-4 group">
-                  <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/30 to-chart-2/30 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Check className="w-7 h-7 text-primary" />
-                    </div>
-                    <h3 className="font-bold text-xl">Industry Standards</h3>
-                  </div>
-                  <p className="text-base text-muted-foreground leading-relaxed pl-1">
-                    Built on VES Technology Committee white papers and CIE chroma science specifications with industry-standard color space transformations
-                  </p>
-                </div>
-                <div className="space-y-4 group">
-                  <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-chart-2/30 to-chart-3/30 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Box className="w-7 h-7 text-chart-2" />
-                    </div>
-                    <h3 className="font-bold text-xl">Perceptual Color Space</h3>
-                  </div>
-                  <p className="text-base text-muted-foreground leading-relaxed pl-1">
-                    CIE L*a*b* perceptually uniform transformations ensure natural-looking color grading that matches human vision, not just mathematical RGB manipulation
-                  </p>
-                </div>
-                <div className="space-y-4 group">
-                  <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-chart-3/30 to-primary/30 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Layers className="w-7 h-7 text-chart-3" />
-                    </div>
-                    <h3 className="font-bold text-xl">Production Ready</h3>
-                  </div>
-                  <p className="text-base text-muted-foreground leading-relaxed pl-1">
-                    Generates 3D LUTs with comprehensive metadata compatible with DaVinci Resolve, Premiere Pro, Final Cut Pro, and all professional color grading software
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Six-Stage Professional Pipeline */}
-        <div className="mb-24">
-          <div className="text-center space-y-5 mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground to-primary/70 bg-clip-text text-transparent">
-              Six-Stage Chroma Science Architecture
-            </h2>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Professional pipeline for cinema-quality color extraction
+      {/* Hero Section with Gradient */}
+      <div className="relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-chart-2/10" />
+        <div className="container mx-auto px-4 pt-16 pb-24 max-w-6xl relative z-10">
+          <div className="text-center space-y-6 mb-16">
+            <Badge variant="outline" className="mb-2 bg-gradient-to-r from-primary/5 to-chart-2/5 border-primary/20">
+              Professional Color Science
+            </Badge>
+            <h1 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground leading-tight">
+              Cinema-Grade Color Science
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              Industry-verified pipeline built on VES Technology Committee and CIE specifications for production-ready LUT generation
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {/* Stage 1: CIE Lab */}
-            <Card className="hover-elevate border-primary/30 bg-background/80 backdrop-blur-sm transition-all duration-300">
-              <CardHeader className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center">
-                    <span className="text-sm font-bold text-primary">1</span>
-                  </div>
-                  <CardTitle className="text-lg">CIE L*a*b* Transform</CardTitle>
+          {/* Key Principles - Compact */}
+          <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+            <div className="p-4 rounded-lg bg-background/80 backdrop-blur-sm border border-primary/20 hover-elevate transition-all">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-primary/10 to-chart-2/10">
+                  <Check className="w-4 h-4 text-primary" />
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <p className="text-sm text-muted-foreground">
-                  Perceptually uniform color space (CIE 1976) ensures natural-looking grading that matches human vision, not just mathematical RGB manipulation.
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Stage 2: K-means */}
-            <Card className="hover-elevate border-chart-2/30 bg-background/80 backdrop-blur-sm transition-all duration-300">
-              <CardHeader className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-chart-2/20 to-chart-3/20 flex items-center justify-center">
-                    <span className="text-sm font-bold text-chart-2">2</span>
-                  </div>
-                  <CardTitle className="text-lg">K-means Clustering</CardTitle>
+                <h3 className="font-semibold text-sm">Industry Standards</h3>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                VES Technology Committee and CIE chroma science specifications
+              </p>
+            </div>
+            <div className="p-4 rounded-lg bg-background/80 backdrop-blur-sm border border-chart-2/20 hover-elevate transition-all">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-chart-2/10 to-chart-3/10">
+                  <Atom className="w-4 h-4 text-chart-2" />
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <p className="text-sm text-muted-foreground">
-                  Intelligent multi-cluster sampling extracts dominant colors and comprehensive coverage from reference images for authentic color mapping.
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Stage 3: Filmic Curves */}
-            <Card className="border-chart-3/30 bg-background/80 backdrop-blur-sm transition-all duration-300 hover-elevate">
-              <CardHeader className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-chart-3/20 to-primary/20 flex items-center justify-center">
-                    <span className="text-sm font-bold text-chart-3">3</span>
-                  </div>
-                  <CardTitle className="text-lg">Filmic Tone Curves</CardTitle>
+                <h3 className="font-semibold text-sm">Perceptual Color</h3>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                CIE L*a*b* transformations matching human vision, not just RGB math
+              </p>
+            </div>
+            <div className="p-4 rounded-lg bg-background/80 backdrop-blur-sm border border-chart-3/20 hover-elevate transition-all">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-chart-3/10 to-primary/10">
+                  <Layers className="w-4 h-4 text-chart-3" />
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <p className="text-sm text-muted-foreground">
-                  Cinema-grade shoulder/toe curves create professional tonality with smooth highlight rolloff and shadow detail preservation.
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Stage 4: Skin Protection */}
-            <Card className="border-primary/30 bg-background/80 backdrop-blur-sm transition-all duration-300 hover-elevate">
-              <CardHeader className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center">
-                    <span className="text-sm font-bold text-primary">4</span>
-                  </div>
-                  <CardTitle className="text-lg">Skin Tone Protection</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <p className="text-sm text-muted-foreground">
-                  Perceptual preservation maintains natural skin tones even under aggressive color grading, critical for professional workflows.
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Stage 5: Gamut Compression */}
-            <Card className="border-chart-2/30 bg-background/80 backdrop-blur-sm transition-all duration-300 hover-elevate">
-              <CardHeader className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-chart-2/20 to-chart-3/20 flex items-center justify-center">
-                    <span className="text-sm font-bold text-chart-2">5</span>
-                  </div>
-                  <CardTitle className="text-lg">Gamut Compression</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <p className="text-sm text-muted-foreground">
-                  Hue-preserving gamut compression ensures broadcast compliance while maintaining color intent for professional delivery.
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Stage 6: Chromatic Adaptation */}
-            <Card className="border-chart-3/30 bg-background/80 backdrop-blur-sm transition-all duration-300 hover-elevate">
-              <CardHeader className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-chart-3/20 to-primary/20 flex items-center justify-center">
-                    <span className="text-sm font-bold text-chart-3">6</span>
-                  </div>
-                  <CardTitle className="text-lg">Chromatic Adaptation</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <p className="text-sm text-muted-foreground">
-                  Automatic white balance correction provides consistent color across varied lighting conditions.
-                </p>
-              </CardContent>
-            </Card>
+                <h3 className="font-semibold text-sm">Production Ready</h3>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Compatible with DaVinci Resolve, Premiere Pro, Final Cut Pro
+              </p>
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Detailed Tool Cards */}
-        <div className="space-y-12">
+      {/* Six-Stage Pipeline - Visual Flow */}
+      <div className="container mx-auto px-4 py-16 max-w-6xl">
+        <div className="text-center space-y-3 mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
+            Six-Stage Professional Pipeline
+          </h2>
+          <p className="text-base text-muted-foreground max-w-2xl mx-auto">
+            Cinema-quality color extraction through precision processing
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {pipelineStages.map((stage, index) => {
+            const Icon = stage.icon;
+            return (
+              <div
+                key={stage.id}
+                className={`relative p-5 rounded-xl bg-background/80 backdrop-blur-sm border transition-all duration-300 ${
+                  hoveredStage === stage.id 
+                    ? 'border-primary/50 shadow-lg scale-105' 
+                    : 'border-border/50 hover-elevate'
+                }`}
+                onMouseEnter={() => setHoveredStage(stage.id)}
+                onMouseLeave={() => setHoveredStage(null)}
+              >
+                <div className="flex items-start gap-3 mb-3">
+                  <div className={`p-2 rounded-lg bg-gradient-to-br ${stage.bgGradient}`}>
+                    <Icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Badge className={`bg-gradient-to-r ${stage.gradient} text-white text-[10px] px-1.5 py-0 border-0 h-4`}>
+                        {stage.id}
+                      </Badge>
+                      <h3 className="font-semibold text-sm">{stage.title}</h3>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      {stage.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Tools - Accordion Style */}
+      <div className="container mx-auto px-4 py-16 max-w-5xl">
+        <div className="text-center space-y-3 mb-10">
+          <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
+            Professional Toolkit
+          </h2>
+          <p className="text-base text-muted-foreground">
+            Comprehensive color science tools for modern workflows
+          </p>
+        </div>
+
+        <Accordion type="single" collapsible className="space-y-4" defaultValue="generator">
           {/* Image to LUT Generator */}
-          <Card className="border-primary/30 bg-gradient-to-br from-background to-primary/5 backdrop-blur-sm hover-elevate">
-            <CardHeader className="space-y-3 pb-6">
-              <div className="flex items-center gap-3">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-primary/20 to-chart-2/20 border border-primary/30">
-                  <Sparkles className="w-6 h-6 text-primary" />
-                </div>
-                <CardTitle className="text-2xl md:text-3xl">Image to LUT Generator</CardTitle>
-              </div>
-              <CardDescription className="text-base">
-                Extract authentic color grading directly from reference images
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="prose prose-sm dark:prose-invert max-w-none">
-                <p className="text-muted-foreground leading-relaxed">
-                  Our flagship tool uses <span className="text-foreground font-semibold">cinema-grade chroma science</span> to extract authentic color grading from reference images. 
-                  Unlike simple filters or presets, CHROMA implements a professional pipeline using <span className="text-foreground font-semibold">CIE L*a*b* perceptual color space</span>, 
-                  <span className="text-foreground font-semibold">intelligent clustering</span>, <span className="text-foreground font-semibold">cinema-grade tone curves</span>, 
-                  and <span className="text-foreground font-semibold">hue-preserving gamut compression</span> to recreate the exact chroma science from your reference image.
-                </p>
-              </div>
-              
-              <div className="bg-gradient-to-r from-primary/5 via-chart-2/5 to-chart-3/5 rounded-lg p-5 border border-primary/20">
-                <h3 className="text-sm font-semibold mb-3 text-foreground">Professional Chroma Science Pipeline</h3>
-                <div className="grid grid-cols-1 gap-2 text-xs text-muted-foreground">
-                  <div className="flex items-start gap-2">
-                    <span className="text-primary font-semibold">1.</span>
-                    <span><strong className="text-foreground">CIE L*a*b* Color Space:</strong> Perceptually uniform transformations using industry-standard color science</span>
+          <AccordionItem value="generator" className="border-0">
+            <Card className="bg-background/80 backdrop-blur-sm border-primary/30 overflow-hidden">
+              <AccordionTrigger className="px-6 py-5 hover:no-underline">
+                <div className="flex items-center gap-4 flex-1 text-left">
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-chart-2/10 border border-primary/20">
+                    <Sparkles className="w-5 h-5 text-primary" />
                   </div>
-                  <div className="flex items-start gap-2">
-                    <span className="text-primary font-semibold">2.</span>
-                    <span><strong className="text-foreground">Intelligent Clustering:</strong> Multi-cluster sampling for comprehensive color coverage</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <span className="text-primary font-semibold">3.</span>
-                    <span><strong className="text-foreground">Cinema-Grade Tone Curves:</strong> Professional shoulder/toe curves for film-quality tonality</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <span className="text-primary font-semibold">4.</span>
-                    <span><strong className="text-foreground">Skin Tone Protection:</strong> Perceptual preservation to maintain natural skin tones</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <span className="text-primary font-semibold">5.</span>
-                    <span><strong className="text-foreground">Gamut Compression:</strong> Hue-preserving compression for broadcast compliance</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <span className="text-primary font-semibold">6.</span>
-                    <span><strong className="text-foreground">Chromatic Adaptation:</strong> Automatic white balance correction</span>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-bold text-lg">Image to LUT Generator</h3>
+                      <Badge className="bg-gradient-to-r from-primary to-chart-2 text-white text-[10px] px-2 py-0 border-0">
+                        FLAGSHIP
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Extract authentic color grading from reference images
+                    </p>
                   </div>
                 </div>
-              </div>
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="px-6 pb-6 space-y-5">
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Uses <span className="text-foreground font-semibold">cinema-grade color science</span> to extract authentic grading from reference images. 
+                    Implements a professional pipeline with <span className="text-foreground font-semibold">CIE L*a*b* perceptual color space</span>, 
+                    <span className="text-foreground font-semibold"> intelligent clustering</span>, <span className="text-foreground font-semibold">cinema-grade tone curves</span>, 
+                    and <span className="text-foreground font-semibold">gamut compression</span>.
+                  </p>
 
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm font-semibold">
-                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                    Industry Standards
+                  <div className="grid md:grid-cols-2 gap-3">
+                    <div className="p-3 rounded-lg bg-gradient-to-br from-primary/5 to-chart-2/5 border border-primary/10">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-1 h-1 rounded-full bg-primary" />
+                        <h4 className="text-xs font-semibold">Industry Standards</h4>
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        VES Technology Committee and CIE chroma science standards with industry-standard color transformations
+                      </p>
+                    </div>
+                    <div className="p-3 rounded-lg bg-gradient-to-br from-chart-2/5 to-chart-3/5 border border-chart-2/10">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-1 h-1 rounded-full bg-chart-2" />
+                        <h4 className="text-xs font-semibold">Format Support</h4>
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        Free: .cube • Creator: .cube/.3dl/.look • Pro: All 5 formats including .xmp
+                      </p>
+                    </div>
+                    <div className="p-3 rounded-lg bg-gradient-to-br from-chart-3/5 to-primary/5 border border-chart-3/10">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-1 h-1 rounded-full bg-chart-3" />
+                        <h4 className="text-xs font-semibold">Precision Control</h4>
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        Adjustable intensity • Grid sizes: 17³/33³/65³ • 8/10/12-bit precision
+                      </p>
+                    </div>
+                    <div className="p-3 rounded-lg bg-gradient-to-br from-primary/5 to-chart-2/5 border border-primary/10">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-1 h-1 rounded-full bg-primary" />
+                        <h4 className="text-xs font-semibold">Real-time Preview</h4>
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        See your LUT applied instantly with adjustable intensity before export
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-sm text-muted-foreground pl-4">
-                    Built on VES Technology Committee and CIE chroma science standards with industry-standard color transformations for professional compatibility
-                  </p>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm font-semibold">
-                    <div className="w-1.5 h-1.5 rounded-full bg-chart-2" />
-                    Professional Output
-                  </div>
-                  <p className="text-sm text-muted-foreground pl-4">
-                    Generates production-ready 3D LUTs with comprehensive metadata. Free tier: .cube only. Creator: .cube/.3dl/.look. Pro: All 5 formats (.cube/.3dl/.lut/.look/.xmp). Compatible with DaVinci Resolve, Premiere Pro, Final Cut Pro
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm font-semibold">
-                    <div className="w-1.5 h-1.5 rounded-full bg-chart-3" />
-                    Precision Control
-                  </div>
-                  <p className="text-sm text-muted-foreground pl-4">
-                    Adjustable intensity (0-100%). Grid sizes: Free (17³), Creator (17³/33³), Pro (17³/33³/65³). Precision: 8/10-bit all tiers, 12-bit Pro+. Supports ACEScg for ACES film emulation workflows
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm font-semibold">
-                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                    Real-time Preview
-                  </div>
-                  <p className="text-sm text-muted-foreground pl-4">
-                    See your LUT applied in real-time with adjustable intensity before export, ensuring the perfect look for your professional project
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </AccordionContent>
+            </Card>
+          </AccordionItem>
 
           {/* LUT Converter */}
-          <Card className="border-chart-2/30 bg-gradient-to-br from-background to-chart-2/5 backdrop-blur-sm hover-elevate">
-            <CardHeader className="space-y-3 pb-6">
-              <div className="flex items-center gap-3">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-chart-2/20 to-chart-3/20 border border-chart-2/30">
-                  <ArrowRight className="w-6 h-6 text-chart-2" />
-                </div>
-                <CardTitle className="text-2xl md:text-3xl">LUT Format Converter</CardTitle>
-              </div>
-              <CardDescription className="text-base">
-                Universal format conversion with intelligent resampling
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="prose prose-sm dark:prose-invert max-w-none">
-                <p className="text-muted-foreground leading-relaxed">
-                  Convert between LUT formats with <span className="text-foreground font-semibold">trilinear interpolation</span> to maintain smooth color gradients. 
-                  Free tier can convert any LUT to .cube format. Creator+ can convert between .cube, .3dl, and .look formats. Pro tier supports full bidirectional conversion between all standard formats (.cube, .3dl, .lut, .look). Note: .xmp is export-only.
-                </p>
-              </div>
-              <div className="grid md:grid-cols-3 gap-4">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm font-semibold">
-                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                    .cube Format
+          <AccordionItem value="converter" className="border-0">
+            <Card className="bg-background/80 backdrop-blur-sm border-chart-2/30 overflow-hidden">
+              <AccordionTrigger className="px-6 py-5 hover:no-underline">
+                <div className="flex items-center gap-4 flex-1 text-left">
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-chart-2/10 to-chart-3/10 border border-chart-2/20">
+                    <ArrowRight className="w-5 h-5 text-chart-2" />
                   </div>
-                  <p className="text-sm text-muted-foreground pl-4">
-                    <strong>All tiers:</strong> Industry standard 3D LUT format. Compatible with Adobe Premiere Pro, Final Cut Pro, DaVinci Resolve. Variable grid sizes (17³, 33³, 65³)
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm font-semibold">
-                    <div className="w-1.5 h-1.5 rounded-full bg-chart-2" />
-                    .3dl & .look Formats
+                  <div className="flex-1">
+                    <h3 className="font-bold text-lg mb-1">LUT Format Converter</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Universal format conversion with intelligent resampling
+                    </p>
                   </div>
-                  <p className="text-sm text-muted-foreground pl-4">
-                    <strong>Creator+:</strong> Professional Autodesk/Lustre formats (.3dl, .look) for high-end broadcast and VFX workflows. Used in Avid, Nuke, Flame
-                  </p>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm font-semibold">
-                    <div className="w-1.5 h-1.5 rounded-full bg-chart-3" />
-                    .lut & .xmp Formats
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="px-6 pb-6 space-y-5">
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Convert between LUT formats with <span className="text-foreground font-semibold">trilinear interpolation</span> to maintain smooth color gradients. 
+                    Free tier converts to .cube. Creator+ converts between .cube/.3dl/.look. Pro tier supports all formats.
+                  </p>
+
+                  <div className="grid md:grid-cols-3 gap-3">
+                    <div className="p-3 rounded-lg bg-muted/30 border border-border/50">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Badge variant="outline" className="text-[10px] px-1.5 py-0">ALL</Badge>
+                        <h4 className="text-xs font-semibold">.cube</h4>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        Industry standard 3D LUT. Compatible with all major NLEs
+                      </p>
+                    </div>
+                    <div className="p-3 rounded-lg bg-muted/30 border border-border/50">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Badge variant="outline" className="text-[10px] px-1.5 py-0">CREATOR+</Badge>
+                        <h4 className="text-xs font-semibold">.3dl & .look</h4>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        Professional Autodesk/Lustre formats for broadcast workflows
+                      </p>
+                    </div>
+                    <div className="p-3 rounded-lg bg-muted/30 border border-border/50">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Badge variant="outline" className="text-[10px] px-1.5 py-0">PRO+</Badge>
+                        <h4 className="text-xs font-semibold">.lut & .xmp</h4>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        1D LUT and Lightroom presets with tone curves
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-sm text-muted-foreground pl-4">
-                    <strong>Pro+:</strong> Simple 1D LUT (.lut) for per-channel adjustments and Adobe Lightroom presets (.xmp) with tone curves and color adjustments
-                  </p>
                 </div>
-              </div>
-              <div className="bg-muted/30 rounded-lg p-4 border border-border/50">
-                <p className="text-sm text-muted-foreground">
-                  <span className="font-semibold text-foreground">Smart Resampling:</span> When converting between different grid sizes, 
-                  CHROMA uses trilinear interpolation to preserve smooth color transitions and prevent banding artifacts
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+              </AccordionContent>
+            </Card>
+          </AccordionItem>
 
           {/* LUT Analyzer */}
-          <Card className="border-chart-3/30 bg-gradient-to-br from-background to-chart-3/5 backdrop-blur-sm hover-elevate">
-            <CardHeader className="space-y-3 pb-6">
-              <div className="flex items-center gap-3">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-chart-3/20 to-primary/20 border border-chart-3/30">
-                  <TrendingUp className="w-6 h-6 text-chart-3" />
-                </div>
-                <CardTitle className="text-2xl md:text-3xl">LUT Quality Analyzer</CardTitle>
-              </div>
-              <CardDescription className="text-base">
-                Professional quality scoring and issue detection
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="prose prose-sm dark:prose-invert max-w-none">
-                <p className="text-muted-foreground leading-relaxed">
-                  <span className="text-foreground font-semibold">Pro tier only:</span> Ensure your LUTs meet professional standards with comprehensive quality analysis. Scans for <span className="text-foreground font-semibold">banding issues</span>, 
-                  <span className="text-foreground font-semibold"> invalid color points</span>, and <span className="text-foreground font-semibold">out-of-range values</span> that could cause problems in production workflows.
-                </p>
-              </div>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm font-semibold">
-                    <Check className="w-4 h-4 text-chart-3" />
-                    Banding Detection
+          <AccordionItem value="analyzer" className="border-0">
+            <Card className="bg-background/80 backdrop-blur-sm border-chart-3/30 overflow-hidden">
+              <AccordionTrigger className="px-6 py-5 hover:no-underline">
+                <div className="flex items-center gap-4 flex-1 text-left">
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-chart-3/10 to-primary/10 border border-chart-3/20">
+                    <TrendingUp className="w-5 h-5 text-chart-3" />
                   </div>
-                  <p className="text-sm text-muted-foreground pl-6">
-                    Identifies consecutive identical values creating visible color banding in smooth gradients
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm font-semibold">
-                    <Check className="w-4 h-4 text-primary" />
-                    Invalid Points
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-bold text-lg">LUT Quality Analyzer</h3>
+                      <Badge className="bg-gradient-to-r from-chart-3 to-primary text-white text-[10px] px-2 py-0 border-0">
+                        PRO
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Professional quality scoring and issue detection
+                    </p>
                   </div>
-                  <p className="text-sm text-muted-foreground pl-6">
-                    Detects RGB values outside the valid range that could cause clipping or unexpected behavior
-                  </p>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm font-semibold">
-                    <TrendingUp className="w-4 h-4 text-chart-2" />
-                    Quality Scoring
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="px-6 pb-6 space-y-5">
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Ensure your LUTs meet professional standards with comprehensive analysis. Scans for banding issues, invalid color points, and out-of-range values.
+                  </p>
+
+                  <div className="grid md:grid-cols-2 gap-3">
+                    <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
+                      <Check className="w-4 h-4 text-chart-3 shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="text-xs font-semibold mb-1">Banding Detection</h4>
+                        <p className="text-xs text-muted-foreground">
+                          Identifies consecutive identical values creating visible color banding
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
+                      <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="text-xs font-semibold mb-1">Invalid Points</h4>
+                        <p className="text-xs text-muted-foreground">
+                          Detects RGB values outside valid range causing clipping
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
+                      <TrendingUp className="w-4 h-4 text-chart-2 shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="text-xs font-semibold mb-1">Quality Scoring</h4>
+                        <p className="text-xs text-muted-foreground">
+                          Comprehensive score based on value distribution and standards
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
+                      <Activity className="w-4 h-4 text-chart-3 shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="text-xs font-semibold mb-1">RGB Statistics</h4>
+                        <p className="text-xs text-muted-foreground">
+                          Detailed min/max/average RGB values per channel
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-sm text-muted-foreground pl-6">
-                    Comprehensive quality score based on value distribution, smooth gradients, and professional standards
-                  </p>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm font-semibold">
-                    <Box className="w-4 h-4 text-chart-3" />
-                    RGB Statistics
-                  </div>
-                  <p className="text-sm text-muted-foreground pl-6">
-                    Detailed min/max/average RGB values per channel to understand your LUT's color characteristics
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </AccordionContent>
+            </Card>
+          </AccordionItem>
 
           {/* LUT Optimizer */}
-          <Card className="border-primary/30 bg-gradient-to-br from-background to-primary/5 backdrop-blur-sm hover-elevate">
-            <CardHeader className="space-y-3 pb-6">
-              <div className="flex items-center gap-3">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-primary/20 to-chart-2/20 border border-primary/30">
-                  <Zap className="w-6 h-6 text-primary" />
-                </div>
-                <CardTitle className="text-2xl md:text-3xl">LUT Optimizer</CardTitle>
-              </div>
-              <CardDescription className="text-base">
-                Clean and optimize LUTs for production use
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="prose prose-sm dark:prose-invert max-w-none">
-                <p className="text-muted-foreground leading-relaxed">
-                  <span className="text-foreground font-semibold">Pro tier only:</span> Automatically fix common LUT issues and optimize for professional workflows. Removes <span className="text-foreground font-semibold">invalid color points</span>, 
-                  clamps out-of-range values, and ensures your LUTs are production-ready for any color grading software.
-                </p>
-              </div>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm font-semibold">
-                    <Check className="w-4 h-4 text-primary" />
-                    Automatic Cleanup
+          <AccordionItem value="optimizer" className="border-0">
+            <Card className="bg-background/80 backdrop-blur-sm border-primary/30 overflow-hidden">
+              <AccordionTrigger className="px-6 py-5 hover:no-underline">
+                <div className="flex items-center gap-4 flex-1 text-left">
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-chart-2/10 border border-primary/20">
+                    <Zap className="w-5 h-5 text-primary" />
                   </div>
-                  <p className="text-sm text-muted-foreground pl-6">
-                    Removes invalid points and clamps RGB values to valid range while preserving color integrity
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm font-semibold">
-                    <Check className="w-4 h-4 text-chart-2" />
-                    Format Validation
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-bold text-lg">LUT Optimizer</h3>
+                      <Badge className="bg-gradient-to-r from-chart-3 to-primary text-white text-[10px] px-2 py-0 border-0">
+                        PRO
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Clean and optimize LUTs for production use
+                    </p>
                   </div>
-                  <p className="text-sm text-muted-foreground pl-6">
-                    Ensures LUT meets format specifications (.cube grid sizes, .3dl 12-bit values, proper structure)
-                  </p>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="px-6 pb-6 space-y-5">
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Automatically fix common LUT issues and optimize for professional workflows. Removes invalid color points, clamps out-of-range values, and ensures production-readiness.
+                  </p>
+
+                  <div className="grid md:grid-cols-2 gap-3">
+                    <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
+                      <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="text-xs font-semibold mb-1">Automatic Cleanup</h4>
+                        <p className="text-xs text-muted-foreground">
+                          Removes invalid points and clamps RGB values while preserving color integrity
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
+                      <Check className="w-4 h-4 text-chart-2 shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="text-xs font-semibold mb-1">Format Validation</h4>
+                        <p className="text-xs text-muted-foreground">
+                          Ensures LUT meets format specifications and proper structure
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </AccordionContent>
+            </Card>
+          </AccordionItem>
+        </Accordion>
       </div>
       
       <Footer />
