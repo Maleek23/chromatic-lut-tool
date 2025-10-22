@@ -1,0 +1,852 @@
+# 🎨 CHROMA Dashboard Design Prompt
+
+---
+
+## **Prompt Title:**
+**"Design a Professional Color Grading Dashboard with Real-Time Usage Analytics, Live Preview System & Intelligent Project Management"**
+
+---
+
+## **Prompt Body:**
+
+You are a senior product designer creating the **Dashboard** for **CHROMA**, a professional color science platform. This is the central command center where colorists manage their LUT library, monitor usage, access quick tools, and track their color grading workflow.
+
+The dashboard must balance quick-access functionality (generate LUTs fast) with project management depth (organize, analyze, reuse), all while maintaining the cinema-grade aesthetic that defines CHROMA's brand.
+
+---
+
+## 🎯 **Dashboard Objectives**
+
+**Primary Goals:**
+1. **Speed:** Generate new LUT in <30 seconds from dashboard
+2. **Organization:** Quick access to recent LUTs and projects
+3. **Insights:** Usage analytics and tier limitations visibility
+4. **Discovery:** Surface pro features without annoying free users
+
+**User Personas:**
+- **Free Tier:** Wants fast LUT generation, clear upgrade value
+- **Creator Tier:** Manages multiple projects, needs organization
+- **Pro Tier:** Power user, wants analytics and advanced tools
+
+---
+
+## 🏗️ **Dashboard Layout Architecture**
+
+### **Desktop Layout (1920px):**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ [CHROMA Logo]  Dashboard  Generate  Tools  Docs  [User ▼]  │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  ┌──────────────────────┐  ┌──────────────────────────────┐│
+│  │                      │  │                              ││
+│  │   COLOR COMMAND      │  │    LIVE PREVIEW              ││
+│  │   CENTER             │  │    + QUICK GENERATE          ││
+│  │                      │  │                              ││
+│  │   [Hero Stats]       │  │    [Upload Zone]             ││
+│  │   [Quick Actions]    │  │    [Real-time Scopes]        ││
+│  │                      │  │                              ││
+│  └──────────────────────┘  └──────────────────────────────┘│
+│                                                              │
+│  ┌────────────────────────────────────────────────────────┐│
+│  │   RECENT PROJECTS & LUTS                               ││
+│  │   [Grid of recent LUT cards with previews]             ││
+│  └────────────────────────────────────────────────────────┘│
+│                                                              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐│
+│  │ USAGE STATS  │  │ PRO FEATURES │  │ QUICK TOOLS      ││
+│  │              │  │              │  │                  ││
+│  └──────────────┘  └──────────────┘  └──────────────────┘│
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🎛️ **SECTION 1: Color Command Center (Top Left Hero)**
+
+### **Hero Card Design:**
+
+```
+┌──────────────────────────────────────────┐
+│  COLOR COMMAND CENTER                    │
+│  ══════════════════════════════════════  │
+│                                           │
+│  untitled · 1 LUTs this month            │
+│  ───────────────────────────────         │
+│                                           │
+│  ┌──────────┐                           │
+│  │   FREE   │  [Upgrade to Pro →]       │
+│  └──────────┘                           │
+│                                           │
+│  ┌─────────────────────────────────────┐│
+│  │  Quick Actions                      ││
+│  │  ────────────────                   ││
+│  │  ⚡ Generate New LUT                ││
+│  │  🔄 Convert Format                  ││
+│  │  📊 Analyze Quality (PRO)           ││
+│  │  🎨 Browse Templates                ││
+│  └─────────────────────────────────────┘│
+│                                           │
+│  Recent Activity:                        │
+│  • sunset_grade.cube (2h ago)           │
+│  • film_look_v2.cube (1d ago)           │
+│                                           │
+└──────────────────────────────────────────┘
+```
+
+**Visual Treatment:**
+- **Background:** Dark elevated panel (#1a1a1a)
+- **Border:** Subtle 1px gradient (purple → cyan)
+- **User Greeting:** Large text "untitled" (username placeholder)
+- **Tier Badge:** 
+  - Free: Bronze/gray pill badge
+  - Creator: Silver pill badge with shimmer
+  - Pro: Gold pill badge with glow effect
+- **Stats Counter:** "1 LUTs this month" in secondary text color
+- **Upgrade CTA:** Ghost button (outline) with subtle hover glow
+
+---
+
+### **Quick Actions Menu:**
+
+**Interactive Cards:**
+```
+┌──────────────────────────────────┐
+│  ⚡ GENERATE NEW LUT              │
+│  Create from reference image     │
+│  [Primary CTA - Gradient button] │
+└──────────────────────────────────┘
+
+┌──────────────────────────────────┐
+│  🔄 CONVERT FORMAT               │
+│  Transform existing LUTs         │
+│  [Secondary - Outline button]    │
+└──────────────────────────────────┘
+
+┌──────────────────────────────────┐
+│  📊 ANALYZE QUALITY   [PRO 👑]   │
+│  Scan for banding & issues       │
+│  [Locked - 50% opacity + lock]   │
+└──────────────────────────────────┘
+
+┌──────────────────────────────────┐
+│  🎨 BROWSE TEMPLATES             │
+│  Community-shared LUTs           │
+│  [Tertiary - Ghost button]       │
+└──────────────────────────────────┘
+```
+
+**Interaction:**
+- Hover: Card lifts 4px, border glows
+- Click primary: Routes to Generator page
+- Click locked: Opens upgrade modal with feature highlight
+- Recent activity items clickable (reopens that project)
+
+---
+
+### **Recent Activity Feed:**
+
+```
+Recent Activity:
+├─ 📷 sunset_grade.cube
+│  Generated 2h ago · 33³ · .cube
+│  [Reopen] [Download] [Share]
+│
+├─ 🎬 film_look_v2.cube
+│  Converted 1d ago · 17³ · .cube → .3dl
+│  [Reopen] [Download]
+│
+└─ [View All Projects →]
+```
+
+**Visual Design:**
+- Timeline-style list with connector lines
+- File type icon (📷 = generated, 🎬 = converted, 📊 = analyzed)
+- Timestamp in relative time (2h ago, 1d ago)
+- Technical specs in subdued text
+- Hover shows action buttons
+
+---
+
+## 🎬 **SECTION 2: Live Preview + Quick Generate (Top Right)**
+
+### **Two-State Interface:**
+
+**STATE 1: Empty/Waiting (Default)**
+
+```
+┌─────────────────────────────────────────┐
+│  LIVE PREVIEW                           │
+│  ═════════════════════════════════════  │
+│                                          │
+│        🎬                                │
+│                                          │
+│   Drop an image to see                  │
+│   LUT effects in real-time              │
+│                                          │
+│  ┌────────────────────────────────────┐│
+│  │                                     ││
+│  │    📸 Upload Reference Image        ││
+│  │                                     ││
+│  │    Drag and drop your image here,  ││
+│  │    or click to browse               ││
+│  │                                     ││
+│  │    JPG • PNG • HEIC • WEBP • TIFF  ││
+│  │                                     ││
+│  │    [Select Image]                   ││
+│  │                                     ││
+│  └────────────────────────────────────┘│
+│                                          │
+│  ┌─────────────────────────────────────┐│
+│  │  COLOR SCOPES                       ││
+│  │  Real-time color analysis           ││
+│  │                                      ││
+│  │  Upload an image to see analysis    ││
+│  └─────────────────────────────────────┘│
+│                                          │
+└─────────────────────────────────────────┘
+```
+
+**Visual Treatment:**
+- **Upload Zone:**
+  - Dashed border (2px cyan, animated dash movement)
+  - Film strip icon (48px) with subtle rotation animation
+  - Drag-over state: Background shifts cyan 10% opacity
+  - File format chips below (small pills)
+- **Color Scopes Section:**
+  - Placeholder state with muted colors
+  - "Waiting for upload..." indicator
+  - Ghost outlines of waveform/vectorscope
+
+---
+
+**STATE 2: Active with Image**
+
+```
+┌─────────────────────────────────────────┐
+│  LIVE PREVIEW                           │
+│  ═════════════════════════════════════  │
+│                                          │
+│  ┌────────────────────────────────────┐│
+│  │                                     ││
+│  │    [Before │ After Slider]          ││
+│  │                                     ││
+│  │    [Reference Image with LUT        ││
+│  │     applied in real-time]           ││
+│  │                                     ││
+│  │    Intensity: 75% ●────────○       ││
+│  │                                     ││
+│  └────────────────────────────────────┘│
+│                                          │
+│  ┌──────┐ ┌──────┐ ┌──────┐           │
+│  │ WAVE │ │VECTOR│ │HISTO │   [More▼]│
+│  │ FORM │ │SCOPE │ │ GRAM │           │
+│  └──────┘ └──────┘ └──────┘           │
+│                                          │
+│  ┌────────────────────────────────────┐│
+│  │  ⚡ GENERATE LUT                    ││
+│  └────────────────────────────────────┘│
+│  [More Options →]                       │
+│                                          │
+└─────────────────────────────────────────┘
+```
+
+**Visual Treatment:**
+- **Preview Viewport:**
+  - 16:9 aspect ratio (locked)
+  - Before/after slider (vertical divider)
+  - Intensity slider below (quick adjustment)
+  - Hover shows zoom controls
+- **Color Scopes:**
+  - Three mini scope panels (side-by-side)
+  - Live updating (60fps if possible)
+  - Click to expand full-screen
+  - "More" dropdown for RGB parade, etc.
+- **Generate Button:**
+  - Full-width gradient button
+  - Pulses subtly to draw attention
+  - Disabled until valid image uploaded
+
+---
+
+### **Intensity Quick Control:**
+
+```
+Intensity: 75% 
+
+●────────────────────────────○
+
+│         │         │         │
+0%       25%       50%       75%      100%
+```
+
+**Interaction:**
+- Drag slider → Preview updates in real-time
+- Click track → Jump to position
+- Preset markers clickable (25%, 50%, 75%)
+- Value display follows thumb
+
+---
+
+### **Color Scopes Mini View:**
+
+```
+┌──────────┐  ┌──────────┐  ┌──────────┐
+│ WAVEFORM │  │VECTORSCOPE│ │ HISTOGRAM│
+│          │  │           │  │          │
+│   ┌───┐  │  │    ●●●    │  │  ▄▄▄▄   │
+│   │ █ │  │  │   ●   ●   │  │ █    █  │
+│   └───┘  │  │    ●●●    │  │█      █ │
+│          │  │           │  │          │
+└──────────┘  └──────────┘  └──────────┘
+  [Expand]      [Expand]      [Expand]
+```
+
+**Visual Design:**
+- Small square panels (180px × 180px each)
+- Dark background with cyan grid lines
+- Real-time data visualization
+- Click to expand full-screen modal
+- Toggle visibility with checkbox
+
+---
+
+## 📚 **SECTION 3: Recent Projects & LUTs**
+
+### **Section Header:**
+
+```
+┌─────────────────────────────────────────────────────┐
+│  RECENT PROJECTS                                    │
+│  ══════════════                                     │
+│                                                      │
+│  [All] [This Week] [This Month]    [Grid▦] [List▤] │
+└─────────────────────────────────────────────────────┘
+```
+
+**Filters:**
+- Time range: All / This Week / This Month
+- View mode: Grid (default) / List
+- Sort by: Date / Name / Format
+
+---
+
+### **LUT Card Grid:**
+
+```
+┌────────────┐  ┌────────────┐  ┌────────────┐  ┌────────────┐
+│ [Thumb]    │  │ [Thumb]    │  │ [Thumb]    │  │ [Thumb]    │
+│            │  │            │  │            │  │            │
+│ sunset_    │  │ film_look  │  │ portrait_  │  │ + Create   │
+│ grade.cube │  │ _v2.3dl    │  │ warm.cube  │  │   New      │
+│            │  │            │  │            │  │            │
+│ 33³ • 10bit│  │ 17³ • 8bit │  │ 33³ • 10bit│  │            │
+│ 2h ago     │  │ 1d ago     │  │ 3d ago     │  │            │
+│            │  │            │  │            │  │            │
+│ [⋮]        │  │ [⋮]        │  │ [⋮]        │  │            │
+└────────────┘  └────────────┘  └────────────┘  └────────────┘
+```
+
+**Card Design:**
+
+```
+┌──────────────────────────────┐
+│  ┌────────────────────────┐  │
+│  │                        │  │
+│  │   [Preview Thumbnail]  │  │
+│  │   (Before/after split) │  │
+│  │                        │  │
+│  └────────────────────────┘  │
+│                               │
+│  sunset_grade.cube            │
+│  33³ grid • 10-bit • 128 KB  │
+│                               │
+│  📅 Generated 2h ago          │
+│  📂 Project: Sunset Series    │
+│                               │
+│  ┌───────┐ ┌───────┐ ┌────┐ │
+│  │Download│ │ Reopen│ │ ⋮  │ │
+│  └───────┘ └───────┘ └────┘ │
+└──────────────────────────────┘
+```
+
+**Visual Treatment:**
+- **Thumbnail:** 
+  - 16:9 aspect ratio
+  - Before/after split (vertical divider)
+  - Hover shows full "after" preview
+  - Gradient border in brand colors
+- **Filename:** 
+  - Truncated if long (tooltip shows full)
+  - Editable on click (inline edit)
+- **Metadata:**
+  - Grid size, bit depth, file size
+  - Generation date (relative time)
+  - Project/folder assignment (if applicable)
+- **Actions:**
+  - Download: Primary button
+  - Reopen: Opens in generator with settings
+  - More (⋮): Dropdown menu
+
+---
+
+### **More Actions Dropdown:**
+
+```
+┌────────────────────────┐
+│ 🔄 Convert to...       │
+│ 📊 Analyze Quality     │ (PRO)
+│ 📤 Share via Link      │
+│ 📋 Duplicate           │
+│ 📁 Move to Folder      │
+│ 🏷️ Add Tags            │
+│ ─────────────────      │
+│ 🗑️ Delete              │
+└────────────────────────┘
+```
+
+**Interaction:**
+- Click (⋮) → Dropdown appears
+- Locked actions (PRO) show upgrade prompt
+- Delete requires confirmation modal
+- Share generates public link (if feature exists)
+
+---
+
+### **Empty State (No LUTs Yet):**
+
+```
+┌─────────────────────────────────────────┐
+│                                          │
+│           🎬                             │
+│                                          │
+│     No LUTs generated yet                │
+│                                          │
+│     Create your first cinema-grade LUT   │
+│     from any reference image             │
+│                                          │
+│     ┌──────────────────────┐            │
+│     │ ⚡ Generate First LUT │            │
+│     └──────────────────────┘            │
+│                                          │
+│     or [Browse Templates]                │
+│                                          │
+└─────────────────────────────────────────┘
+```
+
+---
+
+## 📊 **SECTION 4: Your Usage (Stats Card)**
+
+```
+┌──────────────────────────────────────┐
+│  YOUR USAGE                          │
+│  ════════════════════════════════    │
+│                                       │
+│  LUTs Generated                      │
+│  1 / 3                               │
+│  ██████░░░░░░░░░░░░░░ 33%           │
+│  Resets in 22 days                   │
+│                                       │
+│  Conversions                         │
+│  0 / 10                              │
+│  ░░░░░░░░░░░░░░░░░░░░ 0%            │
+│  Unlimited with Creator              │
+│                                       │
+│  Storage Used                        │
+│  1.2 MB / 100 MB                     │
+│  ████░░░░░░░░░░░░░░░░ 1.2%          │
+│                                       │
+│  [View Detailed Analytics →]         │
+└──────────────────────────────────────┘
+```
+
+**Visual Design:**
+- **Progress Bars:**
+  - Gradient fill (purple → cyan)
+  - Threshold markers at 50%, 75%, 90%
+  - Color shifts to amber at 75%, red at 90%
+- **Usage Numbers:**
+  - Large display of current/limit
+  - Percentage below
+  - Reset timer (if applicable)
+- **Upgrade Prompts:**
+  - Subtle, non-intrusive
+  - "Unlimited with Creator/Pro" text links
+  - Click opens tier comparison modal
+
+---
+
+### **Usage Alert States:**
+
+**Approaching Limit (75%):**
+```
+┌──────────────────────────────────────┐
+│  ⚠️ Approaching Limit                │
+│                                       │
+│  You've used 2 of 3 LUTs this month  │
+│  Consider upgrading for unlimited     │
+│                                       │
+│  [Upgrade to Creator] [Dismiss]      │
+└──────────────────────────────────────┘
+```
+
+**Limit Reached (100%):**
+```
+┌──────────────────────────────────────┐
+│  🚫 Monthly Limit Reached            │
+│                                       │
+│  You've reached your 3 LUT limit     │
+│  Resets in 22 days                   │
+│                                       │
+│  [Upgrade Now] [See Alternatives]    │
+└──────────────────────────────────────┘
+```
+
+---
+
+## 🔓 **SECTION 5: Unlock Pro Tools (Upgrade Card)**
+
+```
+┌──────────────────────────────────────────┐
+│  UNLOCK PRO TOOLS                 [✕]   │
+│  ══════════════════════════════════════  │
+│                                           │
+│  ┌─────┐                                 │
+│  │ 👑  │  Premium Features               │
+│  └─────┘                                 │
+│                                           │
+│  ✓ 65×65 high-resolution grids          │
+│  ✓ LUT quality optimizer                │
+│  ✓ Unlimited LUT generations            │
+│  ✓ Batch processing                     │
+│  ✓ Advanced color scopes                │
+│  ✓ API access                           │
+│                                           │
+│  ┌────────────────────────────────────┐ │
+│  │   Upgrade to Pro - $XX/mo          │ │
+│  └────────────────────────────────────┘ │
+│                                           │
+│  [Compare All Tiers →]                   │
+│                                           │
+└──────────────────────────────────────────┘
+```
+
+**Visual Treatment:**
+- **Crown Icon:** Animated subtle glow
+- **Feature List:** Checkmarks with icons
+- **Pricing:** Clear, prominent
+- **CTA Button:** Gradient with glow
+- **Dismissible:** X button top-right (remembers dismissal)
+
+**Variants by Tier:**
+- **Free User:** Full card with all benefits
+- **Creator User:** Shows Pro upgrade benefits only
+- **Pro User:** Card doesn't appear (or shows "You're Pro!" badge)
+
+---
+
+## 🛠️ **SECTION 6: Quick Tools**
+
+```
+┌──────────────────────────────────────┐
+│  QUICK TOOLS                         │
+│  ══════════════════════════════════  │
+│                                       │
+│  ┌──────────┐  ┌──────────┐         │
+│  │ 🔄       │  │ 📊       │  (PRO)  │
+│  │ Convert  │  │ Analyze  │         │
+│  └──────────┘  └──────────┘         │
+│                                       │
+│  ┌──────────┐  ┌──────────┐         │
+│  │ 📚       │  │ 🎨       │         │
+│  │ Docs     │  │ Community│         │
+│  └──────────┘  └──────────┘         │
+│                                       │
+└──────────────────────────────────────┘
+```
+
+**Tool Cards:**
+- Small square buttons (120px × 120px)
+- Icon + label
+- Hover: Lift + glow
+- Locked tools: 50% opacity + lock badge
+- Click: Routes to tool page or opens modal
+
+---
+
+## 📱 **Mobile Responsive Layout (375px)**
+
+### **Vertical Stack:**
+
+```
+┌───────────────────────┐
+│ [Header Nav]          │
+├───────────────────────┤
+│                       │
+│ COLOR COMMAND CENTER  │
+│ ─────────────────     │
+│ untitled              │
+│ 1 LUTs this month     │
+│ [Upgrade]             │
+│                       │
+├───────────────────────┤
+│                       │
+│ QUICK ACTIONS         │
+│ ⚡ Generate New LUT   │
+│ 🔄 Convert Format     │
+│                       │
+├───────────────────────┤
+│                       │
+│ LIVE PREVIEW          │
+│ [Upload Zone]         │
+│ [Mini Scopes]         │
+│                       │
+├───────────────────────┤
+│                       │
+│ RECENT PROJECTS       │
+│ [Horizontal Scroll]   │
+│ ◀ [Card][Card][Card] ▶│
+│                       │
+├───────────────────────┤
+│                       │
+│ YOUR USAGE            │
+│ 1/3 LUTs ██░░░       │
+│ 0/10 Conversions      │
+│                       │
+├───────────────────────┤
+│                       │
+│ [Sticky Upgrade CTA]  │
+│                       │
+└───────────────────────┘
+```
+
+**Mobile Optimizations:**
+- Collapsible sections (accordion)
+- Horizontal card scroll (recent projects)
+- Sticky upgrade CTA at bottom
+- Simplified scopes (single view)
+- Touch-friendly buttons (48px min)
+
+---
+
+## 🎨 **Visual System**
+
+### **Color Palette:**
+
+**Backgrounds:**
+- Page: Cinema black (#0a0a0a)
+- Cards: Elevated dark (#1a1a1a)
+- Inputs: Deep gray (#0f0f0f)
+
+**Accents:**
+- Primary gradient: Purple (#6b2dd9) → Cyan (#00d4ff)
+- Success: Emerald (#10b981)
+- Warning: Amber (#f59e0b)
+- Error: Crimson (#ef4444)
+
+**Tier Badges:**
+- Free: Gray (#64748b)
+- Creator: Silver (#94a3b8) with shimmer
+- Pro: Gold (#f59e0b) with glow
+
+---
+
+### **Typography:**
+
+**Headers:**
+- Page title: 36px, Inter Bold
+- Section headers: 24px, Inter SemiBold
+- Card titles: 18px, Inter Medium
+
+**Body:**
+- Primary: 16px, Inter Regular
+- Secondary: 14px, Inter Regular, 70% opacity
+- Caption: 12px, Inter Regular
+
+**Technical:**
+- Stats/numbers: JetBrains Mono
+- File specs: JetBrains Mono, 12px
+
+---
+
+### **Spacing:**
+
+**Card Padding:**
+- Desktop: 32px
+- Mobile: 20px
+
+**Grid Gaps:**
+- Desktop: 24px between cards
+- Mobile: 16px between cards
+
+**Section Spacing:**
+- Between sections: 48px (desktop), 32px (mobile)
+
+---
+
+## ✨ **Animations & Interactions**
+
+### **Page Load:**
+- Stagger-in animation for sections (0.1s delay each)
+- Hero stats count-up animation
+- Progress bars fill on scroll into view
+
+### **Card Interactions:**
+- Hover: Lift 4px, shadow intensifies
+- Click: Scale down 98%, quick bounce back
+- Long press (mobile): Shows quick actions menu
+
+### **Upload Zone:**
+- Drag-over: Border pulses, background shifts
+- Upload progress: Circular progress indicator
+- Success: Confetti burst animation
+
+### **Stats Updates:**
+- Number changes: Smooth count animation
+- Progress bars: Animated fill (spring easing)
+- Threshold alerts: Slide-in from right
+
+---
+
+## 🎯 **Key Features to Emphasize**
+
+### **1. Speed:**
+- Generate new LUT without leaving dashboard
+- One-click access to recent projects
+- Quick tools immediately accessible
+
+### **2. Clarity:**
+- Usage limits clearly visible (not hidden)
+- Tier restrictions transparent (not frustrating)
+- Upgrade value obvious (benefits listed)
+
+### **3. Organization:**
+- Recent projects with thumbnails
+- Searchable/filterable LUT library
+- Project folders (Pro feature)
+
+### **4. Education:**
+- Color scopes visible (teach color theory)
+- Technical specs shown (not hidden)
+- Tooltips explain every metric
+
+---
+
+## 🚀 **Success Metrics**
+
+**User Flow Goals:**
+- Time to first LUT from dashboard: <45 seconds
+- Repeat user return time: <10 seconds to access recent project
+- Upgrade discovery: 80% of free users see pro features within first session
+
+**Engagement Targets:**
+- Dashboard visit frequency: 3+ times per week (power users)
+- Project reopen rate: 60% of LUTs reopened at least once
+- Conversion tool usage: 40% of users try converter from dashboard
+
+---
+
+## 📋 **Technical Requirements**
+
+**Performance:**
+- Page load: <1.5 seconds
+- Preview updates: <300ms after slider change
+- Card grid: Infinite scroll (lazy load after 20 cards)
+
+**Data Persistence:**
+- Recent projects: Local storage (last 20)
+- User preferences: Cloud sync (view mode, sort order)
+- Usage stats: Real-time from backend
+
+**Browser Support:**
+- Chrome/Edge: Full support
+- Firefox: Full support
+- Safari: Full support (with progressive enhancement)
+
+---
+
+## 🎬 **Deliverables**
+
+Generate:
+
+1. **High-fidelity dashboard mockup** (desktop, 1920×1080)
+2. **Mobile dashboard** (375×812, iPhone)
+3. **Component library:**
+   - Hero stats card (all tier variants)
+   - LUT project card (grid & list views)
+   - Usage stats card (all states: normal, warning, limit)
+   - Upgrade card (free, creator perspectives)
+   - Quick action buttons
+4. **Empty states:**
+   - No projects yet
+   - Usage limit reached
+   - Network error
+5. **Interactive prototype:**
+   - Upload → preview → generate flow
+   - Project card interactions (hover, click, menu)
+   - Usage progress states
+6. **Animation specs:**
+   - Page load sequence
+   - Card hover/click states
+   - Progress bar fills
+   - Upload success celebration
+7. **Responsive breakpoints:**
+   - Desktop (1920px, 1440px)
+   - Tablet (1024px, 768px)
+   - Mobile (375px, 414px)
+
+---
+
+## 💬 **Tone & Copy Examples**
+
+### **Hero Section:**
+> "Color Command Center"
+> "Your professional color grading hub"
+
+### **Empty State:**
+> "No LUTs generated yet"
+> "Create your first cinema-grade LUT from any reference image"
+
+### **Usage Warning:**
+> "Approaching your monthly limit"
+> "You've used 2 of 3 LUTs. Upgrade for unlimited generations."
+
+### **Upgrade Card:**
+> "Unlock Pro Tools"
+> "65×65 grids, optimizer, unlimited LUTs"
+
+### **Quick Actions:**
+> "⚡ Generate New LUT" (not "Create" or "Make")
+> "🔄 Convert Format" (not "Transform" or "Change")
+> "📊 Analyze Quality" (not "Check" or "Scan")
+
+---
+
+## 🎯 **Design Principles**
+
+### **1. Dashboard is Control Center, Not Gallery**
+- Prioritize actions over aesthetics
+- Show data, not decorations
+- Every element has purpose
+
+### **2. Respect User's Time**
+- Fast access to recent work
+- No unnecessary clicks
+- Clear paths to common tasks
+
+### **3. Transparent Limitations**
+- Show usage clearly (not hidden in settings)
+- Explain tier restrictions (not just "locked")
+- Upgrade prompts educational, not annoying
+
+### **4. Professional, Not Playful**
+- Serious tool for serious work
+- Data-driven design language
+- Cinema-grade aesthetic throughout
+
+---
+
+**Final Note:** The dashboard is the user's home base. It should feel like a professional workstation—organized, efficient, and powerful. Every returning user should immediately know their status, access their work, and start creating. This is mission control for color grading. 🎬✨
