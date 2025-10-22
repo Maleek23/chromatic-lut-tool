@@ -37,7 +37,7 @@ export default function InstallLuts() {
 
             {/* DaVinci Resolve */}
             <TabsContent value="resolve" className="space-y-6">
-              <Card>
+              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
                 <CardHeader>
                   <CardTitle>Installing LUTs in DaVinci Resolve</CardTitle>
                   <CardDescription>
@@ -114,7 +114,7 @@ export default function InstallLuts() {
 
             {/* Premiere Pro */}
             <TabsContent value="premiere" className="space-y-6">
-              <Card>
+              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
                 <CardHeader>
                   <CardTitle>Installing LUTs in Adobe Premiere Pro</CardTitle>
                   <CardDescription>
@@ -191,7 +191,7 @@ export default function InstallLuts() {
 
             {/* Final Cut Pro */}
             <TabsContent value="finalcut" className="space-y-6">
-              <Card>
+              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
                 <CardHeader>
                   <CardTitle>Installing LUTs in Final Cut Pro</CardTitle>
                   <CardDescription>
@@ -266,7 +266,7 @@ export default function InstallLuts() {
 
             {/* Photoshop */}
             <TabsContent value="photoshop" className="space-y-6">
-              <Card>
+              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
                 <CardHeader>
                   <CardTitle>Installing LUTs in Adobe Photoshop</CardTitle>
                   <CardDescription>
@@ -343,7 +343,7 @@ export default function InstallLuts() {
 
             {/* Lightroom */}
             <TabsContent value="lightroom" className="space-y-6">
-              <Card>
+              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
                 <CardHeader>
                   <CardTitle>Installing Presets in Adobe Lightroom</CardTitle>
                   <CardDescription>

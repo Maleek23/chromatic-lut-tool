@@ -19,7 +19,7 @@ export default function About() {
 
         <div className="space-y-12">
           {/* Mission */}
-          <Card className="border-primary/30 bg-gradient-to-br from-background to-primary/5 backdrop-blur-sm">
+          <Card className="hover-elevate border-primary/30 bg-background/80 backdrop-blur-sm transition-all duration-300">
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="p-3 rounded-xl bg-gradient-to-br from-primary/20 to-chart-2/20">
@@ -42,7 +42,7 @@ export default function About() {
           </Card>
 
           {/* Technology */}
-          <Card className="border-chart-2/30 bg-gradient-to-br from-background to-chart-2/5 backdrop-blur-sm">
+          <Card className="hover-elevate border-chart-2/30 bg-background/80 backdrop-blur-sm transition-all duration-300">
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="p-3 rounded-xl bg-gradient-to-br from-chart-2/20 to-chart-3/20">
@@ -91,7 +91,7 @@ export default function About() {
           </Card>
 
           {/* Team */}
-          <Card className="border-chart-3/30 bg-gradient-to-br from-background to-chart-3/5 backdrop-blur-sm">
+          <Card className="hover-elevate border-chart-3/30 bg-background/80 backdrop-blur-sm transition-all duration-300">
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="p-3 rounded-xl bg-gradient-to-br from-chart-3/20 to-primary/20">

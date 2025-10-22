@@ -121,7 +121,7 @@ export default function ResetPassword() {
           </div>
 
           {/* Reset Form Card */}
-          <Card className="bg-background/80 backdrop-blur-sm border-2">
+          <Card className="hover-elevate bg-background/80 backdrop-blur-sm border-2 transition-all duration-300">
             <CardHeader className="space-y-2">
               <CardTitle className="text-2xl font-bold">Create New Password</CardTitle>
               <CardDescription>

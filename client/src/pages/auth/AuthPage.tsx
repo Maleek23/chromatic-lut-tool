@@ -131,7 +131,7 @@ export default function AuthPage() {
               </TabsList>
 
               <TabsContent value="register" className="mt-6">
-                <Card className="border-muted/50 bg-card/90 backdrop-blur-sm shadow-2xl">
+                <Card className="hover-elevate border-muted/50 bg-background/80 backdrop-blur-sm shadow-2xl transition-all duration-300">
                   <CardHeader className="space-y-2 pb-6">
                     <CardTitle className="text-2xl sm:text-3xl">Start Creating</CardTitle>
                     <CardDescription className="text-sm">Choose your plan and unlock professional color grading</CardDescription>

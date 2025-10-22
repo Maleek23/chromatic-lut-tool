@@ -102,10 +102,12 @@ export default function Optimize() {
         </div>
 
         {!canAccess ? (
-          <Card>
+          <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-primary" />
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-primary" />
+                </div>
                 Upgrade to Pro for LUT Optimizer
               </CardTitle>
               <CardDescription>
@@ -132,7 +134,7 @@ export default function Optimize() {
           </Card>
         ) : (
           <>
-            <Card className="mb-6">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 mb-6">
               <CardHeader>
                 <CardTitle>Upload LUT to Optimize</CardTitle>
                 <CardDescription>

@@ -308,7 +308,7 @@ export default function Convert() {
         </TabsList>
 
         <TabsContent value="upload">
-          <Card className="border-primary/30 bg-background/50 backdrop-blur-sm hover-elevate transition-all duration-300">
+          <Card className="border-primary/30 bg-background/80 backdrop-blur-sm hover-elevate transition-all duration-300">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-chart-2/20">
@@ -443,7 +443,7 @@ export default function Convert() {
         </TabsContent>
 
         <TabsContent value="presets">
-          <Card className="border-chart-2/30 bg-background/50 backdrop-blur-sm">
+          <Card className="border-chart-2/30 bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded-lg bg-gradient-to-br from-chart-2/20 to-chart-3/20">

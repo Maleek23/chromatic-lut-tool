@@ -32,7 +32,7 @@ export default function LearnMore() {
 
         {/* Professional Pipeline Overview */}
         <div className="mb-24">
-          <Card className="border-primary/30 bg-gradient-to-br from-background via-background/50 to-primary/5 backdrop-blur-sm shadow-2xl">
+          <Card className="hover-elevate border-primary/30 bg-background/80 backdrop-blur-sm shadow-2xl transition-all duration-300">
             <CardHeader className="text-center space-y-4 pb-8 pt-8">
               <CardTitle className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground to-primary/80 bg-clip-text text-transparent">
                 Professional Color Pipeline
@@ -94,7 +94,7 @@ export default function LearnMore() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {/* Stage 1: CIE Lab */}
-            <Card className="border-primary/30 bg-gradient-to-br from-background to-primary/5 backdrop-blur-sm">
+            <Card className="hover-elevate border-primary/30 bg-background/80 backdrop-blur-sm transition-all duration-300">
               <CardHeader className="space-y-2">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center">
@@ -111,7 +111,7 @@ export default function LearnMore() {
             </Card>
 
             {/* Stage 2: K-means */}
-            <Card className="border-chart-2/30 bg-gradient-to-br from-background to-chart-2/5 backdrop-blur-sm">
+            <Card className="hover-elevate border-chart-2/30 bg-background/80 backdrop-blur-sm transition-all duration-300">
               <CardHeader className="space-y-2">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-chart-2/20 to-chart-3/20 flex items-center justify-center">
@@ -128,7 +128,7 @@ export default function LearnMore() {
             </Card>
 
             {/* Stage 3: Filmic Curves */}
-            <Card className="border-chart-3/30 bg-gradient-to-br from-background to-chart-3/5 backdrop-blur-sm">
+            <Card className="border-chart-3/30 bg-background/80 backdrop-blur-sm transition-all duration-300 hover-elevate">
               <CardHeader className="space-y-2">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-chart-3/20 to-primary/20 flex items-center justify-center">
@@ -145,7 +145,7 @@ export default function LearnMore() {
             </Card>
 
             {/* Stage 4: Skin Protection */}
-            <Card className="border-primary/30 bg-gradient-to-br from-background to-primary/5 backdrop-blur-sm">
+            <Card className="border-primary/30 bg-background/80 backdrop-blur-sm transition-all duration-300 hover-elevate">
               <CardHeader className="space-y-2">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center">
@@ -162,7 +162,7 @@ export default function LearnMore() {
             </Card>
 
             {/* Stage 5: Gamut Compression */}
-            <Card className="border-chart-2/30 bg-gradient-to-br from-background to-chart-2/5 backdrop-blur-sm">
+            <Card className="border-chart-2/30 bg-background/80 backdrop-blur-sm transition-all duration-300 hover-elevate">
               <CardHeader className="space-y-2">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-chart-2/20 to-chart-3/20 flex items-center justify-center">
@@ -179,7 +179,7 @@ export default function LearnMore() {
             </Card>
 
             {/* Stage 6: Chromatic Adaptation */}
-            <Card className="border-chart-3/30 bg-gradient-to-br from-background to-chart-3/5 backdrop-blur-sm">
+            <Card className="border-chart-3/30 bg-background/80 backdrop-blur-sm transition-all duration-300 hover-elevate">
               <CardHeader className="space-y-2">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-chart-3/20 to-primary/20 flex items-center justify-center">

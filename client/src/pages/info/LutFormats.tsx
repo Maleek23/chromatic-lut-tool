@@ -26,7 +26,7 @@ export default function LutFormats() {
       <section className="relative z-10 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
           <h2 className="text-xl sm:text-2xl font-semibold">Format Decision Tree</h2>
-          <Card className="bg-background/80 backdrop-blur-sm">
+          <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
             <CardContent className="p-4 sm:p-8 md:p-12">
               {/* Decision Tree SVG - hidden on small screens */}
               <svg viewBox="0 0 800 420" className="hidden md:block w-full h-auto">
@@ -150,7 +150,7 @@ export default function LutFormats() {
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
             {/* .cube Format */}
-            <Card className="bg-background/80 backdrop-blur-sm">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center justify-between mb-2">
                   <Badge variant="default">Recommended</Badge>
@@ -188,7 +188,7 @@ export default function LutFormats() {
             </Card>
 
             {/* .3dl Format */}
-            <Card className="bg-background/80 backdrop-blur-sm">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center justify-between mb-2">
                   <Badge variant="secondary">Creator+</Badge>
@@ -226,7 +226,7 @@ export default function LutFormats() {
             </Card>
 
             {/* .lut Format */}
-            <Card className="bg-background/80 backdrop-blur-sm">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
               <CardHeader>
                 <div className="flex items-center justify-between mb-2">
                   <Badge variant="secondary">Pro</Badge>

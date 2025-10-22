@@ -88,7 +88,7 @@ export default function Analyze() {
   return (
     <CinemaBackground variant="subtle">
       <div className="max-w-5xl mx-auto px-4 py-12 space-y-8">
-      <Card className="border-chart-2/30 bg-background/50 backdrop-blur-sm hover-elevate transition-all duration-300">
+      <Card className="border-chart-2/30 bg-background/80 backdrop-blur-sm hover-elevate transition-all duration-300">
         <CardHeader>
           <div className="flex items-center gap-2">
             <div className="p-2 rounded-lg bg-gradient-to-br from-chart-2/20 to-chart-3/20">
@@ -116,7 +116,7 @@ export default function Analyze() {
       {analysisResult && (
         <div data-testid="analysis-results">
           {/* File Info */}
-          <Card className="border-primary/30 bg-background/50 backdrop-blur-sm hover-elevate transition-all duration-300">
+          <Card className="border-primary/30 bg-background/80 backdrop-blur-sm hover-elevate transition-all duration-300">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-chart-2/20">
@@ -152,7 +152,7 @@ export default function Analyze() {
           </Card>
 
           {/* Quality Analysis */}
-          <Card className="border-chart-3/30 bg-background/50 backdrop-blur-sm hover-elevate transition-all duration-300">
+          <Card className="border-chart-3/30 bg-background/80 backdrop-blur-sm hover-elevate transition-all duration-300">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -258,7 +258,7 @@ export default function Analyze() {
       )}
 
       {/* Demo Section */}
-      <Card className="border-primary/30 bg-background/50 backdrop-blur-sm hover-elevate transition-all duration-300">
+      <Card className="border-primary/30 bg-background/80 backdrop-blur-sm hover-elevate transition-all duration-300">
         <CardHeader>
           <div className="flex items-center gap-2">
             <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-chart-2/20">

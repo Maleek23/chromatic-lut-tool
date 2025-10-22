@@ -65,10 +65,12 @@ export default function Support() {
           <div className="max-w-5xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Email Support */}
-              <Card className="hover-elevate">
+              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
-                    <Mail className="w-8 h-8 text-primary" />
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center">
+                      <Mail className="w-6 h-6 text-primary" />
+                    </div>
                     <Badge variant="secondary">
                       <Clock className="w-3 h-3 mr-1" />
                       24-48h response
@@ -95,10 +97,12 @@ export default function Support() {
               </Card>
 
               {/* Documentation */}
-              <Card className="hover-elevate">
+              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
-                    <Book className="w-8 h-8 text-chart-2" />
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-chart-2/20 to-chart-3/20 flex items-center justify-center">
+                      <Book className="w-6 h-6 text-chart-2" />
+                    </div>
                     <Badge variant="secondary">
                       <Zap className="w-3 h-3 mr-1" />
                       Instant answers
@@ -145,7 +149,7 @@ export default function Support() {
             </div>
 
             <div className="space-y-4">
-              <Card>
+              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="text-lg">What file formats do you support?</CardTitle>
                 </CardHeader>
@@ -166,7 +170,7 @@ export default function Support() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="text-lg">How does the Image-to-LUT generator work?</CardTitle>
                 </CardHeader>
@@ -184,7 +188,7 @@ export default function Support() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="text-lg">What's the difference between Free and paid tiers?</CardTitle>
                 </CardHeader>
@@ -201,7 +205,7 @@ export default function Support() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="text-lg">How do I install LUTs in my editing software?</CardTitle>
                 </CardHeader>
@@ -218,7 +222,7 @@ export default function Support() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="text-lg">Can I cancel my subscription anytime?</CardTitle>
                 </CardHeader>
@@ -231,7 +235,7 @@ export default function Support() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="text-lg">Is my payment information secure?</CardTitle>
                 </CardHeader>
@@ -247,7 +251,7 @@ export default function Support() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="text-lg">I forgot my password. How do I reset it?</CardTitle>
                 </CardHeader>

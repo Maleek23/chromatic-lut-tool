@@ -25,7 +25,7 @@ export default function CreateFromImages() {
       <section className="relative z-10 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto space-y-6 sm:space-y-8">
           <h2 className="text-xl sm:text-2xl font-semibold">The Process</h2>
-          <Card className="bg-background/80 backdrop-blur-sm">
+          <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
             <CardContent className="p-4 sm:p-8 md:p-12">
               {/* Flowchart SVG - hidden on very small screens, simplified version shown */}
               <div className="hidden sm:block">
@@ -111,7 +111,7 @@ export default function CreateFromImages() {
           
           <div className="space-y-4 sm:space-y-6">
             {/* Step 1 */}
-            <Card className="bg-background/80 backdrop-blur-sm">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
               <CardContent className="p-4 sm:p-6">
                 <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                   <div className="flex-shrink-0">
@@ -144,7 +144,7 @@ export default function CreateFromImages() {
             </Card>
 
             {/* Step 2 */}
-            <Card className="bg-background/80 backdrop-blur-sm">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
               <CardContent className="p-4 sm:p-6">
                 <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                   <div className="flex-shrink-0">
@@ -179,7 +179,7 @@ export default function CreateFromImages() {
             </Card>
 
             {/* Step 3 */}
-            <Card className="bg-background/80 backdrop-blur-sm">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
               <CardContent className="p-4 sm:p-6">
                 <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                   <div className="flex-shrink-0">

@@ -14,7 +14,9 @@ Preferred communication style: Simple, everyday language.
 - **State Management**: Local React state, custom auth context, React Query for server state.
 - **UI Components**: Radix UI primitives and shadcn/ui for accessible components.
 - **Typography**: Inter font family exclusively for clean, professional aesthetic.
-- **Styling**: Strict minimalism - static backgrounds with simple gradients, no decorative animations or effects.
+- **Styling**: Professional minimalism - static backgrounds with simple gradients, translucent cards with backdrop blur, smooth hover effects, and gradient icon accents. No decorative animations.
+- **Card Pattern**: Consistent across all pages - `bg-background/80 backdrop-blur-sm hover-elevate transition-all duration-300` for sleek, interactive depth.
+- **Icon Containers**: Gradient backgrounds (w-10/w-12 h-10/h-12 rounded-xl bg-gradient-to-br from-{color}/20 to-{color}/20) for visual hierarchy on key features.
 - **Visual Components**: Only science-based visualizations that demonstrate actual color processing (ColorCube3D for 3D L*a*b* color space, tone curve graphs, color cluster displays, gamut visualization, histogram charts, before/after LUT comparisons, quality gauges).
 - **CinemaBackground**: Centralized static background component with simple gradient (no animations or orbs), providing consistent minimal theming across all pages. Single instance in App.tsx ensures optimal performance.
 - **Design Patterns**: Component composition, controlled components, custom hooks, tabbed navigation, debounced real-time preview updates.
