@@ -9,7 +9,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Progress } from "@/components/ui/progress";
 import { useTheme } from "@/components/layout/ThemeProvider";
 import { Footer } from "@/components/layout/Footer";
-import { CinemaBackground } from "@/components/visual/CinemaBackground";
 
 type UsageStats = {
   tier: string;
@@ -64,7 +63,7 @@ export default function Settings() {
   };
 
   return (
-    <CinemaBackground variant="subtle">
+    <div className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto px-4 py-12 space-y-8">
         {/* Header */}
         <div className="flex items-center gap-3">
@@ -319,6 +318,6 @@ export default function Settings() {
       </div>
       
       <Footer />
-    </CinemaBackground>
+    </div>
   );
 }
