@@ -293,8 +293,9 @@ export default function Convert() {
   };
 
   return (
-    <CinemaBackground variant="subtle">
-      <div className="max-w-5xl mx-auto px-4 py-12 space-y-8">
+    <div className="min-h-screen bg-background relative">
+      <CinemaBackground variant="subtle" />
+      <div className="relative z-10 max-w-5xl mx-auto px-4 py-12 space-y-8">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted/50 backdrop-blur-sm">
           <TabsTrigger value="upload" data-testid="tab-upload" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-chart-2 data-[state=active]:text-primary-foreground">
@@ -588,6 +589,6 @@ export default function Convert() {
       
       <Footer />
       </div>
-    </CinemaBackground>
+    </div>
   );
 }
