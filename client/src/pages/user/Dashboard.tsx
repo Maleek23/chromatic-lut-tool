@@ -15,7 +15,12 @@ import {
   ArrowUpCircle,
   Sparkles,
   Play,
-  Download
+  Download,
+  Repeat,
+  Search,
+  FileText,
+  Clock,
+  Lock
 } from "lucide-react";
 import { UploadZone } from "@/components/lut/UploadZone";
 import { BeforeAfterSlider } from "@/components/lut/BeforeAfterSlider";
@@ -144,11 +149,141 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* 3-Column Workspace */}
+        {/* Main Content */}
         <div className="container mx-auto p-6 max-w-[1800px]">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Top Row: Quick Actions + Live Preview */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
             
-            {/* LEFT: Live Preview Workspace */}
+            {/* LEFT: Color Command Center */}
+            <div className="lg:col-span-5 space-y-6">
+              
+              {/* Quick Actions */}
+              <Card className="border-primary/20 bg-gradient-to-br from-background/80 to-primary/5 backdrop-blur-sm">
+                <CardHeader className="pb-4">
+                  <CardTitle className="flex items-center gap-2">
+                    <Zap className="w-5 h-5 text-primary" />
+                    Quick Actions
+                  </CardTitle>
+                  <CardDescription>Jump into your workflow</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  
+                  {/* Generate New LUT */}
+                  <Link href="/generate">
+                    <Card className="overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer border-primary/30 bg-gradient-to-br from-primary/10 to-chart-2/10" data-testid="card-action-generate">
+                      <CardContent className="p-4">
+                        <div className="flex items-start gap-3">
+                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center flex-shrink-0">
+                            <Sparkles className="w-6 h-6 text-primary" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-semibold mb-1">Generate New LUT</h4>
+                            <p className="text-xs text-muted-foreground leading-relaxed">Create from reference image</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+
+                  {/* Convert Format */}
+                  <Link href="/convert">
+                    <Card className="overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer border-chart-2/30 bg-gradient-to-br from-chart-2/10 to-chart-3/10" data-testid="card-action-convert">
+                      <CardContent className="p-4">
+                        <div className="flex items-start gap-3">
+                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-chart-2/20 to-chart-3/20 flex items-center justify-center flex-shrink-0">
+                            <Repeat className="w-6 h-6 text-chart-2" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-semibold mb-1">Convert Format</h4>
+                            <p className="text-xs text-muted-foreground leading-relaxed">Transform existing LUTs</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+
+                  {/* Analyze Quality */}
+                  <Link href={isPro ? "/analyze" : "#"} onClick={(e) => !isPro && (e.preventDefault(), navigate("/upgrade"))}>
+                    <Card className={`overflow-hidden transition-all duration-300 cursor-pointer border-chart-3/30 bg-gradient-to-br from-chart-3/10 to-primary/10 ${isPro ? 'hover-elevate active-elevate-2' : 'opacity-60'}`} data-testid="card-action-analyze">
+                      <CardContent className="p-4">
+                        <div className="flex items-start gap-3">
+                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-chart-3/20 to-primary/20 flex items-center justify-center flex-shrink-0">
+                            <BarChart3 className="w-6 h-6 text-chart-3" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              <h4 className="font-semibold">Analyze Quality</h4>
+                              {!isPro && (
+                                <Badge variant="secondary" className="px-2 py-0.5 text-[10px]">
+                                  <Crown className="w-2.5 h-2.5 mr-1" />
+                                  PRO
+                                </Badge>
+                              )}
+                            </div>
+                            <p className="text-xs text-muted-foreground leading-relaxed">Scan for banding & issues</p>
+                          </div>
+                          {!isPro && <Lock className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-1" />}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+
+                  {/* Browse Resources */}
+                  <Link href="/resources">
+                    <Card className="overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer border-border/50 bg-background/50" data-testid="card-action-resources">
+                      <CardContent className="p-4">
+                        <div className="flex items-start gap-3">
+                          <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center flex-shrink-0">
+                            <FileText className="w-6 h-6 text-muted-foreground" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-semibold mb-1">Browse Resources</h4>
+                            <p className="text-xs text-muted-foreground leading-relaxed">Guides & documentation</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+
+                </CardContent>
+              </Card>
+
+              {/* Recent Activity */}
+              <Card className="border-border/50 bg-background/80 backdrop-blur-sm">
+                <CardHeader className="pb-4">
+                  <CardTitle className="flex items-center gap-2">
+                    <Clock className="w-5 h-5 text-muted-foreground" />
+                    Recent Activity
+                  </CardTitle>
+                  <CardDescription>Your latest work</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {user.conversionsThisMonth > 0 ? (
+                      <div className="text-sm text-muted-foreground space-y-2">
+                        <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/50 border border-border/50">
+                          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                            <Sparkles className="w-4 h-4 text-primary" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-foreground">LUT Generated</p>
+                            <p className="text-xs text-muted-foreground">This month · {user.conversionsThisMonth} {user.conversionsThisMonth === 1 ? 'generation' : 'generations'}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-center py-8 text-muted-foreground">
+                        <Clock className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                        <p className="text-sm">No recent activity</p>
+                        <p className="text-xs mt-1">Generate your first LUT to get started</p>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* RIGHT: Live Preview Workspace */}
             <div className="lg:col-span-7">
               <Card className="h-full border-primary/20 bg-gradient-to-br from-background to-primary/5">
                 <CardHeader className="pb-4">
@@ -234,11 +369,14 @@ export default function Dashboard() {
                 </CardContent>
               </Card>
             </div>
+          </div>
 
-            {/* RIGHT: Scopes & Tools */}
-            <div className="lg:col-span-5 space-y-6">
+          {/* Bottom Row: Scopes & Usage */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            {/* Color Scopes - Wider */}
+            <div className="lg:col-span-8">
               
-              {/* Color Scopes */}
               <Card className="border-chart-2/20 bg-gradient-to-br from-background to-chart-2/5">
                 <CardHeader className="pb-4">
                   <CardTitle className="flex items-center gap-2">
@@ -260,19 +398,23 @@ export default function Dashboard() {
                   )}
                 </CardContent>
               </Card>
+            </div>
 
+            {/* Stats & Quality */}
+            <div className="lg:col-span-4 space-y-6">
+              
               {/* LUT Quality Score */}
               {previewImage && (
                 <Card className="border-primary/20 bg-gradient-to-br from-background to-primary/5">
                   <CardHeader className="pb-4">
                     <CardTitle className="flex items-center gap-2">
                       <TrendingUp className="w-5 h-5 text-primary" />
-                      LUT Quality Score
+                      Quality Score
                     </CardTitle>
                     <CardDescription>Cinema-grade metrics</CardDescription>
                   </CardHeader>
                   <CardContent className="flex flex-col items-center space-y-4">
-                    <QualityGauge score={lutQualityScore} size={180} />
+                    <QualityGauge score={lutQualityScore} size={160} />
                     <div className="text-center space-y-1">
                       <p className="text-sm font-medium">
                         {lutQualityScore >= 85 ? "Excellent" : lutQualityScore >= 70 ? "Good" : "Fair"} Quality
