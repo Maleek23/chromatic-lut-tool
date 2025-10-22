@@ -13,7 +13,6 @@ import { useAuth } from "@/hooks/use-auth";
 import { BeforeAfterSlider } from "@/components/lut/BeforeAfterSlider";
 import { LutFileUpload } from "@/components/lut/LutFileUpload";
 import { Footer } from "@/components/layout/Footer";
-import { CinemaBackground } from "@/components/visual/CinemaBackground";
 
 interface Preset {
   id: number;
