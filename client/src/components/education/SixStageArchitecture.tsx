@@ -86,10 +86,10 @@ const stages: Stage[] = [
           strokeWidth="3"
           strokeLinecap="round"
         />
-        <text x="100" y="205" textAnchor="middle" fill="hsl(var(--muted-foreground))" fontSize="10" fontFamily="JetBrains Mono">
+        <text x="100" y="205" textAnchor="middle" fill="hsl(var(--muted-foreground))" fontSize="10">
           Input →
         </text>
-        <text x="5" y="100" textAnchor="middle" fill="hsl(var(--muted-foreground))" fontSize="10" fontFamily="JetBrains Mono" transform="rotate(-90 5 100)">
+        <text x="5" y="100" textAnchor="middle" fill="hsl(var(--muted-foreground))" fontSize="10" transform="rotate(-90 5 100)">
           Output →
         </text>
       </svg>
@@ -253,7 +253,7 @@ export function SixStageArchitecture() {
               <div className="space-y-4">
                 {/* Stage Number */}
                 <div className="flex items-baseline gap-3">
-                  <span className="text-6xl font-bold text-primary/20" style={{ fontFamily: 'Montserrat' }} data-testid={`text-stage-${stage.number}-number`}>
+                  <span className="text-6xl font-bold text-primary/20" data-testid={`text-stage-${stage.number}-number`}>
                     {stage.number}
                   </span>
                   <div>
@@ -342,7 +342,7 @@ export function SixStageArchitecture() {
               }`}
               data-testid={`button-minimap-stage-${index + 1}`}
             >
-              <div className="text-3xl font-bold text-primary/40 mb-1" style={{ fontFamily: 'Montserrat' }}>
+              <div className="text-3xl font-bold text-primary/40 mb-1">
                 {s.number}
               </div>
               <div className="text-xs font-semibold line-clamp-2">{s.name}</div>

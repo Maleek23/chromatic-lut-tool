@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { SpectrumLoader } from "@/components/visual/SpectrumLoader";
+import { Progress } from "@/components/ui/progress";
 import { 
   Loader2, 
   Scan, 
@@ -138,24 +137,15 @@ export function AnalysisProgress({ isActive, onComplete }: AnalysisProgressProps
 
   return (
     <Card className="p-8 border-2 border-primary/20 bg-gradient-to-br from-background to-primary/5 relative overflow-hidden">
-      {/* Animated background effects */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-0 right-0 w-64 h-64 bg-chart-2/5 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }} />
-      </div>
-
       <div className="relative z-10 space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="relative">
-              <div className="absolute inset-0 bg-primary/30 rounded-full blur-xl animate-pulse" />
-              <div className="relative p-3 rounded-full bg-primary/20 border-2 border-primary/30">
-                <Wand2 className="w-6 h-6 text-primary animate-spin" style={{ animationDuration: '3s' }} />
-              </div>
+            <div className="p-3 rounded-full bg-primary/20 border-2 border-primary/30">
+              <Wand2 className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h3 className="text-xl font-bold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
+              <h3 className="text-xl font-bold">
                 {completed ? "Analysis Complete" : "Analyzing Image"}
               </h3>
               <p className="text-sm text-muted-foreground">
@@ -165,13 +155,13 @@ export function AnalysisProgress({ isActive, onComplete }: AnalysisProgressProps
           </div>
           
           {completed && (
-            <CheckCircle2 className="w-8 h-8 text-primary animate-in fade-in zoom-in duration-500" />
+            <CheckCircle2 className="w-8 h-8 text-primary" />
           )}
         </div>
 
-        {/* Cinema-grade Progress Bar */}
+        {/* Progress Bar */}
         <div className="space-y-2">
-          <SpectrumLoader progress={progress} height={6} />
+          <Progress value={progress} className="h-1.5" data-testid="progress-analysis" />
           <div className="flex justify-between text-xs text-muted-foreground">
             <span className="font-mono">{Math.round(progress)}%</span>
             <span className="font-mono">
@@ -184,12 +174,12 @@ export function AnalysisProgress({ isActive, onComplete }: AnalysisProgressProps
         {!completed && (
           <div className="flex items-start gap-4 p-4 rounded-xl bg-primary/5 border border-primary/10">
             <div className="p-2 rounded-lg bg-primary/10">
-              <currentStage.icon className="w-5 h-5 text-primary animate-pulse" />
+              <currentStage.icon className="w-5 h-5 text-primary" />
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
                 <h4 className="font-semibold text-foreground">{currentStage.label}</h4>
-                <Loader2 className="w-4 h-4 text-primary animate-spin" />
+                <Loader2 className="w-4 h-4 text-primary" />
               </div>
               <p className="text-sm text-muted-foreground">{currentStage.description}</p>
             </div>
@@ -207,9 +197,9 @@ export function AnalysisProgress({ isActive, onComplete }: AnalysisProgressProps
               <div
                 key={stage.id}
                 className={`
-                  flex items-center gap-2 p-3 rounded-lg transition-all duration-500
+                  flex items-center gap-2 p-3 rounded-lg transition-all duration-300
                   ${isComplete ? 'bg-primary/10 border border-primary/20' : ''}
-                  ${isCurrent ? 'bg-primary/5 border-2 border-primary/30 scale-105' : ''}
+                  ${isCurrent ? 'bg-primary/5 border-2 border-primary/30' : ''}
                   ${isPending ? 'bg-muted/30 opacity-50' : ''}
                 `}
               >
@@ -222,7 +212,7 @@ export function AnalysisProgress({ isActive, onComplete }: AnalysisProgressProps
                     <CheckCircle2 className="w-4 h-4 text-primary" />
                   ) : (
                     <stage.icon className={`w-4 h-4 ${
-                      isCurrent ? 'text-primary animate-pulse' : 'text-muted-foreground'
+                      isCurrent ? 'text-primary' : 'text-muted-foreground'
                     }`} />
                   )}
                 </div>
@@ -238,7 +228,7 @@ export function AnalysisProgress({ isActive, onComplete }: AnalysisProgressProps
           })}
         </div>
 
-        {/* Fun facts while processing */}
+        {/* Stage descriptions */}
         {!completed && (
           <div className="flex items-center gap-2 text-sm text-muted-foreground p-3 rounded-lg bg-muted/30">
             <Sparkles className="w-4 h-4 text-chart-2" />

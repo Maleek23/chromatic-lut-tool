@@ -20,7 +20,7 @@ import {
 import { UploadZone } from "@/components/lut/UploadZone";
 import { BeforeAfterSlider } from "@/components/lut/BeforeAfterSlider";
 import { HistogramVisualization } from "@/components/lut/HistogramVisualization";
-import { SpectrumLoader } from "@/components/visual/SpectrumLoader";
+import { Progress } from "@/components/ui/progress";
 import { QualityGauge } from "@/components/visual/QualityGauge";
 
 interface DashboardStats {
@@ -172,7 +172,10 @@ export default function Dashboard() {
                   {isAnalyzing && (
                     <div className="space-y-3">
                       <p className="text-sm text-muted-foreground text-center">Analyzing color science...</p>
-                      <SpectrumLoader progress={analysisProgress} height={8} showPercentage />
+                      <div className="space-y-2">
+                        <Progress value={analysisProgress} className="h-2" data-testid="progress-dashboard-analysis" />
+                        <p className="text-xs text-center text-muted-foreground font-mono">{Math.round(analysisProgress)}%</p>
+                      </div>
                     </div>
                   )}
                   {!previewImage ? (
