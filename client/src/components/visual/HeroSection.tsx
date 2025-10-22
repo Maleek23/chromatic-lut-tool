@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { ChevronDown, Check } from 'lucide-react';
 import logoImage from "@assets/logo-full-transparent-v2.png";
 import { AnimatedUntitld } from '@/components/visual/AnimatedUntitld';
+import { ColorParticles3D } from '@/components/visual/ColorParticles3D';
 
 export function HeroSection() {
   const scrollToScience = () => {
@@ -15,18 +16,19 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
+      <ColorParticles3D />
       <div className="container mx-auto px-4 py-12 relative z-10">
         <div className="max-w-4xl mx-auto text-center space-y-6">
-          {/* Logo centered */}
-          <div className="relative">
-            <Link href="/" className="inline-block">
+          {/* Logo centered with By UN/TITLD on right */}
+          <div className="flex items-center justify-center gap-16">
+            <Link href="/">
               <img 
                 src={logoImage} 
                 alt="CHROMA" 
-                className="h-20 sm:h-24 w-auto mx-auto hover:scale-105 transition-transform duration-300 cursor-pointer animate-in fade-in duration-700" 
+                className="h-20 sm:h-24 w-auto hover:scale-105 transition-transform duration-300 cursor-pointer animate-in fade-in duration-700" 
               />
             </Link>
-            <span className="absolute top-1/2 -translate-y-1/2 right-0 text-[10px] text-muted-foreground/70 animate-in fade-in duration-700 delay-150 hidden sm:inline-block">
+            <span className="text-[11px] text-muted-foreground/70 animate-in fade-in duration-700 delay-150 hidden lg:block">
               By <span className="font-semibold"><AnimatedUntitld /></span>
             </span>
           </div>
