@@ -17,16 +17,16 @@ export function HeroSection() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
       <div className="container mx-auto px-4 py-12 relative z-10">
         <div className="max-w-4xl mx-auto text-center space-y-6">
-          {/* Logo centered with By UN/TITLD on right */}
-          <div className="relative flex justify-center">
-            <Link href="/">
+          {/* Logo centered - By UN/TITLD positioned separately */}
+          <div className="relative">
+            <Link href="/" className="block text-center">
               <img 
                 src={logoImage} 
                 alt="CHROMA" 
-                className="h-20 sm:h-24 w-auto hover:scale-105 transition-transform duration-300 cursor-pointer animate-in fade-in duration-700" 
+                className="h-20 sm:h-24 w-auto mx-auto hover:scale-105 transition-transform duration-300 cursor-pointer animate-in fade-in duration-700" 
               />
             </Link>
-            <span className="absolute top-1/2 -translate-y-1/2 left-[calc(50%+180px)] text-[11px] text-muted-foreground/70 animate-in fade-in duration-700 delay-150 hidden lg:block whitespace-nowrap">
+            <span className="absolute top-1/2 -translate-y-1/2 right-0 text-[11px] text-muted-foreground/70 animate-in fade-in duration-700 delay-150 hidden xl:block whitespace-nowrap">
               By <span className="font-semibold"><AnimatedUntitld /></span>
             </span>
           </div>

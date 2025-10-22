@@ -31,24 +31,24 @@ export function ColorParticles3D() {
 
     const createParticles = () => {
       particles = [];
-      const particleCount = Math.min(80, Math.floor((canvas.width * canvas.height) / 15000));
+      const particleCount = Math.min(100, Math.floor((canvas.width * canvas.height) / 12000));
       
       for (let i = 0; i < particleCount; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
           z: Math.random() * 1000,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: (Math.random() - 0.5) * 0.3,
-          vz: (Math.random() - 0.5) * 0.5,
-          hue: Math.random() * 60 + 200, // Blue to purple range
-          size: Math.random() * 3 + 1,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
+          vz: (Math.random() - 0.5) * 0.6,
+          hue: Math.random() * 80 + 200, // Blue to purple range
+          size: Math.random() * 4 + 1.5,
         });
       }
     };
 
     const animate = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       particles.forEach((particle, i) => {
@@ -70,13 +70,16 @@ export function ColorParticles3D() {
         const x2d = particle.x;
         const y2d = particle.y;
         const size = particle.size * scale;
-        const opacity = 0.3 + (1 - particle.z / 1000) * 0.4;
+        const opacity = 0.5 + (1 - particle.z / 1000) * 0.5;
 
-        // Draw particle
+        // Draw particle with glow
         ctx.beginPath();
         ctx.arc(x2d, y2d, size, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${particle.hue}, 70%, 60%, ${opacity})`;
+        ctx.fillStyle = `hsla(${particle.hue}, 80%, 65%, ${opacity})`;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = `hsla(${particle.hue}, 80%, 65%, ${opacity * 0.5})`;
         ctx.fill();
+        ctx.shadowBlur = 0;
 
         // Draw connections to nearby particles
         particles.slice(i + 1).forEach(other => {
@@ -119,8 +122,12 @@ export function ColorParticles3D() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full opacity-20 -z-10"
-      style={{ mixBlendMode: 'screen' }}
+      className="fixed inset-0 w-full h-full pointer-events-none"
+      style={{ 
+        mixBlendMode: 'screen',
+        opacity: 0.3,
+        zIndex: 0
+      }}
     />
   );
 }
