@@ -20,9 +20,9 @@ export function NavBar() {
           variant="ghost"
           size="sm"
           data-testid="nav-home"
-          className={`${mobile ? "w-full justify-start" : ""} ${
+          className={`${mobile ? "w-full justify-start" : "relative"} ${
             location === "/" 
-              ? "bg-primary/10 text-primary" 
+              ? "text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-primary after:to-chart-2" 
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
@@ -34,9 +34,9 @@ export function NavBar() {
           variant="ghost"
           size="sm"
           data-testid="nav-generate"
-          className={`${mobile ? "w-full justify-start" : ""} ${
+          className={`${mobile ? "w-full justify-start" : "relative"} ${
             location === "/generate" 
-              ? "bg-primary/10 text-primary" 
+              ? "text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-primary after:to-chart-2" 
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
@@ -48,9 +48,9 @@ export function NavBar() {
           variant="ghost"
           size="sm"
           data-testid="nav-tools"
-          className={`${mobile ? "w-full justify-start" : ""} ${
+          className={`${mobile ? "w-full justify-start" : "relative"} ${
             location === "/tools" 
-              ? "bg-primary/10 text-primary" 
+              ? "text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-primary after:to-chart-2" 
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
@@ -62,9 +62,9 @@ export function NavBar() {
           variant="ghost"
           size="sm"
           data-testid="nav-color-science"
-          className={`${mobile ? "w-full justify-start" : ""} ${
+          className={`${mobile ? "w-full justify-start" : "relative"} ${
             location === "/color-science" 
-              ? "bg-primary/10 text-primary" 
+              ? "text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-primary after:to-chart-2" 
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
@@ -76,9 +76,9 @@ export function NavBar() {
           variant="ghost"
           size="sm"
           data-testid="nav-how-it-works"
-          className={`${mobile ? "w-full justify-start" : ""} ${
+          className={`${mobile ? "w-full justify-start" : "relative"} ${
             location === "/resources/create-from-images" 
-              ? "bg-primary/10 text-primary" 
+              ? "text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-primary after:to-chart-2" 
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
@@ -94,8 +94,8 @@ export function NavBar() {
         <>
           {!mobile && (
             <Badge 
-              variant="secondary" 
-              className="text-xs uppercase bg-primary/10 text-primary border-primary/20" 
+              variant="outline" 
+              className="text-[10px] uppercase tracking-wider font-semibold bg-gradient-to-r from-primary/5 to-chart-2/5 text-primary border-primary/30 px-2 py-0.5" 
               data-testid="user-tier-badge"
             >
               {user.tier}
@@ -106,9 +106,9 @@ export function NavBar() {
               <Button
                 size="sm"
                 data-testid="button-upgrade"
-                className={`bg-gradient-to-r from-primary to-chart-2 text-white ${mobile ? "w-full justify-start" : ""}`}
+                className={`bg-gradient-to-r from-primary to-chart-2 hover:from-primary/90 hover:to-chart-2/90 text-white shadow-sm ${mobile ? "w-full justify-start" : ""}`}
               >
-                <Crown className="w-4 h-4 mr-2" />
+                <Crown className="w-3.5 h-3.5 mr-1.5" />
                 Upgrade
               </Button>
             </Link>
@@ -150,27 +150,29 @@ export function NavBar() {
   );
 
   return (
-    <nav className="border-b border-border/40 sticky top-0 bg-background/80 backdrop-blur-md z-50 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+    <nav className="border-b border-border/40 sticky top-0 bg-background/95 backdrop-blur-lg z-50">
+      <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
         {/* Logo with by UN/TITLD */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <Link href="/">
             <img 
               src={logoImage} 
               alt="Chroma" 
-              className="h-10 w-auto hover:scale-105 transition-transform duration-300 cursor-pointer" 
+              className="h-8 w-auto hover:scale-105 transition-transform duration-300 cursor-pointer" 
               data-testid="button-home"
             />
           </Link>
-          <span className="text-[9px] text-muted-foreground hidden sm:inline-block">
-            by <span className="font-semibold"><AnimatedUntitld /></span>
-          </span>
+          <div className="flex flex-col -space-y-0.5 hidden sm:flex">
+            <span className="text-[8px] text-muted-foreground/50 leading-none">by</span>
+            <span className="text-[9px] font-semibold text-muted-foreground/70 leading-none"><AnimatedUntitld /></span>
+          </div>
         </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-2 flex-1 justify-end">
+        <div className="hidden md:flex items-center gap-1 flex-1 justify-end">
           <NavLinks />
-          <div className="border-l pl-2 ml-2 flex items-center gap-2">
+          <div className="h-6 w-px bg-border/50 mx-2" />
+          <div className="flex items-center gap-1.5">
             <UserSection />
           </div>
         </div>
