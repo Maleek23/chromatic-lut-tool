@@ -95,7 +95,7 @@ export default function Landing() {
           {/* Section Header */}
           <div className="text-center space-y-3">
             <h2 className="text-3xl sm:text-4xl font-bold">
-              Simple, Transparent Pricing
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-chart-2 to-chart-3">Simple, Transparent</span> Pricing
             </h2>
             <p className="text-base text-muted-foreground max-w-2xl mx-auto">
               Professional tools for every stage of your workflow
@@ -107,9 +107,12 @@ export default function Landing() {
             {/* Free Tier */}
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col border-border/50">
               <CardHeader className="space-y-2 pb-4">
-                <CardTitle className="text-xl">Free</CardTitle>
+                <CardTitle className="text-xl flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-500"></span>
+                  Free
+                </CardTitle>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-bold">$0</span>
+                  <span className="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">$0</span>
                   <span className="text-sm text-muted-foreground">/mo</span>
                 </div>
                 <CardDescription className="text-xs">For trying out</CardDescription>
@@ -144,9 +147,12 @@ export default function Landing() {
             {/* Creator Tier */}
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col border-border/50">
               <CardHeader className="space-y-2 pb-4">
-                <CardTitle className="text-xl">Creator</CardTitle>
+                <CardTitle className="text-xl flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500"></span>
+                  Creator
+                </CardTitle>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-bold">$7</span>
+                  <span className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">$7</span>
                   <span className="text-sm text-muted-foreground">/mo</span>
                 </div>
                 <CardDescription className="text-xs">For independent work</CardDescription>
@@ -181,14 +187,17 @@ export default function Landing() {
             {/* Pro Tier */}
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col border-primary/50 relative">
               <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
-                <Badge className="bg-primary text-primary-foreground text-[10px] px-2 py-0.5 border-0">
+                <Badge className="bg-gradient-to-r from-primary to-chart-2 text-white text-[10px] px-2 py-0.5 border-0">
                   Popular
                 </Badge>
               </div>
               <CardHeader className="space-y-2 pb-4 pt-6">
-                <CardTitle className="text-xl">Pro</CardTitle>
+                <CardTitle className="text-xl flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"></span>
+                  Pro
+                </CardTitle>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-bold">$12</span>
+                  <span className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">$12</span>
                   <span className="text-sm text-muted-foreground">/mo</span>
                 </div>
                 <CardDescription className="text-xs">For professionals</CardDescription>
@@ -227,14 +236,17 @@ export default function Landing() {
             {/* Studio Tier */}
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col border-border/50 opacity-75 relative">
               <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
-                <Badge variant="secondary" className="text-[10px] px-2 py-0.5">
+                <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-[10px] px-2 py-0.5 border-0">
                   Soon
                 </Badge>
               </div>
               <CardHeader className="space-y-2 pb-4 pt-6">
-                <CardTitle className="text-xl">Studio</CardTitle>
+                <CardTitle className="text-xl flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500"></span>
+                  Studio
+                </CardTitle>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-bold">$25</span>
+                  <span className="text-4xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">$25</span>
                   <span className="text-sm text-muted-foreground">/mo</span>
                 </div>
                 <CardDescription className="text-xs">For teams & agencies</CardDescription>
