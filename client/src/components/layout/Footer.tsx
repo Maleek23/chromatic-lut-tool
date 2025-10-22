@@ -6,90 +6,70 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t mt-20 py-12 bg-background/50 backdrop-blur-sm">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-          {/* About */}
-          <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center gap-2 mb-3">
-              <Link href="/">
-                <img 
-                  src={logoImage} 
-                  alt="CHROMA" 
-                  className="h-10 w-auto hover:scale-105 transition-transform duration-300 cursor-pointer" 
-                />
-              </Link>
-              <span className="text-[10px] text-muted-foreground">
+    <footer className="border-t mt-20 py-8 bg-background/50 backdrop-blur-sm">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          {/* Logo + Tagline */}
+          <div className="flex items-center gap-3">
+            <Link href="/">
+              <img 
+                src={logoImage} 
+                alt="CHROMA" 
+                className="h-8 w-auto hover:scale-105 transition-transform duration-300 cursor-pointer" 
+              />
+            </Link>
+            <div className="flex flex-col">
+              <span className="text-[9px] text-muted-foreground/60">
                 by <span className="font-semibold"><AnimatedUntitld /></span>
               </span>
+              <span className="text-xs text-muted-foreground/80">Cinema-grade LUT tools</span>
             </div>
-            <p className="text-sm text-muted-foreground">
-              Cinema-grade LUT tools.
-            </p>
           </div>
 
-          {/* Product */}
-          <div>
-            <h3 className="font-semibold mb-3 text-sm">Product</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/color-science" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Color Science
-                </Link>
-              </li>
-              <li>
-                <Link href="/resources" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Resources
-                </Link>
-              </li>
-              <li>
-                <Link href="/upgrade" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Pricing
-                </Link>
-              </li>
-            </ul>
+          {/* Navigation Links - Compact Single Row */}
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs">
+            <div className="flex items-center gap-4">
+              <span className="text-muted-foreground/50 font-medium">Product</span>
+              <Link href="/color-science" className="text-muted-foreground hover:text-foreground transition-colors">
+                Color Science
+              </Link>
+              <Link href="/resources" className="text-muted-foreground hover:text-foreground transition-colors">
+                Resources
+              </Link>
+              <Link href="/upgrade" className="text-muted-foreground hover:text-foreground transition-colors">
+                Pricing
+              </Link>
+            </div>
+            
+            <div className="h-3 w-px bg-border/40 hidden md:block" />
+            
+            <div className="flex items-center gap-4">
+              <span className="text-muted-foreground/50 font-medium">Company</span>
+              <Link href="/about" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-about">
+                About
+              </Link>
+              <Link href="/support" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-support">
+                Support
+              </Link>
+            </div>
+            
+            <div className="h-3 w-px bg-border/40 hidden md:block" />
+            
+            <div className="flex items-center gap-4">
+              <span className="text-muted-foreground/50 font-medium">Legal</span>
+              <Link href="/privacy" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-privacy">
+                Privacy
+              </Link>
+              <Link href="/terms" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-terms">
+                Terms
+              </Link>
+            </div>
           </div>
 
-          {/* Company */}
-          <div>
-            <h3 className="font-semibold mb-3 text-sm">Company</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="link-about">
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link href="/support" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="link-support">
-                  Support
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Legal */}
-          <div>
-            <h3 className="font-semibold mb-3 text-sm">Legal</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="link-privacy">
-                  Privacy
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="link-terms">
-                  Terms
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Bottom */}
-        <div className="border-t pt-6 text-center">
-          <p className="text-sm text-muted-foreground">
+          {/* Copyright */}
+          <div className="text-xs text-muted-foreground/60 whitespace-nowrap">
             © {currentYear} UN/TITLD
-          </p>
+          </div>
         </div>
       </div>
     </footer>
