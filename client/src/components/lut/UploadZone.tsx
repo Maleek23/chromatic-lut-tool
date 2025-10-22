@@ -57,7 +57,7 @@ export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: Upl
   return (
     <div
       className={`
-        relative min-h-[500px] border-2 rounded-3xl overflow-hidden
+        relative min-h-[280px] border-2 rounded-xl overflow-hidden
         transition-all duration-300 flex flex-col items-center justify-center
         cursor-pointer group
         ${
@@ -88,30 +88,30 @@ export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: Upl
         data-testid="input-file"
       />
 
-      <div className="flex flex-col items-center gap-8 pointer-events-none relative z-10 px-6 max-w-2xl">
-        {/* Simple icon container */}
+      <div className="flex flex-col items-center gap-4 pointer-events-none relative z-10 px-6 max-w-2xl">
+        {/* Compact icon container */}
         <div className={`
-          relative p-10 rounded-full
+          relative p-4 rounded-full
           bg-card border-2 transition-all duration-300
           ${isDragging ? 'border-primary/50 shadow-lg shadow-primary/10' : 'border-border'}
         `}>
           <div className="relative z-10">
             {isAnalyzing ? (
-              <Loader2 className="w-24 h-24 text-primary" />
+              <Loader2 className="w-12 h-12 text-primary" />
             ) : (
-              <CloudUpload className={`w-24 h-24 transition-colors ${isDragging ? 'text-primary' : 'text-foreground/60'}`} />
+              <CloudUpload className={`w-12 h-12 transition-colors ${isDragging ? 'text-primary' : 'text-foreground/60'}`} />
             )}
           </div>
         </div>
 
-        {/* Clean typography */}
-        <div className="text-center space-y-4">
-          <h3 className="text-4xl md:text-5xl font-bold">
+        {/* Compact typography */}
+        <div className="text-center space-y-2">
+          <h3 className="text-xl font-bold">
             {isAnalyzing ? "Analyzing Image" : isDragging ? "Drop to Analyze" : multiple ? "Upload Images" : "Upload Reference Image"}
           </h3>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-lg">
+          <p className="text-sm text-muted-foreground max-w-lg">
             {isAnalyzing 
-              ? "Processing with professional color science algorithms" 
+              ? "Processing color science..." 
               : isDragging
               ? "Release to extract color grading"
               : `Drag and drop ${multiple ? "images" : "your image"} here, or click to browse`
@@ -121,13 +121,13 @@ export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: Upl
 
         {/* File formats and button */}
         {!isAnalyzing && (
-          <div className="flex flex-col items-center gap-6 w-full">
-            <div className="flex flex-wrap gap-3 justify-center">
+          <div className="flex flex-col items-center gap-3 w-full">
+            <div className="flex flex-wrap gap-2 justify-center">
               {['JPG', 'PNG', 'HEIC', 'WEBP', 'TIFF'].map((format) => (
                 <Badge 
                   key={format}
                   variant="secondary" 
-                  className="font-mono text-sm px-4 py-1.5"
+                  className="font-mono text-xs px-2 py-0.5"
                 >
                   {format}
                 </Badge>
@@ -135,17 +135,17 @@ export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: Upl
             </div>
             
             <Button 
-              size="lg" 
+              size="sm" 
               variant="default"
-              className="pointer-events-auto mt-2 text-lg px-10 py-6"
+              className="pointer-events-auto mt-1"
               onClick={(e) => {
                 e.stopPropagation();
                 inputRef.current?.click();
               }}
               data-testid="button-select-file"
             >
-              <ImageIcon className="w-5 h-5 mr-2" />
-              <span className="font-semibold">Select Image</span>
+              <ImageIcon className="w-4 h-4 mr-2" />
+              <span>Select Image</span>
             </Button>
           </div>
         )}

@@ -14,19 +14,11 @@ import {
   Layers,
   ArrowUpCircle,
   Sparkles,
-  Play,
-  Download,
   Repeat,
-  Search,
   FileText,
   Clock,
   Lock
 } from "lucide-react";
-import { UploadZone } from "@/components/lut/UploadZone";
-import { BeforeAfterSlider } from "@/components/lut/BeforeAfterSlider";
-import { HistogramVisualization } from "@/components/lut/HistogramVisualization";
-import { Progress } from "@/components/ui/progress";
-import { QualityGauge } from "@/components/visual/QualityGauge";
 
 interface DashboardStats {
   savedPresets: number;
@@ -40,16 +32,6 @@ export default function Dashboard() {
     queryKey: ["/api/dashboard/stats"],
     enabled: !!user,
   });
-
-  // Live preview state
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const [beforeImage, setBeforeImage] = useState<string | null>(null);
-  const [afterImage, setAfterImage] = useState<string | null>(null);
-  const [currentLUT, setCurrentLUT] = useState<string | null>(null);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [analysisProgress, setAnalysisProgress] = useState(0);
-  const [lutQualityScore, setLutQualityScore] = useState(85);
-  const [rgbHistogram, setRgbHistogram] = useState<{red: number[]; green: number[]; blue: number[]} | null>(null);
 
   // Auth guard
   useEffect(() => {
@@ -65,68 +47,17 @@ export default function Dashboard() {
   const isPro = user.tier === "pro" || user.tier === "studio";
   const isStudio = user.tier === "studio";
 
-  const handleImageUpload = useCallback((file: File) => {
-    setIsAnalyzing(true);
-    setAnalysisProgress(0);
-    
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const dataUrl = e.target?.result as string;
-      setAnalysisProgress(30);
-      setPreviewImage(dataUrl);
-      setBeforeImage(dataUrl);
-      setAfterImage(dataUrl);
-      
-      // Analyze histogram
-      const img = new Image();
-      img.onload = () => {
-        setAnalysisProgress(60);
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          ctx.drawImage(img, 0, 0);
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const data = imageData.data;
-          
-          const red = new Array(256).fill(0);
-          const green = new Array(256).fill(0);
-          const blue = new Array(256).fill(0);
-          
-          for (let i = 0; i < data.length; i += 4) {
-            red[data[i]]++;
-            green[data[i + 1]]++;
-            blue[data[i + 2]]++;
-          }
-          
-          setRgbHistogram({ red, green, blue });
-          setAnalysisProgress(100);
-          
-          // Simulate quality score calculation
-          setTimeout(() => {
-            const randomQuality = Math.floor(Math.random() * 30) + 70; // 70-100
-            setLutQualityScore(randomQuality);
-            setIsAnalyzing(false);
-          }, 500);
-        }
-      };
-      img.src = dataUrl;
-    };
-    reader.readAsDataURL(file);
-  }, []);
-
   return (
       <div>
-        {/* Compact Header */}
+        {/* Header */}
         <div className="border-b border-border/50 bg-background/80 backdrop-blur-sm sticky top-0 z-20">
           <div className="container mx-auto px-6 py-4 flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
-                Color Command Center
+              <h1 className="text-2xl font-bold">
+                Dashboard
               </h1>
               <p className="text-sm text-muted-foreground">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-chart-2 font-medium">{user.username}</span> · {user.conversionsThisMonth || 0} LUTs this month
+                Welcome back, <span className="text-primary font-medium">{user.username}</span>
               </p>
             </div>
             <div className="flex items-center gap-3">
@@ -140,7 +71,7 @@ export default function Dashboard() {
               {!isPro && (
                 <Button size="sm" data-testid="button-upgrade-header" className="bg-gradient-to-r from-primary to-chart-2" asChild>
                   <Link href="/upgrade">
-                    <ArrowUpCircle className="w-3 h-3 mr-2" />
+                    <ArrowUpCircle className="w-3 h-3 mr-1" />
                     Upgrade
                   </Link>
                 </Button>
@@ -150,35 +81,32 @@ export default function Dashboard() {
         </div>
 
         {/* Main Content */}
-        <div className="container mx-auto p-6 max-w-[1800px]">
-          {/* Top Row: Quick Actions + Live Preview */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+        <div className="container mx-auto p-6 max-w-4xl">
+          <div className="space-y-6">
             
-            {/* LEFT: Color Command Center */}
-            <div className="lg:col-span-5 space-y-6">
-              
-              {/* Quick Actions */}
-              <Card className="border-primary/20 bg-gradient-to-br from-background/80 to-primary/5 backdrop-blur-sm">
-                <CardHeader className="pb-4">
-                  <CardTitle className="flex items-center gap-2">
-                    <Zap className="w-5 h-5 text-primary" />
-                    Quick Actions
-                  </CardTitle>
-                  <CardDescription>Jump into your workflow</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3">
+            {/* Quick Actions */}
+            <Card className="border-primary/20 bg-background/80 backdrop-blur-sm">
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-2">
+                  <Zap className="w-5 h-5 text-primary" />
+                  Quick Actions
+                </CardTitle>
+                <CardDescription>Jump into your workflow</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   
                   {/* Generate New LUT */}
                   <Link href="/generate">
-                    <Card className="overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer border-primary/30 bg-gradient-to-br from-primary/10 to-chart-2/10" data-testid="card-action-generate">
+                    <Card className="overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer border-primary/30 bg-gradient-to-br from-primary/5 to-chart-2/5" data-testid="card-action-generate">
                       <CardContent className="p-4">
                         <div className="flex items-start gap-3">
-                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center flex-shrink-0">
-                            <Sparkles className="w-6 h-6 text-primary" />
+                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center flex-shrink-0">
+                            <Sparkles className="w-5 h-5 text-primary" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h4 className="font-semibold mb-1">Generate New LUT</h4>
-                            <p className="text-xs text-muted-foreground leading-relaxed">Create from reference image</p>
+                            <h4 className="font-semibold mb-0.5">Generate New LUT</h4>
+                            <p className="text-xs text-muted-foreground">Create from reference image</p>
                           </div>
                         </div>
                       </CardContent>
@@ -187,15 +115,15 @@ export default function Dashboard() {
 
                   {/* Convert Format */}
                   <Link href="/convert">
-                    <Card className="overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer border-chart-2/30 bg-gradient-to-br from-chart-2/10 to-chart-3/10" data-testid="card-action-convert">
+                    <Card className="overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer border-chart-2/30 bg-gradient-to-br from-chart-2/5 to-chart-3/5" data-testid="card-action-convert">
                       <CardContent className="p-4">
                         <div className="flex items-start gap-3">
-                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-chart-2/20 to-chart-3/20 flex items-center justify-center flex-shrink-0">
-                            <Repeat className="w-6 h-6 text-chart-2" />
+                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-chart-2/20 to-chart-3/20 flex items-center justify-center flex-shrink-0">
+                            <Repeat className="w-5 h-5 text-chart-2" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h4 className="font-semibold mb-1">Convert Format</h4>
-                            <p className="text-xs text-muted-foreground leading-relaxed">Transform existing LUTs</p>
+                            <h4 className="font-semibold mb-0.5">Convert Format</h4>
+                            <p className="text-xs text-muted-foreground">Transform existing LUTs</p>
                           </div>
                         </div>
                       </CardContent>
@@ -204,23 +132,23 @@ export default function Dashboard() {
 
                   {/* Analyze Quality */}
                   <Link href={isPro ? "/analyze" : "#"} onClick={(e) => !isPro && (e.preventDefault(), navigate("/upgrade"))}>
-                    <Card className={`overflow-hidden transition-all duration-300 cursor-pointer border-chart-3/30 bg-gradient-to-br from-chart-3/10 to-primary/10 ${isPro ? 'hover-elevate active-elevate-2' : 'opacity-60'}`} data-testid="card-action-analyze">
+                    <Card className={`overflow-hidden transition-all duration-300 cursor-pointer border-chart-3/30 bg-gradient-to-br from-chart-3/5 to-primary/5 ${isPro ? 'hover-elevate active-elevate-2' : 'opacity-60'}`} data-testid="card-action-analyze">
                       <CardContent className="p-4">
                         <div className="flex items-start gap-3">
-                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-chart-3/20 to-primary/20 flex items-center justify-center flex-shrink-0">
-                            <BarChart3 className="w-6 h-6 text-chart-3" />
+                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-chart-3/20 to-primary/20 flex items-center justify-center flex-shrink-0">
+                            <BarChart3 className="w-5 h-5 text-chart-3" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-1">
+                            <div className="flex items-center gap-2 mb-0.5">
                               <h4 className="font-semibold">Analyze Quality</h4>
                               {!isPro && (
-                                <Badge variant="secondary" className="px-2 py-0.5 text-[10px]">
-                                  <Crown className="w-2.5 h-2.5 mr-1" />
+                                <Badge variant="secondary" className="px-1.5 py-0.5 text-[10px]">
+                                  <Crown className="w-2.5 h-2.5 mr-0.5" />
                                   PRO
                                 </Badge>
                               )}
                             </div>
-                            <p className="text-xs text-muted-foreground leading-relaxed">Scan for banding & issues</p>
+                            <p className="text-xs text-muted-foreground">Scan for banding & issues</p>
                           </div>
                           {!isPro && <Lock className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-1" />}
                         </div>
@@ -233,21 +161,25 @@ export default function Dashboard() {
                     <Card className="overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer border-border/50 bg-background/50" data-testid="card-action-resources">
                       <CardContent className="p-4">
                         <div className="flex items-start gap-3">
-                          <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center flex-shrink-0">
-                            <FileText className="w-6 h-6 text-muted-foreground" />
+                          <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center flex-shrink-0">
+                            <FileText className="w-5 h-5 text-muted-foreground" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h4 className="font-semibold mb-1">Browse Resources</h4>
-                            <p className="text-xs text-muted-foreground leading-relaxed">Guides & documentation</p>
+                            <h4 className="font-semibold mb-0.5">Browse Resources</h4>
+                            <p className="text-xs text-muted-foreground">Guides & documentation</p>
                           </div>
                         </div>
                       </CardContent>
                     </Card>
                   </Link>
 
-                </CardContent>
-              </Card>
+                </div>
+              </CardContent>
+            </Card>
 
+            {/* Two Column Layout */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              
               {/* Recent Activity */}
               <Card className="border-border/50 bg-background/80 backdrop-blur-sm">
                 <CardHeader className="pb-4">
@@ -281,157 +213,12 @@ export default function Dashboard() {
                   </div>
                 </CardContent>
               </Card>
-            </div>
 
-            {/* RIGHT: Live Preview Workspace */}
-            <div className="lg:col-span-7">
-              <Card className="h-full border-primary/20 bg-gradient-to-br from-background to-primary/5">
-                <CardHeader className="pb-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle className="flex items-center gap-2">
-                        <Play className="w-5 h-5 text-primary" />
-                        Live Preview
-                      </CardTitle>
-                      <CardDescription>Drop an image to see LUT effects in real-time</CardDescription>
-                    </div>
-                    {previewImage && (
-                      <Button size="sm" variant="outline" className="hover-elevate" data-testid="button-download-preview">
-                        <Download className="w-3 h-3 mr-2" />
-                        Export
-                      </Button>
-                    )}
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {isAnalyzing && (
-                    <div className="space-y-3">
-                      <p className="text-sm text-muted-foreground text-center">Analyzing color science...</p>
-                      <div className="space-y-2">
-                        <Progress value={analysisProgress} className="h-2" data-testid="progress-dashboard-analysis" />
-                        <p className="text-xs text-center text-muted-foreground font-mono">{Math.round(analysisProgress)}%</p>
-                      </div>
-                    </div>
-                  )}
-                  {!previewImage ? (
-                    <UploadZone
-                      onImageUpload={handleImageUpload}
-                      isAnalyzing={isAnalyzing}
-                      data-testid="upload-preview-image"
-                    />
-                  ) : (
-                    <div className="space-y-4">
-                      {beforeImage && afterImage ? (
-                        <div className="rounded-lg overflow-hidden border border-primary/20">
-                          <BeforeAfterSlider
-                            beforeImage={beforeImage}
-                            afterImage={afterImage}
-                            beforeLabel="Original"
-                            afterLabel={currentLUT || "No LUT Applied"}
-                          />
-                        </div>
-                      ) : (
-                        <div className="aspect-video rounded-lg overflow-hidden border border-primary/20 bg-muted">
-                          <img src={previewImage} alt="Preview" className="w-full h-full object-contain" />
-                        </div>
-                      )}
-                      
-                      <div className="flex gap-2">
-                        <Button 
-                          size="sm" 
-                          variant="outline" 
-                          className="flex-1 hover-elevate"
-                          onClick={() => {
-                            setPreviewImage(null);
-                            setBeforeImage(null);
-                            setAfterImage(null);
-                            setCurrentLUT(null);
-                          }}
-                          data-testid="button-clear-preview"
-                        >
-                          Clear Preview
-                        </Button>
-                        <Button 
-                          size="sm" 
-                          variant="default" 
-                          className="flex-1 bg-gradient-to-r from-primary to-chart-2"
-                          asChild
-                          data-testid="button-generate-lut"
-                        >
-                          <Link href="/generate">
-                            <Sparkles className="w-3 h-3 mr-2" />
-                            Generate LUT from This
-                          </Link>
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-
-          {/* Bottom Row: Scopes & Usage */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            
-            {/* Color Scopes - Wider */}
-            <div className="lg:col-span-8">
-              
-              <Card className="border-chart-2/20 bg-gradient-to-br from-background to-chart-2/5">
+              {/* Usage Stats */}
+              <Card className="border-border/50 bg-background/80 backdrop-blur-sm">
                 <CardHeader className="pb-4">
                   <CardTitle className="flex items-center gap-2">
-                    <BarChart3 className="w-5 h-5 text-chart-2" />
-                    Color Scopes
-                  </CardTitle>
-                  <CardDescription>Real-time color analysis</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {previewImage && rgbHistogram ? (
-                    <div className="space-y-4">
-                      <HistogramVisualization rgbHistogram={rgbHistogram} />
-                    </div>
-                  ) : (
-                    <div className="text-center py-12 text-muted-foreground">
-                      <BarChart3 className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                      <p className="text-sm">Upload an image to see color analysis</p>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Stats & Quality */}
-            <div className="lg:col-span-4 space-y-6">
-              
-              {/* LUT Quality Score */}
-              {previewImage && (
-                <Card className="border-primary/20 bg-gradient-to-br from-background to-primary/5">
-                  <CardHeader className="pb-4">
-                    <CardTitle className="flex items-center gap-2">
-                      <TrendingUp className="w-5 h-5 text-primary" />
-                      Quality Score
-                    </CardTitle>
-                    <CardDescription>Cinema-grade metrics</CardDescription>
-                  </CardHeader>
-                  <CardContent className="flex flex-col items-center space-y-4">
-                    <QualityGauge score={lutQualityScore} size={160} />
-                    <div className="text-center space-y-1">
-                      <p className="text-sm font-medium">
-                        {lutQualityScore >= 85 ? "Excellent" : lutQualityScore >= 70 ? "Good" : "Fair"} Quality
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        Based on color distribution and tonal mapping
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Quick Stats */}
-              <Card className="border-chart-3/20 bg-gradient-to-br from-background to-chart-3/5">
-                <CardHeader className="pb-4">
-                  <CardTitle className="flex items-center gap-2">
-                    <Layers className="w-5 h-5 text-chart-3" />
+                    <Layers className="w-5 h-5 text-primary" />
                     Your Usage
                   </CardTitle>
                 </CardHeader>

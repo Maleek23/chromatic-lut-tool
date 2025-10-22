@@ -34,7 +34,7 @@
 
   --sidebar-border: 240 6% 91%;
 
-  --sidebar-primary: 265 80% 55%;
+  --sidebar-primary: 240 85% 58%;
 
   --sidebar-primary-foreground: 0 0% 100%;
 
@@ -42,7 +42,7 @@
 
   --sidebar-accent-foreground: 0 0% 6%;
 
-  --sidebar-ring: 265 80% 55%;
+  --sidebar-ring: 240 85% 58%;
 
   --popover: 0 0% 100%;
 
@@ -50,7 +50,7 @@
 
   --popover-border: 240 6% 90%;
 
-  --primary: 265 80% 55%;
+  --primary: 240 85% 58%;
 
   --primary-foreground: 0 0% 100%;
 
@@ -62,7 +62,7 @@
 
   --muted-foreground: 240 4% 46%;
 
-  --accent: 190 100% 50%;
+  --accent: 210 90% 52%;
 
   --accent-foreground: 0 0% 100%;
 
@@ -71,19 +71,19 @@
   --destructive-foreground: 0 0% 100%;
 
   --input: 240 6% 90%;
-  --ring: 265 80% 55%;
+  --ring: 240 85% 58%;
   
-  /* Color Science Spectrum - Purple → Cyan → Magenta */
-  --chart-1: 265 80% 55%;
-  --chart-2: 190 100% 50%;
-  --chart-3: 330 100% 50%;
+  /* Color Science Spectrum - Blue → Purple → Red gradient */
+  --chart-1: 240 85% 58%;
+  --chart-2: 265 82% 60%;
+  --chart-3: 330 95% 55%;
   --chart-4: 42 100% 52%;
   --chart-5: 153 72% 51%;
   
   /* RGB values for gradient effects */
-  --primary-rgb: 107, 45, 217;
-  --chart-2-rgb: 0, 212, 255;
-  --chart-3-rgb: 255, 0, 128;
+  --primary-rgb: 77, 97, 237;
+  --chart-2-rgb: 147, 79, 229;
+  --chart-3-rgb: 247, 13, 130;
 
   --font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-serif: Georgia, serif;
@@ -160,7 +160,7 @@
 
   --sidebar-border: 240 6% 13%;
 
-  --sidebar-primary: 265 80% 60%;
+  --sidebar-primary: 240 85% 62%;
 
   --sidebar-primary-foreground: 0 0% 100%;
 
@@ -168,7 +168,7 @@
 
   --sidebar-accent-foreground: 0 0% 90%;
 
-  --sidebar-ring: 265 80% 60%;
+  --sidebar-ring: 240 85% 62%;
 
   --popover: 0 0% 6%;
 
@@ -176,7 +176,7 @@
 
   --popover-border: 240 6% 15%;
 
-  --primary: 265 80% 60%;
+  --primary: 240 85% 62%;
 
   --primary-foreground: 0 0% 100%;
 
@@ -188,7 +188,7 @@
 
   --muted-foreground: 240 4% 63%;
 
-  --accent: 190 100% 55%;
+  --accent: 210 90% 56%;
 
   --accent-foreground: 0 0% 100%;
 
@@ -197,19 +197,19 @@
   --destructive-foreground: 0 0% 100%;
 
   --input: 240 6% 18%;
-  --ring: 265 80% 60%;
+  --ring: 240 85% 62%;
   
-  /* Color Science Spectrum - Purple → Cyan → Magenta */
-  --chart-1: 265 80% 60%;
-  --chart-2: 190 100% 55%;
-  --chart-3: 330 100% 55%;
+  /* Color Science Spectrum - Blue → Purple → Red gradient */
+  --chart-1: 240 85% 62%;
+  --chart-2: 265 82% 64%;
+  --chart-3: 330 95% 58%;
   --chart-4: 42 100% 56%;
   --chart-5: 153 72% 56%;
   
   /* RGB values for gradient effects */
-  --primary-rgb: 129, 83, 230;
-  --chart-2-rgb: 0, 221, 255;
-  --chart-3-rgb: 255, 0, 136;
+  --primary-rgb: 95, 118, 245;
+  --chart-2-rgb: 157, 95, 237;
+  --chart-3-rgb: 250, 23, 140;
 
   --shadow-2xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.20);
   --shadow-xs: 0px 1px 3px 0px hsl(0 0% 0% / 0.30);
