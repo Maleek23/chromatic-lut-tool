@@ -90,8 +90,6 @@ export function HeroSection() {
             <BeforeAfterSlider
               beforeImage={beforeImage}
               afterImage={afterImage}
-              beforeLabel="Flat / Ungraded"
-              afterLabel="Cinema-Graded"
             />
             
             {/* Processing indicator */}

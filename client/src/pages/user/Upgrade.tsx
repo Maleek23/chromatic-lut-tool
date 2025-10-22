@@ -71,14 +71,8 @@ export default function Upgrade() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 relative overflow-hidden">
-      {/* Animated background orbs */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s' }} />
-        <div className="absolute bottom-1/3 left-1/4 w-[350px] h-[350px] bg-chart-2/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '8s', animationDelay: '1s' }} />
-      </div>
-
-      <div className="container max-w-7xl mx-auto px-4 py-16 relative z-10">
+      <div className="min-h-screen">
+      <div className="container max-w-7xl mx-auto px-4 py-16">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
@@ -442,6 +436,6 @@ export default function Upgrade() {
           </CardContent>
         </Card>
       </div>
-    </div>
+      </div>
   );
 }

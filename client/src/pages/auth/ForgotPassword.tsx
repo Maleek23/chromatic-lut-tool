@@ -71,16 +71,8 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Animated gradient background */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
-        <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-        <div className="absolute bottom-1/3 left-1/4 w-[500px] h-[500px] bg-chart-2/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
-        <div className="absolute inset-0 opacity-[0.015] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuNSIvPjwvc3ZnPg==')]" />
-      </div>
-
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8">
+    <>
+      <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8">
         <div className="w-full max-w-md space-y-8">
           {/* Branding Header */}
           <div className="text-center space-y-6">
@@ -101,80 +93,76 @@ export default function ForgotPassword() {
                 Enter your email and we'll send you instructions to reset your password.
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-6">
+              {error && (
+                <Alert variant="destructive">
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
+
               {success ? (
-                <div className="space-y-6">
-                  <Alert className="bg-green-500/10 border-green-500/50">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center">
+                      <CheckCircle className="w-10 h-10 text-green-500" />
+                    </div>
+                  </div>
+                  <Alert className="bg-green-500/10 border-green-500/20">
                     <CheckCircle className="h-4 w-4 text-green-500" />
-                    <AlertDescription className="text-green-700 dark:text-green-400">
-                      If an account exists with that email, we've sent password reset instructions. Please check your inbox.
+                    <AlertDescription>
+                      Check your email for password reset instructions. The link will expire in 1 hour.
                     </AlertDescription>
                   </Alert>
-                  
-                  <div className="space-y-4">
-                    <Button variant="outline" className="w-full" asChild data-testid="button-back-to-login">
-                      <Link href="/auth">
-                        <ArrowLeft className="w-4 h-4 mr-2" />
-                        Back to Login
-                      </Link>
+                  <Link href="/auth">
+                    <Button className="w-full" variant="outline">
+                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      Back to Sign In
                     </Button>
-                  </div>
+                  </Link>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  {error && (
-                    <Alert variant="destructive">
-                      <AlertDescription>{error}</AlertDescription>
-                    </Alert>
-                  )}
-
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="email">Email Address</Label>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                       <Input
                         id="email"
                         type="email"
-                        placeholder="your.email@example.com"
+                        placeholder="your@email.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        className="pl-9"
                         required
-                        className="pl-10"
+                        disabled={loading}
                         data-testid="input-email"
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-4">
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-gradient-to-r from-primary to-chart-2" 
-                      disabled={loading}
-                      data-testid="button-send-reset"
-                    >
-                      {loading ? "Sending..." : "Send Reset Instructions"}
-                    </Button>
+                  <Button 
+                    type="submit" 
+                    className="w-full" 
+                    disabled={loading}
+                    data-testid="button-submit"
+                  >
+                    {loading ? "Sending..." : "Send Reset Link"}
+                  </Button>
 
-                    <Button variant="ghost" className="w-full" asChild data-testid="button-back">
-                      <Link href="/auth">
-                        <ArrowLeft className="w-4 h-4 mr-2" />
-                        Back to Login
-                      </Link>
+                  <Link href="/auth">
+                    <Button type="button" className="w-full" variant="outline" data-testid="button-back">
+                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      Back to Sign In
                     </Button>
-                  </div>
+                  </Link>
                 </form>
               )}
             </CardContent>
           </Card>
-
-          {/* Security Notice */}
-          <p className="text-center text-sm text-muted-foreground">
-            For security reasons, you won't receive an email if the account doesn't exist.
-          </p>
         </div>
       </div>
-
+      
       <Footer />
-    </div>
+    </>
   );
 }

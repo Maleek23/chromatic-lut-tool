@@ -112,15 +112,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Cinematic Background */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
-        <div className="absolute top-1/4 right-1/3 w-[600px] h-[600px] bg-chart-2/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-        <div className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-primary/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
-      </div>
-
-      <div className="relative z-10">
+      <div>
         {/* Compact Header */}
         <div className="border-b border-border/50 bg-background/80 backdrop-blur-sm sticky top-0 z-20">
           <div className="container mx-auto px-6 py-4 flex items-center justify-between">
@@ -336,6 +328,5 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-    </div>
   );
 }

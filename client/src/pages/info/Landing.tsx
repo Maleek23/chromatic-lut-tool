@@ -10,7 +10,7 @@ import { SixStageArchitecture } from "@/components/education/SixStageArchitectur
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
+    <>
       {/* Cinema-Grade Hero Section */}
       <HeroSection />
 
@@ -348,6 +348,6 @@ export default function Landing() {
       </section>
 
       <Footer />
-    </div>
+    </>
   );
 }

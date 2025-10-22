@@ -3,20 +3,13 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ColorCube3D } from '@/components/visual/ColorCube3D';
-import { ChevronLeft, ChevronRight, Info } from 'lucide-react';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Stage {
   number: number;
   name: string;
   technical: string;
   description: string;
-  whyMatters: string;
   visualization: React.ReactNode;
   details: string[];
 }
@@ -27,7 +20,6 @@ const stages: Stage[] = [
     name: "CIE L*a*b* Transform",
     technical: "Perceptually Uniform Color Space",
     description: "Transforms RGB colors into the CIE L*a*b* color space, ensuring perceptually uniform color processing.",
-    whyMatters: "RGB values don't match human perception. L*a*b* ensures equal mathematical changes produce equal visual changes.",
     visualization: <ColorCube3D size={220} rotating={true} />,
     details: [
       "Converts from device-dependent RGB to perceptual L*a*b*",
@@ -41,7 +33,6 @@ const stages: Stage[] = [
     name: "K-means Clustering",
     technical: "Dominant Color Extraction",
     description: "Analyzes image to extract 5-8 dominant color clusters, identifying the essential color palette.",
-    whyMatters: "Reduces millions of colors to core palette without losing visual essence. Essential for authentic LUT generation.",
     visualization: (
       <div className="space-y-3">
         <div className="grid grid-cols-4 gap-2">
@@ -68,7 +59,6 @@ const stages: Stage[] = [
     name: "Filmic Tone Curves",
     technical: "Cinema S-Curve Application",
     description: "Applies professional film-style tone curves for natural highlight rolloff and shadow detail preservation.",
-    whyMatters: "Linear curves look harsh. Filmic S-curves create the organic, cinema-grade tonal response viewers expect.",
     visualization: (
       <svg viewBox="0 0 200 200" className="w-full max-w-[220px] mx-auto">
         <defs>
@@ -116,7 +106,6 @@ const stages: Stage[] = [
     name: "Skin Tone Protection",
     technical: "Selective Color Preservation",
     description: "Detects and protects skin tone ranges to prevent unnatural color shifts in portraits and people.",
-    whyMatters: "Aggressive color grading can make skin tones look alien. Protection ensures natural, flattering skin across all ethnicities.",
     visualization: (
       <div className="relative w-full max-w-[220px] mx-auto aspect-square">
         <svg viewBox="0 0 200 200" className="w-full h-full">
@@ -155,7 +144,6 @@ const stages: Stage[] = [
     name: "Gamut Compression",
     technical: "Color Space Mapping",
     description: "Safely compresses out-of-gamut colors into target color space (Rec.709/P3/Rec.2020) while preserving hue.",
-    whyMatters: "Different displays have different color ranges. Compression ensures your LUT works everywhere without clipping.",
     visualization: (
       <div className="space-y-2">
         <div className="flex gap-2 justify-center">
@@ -186,7 +174,6 @@ const stages: Stage[] = [
     name: "Chromatic Adaptation",
     technical: "White Balance Correction",
     description: "Adapts colors to different lighting conditions, ensuring consistent look across varying white points.",
-    whyMatters: "Reference images shot in different lighting look inconsistent. Adaptation neutralizes lighting bias for universal application.",
     visualization: (
       <div className="grid grid-cols-3 gap-2">
         {[
@@ -245,7 +232,7 @@ export function SixStageArchitecture() {
       }
     };
 
-    container.addEventListener('scroll', handleScroll);
+    container.addEventListener('scroll', handleScroll, { passive: true });
     return () => container.removeEventListener('scroll', handleScroll);
   }, [currentStage]);
 
@@ -268,7 +255,7 @@ export function SixStageArchitecture() {
   const stage = stages[currentStage];
 
   return (
-    <section className="py-20 bg-gradient-to-b from-background to-muted/20">
+    <section className="py-20">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
@@ -303,7 +290,7 @@ export function SixStageArchitecture() {
         {/* Horizontal Scrolling Journey */}
         <div
           ref={scrollContainerRef}
-          className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-4 pb-4 max-w-5xl mx-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-4 pb-4 max-w-5xl mx-auto hide-scrollbar"
           style={{ scrollSnapType: 'x mandatory' }}
         >
           {stages.map((stageData, index) => (
@@ -314,7 +301,7 @@ export function SixStageArchitecture() {
             >
               <div className="grid md:grid-cols-2 gap-8 p-8">
                 {/* Left: Content */}
-                <div className="space-y-6">
+                <div className="space-y-4">
                   {/* Stage Number */}
                   <div className="flex items-baseline gap-3">
                     <span className="text-6xl font-bold text-primary/20" style={{ fontFamily: 'Montserrat' }} data-testid={`text-stage-${stageData.number}-number`}>
@@ -334,19 +321,6 @@ export function SixStageArchitecture() {
                   <p className="text-base leading-relaxed" data-testid={`text-stage-${stageData.number}-description`}>
                     {stageData.description}
                   </p>
-
-                  {/* Why This Matters */}
-                  <div className="bg-primary/5 border-l-4 border-primary p-4 rounded-r-lg" data-testid={`section-stage-${stageData.number}-why-matters`}>
-                    <div className="flex items-start gap-2">
-                      <Info className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                      <div>
-                        <p className="text-sm font-semibold mb-1">Why This Matters</p>
-                        <p className="text-sm text-muted-foreground" data-testid={`text-stage-${stageData.number}-why-matters-content`}>
-                          {stageData.whyMatters}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
 
                   {/* Technical Details */}
                   <div data-testid={`section-stage-${stageData.number}-details`}>
@@ -377,7 +351,7 @@ export function SixStageArchitecture() {
         </div>
 
         {/* Navigation */}
-        <div className="flex justify-center gap-4 mt-8">
+        <div className="flex justify-center gap-4 mt-8 items-center">
           <Button
             variant="outline"
             size="lg"
@@ -389,20 +363,11 @@ export function SixStageArchitecture() {
             Previous
           </Button>
           
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-muted">
-                  <span className="text-sm font-medium">
-                    Stage {currentStage + 1} of {stages.length}
-                  </span>
-                </div>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Use arrow keys to navigate</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-muted">
+            <span className="text-sm font-medium">
+              Stage {currentStage + 1} of {stages.length}
+            </span>
+          </div>
 
           <Button
             variant="outline"
@@ -422,10 +387,10 @@ export function SixStageArchitecture() {
             <button
               key={index}
               onClick={() => goToStage(index)}
-              className={`p-4 rounded-lg border-2 transition-all text-left ${
+              className={`p-4 rounded-lg border-2 transition-all text-left hover-elevate ${
                 index === currentStage
-                  ? 'border-primary bg-primary/5 shadow-lg'
-                  : 'border-border hover:border-primary/50 hover:bg-muted/50'
+                  ? 'border-primary bg-primary/5'
+                  : 'border-border'
               }`}
               data-testid={`button-minimap-stage-${index + 1}`}
             >
