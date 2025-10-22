@@ -25,39 +25,34 @@ export function AnimatedUntitld({
 
   return (
     <span 
-      className={`inline-flex items-center justify-center ${className}`}
+      className={`inline-flex items-center ${className}`}
       onMouseEnter={() => setIsCollapsed(true)}
-      onMouseLeave={() => setIsCollapsed(false)}
     >
-      {/* UN text - gets sucked into the portal */}
+      {/* UN text - gets sucked horizontally into the slash from the left */}
       <span 
-        className={`inline-block transition-all duration-700 ease-in-out ${
+        className={`inline-block transition-all duration-500 ease-in-out overflow-hidden ${
           isCollapsed 
-            ? 'scale-0 -translate-x-4 rotate-180' 
-            : 'scale-100 translate-x-0 rotate-0'
+            ? 'w-0 opacity-0 translate-x-2' 
+            : 'w-auto opacity-100 translate-x-0'
         }`}
-        style={{ transformOrigin: 'right center' }}
       >
         UN
       </span>
       
-      {/* The "/" portal - standalone gradient color with rotation */}
+      {/* The "/" portal - standalone gradient color */}
       <span 
-        className={`inline-block font-semibold mx-0.5 relative z-10 bg-gradient-to-r from-primary via-chart-2 to-chart-3 bg-clip-text text-transparent transition-transform duration-700 ${
-          isCollapsed ? 'rotate-180 scale-110' : 'rotate-0 scale-100'
-        }`}
+        className="inline-block font-semibold mx-0.5 relative z-10 bg-gradient-to-r from-primary via-chart-2 to-chart-3 bg-clip-text text-transparent"
       >
         /
       </span>
       
-      {/* TITLD text - gets sucked into the portal */}
+      {/* TITLD text - gets sucked horizontally into the slash from the right */}
       <span 
-        className={`inline-block transition-all duration-700 ease-in-out ${
+        className={`inline-block transition-all duration-500 ease-in-out overflow-hidden ${
           isCollapsed 
-            ? 'scale-0 translate-x-4 -rotate-180' 
-            : 'scale-100 translate-x-0 rotate-0'
+            ? 'w-0 opacity-0 -translate-x-2' 
+            : 'w-auto opacity-100 translate-x-0'
         }`}
-        style={{ transformOrigin: 'left center' }}
       >
         TITLD
       </span>
