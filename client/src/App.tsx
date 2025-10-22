@@ -38,6 +38,12 @@ function Router() {
       <NavBar />
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/visuals">
+          {() => {
+            window.location.href = '/';
+            return null;
+          }}
+        </Route>
         <Route path="/generate" component={Generate} />
         <Route path="/tools" component={Tools} />
         <ProtectedRoute path="/convert" component={Convert} />

@@ -29,29 +29,35 @@ export function AnimatedUntitld({
       onMouseEnter={() => !autoPlay && setIsCollapsed(true)}
       onMouseLeave={() => !autoPlay && setIsCollapsed(false)}
     >
-      {/* UN text - slides left and scales down */}
+      {/* UN text - gets sucked into the portal */}
       <span 
         className={`inline-block transition-all duration-700 ease-in-out ${
           isCollapsed 
-            ? 'opacity-0 scale-0 -translate-x-2' 
-            : 'opacity-100 scale-100 translate-x-0'
+            ? 'scale-0 -translate-x-4 rotate-180' 
+            : 'scale-100 translate-x-0 rotate-0'
         }`}
+        style={{ transformOrigin: 'right center' }}
       >
         UN
       </span>
       
-      {/* The "/" portal - always visible */}
-      <span className="inline-block font-semibold mx-0.5 relative z-10">
+      {/* The "/" portal - standalone gradient color with rotation */}
+      <span 
+        className={`inline-block font-semibold mx-0.5 relative z-10 bg-gradient-to-r from-primary via-chart-2 to-chart-3 bg-clip-text text-transparent transition-transform duration-700 ${
+          isCollapsed ? 'rotate-180 scale-110' : 'rotate-0 scale-100'
+        }`}
+      >
         /
       </span>
       
-      {/* TITLD text - slides right and scales down */}
+      {/* TITLD text - gets sucked into the portal */}
       <span 
         className={`inline-block transition-all duration-700 ease-in-out ${
           isCollapsed 
-            ? 'opacity-0 scale-0 translate-x-2' 
-            : 'opacity-100 scale-100 translate-x-0'
+            ? 'scale-0 translate-x-4 -rotate-180' 
+            : 'scale-100 translate-x-0 rotate-0'
         }`}
+        style={{ transformOrigin: 'left center' }}
       >
         TITLD
       </span>
