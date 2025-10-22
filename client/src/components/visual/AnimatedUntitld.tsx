@@ -45,7 +45,7 @@ export function AnimatedUntitld({
       
       {/* The "/" portal - standalone gradient color with pulse effect */}
       <span 
-        className={`inline-block font-semibold mx-1 relative z-10 bg-gradient-to-r from-primary via-chart-2 to-chart-3 bg-clip-text text-transparent transition-all duration-700 ${
+        className={`inline-block font-semibold relative z-10 bg-gradient-to-r from-primary via-chart-2 to-chart-3 bg-clip-text text-transparent transition-all duration-700 ${
           isCollapsed ? 'scale-125' : 'scale-100'
         }`}
       >
