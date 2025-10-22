@@ -124,10 +124,10 @@ export default function CreateFromImages() {
               <CardContent className="p-0">
                 <div className="grid md:grid-cols-2 gap-0">
                   {/* Left: Visual */}
-                  <div className="bg-gradient-to-br from-chart-2/5 to-chart-3/5 p-8 flex items-center justify-center border-r border-border/30">
-                    <div className="w-full max-w-xs">
-                      <ColorCube3D size={220} rotating={true} />
-                      <p className="text-xs text-center text-muted-foreground mt-4 font-mono">3D LUT Color Space</p>
+                  <div className="bg-gradient-to-br from-chart-2/5 to-chart-3/5 p-6 flex items-center justify-center border-r border-border/30">
+                    <div className="w-full flex flex-col items-center gap-4">
+                      <ColorCube3D size={240} rotating={true} />
+                      <p className="text-xs text-center text-muted-foreground font-mono">3D LUT Color Space</p>
                     </div>
                   </div>
                   
