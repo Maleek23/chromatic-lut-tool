@@ -6,9 +6,9 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t mt-20 py-8 bg-background/50 backdrop-blur-sm">
+    <footer className="border-t mt-20 py-6 bg-background/50 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Logo + Tagline */}
           <div className="flex items-center gap-3">
             <Link href="/">
@@ -27,9 +27,9 @@ export function Footer() {
           </div>
 
           {/* Navigation Links - Compact Single Row */}
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs">
-            <div className="flex items-center gap-4">
-              <span className="text-muted-foreground/50 font-medium">Product</span>
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs">
+            <div className="flex items-center gap-3">
+              <span className="text-muted-foreground/50 font-medium text-[11px]">Product</span>
               <Link href="/color-science" className="text-muted-foreground hover:text-foreground transition-colors">
                 Color Science
               </Link>
@@ -43,8 +43,8 @@ export function Footer() {
             
             <div className="h-3 w-px bg-border/40 hidden md:block" />
             
-            <div className="flex items-center gap-4">
-              <span className="text-muted-foreground/50 font-medium">Company</span>
+            <div className="flex items-center gap-3">
+              <span className="text-muted-foreground/50 font-medium text-[11px]">Company</span>
               <Link href="/about" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-about">
                 About
               </Link>
@@ -55,8 +55,8 @@ export function Footer() {
             
             <div className="h-3 w-px bg-border/40 hidden md:block" />
             
-            <div className="flex items-center gap-4">
-              <span className="text-muted-foreground/50 font-medium">Legal</span>
+            <div className="flex items-center gap-3">
+              <span className="text-muted-foreground/50 font-medium text-[11px]">Legal</span>
               <Link href="/privacy" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="link-privacy">
                 Privacy
               </Link>
