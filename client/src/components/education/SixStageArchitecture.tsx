@@ -210,31 +210,28 @@ export function SixStageArchitecture() {
   const stage = stages[currentStage];
 
   return (
-    <section className="py-16 relative z-10" data-section="six-stage">
-      <div className="container mx-auto px-4">
+    <section className="py-20 relative z-10" data-section="six-stage">
+      <div className="container mx-auto px-4 max-w-5xl">
         {/* Header */}
-        <div className="text-center mb-10">
-          <Badge variant="outline" className="mb-3" data-testid="badge-architecture-label">
-            Cinema-Grade Pipeline
-          </Badge>
-          <h2 className="text-3xl md:text-4xl font-bold mb-3">
+        <div className="mb-12 max-w-3xl">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Six-Stage Color Science Architecture
           </h2>
-          <p className="text-base text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base text-muted-foreground">
             Professional color pipeline built on VES and CIE standards. Each stage is scientifically validated.
           </p>
         </div>
 
         {/* Progress Dots */}
-        <div className="flex justify-center gap-2 mb-6">
+        <div className="flex justify-center gap-2 mb-8">
           {stages.map((_, index) => (
             <button
               key={index}
               onClick={() => goToStage(index)}
-              className={`h-1.5 rounded-full transition-all ${
+              className={`h-1 rounded-full transition-all ${
                 index === currentStage
-                  ? 'w-12 bg-gradient-to-r from-primary to-chart-2'
-                  : 'w-1.5 bg-muted-foreground/20 hover:bg-muted-foreground/40'
+                  ? 'w-10 bg-foreground'
+                  : 'w-1 bg-border hover:bg-muted-foreground/40'
               }`}
               data-testid={`button-stage-dot-${index + 1}`}
               aria-label={`Go to stage ${index + 1}`}
@@ -243,84 +240,74 @@ export function SixStageArchitecture() {
         </div>
 
         {/* Main Stage Display */}
-        <div ref={containerRef} className="max-w-5xl mx-auto mb-6">
-          <Card
-            className="overflow-hidden transition-all duration-500 hover-elevate bg-background/80 backdrop-blur-sm"
-            data-testid={`card-stage-${currentStage + 1}`}
-          >
-            <div className="grid md:grid-cols-2 gap-6 p-6 md:p-8">
-              {/* Left: Content */}
-              <div className="space-y-4">
-                {/* Stage Number */}
-                <div className="flex items-baseline gap-3">
-                  <span className="text-6xl font-bold text-primary/20" data-testid={`text-stage-${stage.number}-number`}>
-                    {stage.number}
-                  </span>
-                  <div>
-                    <h3 className="text-2xl font-bold" data-testid={`text-stage-${stage.number}-name`}>
-                      {stage.name}
-                    </h3>
-                    <p className="text-sm text-muted-foreground font-mono" data-testid={`text-stage-${stage.number}-technical`}>
-                      {stage.technical}
-                    </p>
-                  </div>
+        <div ref={containerRef} className="mb-8">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12" data-testid={`card-stage-${currentStage + 1}`}>
+            {/* Left: Content */}
+            <div className="space-y-6">
+              {/* Stage Number & Title */}
+              <div className="space-y-2">
+                <div className="text-sm font-mono text-muted-foreground" data-testid={`text-stage-${stage.number}-number`}>
+                  Stage {stage.number}
                 </div>
-
-                {/* Description */}
-                <p className="text-base leading-relaxed" data-testid={`text-stage-${stage.number}-description`}>
-                  {stage.description}
+                <h3 className="text-2xl font-bold" data-testid={`text-stage-${stage.number}-name`}>
+                  {stage.name}
+                </h3>
+                <p className="text-sm text-muted-foreground" data-testid={`text-stage-${stage.number}-technical`}>
+                  {stage.technical}
                 </p>
-
-                {/* Technical Details */}
-                <div data-testid={`section-stage-${stage.number}-details`}>
-                  <p className="text-sm font-semibold mb-2">Technical Implementation:</p>
-                  <ul className="space-y-1">
-                    {stage.details.map((detail, i) => (
-                      <li key={i} className="text-sm text-muted-foreground flex items-start gap-2" data-testid={`text-stage-${stage.number}-detail-${i + 1}`}>
-                        <span className="text-primary mt-0.5">→</span>
-                        <span>{detail}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
               </div>
 
-              {/* Right: Visualization */}
-              <div className="flex flex-col items-center justify-center space-y-4" data-testid={`section-stage-${stage.number}-visualization`}>
-                <div className="w-full flex items-center justify-center min-h-[280px] py-6 px-4">
-                  {stage.visualization}
-                </div>
-                <Badge variant="secondary" className="font-mono text-xs">
-                  Stage {stage.number} Visualization
-                </Badge>
+              {/* Description */}
+              <p className="text-sm leading-relaxed" data-testid={`text-stage-${stage.number}-description`}>
+                {stage.description}
+              </p>
+
+              {/* Technical Details */}
+              <div data-testid={`section-stage-${stage.number}-details`}>
+                <p className="text-xs font-medium mb-3 text-foreground">Technical Implementation</p>
+                <ul className="space-y-2">
+                  {stage.details.map((detail, i) => (
+                    <li key={i} className="text-xs text-muted-foreground flex items-start gap-2 leading-relaxed" data-testid={`text-stage-${stage.number}-detail-${i + 1}`}>
+                      <span className="text-muted-foreground mt-0.5">•</span>
+                      <span>{detail}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
-          </Card>
+
+            {/* Right: Visualization */}
+            <div className="flex flex-col items-center justify-center" data-testid={`section-stage-${stage.number}-visualization`}>
+              <div className="w-full flex items-center justify-center min-h-[280px] py-6">
+                {stage.visualization}
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Navigation */}
-        <div className="flex justify-center gap-3 mb-8 items-center">
+        <div className="flex justify-between items-center">
           <Button
-            variant="outline"
+            variant="ghost"
             onClick={() => goToStage(currentStage - 1)}
             disabled={currentStage === 0}
             data-testid="button-prev-stage"
+            className="text-sm"
           >
             <ChevronLeft className="w-4 h-4 mr-1" />
             Previous
           </Button>
           
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-muted/50 backdrop-blur-sm">
-            <span className="text-xs font-medium">
-              {currentStage + 1} / {stages.length}
-            </span>
+          <div className="text-xs font-mono text-muted-foreground">
+            {currentStage + 1} / {stages.length}
           </div>
 
           <Button
-            variant="outline"
+            variant="ghost"
             onClick={() => goToStage(currentStage + 1)}
             disabled={currentStage === stages.length - 1}
             data-testid="button-next-stage"
+            className="text-sm"
           >
             Next
             <ChevronRight className="w-4 h-4 ml-1" />

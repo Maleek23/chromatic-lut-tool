@@ -1,0 +1,781 @@
+# 🎨 CHROMA Platform Page Design Prompts
+
+---
+
+## 📄 **PROMPT 1: LUT GENERATOR PAGE**
+
+### **Prompt Title:**
+**"Design a Professional LUT Generator Interface with Real-Time Cinema-Grade Preview & Precise Color Control"**
+
+---
+
+### **Prompt Body:**
+
+You are a senior product designer creating the flagship tool interface for **CHROMA**, a professional color science platform. Design the **Image to LUT Generator** page where colorists and filmmakers extract authentic color grading from reference images using cinema-grade chroma science.
+
+The page must balance professional precision with visual elegance, showcasing the technical sophistication while remaining intuitive for both expert colorists and ambitious creators.
+
+---
+
+### 🎯 **Page Objectives**
+
+**Primary Goal:** Enable users to generate production-ready 3D LUTs from reference images in <2 minutes
+
+**User Flow:**
+1. Upload reference image (drag-drop or browse)
+2. Preview LUT applied to reference in real-time
+3. Adjust intensity, grid size, precision, format
+4. Generate & download LUT with comprehensive metadata
+
+**Success Metrics:**
+- Time to first LUT: <90 seconds
+- Clarity of technical controls: No tooltip reliance for basic flow
+- Preview accuracy: Represents final output exactly
+- Error prevention: Invalid settings caught before generation
+
+---
+
+### 🎨 **Visual Layout Architecture**
+
+#### **Three-Panel Cinema Layout:**
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  CHROMA Generator                          [User] [⚙️]  │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  ┌──────────────┐  ┌────────────────────┐  ┌─────────┐ │
+│  │              │  │                    │  │         │ │
+│  │   UPLOAD     │  │   LIVE PREVIEW     │  │ CONTROL │ │
+│  │   ZONE       │  │   VIEWPORT         │  │ PANEL   │ │
+│  │              │  │                    │  │         │ │
+│  │  [Reference] │  │  Before │ After    │  │ Settings│ │
+│  │              │  │                    │  │         │ │
+│  │              │  │  [Slider Control]  │  │ Export  │ │
+│  │              │  │                    │  │         │ │
+│  │  [Recents]   │  │  [Scopes Toggle]   │  │         │ │
+│  │              │  │                    │  │         │ │
+│  └──────────────┘  └────────────────────┘  └─────────┘ │
+│                                                          │
+│  [Technical Pipeline Visualization]                     │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+### 📦 **SECTION 1: Upload Zone (Left Panel)**
+
+#### **Visual Design:**
+
+**Drag-Drop Area:**
+```
+┌──────────────────────────────────────┐
+│                                       │
+│         📸                            │
+│                                       │
+│    Drop reference image               │
+│    or click to browse                 │
+│                                       │
+│    JPG, PNG, TIFF • Max 50MB         │
+│                                       │
+│    ┌─────────────────────┐          │
+│    │  Choose File        │          │
+│    └─────────────────────┘          │
+│                                       │
+└──────────────────────────────────────┘
+```
+
+**Visual Treatment:**
+- **Background:** Deep cinematic black with subtle film grain texture
+- **Border:** Dashed outline (2px) in cyan, glows on hover
+- **Hover State:** Background darkens, border glows intensifies, cursor changes to "copy" icon
+- **Drag-Over State:** Background shifts to dark cyan (10% opacity), border solid + pulsing glow
+- **Icon:** Camera icon (48px) with subtle animated breath effect
+
+**Supported Formats Badge:**
+- Small chip below drop zone: "JPG • PNG • TIFF"
+- Icon for each format with tooltip explaining color space support
+
+---
+
+#### **Recent Uploads Carousel:**
+
+**Below drop zone:**
+```
+Recent References:
+┌────┐ ┌────┐ ┌────┐ ┌────┐
+│ 📷 │ │ 📷 │ │ 📷 │ │ 📷 │
+│ 1  │ │ 2  │ │ 3  │ │ 4  │
+└────┘ └────┘ └────┘ └────┘
+(Thumbnail grid, 80x80px each)
+```
+
+**Interaction:**
+- Click thumbnail → Instantly reload that reference
+- Hover → Shows filename + upload date tooltip
+- Right-click → "Delete from recents" option
+- Stores last 8 uploads (local storage or user account)
+
+---
+
+#### **Image Info Display (When Uploaded):**
+
+```
+┌──────────────────────────────────────┐
+│  [Thumbnail Preview]                 │
+│                                       │
+│  reference_sunset.jpg                │
+│  3840 × 2160 • sRGB                  │
+│  Uploaded 2 min ago                  │
+│                                       │
+│  [Change Image] [Clear]              │
+└──────────────────────────────────────┘
+```
+
+**Technical Details Shown:**
+- Filename (truncated if long)
+- Resolution (dimensions)
+- Color space detected (sRGB, Adobe RGB, P3)
+- File size
+- Upload timestamp
+
+**Actions:**
+- "Change Image" → Reopens file picker
+- "Clear" → Removes image, resets to upload state
+
+---
+
+### 🎬 **SECTION 2: Live Preview Viewport (Center Panel)**
+
+#### **Cinema Viewport Design:**
+
+**Aspect Ratio:** 16:9 cinematic viewport (locked ratio)
+
+**Before/After Comparison Modes:**
+
+**Mode 1: Slider Comparison (Default)**
+```
+┌──────────────────────────────────────┐
+│  BEFORE          │        AFTER      │
+│                  │                   │
+│   [Reference]    │  [LUT Applied]    │
+│                  │                   │
+│         ◄────────●────────►          │
+│          Drag to compare             │
+└──────────────────────────────────────┘
+```
+
+**Slider Interaction:**
+- Vertical divider with draggable handle (large 48px circular handle)
+- Handle has glow effect (cyan neon)
+- Smooth 60fps dragging (no lag)
+- Click-and-hold shows 100% before/after labels
+- Keyboard: Arrow keys move slider in 10% increments
+
+**Mode 2: Side-by-Side**
+```
+┌────────────────┬────────────────┐
+│    BEFORE      │     AFTER      │
+│                │                │
+│  [Reference]   │ [LUT Applied]  │
+│                │                │
+└────────────────┴────────────────┘
+```
+
+**Mode 3: Toggle (Blink Comparison)**
+```
+┌─────────────────────────────────┐
+│        [Full Image]             │
+│                                 │
+│   Hold SPACE to toggle          │
+│   Before ↔ After                │
+│                                 │
+└─────────────────────────────────┘
+```
+
+**Mode Switcher:**
+- Three icon buttons above viewport
+- `[▓│▓] Slider` | `[▓ ▓] Split` | `[◉] Toggle`
+- Active mode highlighted with cyan underline
+
+---
+
+#### **Viewport Controls Bar:**
+
+**Top Bar (Above Preview):**
+```
+┌──────────────────────────────────────────────────────┐
+│ [Zoom: Fit │ 100% │ 200%] [Reset] [Mode: Slider ▼] │
+└──────────────────────────────────────────────────────┘
+```
+
+**Bottom Bar (Below Preview):**
+```
+┌──────────────────────────────────────────────────────┐
+│ [⚡ Processing...]  [📊 Scopes ▼]  [🔄 Refresh]     │
+└──────────────────────────────────────────────────────┘
+```
+
+**Processing Indicator:**
+- Shows when LUT is being generated or updated
+- Animated gradient progress bar
+- Text: "Analyzing 1.2M color points..." (shows actual count)
+- Changes to checkmark ✓ when complete
+
+**Scopes Toggle:**
+```
+Dropdown reveals:
+□ Waveform (luminance)
+□ Vectorscope (hue/saturation)
+□ Histogram (RGB distribution)
+□ Parade (RGB channels)
+
+When enabled, overlays appear as semi-transparent 
+panels in corners of viewport
+```
+
+---
+
+#### **Color Scopes Overlay (Optional):**
+
+**When enabled:**
+```
+┌─────────────────────────────────────┐
+│  ┌─────┐              ┌─────┐      │
+│  │WAVE │              │VECTOR│     │
+│  │FORM │   [IMAGE]    │SCOPE │     │
+│  └─────┘              └─────┘      │
+│                                     │
+│  ┌─────────────────────────┐      │
+│  │   RGB PARADE            │      │
+│  │   [R] [G] [B] channels  │      │
+│  └─────────────────────────┘      │
+└─────────────────────────────────────┘
+```
+
+**Scopes Design:**
+- Semi-transparent black background (80% opacity)
+- Cyan grid lines
+- Draggable (user can reposition)
+- Minimize button (collapse to icon)
+- Toggle individual scopes on/off
+
+---
+
+### 🎛️ **SECTION 3: Control Panel (Right Panel)**
+
+#### **Panel Structure:**
+
+```
+┌───────────────────────────────────┐
+│  CONTROL PANEL                    │
+│  ═══════════════════════════════  │
+│                                    │
+│  [Intensity Slider]               │
+│  [Grid Size Selector]             │
+│  [Format Dropdown]                │
+│  [Precision Selector]             │
+│                                    │
+│  ┌─────────────────────────────┐ │
+│  │ Advanced Options            │ │
+│  │ ▼                           │ │
+│  └─────────────────────────────┘ │
+│                                    │
+│  ┌───────────────────────────┐   │
+│  │  GENERATE LUT             │   │
+│  └───────────────────────────┘   │
+│                                    │
+│  [Export Options]                 │
+└───────────────────────────────────┘
+```
+
+---
+
+#### **1. Intensity Slider:**
+
+```
+Intensity: 75% ●────────○──────
+
+│         │         │         │
+0%       25%       50%       75%      100%
+Subtle            Balanced           Full
+```
+
+**Visual Design:**
+- Large slider (full width of panel)
+- Track: Dark gray with cyan gradient fill
+- Thumb: 24px circular handle with glow
+- Value display: Live updating percentage above slider
+- Preset markers at 25%, 50%, 75%, 100%
+
+**Presets (Quick Select):**
+```
+[25% Subtle] [50% Balanced] [75% Strong] [100% Full]
+```
+- Clicking preset animates slider to position
+- Active preset highlighted with cyan border
+
+**Real-Time Preview:**
+- Every slider change updates preview (debounced 100ms)
+- Smooth transition (fade between intensities)
+- "Processing..." indicator if generation takes >300ms
+
+---
+
+#### **2. Grid Size Selector:**
+
+```
+Grid Size: Cinema Grade ✓
+
+┌────────┐  ┌────────┐  ┌────────┐
+│  17³   │  │  33³   │  │  65³   │
+│ ▓▓▓    │  │ ▓▓▓▓▓▓ │  │ ▓▓▓▓▓▓▓│
+│ Standard│  │ High   │  │ Cinema │
+│        │  │Quality │  │ Grade  │
+│ FREE   │  │CREATOR │  │  PRO   │
+└────────┘  └────────┘  └────────┘
+```
+
+**Visual Treatment:**
+- Three cards (side-by-side or stacked on narrow screens)
+- Each shows 3D cube visualization (rotating on hover)
+- Tier badge at bottom (color-coded)
+- Selected card: Cyan border + glow
+- Locked cards: 50% opacity + lock icon
+
+**Hover Tooltip:**
+```
+33³ Grid (High Quality)
+━━━━━━━━━━━━━━━━━━━━━
+35,937 color points
+Smoother gradients
+Recommended for:
+• Professional editing
+• Broadcast delivery
+• Smooth skin tones
+
+[Upgrade to Creator →]
+```
+
+---
+
+#### **3. Format Dropdown:**
+
+```
+Export Format: .cube (3D LUT) ▼
+
+When expanded:
+┌──────────────────────────────────┐
+│ ✓ .cube  (3D LUT)         FREE  │
+│   .3dl   (Autodesk)    CREATOR  │
+│   .look  (Pandora)     CREATOR  │
+│   .lut   (1D LUT)         PRO   │
+│   .xmp   (Lightroom)      PRO   │
+└──────────────────────────────────┘
+```
+
+**Format Display:**
+- Icon for each format (file type icon)
+- Format name + description
+- Compatible software icons (Premiere, Resolve, FCP)
+- Tier requirement badge
+- Locked formats grayed out with upgrade prompt
+
+**Hover Shows Compatibility:**
+```
+.cube Format
+━━━━━━━━━━━
+Compatible with:
+• Adobe Premiere Pro
+• DaVinci Resolve
+• Final Cut Pro
+• All major NLEs
+
+Industry standard for 3D LUTs
+Variable grid sizes supported
+```
+
+---
+
+#### **4. Precision Selector:**
+
+```
+Bit Depth: 10-bit ●──────○
+
+│          │          │
+8-bit     10-bit    12-bit
+Standard  Enhanced  Cinema
+(FREE)    (FREE)     (PRO)
+```
+
+**Visual Comparison:**
+```
+8-bit:  ████████  (256 values/channel)
+10-bit: ██████████ (1024 values/channel) ✓
+12-bit: ████████████ (4096 values/channel)
+```
+
+**Educational Callout:**
+```
+ℹ️ Higher bit depth = smoother gradients
+
+Example: Sky gradients
+8-bit:  May show banding
+10-bit: Smooth transitions ✓
+12-bit: Cinema-grade smoothness
+```
+
+---
+
+#### **5. Advanced Options (Collapsible):**
+
+```
+┌─────────────────────────────────┐
+│ ▼ Advanced Options              │
+├─────────────────────────────────┤
+│                                  │
+│ ACEScg Workflow                 │
+│ ○ Off  ● On                     │
+│ (ACES film emulation)           │
+│                                  │
+│ Skin Tone Protection: 80% ●───○ │
+│ (Preserve natural skin tones)   │
+│                                  │
+│ Chromatic Adaptation            │
+│ ○ Off  ● Auto  ○ Manual        │
+│                                  │
+│ Tone Curve Style:               │
+│ [Film ▼] Log │ Linear │ S-curve│
+│                                  │
+│ Gamut Compression:              │
+│ ● Hue-preserving  ○ Perceptual │
+│                                  │
+└─────────────────────────────────┘
+```
+
+**Each Setting:**
+- Toggle switches or sliders
+- Tooltip explaining technical impact
+- Preview updates in real-time
+- "Reset to defaults" link at bottom
+
+---
+
+#### **6. Generate Button (Primary CTA):**
+
+```
+┌───────────────────────────────────┐
+│                                    │
+│     ⚡ GENERATE LUT                │
+│                                    │
+└───────────────────────────────────┘
+```
+
+**Visual Design:**
+- Large button (full width of panel)
+- Gradient background (purple → cyan)
+- Glowing effect on hover (intensifies)
+- Height: 64px (thumb-friendly)
+- Icon: Lightning bolt (suggests speed/power)
+
+**States:**
+
+**Idle State:**
+```
+⚡ GENERATE LUT
+```
+
+**Processing State:**
+```
+⚡ GENERATING... 47%
+[████████░░░░░░░░]
+Analyzing color space...
+```
+
+**Success State:**
+```
+✓ LUT GENERATED
+[Download appears below]
+```
+
+**Error State:**
+```
+✗ Generation Failed
+[Retry] [View Error]
+```
+
+---
+
+#### **7. Export Options (After Generation):**
+
+```
+┌───────────────────────────────────┐
+│ ✓ LUT Generated Successfully!     │
+│                                    │
+│ sunset_grade_33.cube              │
+│ 128 KB • 33³ grid • 10-bit        │
+│                                    │
+│ ┌──────────────────────────────┐ │
+│ │   📥 DOWNLOAD LUT            │ │
+│ └──────────────────────────────┘ │
+│                                    │
+│ Quick Actions:                    │
+│ [🔄 Convert Format]               │
+│ [📊 Analyze Quality] (PRO)        │
+│ [💾 Save to Library]              │
+│ [🔗 Share Settings]               │
+└───────────────────────────────────┘
+```
+
+**Download Modal (Appears on Click):**
+```
+┌──────────────────────────────────┐
+│  Download LUT                    │
+│  ══════════════════════════════  │
+│                                   │
+│  File: sunset_grade_33.cube      │
+│  Size: 128 KB                    │
+│  Format: .cube (3D LUT)          │
+│  Grid: 33³ (35,937 points)       │
+│  Precision: 10-bit               │
+│                                   │
+│  Metadata included:              │
+│  ✓ CHROMA version               │
+│  ✓ Generation timestamp          │
+│  ✓ Settings snapshot             │
+│                                   │
+│  [Download to Computer]          │
+│  [Copy Download Link]            │
+│                                   │
+│  Compatible Software:            │
+│  [Resolve] [Premiere] [FCP]      │
+│                                   │
+└──────────────────────────────────┘
+```
+
+---
+
+### 🔬 **SECTION 4: Pipeline Visualization (Bottom)**
+
+#### **Six-Stage Process Indicator:**
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│  CHROMA SCIENCE PIPELINE                                     │
+│  ═══════════════════════════════════════════════════════════│
+│                                                               │
+│  1───✓───2───✓───3───✓───4───✓───5───✓───6───✓──→ Complete │
+│  │       │       │       │       │       │                   │
+│ L*a*b*  K-means Filmic  Skin   Gamut  Chromatic            │
+│ Transform Cluster Curves Protect Compress Adapt             │
+│                                                               │
+│  [View Technical Breakdown →]                                │
+└──────────────────────────────────────────────────────────────┘
+```
+
+**Visual Treatment:**
+- Horizontal progress indicator
+- Each stage represented as circle node
+- Connecting lines show flow
+- Active stage glows cyan
+- Completed stages show checkmark
+- Click any stage → Expands explanation modal
+
+**During Generation:**
+- Animates through stages sequentially
+- Current stage pulses with glow
+- Shows stage name + brief description
+- Progress bar fills as stages complete
+
+---
+
+### 🎨 **Color System**
+
+**Background Hierarchy:**
+- **Page Background:** Cinema black (#0a0a0a) with film grain texture
+- **Panels:** Elevated dark (#1a1a1a) with 8px border-radius
+- **Cards/Inputs:** Deep gray (#0f0f0f) with 1px cyan border
+
+**Interactive Elements:**
+- **Primary CTA:** Gradient (purple #6b2dd9 → cyan #00d4ff)
+- **Secondary Buttons:** White outline, hover fills
+- **Sliders:** Cyan gradient fill (#00d4ff)
+- **Toggles:** Cyan when active
+
+**Status Colors:**
+- **Processing:** Animated cyan glow
+- **Success:** Emerald green (#10b981)
+- **Error:** Crimson red (#ef4444)
+- **Warning:** Amber (#f59e0b)
+
+**Text:**
+- **Primary:** White 95% opacity
+- **Secondary:** Cool gray 70% opacity
+- **Technical:** JetBrains Mono for values/specs
+
+---
+
+### ✨ **Animations & Micro-Interactions**
+
+**Upload Zone:**
+- Drag-over: Border pulses, background shifts cyan
+- Drop: Ripple effect from drop point
+- Upload progress: Circular progress with percentage
+
+**Preview Viewport:**
+- Slider drag: Smooth 60fps follow
+- Mode switch: Cross-fade transition (300ms)
+- Zoom: Smooth scale with fade (400ms)
+
+**Control Panel:**
+- Slider: Thumb has spring easing on release
+- Toggle: Slide animation with glow trail
+- Dropdown: Smooth expand with fade-in items
+- Generate button: Hover lift + glow intensify
+
+**Processing States:**
+- Pipeline stages: Sequential glow wave
+- Progress bar: Gradient sweep animation
+- Success: Confetti burst from button
+
+---
+
+### 📱 **Responsive Behavior**
+
+**Desktop (1920px+):**
+- Three-panel layout as shown
+- Preview viewport: 1200px × 675px (16:9)
+- All controls visible simultaneously
+
+**Tablet (768px - 1919px):**
+- Two-column layout:
+  - Left: Upload + Preview (stacked)
+  - Right: Controls (fixed sidebar)
+- Preview: 800px × 450px
+
+**Mobile (< 768px):**
+- Single column, vertical scroll
+- Preview: Full width (maintain 16:9)
+- Controls: Accordion sections (collapsed by default)
+- Sticky generate button at bottom
+
+---
+
+### 🎯 **Key Features to Emphasize**
+
+**Real-Time Everything:**
+- Preview updates instantly (<100ms debounce)
+- No "apply" button needed
+- What you see IS what you get
+
+**Professional Precision:**
+- Show technical specs everywhere
+- Color space detection automatic
+- Metadata included in exports
+
+**Educational Moments:**
+- Tooltips explain every technical term
+- Pipeline visualization shows the science
+- Comparison modes teach color grading
+
+**Tier Value Communication:**
+- Free tier: Clearly show what's included
+- Locked features: Show value, not frustration
+- Upgrade prompts: Educational, not annoying
+
+---
+
+### 🚀 **Success States**
+
+**First-Time User Flow:**
+1. Drag image → Instant preview appears
+2. Adjust intensity → See changes live
+3. Click generate → Processing animation
+4. Download LUT → Success confetti
+5. Total time: <90 seconds ✓
+
+**Power User Flow:**
+1. Click recent thumbnail → Instant reload
+2. Adjust advanced options → Fine-tune
+3. Switch between comparison modes
+4. Export multiple formats → Batch download
+
+---
+
+### 📋 **Technical Requirements**
+
+**Performance:**
+- Preview generation: <500ms
+- LUT generation: <3 seconds (33³ grid)
+- UI interactions: 60fps always
+- Image upload: Progress indicator at 1MB+
+
+**Browser Support:**
+- Chrome/Edge: Full support
+- Firefox: Full support
+- Safari: Full support (with WebGL for scopes)
+
+**File Handling:**
+- Max upload: 50MB
+- Supported: JPG, PNG, TIFF, WebP
+- Color spaces: sRGB, Adobe RGB, P3, ProPhoto
+
+---
+
+### 🎬 **Deliverables**
+
+Generate:
+
+1. **High-fidelity mockup** of generator page (desktop, 1920×1080)
+2. **Mobile adaptation** (375×812 iPhone)
+3. **Component library:**
+   - Upload zone (idle, hover, drag-over, uploading, success)
+   - Preview viewport (3 comparison modes)
+   - Control panel (all inputs, states)
+   - Generate button (idle, processing, success, error)
+4. **Animation specifications:**
+   - Upload progress animation
+   - Preview mode transitions
+   - Pipeline stage progression
+   - Success celebration
+5. **Interactive prototype** showing:
+   - Upload → Preview → Adjust → Generate → Download flow
+   - Real-time preview updates
+   - Comparison mode switching
+6. **Error state designs** (upload failed, generation failed, format locked)
+7. **Empty state** (before image upload)
+
+---
+
+### 💬 **Tone & Copy Examples**
+
+**Hero Text Above Generator:**
+> "From Reference to Reality in 3 Steps"
+> Upload. Preview. Export. Professional color grading extracted in seconds.
+
+**Upload Zone Copy:**
+> "Drop your reference image"
+> "Any image with the look you want to recreate"
+
+**Generate Button Copy:**
+> ⚡ GENERATE LUT (not "Create" or "Export")
+
+**Success Message:**
+> "Cinema-grade LUT generated"
+> "Ready for DaVinci Resolve, Premiere Pro, and Final Cut Pro"
+
+**Error Message:**
+> "LUT generation encountered an issue"
+> "This might be due to: Unsupported color space, corrupted image, or insufficient color data. Try a different reference image or contact support."
+
+---
+
+**Final Note:** This page is the heart of CHROMA. It must feel like professional color grading software—precise, powerful, and beautiful. Every interaction should reinforce: "This is cinema-grade color science, not a simple filter." The interface is a tool, not a toy. 🎬
+
+---
+
+## 📄 **PROMPT 2: TOOLS PAGE**
+
+(Continue to next message for Tools page prompt...)
+
+Would you like me to continue with the **Tools Page**, **Chroma Science Page**, and **How It Works Page** prompts? Each will be equally detailed with specific design specs, interactions, and educational components. 🎨
