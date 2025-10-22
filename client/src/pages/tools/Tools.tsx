@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 import { RefreshCw, BarChart3, Zap } from "lucide-react";
 import Convert from "@/pages/tools/Convert";
 import Analyze from "@/pages/tools/Analyze";
@@ -53,28 +54,20 @@ export default function Tools() {
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Simple gradient background */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-br from-background via-background to-primary/5" />
-
-      <div className="max-w-6xl mx-auto px-4 py-12 relative z-10">
+    <div className="min-h-screen bg-background">
+      <div className="max-w-7xl mx-auto px-4 py-10 md:py-14">
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="relative inline-block mb-4">
-            <h1 className="text-5xl md:text-6xl font-bold tracking-tight relative">
-              <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-red-500/20 via-transparent to-transparent blur-sm translate-x-[-2px]">
-                LUT Tools
-              </span>
-              <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-transparent via-transparent to-blue-500/20 blur-sm translate-x-[2px]">
-                LUT Tools
-              </span>
-              <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
-                LUT Tools
-              </span>
-            </h1>
-          </div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Convert between formats, analyze quality, and optimize your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-chart-2 to-chart-3 font-semibold">color grading workflows</span>
+        <div className="text-center mb-10 max-w-3xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
+              LUT Tools
+            </span>
+          </h1>
+          <p className="text-base text-muted-foreground leading-relaxed">
+            Professional utilities for converting formats, analyzing quality, and optimizing your{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-chart-2 to-chart-3 font-medium">
+              color grading workflows
+            </span>
           </p>
         </div>
 
@@ -87,14 +80,14 @@ export default function Tools() {
           message={getUpgradeMessage(upgradeFeature, userTier)}
         />
 
-        {/* Tabs with gradient accents */}
+        {/* Tabs */}
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
           <div className="flex justify-center mb-8">
-            <TabsList className="grid grid-cols-3 gap-2 bg-muted/50 backdrop-blur-sm p-1.5 rounded-xl" data-testid="tabs-lut-tools">
+            <TabsList className="inline-flex gap-1 bg-muted/50 backdrop-blur-sm p-1 rounded-lg" data-testid="tabs-lut-tools">
               <TabsTrigger 
                 value="convert" 
                 data-testid="tab-convert"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-chart-2 data-[state=active]:text-primary-foreground rounded-lg transition-all duration-300"
+                className="relative px-5 py-2 rounded-md text-sm data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-chart-2 data-[state=active]:text-white data-[state=active]:shadow-sm transition-all duration-300"
               >
                 <RefreshCw className="w-4 h-4 mr-2" />
                 Convert
@@ -102,18 +95,28 @@ export default function Tools() {
               <TabsTrigger 
                 value="analyze" 
                 data-testid="tab-analyze"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-chart-2 data-[state=active]:to-chart-3 data-[state=active]:text-primary-foreground rounded-lg transition-all duration-300"
+                className="relative px-5 py-2 rounded-md text-sm data-[state=active]:bg-gradient-to-r data-[state=active]:from-chart-2 data-[state=active]:to-chart-3 data-[state=active]:text-white data-[state=active]:shadow-sm transition-all duration-300"
               >
                 <BarChart3 className="w-4 h-4 mr-2" />
                 Analyze
+                {!hasAnalyzerAccess && (
+                  <Badge className="ml-2 bg-gradient-to-r from-chart-3 to-primary text-white text-[9px] px-1.5 py-0 border-0 h-4">
+                    PRO
+                  </Badge>
+                )}
               </TabsTrigger>
               <TabsTrigger 
                 value="optimize" 
                 data-testid="tab-optimize"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-chart-3 data-[state=active]:to-primary data-[state=active]:text-primary-foreground rounded-lg transition-all duration-300"
+                className="relative px-5 py-2 rounded-md text-sm data-[state=active]:bg-gradient-to-r data-[state=active]:from-chart-3 data-[state=active]:to-primary data-[state=active]:text-white data-[state=active]:shadow-sm transition-all duration-300"
               >
                 <Zap className="w-4 h-4 mr-2" />
                 Optimize
+                {!hasOptimizerAccess && (
+                  <Badge className="ml-2 bg-gradient-to-r from-chart-3 to-primary text-white text-[9px] px-1.5 py-0 border-0 h-4">
+                    PRO
+                  </Badge>
+                )}
               </TabsTrigger>
             </TabsList>
           </div>
