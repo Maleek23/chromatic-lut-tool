@@ -4,6 +4,7 @@
 CHROMA is a professional toolkit for cinematographers and colorists, offering comprehensive LUT (Look-Up Table) conversion, generation, and analysis. It provides industry-standard support for all major LUT formats with a freemium pricing model. The project aims to provide an essential tool for creators and professionals in the color grading industry, featuring an Image-to-LUT generator that authentically extracts color science from reference images, and robust tools for LUT conversion and analysis.
 
 ## Recent Changes
+- **2025-10-22**: Fixed Landing and How It Works pages to use CHROMA blue→purple→red gradient palette consistently - replaced all literal color gradients (green/emerald, blue/cyan, purple/pink, yellow/orange) with semantic tokens (primary, chart-2, chart-3).
 - **2025-10-22**: Completed systematic page consistency audit - fixed all pages to use correct blue→purple→red gradient colors and removed all nested CinemaBackground wrappers for optimal performance.
 - **2025-10-22**: Updated page title gradients across Resources, InstallLuts, LutFormats, and Optimize pages from old purple/blue/cyan to correct `from-foreground via-primary to-foreground` gradient.
 - **2025-10-22**: Removed nested CinemaBackground wrappers from Settings, Privacy, Terms, Tool, Optimize, Analyze, and Convert pages (App.tsx provides single global instance).
