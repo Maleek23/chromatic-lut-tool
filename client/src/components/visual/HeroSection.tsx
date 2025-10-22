@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { BeforeAfterSlider } from './BeforeAfterSlider';
@@ -12,6 +13,13 @@ export function HeroSection() {
   // Example images - replace with actual before/after LUT images
   const beforeImage = "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1200&q=80";
   const afterImage = "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1200&q=80&sat=-100&contrast=120";
+
+  const scrollToScience = () => {
+    const scienceSection = document.querySelector('[data-section="six-stage"]');
+    if (scienceSection) {
+      scienceSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
@@ -58,14 +66,16 @@ export function HeroSection() {
                 size="lg" 
                 className="bg-gradient-to-r from-primary via-chart-2 to-chart-3 text-white shadow-lg hover:shadow-xl transition-shadow"
                 data-testid="button-get-started"
+                asChild
               >
-                Get Started Free
+                <Link href="/auth">Get Started Free</Link>
               </Button>
               <Button 
                 size="lg" 
                 variant="outline"
                 className="backdrop-blur-sm"
                 data-testid="button-see-science"
+                onClick={scrollToScience}
               >
                 <ChevronDown className="w-4 h-4 mr-2" />
                 See The Science

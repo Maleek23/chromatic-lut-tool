@@ -73,7 +73,7 @@ function App() {
         <AuthProvider>
           <TooltipProvider>
             <div className="min-h-screen bg-background relative">
-              <CinemaBackground variant="default" />
+              <CinemaBackground variant="subtle" />
               <div className="relative z-10">
                 <Toaster />
                 <Router />

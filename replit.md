@@ -16,7 +16,7 @@ Preferred communication style: Simple, everyday language.
 - **Styling**: Tailwind CSS with a cinematic aesthetic (gradient effects, animated color orbs, film grain, chromatic aberration typography, backdrop blur).
 - **Typography System**: Inter (headlines), JetBrains Mono (technical values), Montserrat (cinematic titles), Playfair Display (editorial content).
 - **Visual Components**: Cinema-grade web-native components built with Canvas API, CSS 3D transforms, and SVG animations (ColorParticles, FilmGrain, QualityGauge, ColorCube3D, SpectrumLoader, BeforeAfterSlider, HeroSection, SixStageArchitecture).
-- **CinemaBackground**: Centralized layout-level background component using absolute positioning, providing consistent cinema-grade theming across all pages with animated color orbs and film grain overlay. Single instance in App.tsx ensures optimal performance.
+- **CinemaBackground**: Centralized layout-level background component using absolute positioning with "subtle" variant (smaller orbs: 400px/350px, lower opacity: 10%/8%), providing consistent cinema-grade theming across all pages with animated color orbs and film grain overlay. Single instance in App.tsx ensures optimal performance without overwhelming content.
 - **Design Patterns**: Component composition, controlled components, custom hooks, tabbed navigation, debounced real-time preview updates, horizontal scrolling journeys with snap-scroll and keyboard navigation.
 - **SEO**: Comprehensive meta tags (Open Graph, Twitter Cards) and keyword optimization.
 

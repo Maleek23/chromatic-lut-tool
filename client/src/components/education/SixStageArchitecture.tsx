@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -200,62 +200,17 @@ const stages: Stage[] = [
 
 export function SixStageArchitecture() {
   const [currentStage, setCurrentStage] = useState(0);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const goToStage = (index: number) => {
     const newIndex = Math.max(0, Math.min(stages.length - 1, index));
     setCurrentStage(newIndex);
-    
-    // Scroll to the stage card
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      const cardWidth = container.offsetWidth;
-      container.scrollTo({
-        left: newIndex * cardWidth,
-        behavior: 'smooth'
-      });
-    }
   };
-
-  // Sync currentStage with manual scroll
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    const handleScroll = () => {
-      const cardWidth = container.offsetWidth;
-      const scrollLeft = container.scrollLeft;
-      const newIndex = Math.round(scrollLeft / cardWidth);
-      
-      if (newIndex !== currentStage && newIndex >= 0 && newIndex < stages.length) {
-        setCurrentStage(newIndex);
-      }
-    };
-
-    container.addEventListener('scroll', handleScroll, { passive: true });
-    return () => container.removeEventListener('scroll', handleScroll);
-  }, [currentStage]);
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        goToStage(currentStage - 1);
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        goToStage(currentStage + 1);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentStage]);
 
   const stage = stages[currentStage];
 
   return (
-    <section className="py-20">
+    <section className="py-20 relative z-10" data-section="six-stage">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
@@ -287,71 +242,64 @@ export function SixStageArchitecture() {
           ))}
         </div>
 
-        {/* Horizontal Scrolling Journey */}
-        <div
-          ref={scrollContainerRef}
-          className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-4 pb-4 max-w-5xl mx-auto hide-scrollbar"
-          style={{ scrollSnapType: 'x mandatory' }}
-        >
-          {stages.map((stageData, index) => (
-            <Card
-              key={index}
-              className="min-w-full snap-center flex-shrink-0 overflow-hidden"
-              data-testid={`card-stage-${index + 1}`}
-            >
-              <div className="grid md:grid-cols-2 gap-8 p-8">
-                {/* Left: Content */}
-                <div className="space-y-4">
-                  {/* Stage Number */}
-                  <div className="flex items-baseline gap-3">
-                    <span className="text-6xl font-bold text-primary/20" style={{ fontFamily: 'Montserrat' }} data-testid={`text-stage-${stageData.number}-number`}>
-                      {stageData.number}
-                    </span>
-                    <div>
-                      <h3 className="text-2xl font-bold" data-testid={`text-stage-${stageData.number}-name`}>
-                        {stageData.name}
-                      </h3>
-                      <p className="text-sm text-muted-foreground font-mono" data-testid={`text-stage-${stageData.number}-technical`}>
-                        {stageData.technical}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-base leading-relaxed" data-testid={`text-stage-${stageData.number}-description`}>
-                    {stageData.description}
-                  </p>
-
-                  {/* Technical Details */}
-                  <div data-testid={`section-stage-${stageData.number}-details`}>
-                    <p className="text-sm font-semibold mb-2">Technical Implementation:</p>
-                    <ul className="space-y-1">
-                      {stageData.details.map((detail, i) => (
-                        <li key={i} className="text-sm text-muted-foreground flex items-start gap-2" data-testid={`text-stage-${stageData.number}-detail-${i + 1}`}>
-                          <span className="text-primary mt-0.5">→</span>
-                          <span>{detail}</span>
-                        </li>
-                      ))}
-                    </ul>
+        {/* Main Stage Display */}
+        <div ref={containerRef} className="max-w-5xl mx-auto mb-8">
+          <Card
+            className="overflow-hidden transition-all duration-500"
+            data-testid={`card-stage-${currentStage + 1}`}
+          >
+            <div className="grid md:grid-cols-2 gap-8 p-8">
+              {/* Left: Content */}
+              <div className="space-y-4">
+                {/* Stage Number */}
+                <div className="flex items-baseline gap-3">
+                  <span className="text-6xl font-bold text-primary/20" style={{ fontFamily: 'Montserrat' }} data-testid={`text-stage-${stage.number}-number`}>
+                    {stage.number}
+                  </span>
+                  <div>
+                    <h3 className="text-2xl font-bold" data-testid={`text-stage-${stage.number}-name`}>
+                      {stage.name}
+                    </h3>
+                    <p className="text-sm text-muted-foreground font-mono" data-testid={`text-stage-${stage.number}-technical`}>
+                      {stage.technical}
+                    </p>
                   </div>
                 </div>
 
-                {/* Right: Visualization */}
-                <div className="flex flex-col items-center justify-center space-y-4" data-testid={`section-stage-${stageData.number}-visualization`}>
-                  <div className="w-full flex items-center justify-center min-h-[240px]">
-                    {stageData.visualization}
-                  </div>
-                  <Badge variant="secondary" className="font-mono text-xs">
-                    Stage {stageData.number} Visualization
-                  </Badge>
+                {/* Description */}
+                <p className="text-base leading-relaxed" data-testid={`text-stage-${stage.number}-description`}>
+                  {stage.description}
+                </p>
+
+                {/* Technical Details */}
+                <div data-testid={`section-stage-${stage.number}-details`}>
+                  <p className="text-sm font-semibold mb-2">Technical Implementation:</p>
+                  <ul className="space-y-1">
+                    {stage.details.map((detail, i) => (
+                      <li key={i} className="text-sm text-muted-foreground flex items-start gap-2" data-testid={`text-stage-${stage.number}-detail-${i + 1}`}>
+                        <span className="text-primary mt-0.5">→</span>
+                        <span>{detail}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
-            </Card>
-          ))}
+
+              {/* Right: Visualization */}
+              <div className="flex flex-col items-center justify-center space-y-4" data-testid={`section-stage-${stage.number}-visualization`}>
+                <div className="w-full flex items-center justify-center min-h-[240px]">
+                  {stage.visualization}
+                </div>
+                <Badge variant="secondary" className="font-mono text-xs">
+                  Stage {stage.number} Visualization
+                </Badge>
+              </div>
+            </div>
+          </Card>
         </div>
 
         {/* Navigation */}
-        <div className="flex justify-center gap-4 mt-8 items-center">
+        <div className="flex justify-center gap-4 mb-12 items-center">
           <Button
             variant="outline"
             size="lg"
@@ -382,7 +330,7 @@ export function SixStageArchitecture() {
         </div>
 
         {/* Minimap */}
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {stages.map((s, index) => (
             <button
               key={index}
