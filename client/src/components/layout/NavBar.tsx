@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { LogIn, LogOut, User, Menu, Settings, Crown } from "lucide-react";
+import { LogIn, LogOut, Settings, Crown, Menu } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -51,17 +51,7 @@ export function NavBar() {
           data-testid="nav-color-science"
           className={mobile ? "w-full justify-start" : ""}
         >
-          Chroma Science
-        </Button>
-      </Link>
-      <Link href="/resources" onClick={() => mobile && setOpen(false)}>
-        <Button 
-          variant={location.startsWith("/resources") ? "default" : "ghost"} 
-          size="sm"
-          data-testid="nav-resources"
-          className={mobile ? "w-full justify-start" : ""}
-        >
-          Resources
+          Science
         </Button>
       </Link>
     </>
@@ -71,15 +61,6 @@ export function NavBar() {
     <>
       {user ? (
         <>
-          {mobile && (
-            <div className="flex items-center gap-2 py-2" data-testid="user-info">
-              <User className="w-4 h-4" />
-              <span className="text-sm">{user.username}</span>
-              <Badge variant="secondary" className="text-xs uppercase">
-                {user.tier}
-              </Badge>
-            </div>
-          )}
           {!mobile && (
             <Badge variant="secondary" className="text-xs uppercase" data-testid="user-tier-badge">
               {user.tier}
@@ -89,7 +70,7 @@ export function NavBar() {
             <Link href="/upgrade" onClick={() => mobile && setOpen(false)}>
               <Button
                 variant="default"
-                size={mobile ? "sm" : "sm"}
+                size="sm"
                 data-testid="button-upgrade"
                 className={mobile ? "w-full justify-start" : ""}
               >
@@ -135,22 +116,12 @@ export function NavBar() {
   );
 
   return (
-    <nav className="border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <nav className="border-b sticky top-0 bg-background/95 backdrop-blur z-50">
+      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/">
           <Button variant="ghost" className="hover-elevate px-2" data-testid="button-home">
-            <div className="flex items-center gap-2">
-              <img src={logoImage} alt="Chroma" className="h-11 w-auto" />
-              <div className="hidden lg:flex items-center text-[8px] font-medium text-muted-foreground tracking-[0.15em] group">
-                <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">by</span>
-                <div className="flex items-center gap-0 ml-0.5">
-                  <span className="transition-all duration-500 ease-in-out group-hover:translate-x-2 group-hover:opacity-0 group-hover:scale-50">UN</span>
-                  <span className="text-primary mx-0.5 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rotate-180">/</span>
-                  <span className="transition-all duration-500 ease-in-out group-hover:-translate-x-2 group-hover:opacity-0 group-hover:scale-50">TITLD</span>
-                </div>
-              </div>
-            </div>
+            <img src={logoImage} alt="Chroma" className="h-11 w-auto" />
           </Button>
         </Link>
 
@@ -170,7 +141,7 @@ export function NavBar() {
                 <Menu className="w-5 h-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[250px] sm:w-[300px]">
+            <SheetContent side="right" className="w-[250px]">
               <div className="flex flex-col gap-4 mt-8">
                 <NavLinks mobile />
                 <div className="border-t pt-4">

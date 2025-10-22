@@ -13,10 +13,9 @@ Preferred communication style: Simple, everyday language.
 - **Routing**: Wouter for client-side routing.
 - **State Management**: Local React state, custom auth context, React Query for server state.
 - **UI Components**: Radix UI primitives and shadcn/ui for accessible components.
-- **Styling**: Tailwind CSS with a cinematic aesthetic (gradient effects, animated color orbs, film grain, chromatic aberration typography, backdrop blur).
-- **Typography System**: Inter (headlines), JetBrains Mono (technical values), Montserrat (cinematic titles), Playfair Display (editorial content).
-- **Visual Components**: Cinema-grade web-native components built with Canvas API, CSS 3D transforms, and SVG animations (ColorParticles, FilmGrain, QualityGauge, ColorCube3D, SpectrumLoader, BeforeAfterSlider, HeroSection, SixStageArchitecture).
-- **CinemaBackground**: Centralized layout-level background component using absolute positioning with "subtle" variant (smaller orbs: 400px/350px, lower opacity: 10%/8%), providing consistent cinema-grade theming across all pages with animated color orbs and film grain overlay. Single instance in App.tsx ensures optimal performance without overwhelming content.
+- **Styling**: Minimal, professional aesthetic with subtle animated color orbs and gradient effects.
+- **Visual Components**: Science-based visualizations demonstrating actual color processing (ColorCube3D for 3D L*a*b* color space, tone curve graphs, color cluster displays, gamut visualization).
+- **CinemaBackground**: Centralized layout-level background component with "subtle" variant (smaller orbs: 400px/350px, lower opacity: 10%/8%), providing consistent theming across all pages. Single instance in App.tsx ensures optimal performance.
 - **Design Patterns**: Component composition, controlled components, custom hooks, tabbed navigation, debounced real-time preview updates, horizontal scrolling journeys with snap-scroll and keyboard navigation.
 - **SEO**: Comprehensive meta tags (Open Graph, Twitter Cards) and keyword optimization.
 
