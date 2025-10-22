@@ -1,0 +1,1 @@
+Monga, Vishal & Bala, Raja. (2010). Algorithms for color look-up-table (LUT) design via joint optimization of node locations and output values. ICASSP, IEEE International Conference on Acoustics, Speech and Signal Processing - Proceedings. 998 - 1001. 10.1109/ICASSP.2010.5495312. 
