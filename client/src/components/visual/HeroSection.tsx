@@ -26,7 +26,7 @@ export function HeroSection() {
                 className="h-20 sm:h-24 w-auto mx-auto hover:scale-105 transition-transform duration-300 cursor-pointer animate-in fade-in duration-700" 
               />
             </Link>
-            <div className="absolute top-1/2 -translate-y-1/2 right-4 sm:right-8 lg:right-12 xl:right-16 text-[11px] text-muted-foreground/70 animate-in fade-in duration-700 delay-150 whitespace-nowrap">
+            <div className="absolute top-1/2 -translate-y-1/2 right-2 sm:right-4 lg:right-6 xl:right-8 text-[11px] text-muted-foreground/70 animate-in fade-in duration-700 delay-150 whitespace-nowrap">
               By <span className="font-semibold"><AnimatedUntitld /></span>
             </div>
           </div>
