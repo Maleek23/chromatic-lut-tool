@@ -16,35 +16,35 @@ export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
       <div className="container mx-auto px-4 py-20 relative z-10">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
-          {/* Logo with by UN/TITLD */}
-          <div className="flex items-center justify-center gap-3 mb-4">
+        <div className="max-w-4xl mx-auto text-center space-y-10">
+          {/* Logo */}
+          <div className="space-y-3">
             <Link href="/">
               <img 
                 src={logoImage} 
                 alt="CHROMA" 
-                className="h-16 sm:h-20 w-auto hover:scale-105 transition-transform duration-300 cursor-pointer animate-in fade-in duration-700" 
+                className="h-20 sm:h-24 w-auto mx-auto hover:scale-105 transition-transform duration-300 cursor-pointer animate-in fade-in duration-700" 
               />
             </Link>
-            <span className="text-xs text-muted-foreground animate-in fade-in duration-700 delay-150">
+            <p className="text-[10px] text-muted-foreground/60 animate-in fade-in duration-700 delay-150">
               by <span className="font-semibold"><AnimatedUntitld /></span>
-            </span>
+            </p>
           </div>
 
           {/* Trust badges */}
           <div className="flex flex-wrap gap-2 justify-center">
-            <Badge variant="outline" className="text-xs">
+            <Badge variant="outline" className="text-xs border-border/50">
               <Check className="w-3 h-3 mr-1" />
               VES Technology Committee
             </Badge>
-            <Badge variant="outline" className="text-xs">
+            <Badge variant="outline" className="text-xs border-border/50">
               <Check className="w-3 h-3 mr-1" />
               CIE 1976 Standard
             </Badge>
           </div>
 
           {/* Hero headline */}
-          <div className="space-y-6">
+          <div className="space-y-6 pt-4">
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
               <span className="block">Cinema-Grade</span>
               <span className="block bg-gradient-to-r from-primary via-chart-2 to-chart-3 bg-clip-text text-transparent">
