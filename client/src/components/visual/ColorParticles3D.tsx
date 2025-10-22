@@ -125,7 +125,7 @@ export function ColorParticles3D() {
       className="fixed inset-0 w-full h-full pointer-events-none"
       style={{ 
         mixBlendMode: 'screen',
-        opacity: 0.6,
+        opacity: 0.15,
         zIndex: 1
       }}
     />
