@@ -26,18 +26,18 @@ export default function CreateFromImages() {
               {/* Desktop flow */}
               <div className="hidden sm:block">
                 <div className="flex items-center justify-between gap-3">
-                  <div className="flex-1 text-center py-6 px-4 border border-border/50 rounded-md">
-                    <div className="text-sm font-medium mb-1">1. Upload</div>
+                  <div className="flex-1 text-center py-6 px-4 border border-border/50 rounded-md bg-gradient-to-br from-primary/5 to-chart-2/5">
+                    <div className="text-sm font-medium mb-1 bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent">1. Upload</div>
                     <div className="text-xs text-muted-foreground">Reference image</div>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-                  <div className="flex-1 text-center py-6 px-4 border border-border/50 rounded-md">
-                    <div className="text-sm font-medium mb-1">2. Configure</div>
+                  <ArrowRight className="w-4 h-4 text-primary flex-shrink-0" />
+                  <div className="flex-1 text-center py-6 px-4 border border-border/50 rounded-md bg-gradient-to-br from-chart-2/5 to-chart-3/5">
+                    <div className="text-sm font-medium mb-1 bg-gradient-to-r from-chart-2 to-chart-3 bg-clip-text text-transparent">2. Configure</div>
                     <div className="text-xs text-muted-foreground">Grid & format</div>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-                  <div className="flex-1 text-center py-6 px-4 border border-border/50 rounded-md">
-                    <div className="text-sm font-medium mb-1">3. Generate</div>
+                  <ArrowRight className="w-4 h-4 text-primary flex-shrink-0" />
+                  <div className="flex-1 text-center py-6 px-4 border border-border/50 rounded-md bg-gradient-to-br from-chart-3/5 to-primary/5">
+                    <div className="text-sm font-medium mb-1 bg-gradient-to-r from-chart-3 to-primary bg-clip-text text-transparent">3. Generate</div>
                     <div className="text-xs text-muted-foreground">Download LUT</div>
                   </div>
                 </div>
@@ -45,22 +45,22 @@ export default function CreateFromImages() {
               
               {/* Mobile flow */}
               <div className="sm:hidden space-y-4">
-                <div className="text-center py-6 px-4 border border-border/50 rounded-md">
-                  <div className="text-sm font-medium mb-1">1. Upload</div>
+                <div className="text-center py-6 px-4 border border-border/50 rounded-md bg-gradient-to-br from-primary/5 to-chart-2/5">
+                  <div className="text-sm font-medium mb-1 bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent">1. Upload</div>
                   <div className="text-xs text-muted-foreground">Reference image</div>
                 </div>
                 <div className="flex justify-center">
-                  <ArrowRight className="w-4 h-4 text-muted-foreground rotate-90" />
+                  <ArrowRight className="w-4 h-4 text-primary rotate-90" />
                 </div>
-                <div className="text-center py-6 px-4 border border-border/50 rounded-md">
-                  <div className="text-sm font-medium mb-1">2. Configure</div>
+                <div className="text-center py-6 px-4 border border-border/50 rounded-md bg-gradient-to-br from-chart-2/5 to-chart-3/5">
+                  <div className="text-sm font-medium mb-1 bg-gradient-to-r from-chart-2 to-chart-3 bg-clip-text text-transparent">2. Configure</div>
                   <div className="text-xs text-muted-foreground">Grid & format</div>
                 </div>
                 <div className="flex justify-center">
-                  <ArrowRight className="w-4 h-4 text-muted-foreground rotate-90" />
+                  <ArrowRight className="w-4 h-4 text-primary rotate-90" />
                 </div>
-                <div className="text-center py-6 px-4 border border-border/50 rounded-md">
-                  <div className="text-sm font-medium mb-1">3. Generate</div>
+                <div className="text-center py-6 px-4 border border-border/50 rounded-md bg-gradient-to-br from-chart-3/5 to-primary/5">
+                  <div className="text-sm font-medium mb-1 bg-gradient-to-r from-chart-3 to-primary bg-clip-text text-transparent">3. Generate</div>
                   <div className="text-xs text-muted-foreground">Download LUT</div>
                 </div>
               </div>
@@ -76,8 +76,8 @@ export default function CreateFromImages() {
             {/* Step 1 */}
             <div className="space-y-4">
               <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-md border border-border flex items-center justify-center">
-                  <span className="text-sm font-mono">1</span>
+                <div className="flex-shrink-0 w-8 h-8 rounded-md border border-primary/30 bg-gradient-to-br from-primary/10 to-chart-2/10 flex items-center justify-center">
+                  <span className="text-sm font-mono text-primary">1</span>
                 </div>
                 <div className="flex-1 space-y-3">
                   <h3 className="text-lg font-semibold">Upload Reference Image</h3>
@@ -99,8 +99,8 @@ export default function CreateFromImages() {
             {/* Step 2 */}
             <div className="space-y-4">
               <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-md border border-border flex items-center justify-center">
-                  <span className="text-sm font-mono">2</span>
+                <div className="flex-shrink-0 w-8 h-8 rounded-md border border-chart-2/30 bg-gradient-to-br from-chart-2/10 to-chart-3/10 flex items-center justify-center">
+                  <span className="text-sm font-mono text-chart-2">2</span>
                 </div>
                 <div className="flex-1 space-y-3">
                   <h3 className="text-lg font-semibold">Configure Export Settings</h3>
@@ -126,8 +126,8 @@ export default function CreateFromImages() {
             {/* Step 3 */}
             <div className="space-y-4">
               <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-md border border-border flex items-center justify-center">
-                  <span className="text-sm font-mono">3</span>
+                <div className="flex-shrink-0 w-8 h-8 rounded-md border border-chart-3/30 bg-gradient-to-br from-chart-3/10 to-primary/10 flex items-center justify-center">
+                  <span className="text-sm font-mono text-chart-3">3</span>
                 </div>
                 <div className="flex-1 space-y-3">
                   <h3 className="text-lg font-semibold">Generate and Download</h3>

@@ -281,8 +281,9 @@ export default function Tool() {
   };
 
   return (
-    <CinemaBackground variant="default">
-      <main className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-16">
+    <div className="relative min-h-screen">
+      <CinemaBackground variant="default" />
+      <main className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-16">
         {!uploadedImage ? (
           <div className="max-w-3xl mx-auto">
             {/* Hero Section */}
@@ -444,6 +445,6 @@ export default function Tool() {
       </main>
       
       <Footer />
-    </CinemaBackground>
+    </div>
   );
 }
