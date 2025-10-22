@@ -293,7 +293,6 @@ export default function Convert() {
 
   return (
     <div className="min-h-screen bg-background relative">
-      <CinemaBackground variant="subtle" />
       <div className="relative z-10 max-w-5xl mx-auto px-4 py-12 space-y-8">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted/50 backdrop-blur-sm">

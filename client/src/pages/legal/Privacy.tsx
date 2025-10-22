@@ -12,7 +12,7 @@ export default function Privacy() {
         </div>
 
         <div className="space-y-8">
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>1. Information We Collect</CardTitle>
             </CardHeader>
@@ -44,7 +44,7 @@ export default function Privacy() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>2. How We Use Your Information</CardTitle>
             </CardHeader>
@@ -64,7 +64,7 @@ export default function Privacy() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>3. Data Storage and Security</CardTitle>
             </CardHeader>
@@ -92,7 +92,7 @@ export default function Privacy() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>4. Your Rights</CardTitle>
             </CardHeader>
@@ -114,7 +114,7 @@ export default function Privacy() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>5. Cookies and Tracking</CardTitle>
             </CardHeader>
@@ -126,7 +126,7 @@ export default function Privacy() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>6. Third-Party Services</CardTitle>
             </CardHeader>
@@ -163,7 +163,7 @@ export default function Privacy() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>7. Children's Privacy</CardTitle>
             </CardHeader>
@@ -175,7 +175,7 @@ export default function Privacy() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>8. Changes to This Policy</CardTitle>
             </CardHeader>
@@ -187,7 +187,7 @@ export default function Privacy() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>9. Contact Us</CardTitle>
             </CardHeader>

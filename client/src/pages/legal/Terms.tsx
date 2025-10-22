@@ -12,7 +12,7 @@ export default function Terms() {
         </div>
 
         <div className="space-y-8">
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>1. Acceptance of Terms</CardTitle>
             </CardHeader>
@@ -27,7 +27,7 @@ export default function Terms() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>2. Service Description</CardTitle>
             </CardHeader>
@@ -40,7 +40,7 @@ export default function Terms() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>3. User Accounts and Tiers</CardTitle>
             </CardHeader>
@@ -72,7 +72,7 @@ export default function Terms() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>4. Payment and Billing</CardTitle>
             </CardHeader>
@@ -103,7 +103,7 @@ export default function Terms() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>5. Acceptable Use</CardTitle>
             </CardHeader>
@@ -120,7 +120,7 @@ export default function Terms() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>6. Intellectual Property</CardTitle>
             </CardHeader>
@@ -151,7 +151,7 @@ export default function Terms() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>7. Service Availability</CardTitle>
             </CardHeader>
@@ -164,7 +164,7 @@ export default function Terms() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>8. Disclaimer of Warranties</CardTitle>
             </CardHeader>
@@ -180,7 +180,7 @@ export default function Terms() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>9. Limitation of Liability</CardTitle>
             </CardHeader>
@@ -196,7 +196,7 @@ export default function Terms() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>10. Termination</CardTitle>
             </CardHeader>
@@ -219,7 +219,7 @@ export default function Terms() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>11. Changes to Terms</CardTitle>
             </CardHeader>
@@ -231,7 +231,7 @@ export default function Terms() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle>12. Contact Information</CardTitle>
             </CardHeader>
