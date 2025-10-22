@@ -17,69 +17,68 @@ export default function Landing() {
       {/* Six-Stage Architecture Educational Section */}
       <SixStageArchitecture />
 
-      {/* Feature Grid Section */}
-      <section className="relative z-10 py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          {/* Feature Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-            {/* Image to LUT Generator */}
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
-              <CardHeader className="text-center pb-4">
-                <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center">
-                  <Sparkles className="w-7 h-7 text-primary" />
+      {/* Features Overview */}
+      <section className="relative z-10 py-32 px-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold mb-3">Professional LUT Tools</h2>
+            <p className="text-muted-foreground">Everything you need for cinema-grade color grading</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 p-8">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center shrink-0">
+                  <Sparkles className="w-6 h-6 text-primary" />
                 </div>
-                <CardTitle className="text-lg">Image to LUT Generator</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Extract <span className="text-foreground font-medium">cinema-grade chroma science</span> using perceptual color space analysis
-                </p>
-              </CardContent>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Image to LUT</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Extract cinema-grade color science from reference images using perceptual analysis
+                  </p>
+                </div>
+              </div>
             </Card>
 
-            {/* LUT Converter */}
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
-              <CardHeader className="text-center pb-4">
-                <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-chart-2/20 to-chart-3/20 flex items-center justify-center">
-                  <ArrowRight className="w-7 h-7 text-chart-2" />
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 p-8">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-chart-2/20 to-chart-3/20 flex items-center justify-center shrink-0">
+                  <ArrowRight className="w-6 h-6 text-chart-2" />
                 </div>
-                <CardTitle className="text-lg">LUT Converter</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Convert between <span className="text-foreground font-medium">.cube, .3dl, and .lut</span> formats
-                </p>
-              </CardContent>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Convert & Optimize</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Convert between all major formats and optimize for maximum quality
+                  </p>
+                </div>
+              </div>
             </Card>
 
-            {/* LUT Analyzer */}
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
-              <CardHeader className="text-center pb-4">
-                <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-chart-3/20 to-primary/20 flex items-center justify-center">
-                  <TrendingUp className="w-7 h-7 text-chart-3" />
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 p-8">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-chart-3/20 to-purple-500/20 flex items-center justify-center shrink-0">
+                  <TrendingUp className="w-6 h-6 text-chart-3" />
                 </div>
-                <CardTitle className="text-lg">LUT Analyzer</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Quality scoring and <span className="text-foreground font-medium">banding detection</span>
-                </p>
-              </CardContent>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Quality Analysis</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Deep quality scoring, banding detection, and professional metrics
+                  </p>
+                </div>
+              </div>
             </Card>
 
-            {/* LUT Optimizer */}
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300">
-              <CardHeader className="text-center pb-4">
-                <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
-                  <Zap className="w-7 h-7 text-purple-500" />
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 p-8">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center shrink-0">
+                  <Check className="w-6 h-6 text-purple-500" />
                 </div>
-                <CardTitle className="text-lg">LUT Optimizer</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Remove invalid points and <span className="text-foreground font-medium">optimize LUTs</span>
-                </p>
-              </CardContent>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">VES + CIE Standards</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Built on industry standards for accurate, professional color science
+                  </p>
+                </div>
+              </div>
             </Card>
           </div>
         </div>

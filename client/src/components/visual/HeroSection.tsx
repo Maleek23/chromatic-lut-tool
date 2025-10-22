@@ -17,8 +17,8 @@ export function HeroSection() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
       <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="max-w-4xl mx-auto text-center space-y-10">
-          {/* Logo with by UN/TITLD to the side */}
-          <div className="flex items-center justify-center gap-4">
+          {/* Logo centered with by UN/TITLD on the right */}
+          <div className="flex items-center justify-center gap-3">
             <Link href="/">
               <img 
                 src={logoImage} 
@@ -27,7 +27,7 @@ export function HeroSection() {
               />
             </Link>
             <span className="text-[10px] text-muted-foreground/70 animate-in fade-in duration-700 delay-150">
-              by <span className="font-semibold"><AnimatedUntitld /></span>
+              By <span className="font-semibold"><AnimatedUntitld /></span>
             </span>
           </div>
 
