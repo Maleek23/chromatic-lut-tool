@@ -3,8 +3,16 @@
 ## Overview
 CHROMA is a professional toolkit for cinematographers and colorists, offering comprehensive LUT (Look-Up Table) conversion, generation, and analysis. It provides industry-standard support for all major LUT formats with a freemium pricing model. The project aims to provide an essential tool for creators and professionals in the color grading industry, featuring an Image-to-LUT generator that authentically extracts color science from reference images, and robust tools for LUT conversion and analysis.
 
+## Recent Changes
+- **2025-10-22**: Updated color palette from purple-heavy to blue→purple→red gradient matching CHROMA logo (primary: 240° blue-purple, accent: 210° bright blue, chart-3: 330° red-magenta)
+- **2025-10-22**: Simplified Dashboard layout - removed Color Scopes histogram section and Live Preview workspace. Dashboard now features only Quick Actions (4 cards), Recent Activity, and Usage Stats.
+- **2025-10-22**: Reduced UploadZone height from 500px to 280px with smaller icons (48px) and more compact typography for professional, space-efficient design.
+- **2025-10-22**: Fixed AccountSettings page rendering - removed nested CinemaBackground wrapper causing blank page issue.
+
 ## User Preferences
 Preferred communication style: Simple, everyday language.
+Color Scheme: Blue/purple/red gradient hues matching the CHROMA logo (not purple-heavy)
+Design: Cinema-grade professional aesthetic with translucent cards, minimal layout, no childish or overly decorative elements
 
 ## System Architecture
 
