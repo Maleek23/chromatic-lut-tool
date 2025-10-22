@@ -9,6 +9,7 @@ import { AuthProvider } from "@/hooks/use-auth";
 import { NavBar } from "@/components/layout/NavBar";
 import { ProtectedRoute } from "@/lib/protected-route";
 import { CinemaBackground } from "@/components/visual/CinemaBackground";
+import { ColorParticles3D } from "@/components/visual/ColorParticles3D";
 import Home from "@/pages/Home";
 import Generate from "@/pages/tools/Tool";
 import Tools from "@/pages/tools/Tools";
@@ -78,6 +79,7 @@ function App() {
           <TooltipProvider>
             <div className="min-h-screen bg-background relative">
               <CinemaBackground variant="subtle" />
+              <ColorParticles3D />
               <div className="relative z-10">
                 <Toaster />
                 <Router />
