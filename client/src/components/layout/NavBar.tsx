@@ -162,7 +162,7 @@ export function NavBar() {
               data-testid="button-home"
             />
           </Link>
-          <div className="flex flex-col -space-y-0.5 hidden sm:flex">
+          <div className="flex flex-col gap-1 hidden sm:flex">
             <span className="text-[8px] text-muted-foreground/50 leading-none">by</span>
             <span className="text-[9px] font-semibold text-muted-foreground/70 leading-none"><AnimatedUntitld /></span>
           </div>
