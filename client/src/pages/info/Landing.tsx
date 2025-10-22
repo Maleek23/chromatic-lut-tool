@@ -55,7 +55,7 @@ export default function Landing() {
 
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 p-8">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-chart-3/20 to-purple-500/20 flex items-center justify-center shrink-0">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-chart-3/20 to-primary/20 flex items-center justify-center shrink-0">
                   <TrendingUp className="w-6 h-6 text-chart-3" />
                 </div>
                 <div>
@@ -69,8 +69,8 @@ export default function Landing() {
 
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 p-8">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center shrink-0">
-                  <Check className="w-6 h-6 text-purple-500" />
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center shrink-0">
+                  <Check className="w-6 h-6 text-primary" />
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold mb-2">VES + CIE Standards</h3>
@@ -108,11 +108,11 @@ export default function Landing() {
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col border-border/50">
               <CardHeader className="space-y-2 pb-4">
                 <CardTitle className="text-xl flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-500"></span>
+                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-primary to-chart-2"></span>
                   Free
                 </CardTitle>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">$0</span>
+                  <span className="text-4xl font-bold bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent">$0</span>
                   <span className="text-sm text-muted-foreground">/mo</span>
                 </div>
                 <CardDescription className="text-xs">For trying out</CardDescription>
@@ -148,11 +148,11 @@ export default function Landing() {
             <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col border-border/50">
               <CardHeader className="space-y-2 pb-4">
                 <CardTitle className="text-xl flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500"></span>
+                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-chart-2 to-chart-3"></span>
                   Creator
                 </CardTitle>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">$7</span>
+                  <span className="text-4xl font-bold bg-gradient-to-r from-chart-2 to-chart-3 bg-clip-text text-transparent">$7</span>
                   <span className="text-sm text-muted-foreground">/mo</span>
                 </div>
                 <CardDescription className="text-xs">For independent work</CardDescription>
@@ -193,11 +193,11 @@ export default function Landing() {
               </div>
               <CardHeader className="space-y-2 pb-4 pt-6">
                 <CardTitle className="text-xl flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"></span>
+                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-chart-3 to-primary"></span>
                   Pro
                 </CardTitle>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">$12</span>
+                  <span className="text-4xl font-bold bg-gradient-to-r from-chart-3 to-primary bg-clip-text text-transparent">$12</span>
                   <span className="text-sm text-muted-foreground">/mo</span>
                 </div>
                 <CardDescription className="text-xs">For professionals</CardDescription>
@@ -242,11 +242,11 @@ export default function Landing() {
               </div>
               <CardHeader className="space-y-2 pb-4 pt-6">
                 <CardTitle className="text-xl flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500"></span>
+                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-primary to-chart-3"></span>
                   Studio
                 </CardTitle>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">$25</span>
+                  <span className="text-4xl font-bold bg-gradient-to-r from-primary to-chart-3 bg-clip-text text-transparent">$25</span>
                   <span className="text-sm text-muted-foreground">/mo</span>
                 </div>
                 <CardDescription className="text-xs">For teams & agencies</CardDescription>

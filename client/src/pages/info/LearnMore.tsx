@@ -13,9 +13,6 @@ import { Footer } from "@/components/layout/Footer";
 export default function LearnMore() {
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Simple gradient background */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-gradient-to-br from-background via-background to-primary/5" />
-
       <div className="container mx-auto px-4 py-20 max-w-7xl relative z-10">
         {/* Header */}
         <div className="text-center space-y-6 mb-20">
