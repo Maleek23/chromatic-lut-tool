@@ -20,7 +20,7 @@ const stages: Stage[] = [
     name: "CIE L*a*b* Transform",
     technical: "Perceptually Uniform Color Space",
     description: "Transforms RGB colors into the CIE L*a*b* color space, ensuring perceptually uniform color processing.",
-    visualization: <ColorCube3D size={220} rotating={true} />,
+    visualization: <ColorCube3D size={200} rotating={true} />,
     details: [
       "Converts from device-dependent RGB to perceptual L*a*b*",
       "Lightness (L*) separated from color (a*, b*)",
@@ -286,8 +286,8 @@ export function SixStageArchitecture() {
               </div>
 
               {/* Right: Visualization */}
-              <div className="flex flex-col items-center justify-center space-y-4" data-testid={`section-stage-${stage.number}-visualization`}>
-                <div className="w-full flex items-center justify-center min-h-[240px]">
+              <div className="flex flex-col items-center justify-center space-y-4 overflow-hidden" data-testid={`section-stage-${stage.number}-visualization`}>
+                <div className="w-full flex items-center justify-center min-h-[240px] overflow-visible px-4">
                   {stage.visualization}
                 </div>
                 <Badge variant="secondary" className="font-mono text-xs">
