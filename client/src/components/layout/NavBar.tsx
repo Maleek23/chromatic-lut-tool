@@ -71,6 +71,20 @@ export function NavBar() {
           Science
         </Button>
       </Link>
+      <Link href="/resources/create-from-images" onClick={() => mobile && setOpen(false)}>
+        <Button 
+          variant="ghost"
+          size="sm"
+          data-testid="nav-how-it-works"
+          className={`${mobile ? "w-full justify-start" : ""} ${
+            location === "/resources/create-from-images" 
+              ? "bg-primary/10 text-primary" 
+              : "text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          How It Works
+        </Button>
+      </Link>
     </>
   );
 
