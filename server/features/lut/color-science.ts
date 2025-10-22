@@ -425,6 +425,7 @@ function analyzeSaturation(pixels: Lab[]): number {
 
 /**
  * Apply filmic tone curve with shoulder and toe
+ * PRODUCTION FIX: Added safety checks to prevent division by zero
  */
 export function applyFilmicToneCurve(value: number, curve: ToneCurve, intensity: number = 1.0): number {
   // Modified John Hable filmic tone mapping
@@ -436,12 +437,20 @@ export function applyFilmicToneCurve(value: number, curve: ToneCurve, intensity:
   const F = 0.30; // Toe denominator
   
   const tonemap = (x: number) => {
-    return ((x * (A * x + C * B) + D * E) / (x * (A * x + B) + D * F)) - E / F;
+    const denominator = (x * (A * x + B) + D * F);
+    // Safety: Prevent division by zero (extremely rare but theoretically possible)
+    if (Math.abs(denominator) < 1e-10) {
+      return x; // Return linear mapping as fallback
+    }
+    return ((x * (A * x + C * B) + D * E) / denominator) - E / F;
   };
   
-  const whiteLevel = curve.whitePoint;
+  const whiteLevel = Math.max(0.01, curve.whitePoint); // Ensure non-zero white level
   const curr = tonemap(value);
-  const whiteScale = 1.0 / tonemap(whiteLevel);
+  const whiteMapped = tonemap(whiteLevel);
+  
+  // Safety: Prevent division by zero when white point maps to zero
+  const whiteScale = Math.abs(whiteMapped) > 1e-10 ? 1.0 / whiteMapped : 1.0;
   
   const mapped = curr * whiteScale;
   
@@ -490,6 +499,7 @@ export function rgbToLab(rgb: RGB): Lab {
 /**
  * Convert Lab to RGB color space (UNCLAMPED - for gamut detection)
  * Returns raw RGB values that may be outside [0,1] range
+ * PRODUCTION FIX: Handles negative values properly to prevent NaN propagation
  */
 function labToRgbUnclamped(lab: Lab): RGB {
   // Lab to XYZ
@@ -508,10 +518,23 @@ function labToRgbUnclamped(lab: Lab): RGB {
   let g = x * -0.9692660 + y *  1.8760108 + z *  0.0415560;
   let b = x *  0.0556434 + y * -0.2040259 + z *  1.0572252;
   
-  // Apply gamma correction (inverse)
-  r = r > 0.0031308 ? 1.055 * Math.pow(r, 1/2.4) - 0.055 : 12.92 * r;
-  g = g > 0.0031308 ? 1.055 * Math.pow(g, 1/2.4) - 0.055 : 12.92 * g;
-  b = b > 0.0031308 ? 1.055 * Math.pow(b, 1/2.4) - 0.055 : 12.92 * b;
+  // CRITICAL FIX: Apply gamma correction with proper negative value handling
+  // Math.pow(negative, 1/2.4) produces NaN, which corrupts the entire LUT
+  // For negative values, apply linear segment with sign preservation
+  const applyGamma = (linear: number): number => {
+    if (linear > 0.0031308) {
+      return 1.055 * Math.pow(linear, 1/2.4) - 0.055;
+    } else if (linear < -0.0031308) {
+      // Mirror the gamma curve for negative values (out-of-gamut handling)
+      return -(1.055 * Math.pow(-linear, 1/2.4) - 0.055);
+    } else {
+      return 12.92 * linear;
+    }
+  };
+  
+  r = applyGamma(r);
+  g = applyGamma(g);
+  b = applyGamma(b);
   
   // NO CLAMPING - return raw values for gamut detection
   return { r, g, b };
@@ -566,16 +589,40 @@ export function labDistance(lab1: Lab, lab2: Lab): number {
 /**
  * Perceptual gamut compression for Rec.709
  * Uses hue-preserving compression in LCh space (no simple clamping)
- * CRITICAL FIX: Now uses unclamped RGB detection to properly identify out-of-gamut colors
+ * PRODUCTION FIXES:
+ * - Unclamped RGB detection to properly identify out-of-gamut colors
+ * - Epsilon tolerance for floating-point precision at gamut boundaries
+ * - NaN safety checks to prevent corruption
  */
 export function gamutMapToRec709(rgb: RGB): RGB {
-  // Quick check if already in gamut
-  if (rgb.r >= 0 && rgb.r <= 1 && rgb.g >= 0 && rgb.g <= 1 && rgb.b >= 0 && rgb.b <= 1) {
-    return rgb;
+  // Epsilon for floating-point comparisons (prevents boundary artifacts)
+  const EPSILON = 1e-6;
+  
+  // Quick check if already in gamut (with epsilon tolerance)
+  if (rgb.r >= -EPSILON && rgb.r <= 1 + EPSILON && 
+      rgb.g >= -EPSILON && rgb.g <= 1 + EPSILON && 
+      rgb.b >= -EPSILON && rgb.b <= 1 + EPSILON) {
+    // Clamp to exact boundaries if within epsilon
+    return {
+      r: Math.max(0, Math.min(1, rgb.r)),
+      g: Math.max(0, Math.min(1, rgb.g)),
+      b: Math.max(0, Math.min(1, rgb.b))
+    };
   }
   
   // Convert to Lab/LCh for perceptual compression
   const lab = rgbToLab(rgb);
+  
+  // Safety: Check for NaN values from corrupted input
+  if (isNaN(lab.l) || isNaN(lab.a) || isNaN(lab.b)) {
+    console.warn('NaN detected in Lab conversion during gamut mapping, clamping RGB');
+    return {
+      r: Math.max(0, Math.min(1, rgb.r)),
+      g: Math.max(0, Math.min(1, rgb.g)),
+      b: Math.max(0, Math.min(1, rgb.b))
+    };
+  }
+  
   const lch = labToLch(lab);
   
   // Binary search for maximum in-gamut chroma at this lightness and hue
@@ -593,10 +640,16 @@ export function gamutMapToRec709(rgb: RGB): RGB {
     // CRITICAL: Use unclamped conversion to detect true out-of-gamut condition
     const testRgb = labToRgbUnclamped(lchToLab(testLch));
     
-    // Check if this chroma value produces valid RGB (without clamping hiding issues)
-    const isValid = testRgb.r >= 0 && testRgb.r <= 1 && 
-                    testRgb.g >= 0 && testRgb.g <= 1 && 
-                    testRgb.b >= 0 && testRgb.b <= 1;
+    // Check for NaN (safety)
+    if (isNaN(testRgb.r) || isNaN(testRgb.g) || isNaN(testRgb.b)) {
+      maxChroma = testChroma; // Treat NaN as out-of-gamut
+      continue;
+    }
+    
+    // Check if this chroma value produces valid RGB (with epsilon tolerance)
+    const isValid = testRgb.r >= -EPSILON && testRgb.r <= 1 + EPSILON && 
+                    testRgb.g >= -EPSILON && testRgb.g <= 1 + EPSILON && 
+                    testRgb.b >= -EPSILON && testRgb.b <= 1 + EPSILON;
     
     if (isValid) {
       bestChroma = testChroma;
