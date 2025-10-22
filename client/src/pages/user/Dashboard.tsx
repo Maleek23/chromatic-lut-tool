@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link, useLocation } from "wouter";
+import { Footer } from "@/components/layout/Footer";
 import { 
   Crown, 
   Zap, 
@@ -259,6 +260,8 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
+        
+        <Footer />
       </div>
   );
 }

@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useMutation } from "@tanstack/react-query";
+import { Footer } from "@/components/layout/Footer";
 import {
   User,
   Mail,
@@ -137,6 +138,7 @@ export default function AccountSettings() {
   };
 
   return (
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto p-6 max-w-4xl">
         {/* Header */}
         <div className="mb-8">
@@ -456,5 +458,8 @@ export default function AccountSettings() {
           </Card>
         </div>
       </div>
+      
+      <Footer />
+    </div>
   );
 }
