@@ -18,9 +18,9 @@ export default function Landing() {
       <SixStageArchitecture />
 
       {/* Features Overview */}
-      <section className="relative z-10 py-32 px-4">
+      <section className="relative z-10 py-16 px-4">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10">
             <h2 className="text-3xl font-bold mb-3">Professional LUT Tools</h2>
             <p className="text-muted-foreground">Everything you need for cinema-grade color grading</p>
           </div>
@@ -90,8 +90,8 @@ export default function Landing() {
       </div>
 
       {/* Pricing Section */}
-      <section className="relative z-10 py-20 px-4 sm:px-6 lg:px-8">
-        <div className="w-full mx-auto space-y-12 max-w-7xl">
+      <section className="relative z-10 py-16 px-4 sm:px-6 lg:px-8">
+        <div className="w-full mx-auto space-y-8 max-w-7xl">
           {/* Section Header */}
           <div className="text-center space-y-4">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">

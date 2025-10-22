@@ -15,24 +15,24 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
-      <div className="container mx-auto px-4 py-20 relative z-10">
-        <div className="max-w-4xl mx-auto text-center space-y-10">
-          {/* Logo centered with by UN/TITLD on the right */}
-          <div className="flex items-center justify-center gap-3">
-            <Link href="/">
+      <div className="container mx-auto px-4 py-12 relative z-10">
+        <div className="max-w-4xl mx-auto text-center space-y-6">
+          {/* Logo centered */}
+          <div className="relative">
+            <Link href="/" className="inline-block">
               <img 
                 src={logoImage} 
                 alt="CHROMA" 
-                className="h-20 sm:h-24 w-auto hover:scale-105 transition-transform duration-300 cursor-pointer animate-in fade-in duration-700" 
+                className="h-20 sm:h-24 w-auto mx-auto hover:scale-105 transition-transform duration-300 cursor-pointer animate-in fade-in duration-700" 
               />
             </Link>
-            <span className="text-[10px] text-muted-foreground/70 animate-in fade-in duration-700 delay-150">
+            <span className="absolute top-1/2 -translate-y-1/2 right-0 text-[10px] text-muted-foreground/70 animate-in fade-in duration-700 delay-150 hidden sm:inline-block">
               By <span className="font-semibold"><AnimatedUntitld /></span>
             </span>
           </div>
 
           {/* Trust badges */}
-          <div className="flex flex-wrap gap-2 justify-center">
+          <div className="flex flex-wrap gap-2 justify-center pt-2">
             <Badge variant="outline" className="text-xs border-border/50">
               <Check className="w-3 h-3 mr-1" />
               VES Technology Committee
@@ -44,13 +44,12 @@ export function HeroSection() {
           </div>
 
           {/* Hero headline */}
-          <div className="space-y-6 pt-4">
+          <div className="space-y-4">
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
               <span className="block">Cinema-Grade</span>
               <span className="block bg-gradient-to-r from-primary via-chart-2 to-chart-3 bg-clip-text text-transparent">
                 Color Science.
               </span>
-              <span className="block">Zero Guesswork.</span>
             </h1>
             
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
