@@ -18,12 +18,7 @@ export function Footer() {
                 className="h-8 w-auto hover:scale-105 transition-transform duration-300 cursor-pointer" 
               />
             </Link>
-            <div className="flex flex-col">
-              <span className="text-[9px] text-muted-foreground/60">
-                by <span className="font-semibold"><AnimatedUntitld /></span>
-              </span>
-              <span className="text-xs text-muted-foreground/80">Cinema-grade LUT tools</span>
-            </div>
+            <span className="text-xs text-muted-foreground/80">Cinema-grade LUT tools</span>
           </div>
 
           {/* Navigation Links - Compact Single Row */}
