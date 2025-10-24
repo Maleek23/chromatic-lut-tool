@@ -20,48 +20,82 @@ const stages: Stage[] = [
     technical: "Perceptually Uniform Color Space",
     description: "Transforms RGB colors into the CIE L*a*b* color space, ensuring perceptually uniform color processing.",
     visualization: (
-      <svg viewBox="0 0 300 280" className="w-full mx-auto">
+      <svg viewBox="0 0 300 300" className="w-full mx-auto" style={{ transform: 'perspective(800px) rotateX(10deg)' }}>
         <defs>
-          {/* Sophisticated 3D hemisphere gradient using brand colors */}
-          <radialGradient id="labSphereGradient" cx="50%" cy="35%">
-            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.4" />
-            <stop offset="40%" stopColor="hsl(var(--chart-2))" stopOpacity="0.35" />
-            <stop offset="70%" stopColor="hsl(var(--chart-3))" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="hsl(var(--muted))" stopOpacity="0.2" />
-          </radialGradient>
-          {/* Contour lines */}
-          <linearGradient id="contourGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="hsl(var(--chart-2))" stopOpacity="0.2" />
+          {/* 3D gradient for main cylinder body */}
+          <linearGradient id="lab3DCylinder" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.25" />
+            <stop offset="50%" stopColor="hsl(var(--chart-2))" stopOpacity="0.2" />
+            <stop offset="100%" stopColor="hsl(var(--chart-3))" stopOpacity="0.15" />
           </linearGradient>
+          {/* Top ellipse gradient */}
+          <radialGradient id="labTopGrad" cx="50%" cy="50%">
+            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.35" />
+            <stop offset="100%" stopColor="hsl(var(--chart-2))" stopOpacity="0.15" />
+          </radialGradient>
+          {/* Bottom shadow */}
+          <radialGradient id="labBottomShadow" cx="50%" cy="50%">
+            <stop offset="0%" stopColor="hsl(var(--muted))" stopOpacity="0.2" />
+            <stop offset="100%" stopColor="hsl(var(--muted))" stopOpacity="0" />
+          </radialGradient>
+          {/* Grid pattern for cylindrical surface */}
+          <pattern id="labGrid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="0" y2="20" stroke="hsl(var(--primary))" strokeWidth="0.3" opacity="0.2"/>
+            <line x1="0" y1="0" x2="20" y2="0" stroke="hsl(var(--chart-2))" strokeWidth="0.3" opacity="0.2"/>
+          </pattern>
         </defs>
         
-        {/* 3D Hemisphere with subtle shadow */}
-        <ellipse cx="150" cy="160" rx="90" ry="40" fill="hsl(var(--muted))" opacity="0.15" />
-        <path d="M 60 160 Q 150 80, 240 160" fill="url(#labSphereGradient)" stroke="hsl(var(--primary))" strokeWidth="1" opacity="0.8" />
+        {/* Ground shadow */}
+        <ellipse cx="150" cy="260" rx="85" ry="25" fill="url(#labBottomShadow)" />
         
-        {/* Refined contour lines */}
-        <ellipse cx="150" cy="130" rx="70" ry="25" fill="none" stroke="url(#contourGrad)" strokeWidth="1" opacity="0.4" />
-        <ellipse cx="150" cy="145" rx="80" ry="32" fill="none" stroke="url(#contourGrad)" strokeWidth="1" opacity="0.35" />
-        <ellipse cx="150" cy="160" rx="90" ry="40" fill="none" stroke="url(#contourGrad)" strokeWidth="1.5" opacity="0.5" />
+        {/* 3D Cylindrical body (L* axis) */}
+        <path 
+          d="M 65 80 L 65 240 Q 150 260, 235 240 L 235 80 Q 150 60, 65 80 Z" 
+          fill="url(#lab3DCylinder)" 
+          stroke="hsl(var(--primary))" 
+          strokeWidth="1" 
+          opacity="0.8"
+        />
         
-        {/* L* axis (vertical) - subtle */}
-        <line x1="150" y1="40" x2="150" y2="240" stroke="hsl(var(--muted-foreground))" strokeWidth="1.5" opacity="0.6" />
-        <polygon points="150,38 147,45 153,45" fill="hsl(var(--muted-foreground))" opacity="0.6" />
-        <text x="150" y="28" textAnchor="middle" fill="hsl(var(--muted-foreground))" fontSize="13" fontWeight="600" opacity="0.8">+L*</text>
-        <text x="150" y="260" textAnchor="middle" fill="hsl(var(--muted-foreground))" fontSize="13" fontWeight="600" opacity="0.8">-L*</text>
+        {/* Grid pattern on cylinder surface */}
+        <path 
+          d="M 65 80 L 65 240 Q 150 260, 235 240 L 235 80 Q 150 60, 65 80 Z" 
+          fill="url(#labGrid)" 
+          opacity="0.3"
+        />
         
-        {/* a* axis (horizontal) - subtle */}
-        <line x1="40" y1="160" x2="260" y2="160" stroke="hsl(var(--muted-foreground))" strokeWidth="1.5" opacity="0.6" />
-        <polygon points="263,160 256,157 256,163" fill="hsl(var(--muted-foreground))" opacity="0.6" />
-        <text x="275" y="165" textAnchor="start" fill="hsl(var(--muted-foreground))" fontSize="13" fontWeight="600" opacity="0.8">+a*</text>
-        <text x="25" y="165" textAnchor="end" fill="hsl(var(--muted-foreground))" fontSize="13" fontWeight="600" opacity="0.8">-a*</text>
+        {/* Top ellipse (a*b* plane at high L*) */}
+        <ellipse cx="150" cy="80" rx="85" ry="25" fill="url(#labTopGrad)" stroke="hsl(var(--primary))" strokeWidth="1.5" opacity="0.6"/>
         
-        {/* b* axis (diagonal) - subtle */}
-        <line x1="90" y1="100" x2="210" y2="220" stroke="hsl(var(--muted-foreground))" strokeWidth="1.5" opacity="0.5" />
-        <polygon points="212,222 206,216 210,220" fill="hsl(var(--muted-foreground))" opacity="0.5" />
-        <text x="220" y="235" textAnchor="start" fill="hsl(var(--muted-foreground))" fontSize="13" fontWeight="600" opacity="0.8">+b*</text>
-        <text x="75" y="95" textAnchor="end" fill="hsl(var(--muted-foreground))" fontSize="13" fontWeight="600" opacity="0.8">-b*</text>
+        {/* Bottom ellipse (a*b* plane at low L*) */}
+        <ellipse cx="150" cy="240" rx="85" ry="30" fill="hsl(var(--muted))" fillOpacity="0.15" stroke="hsl(var(--chart-3))" strokeWidth="1" opacity="0.4"/>
+        
+        {/* Cross-section circle showing a*b* chromatic plane */}
+        <ellipse cx="150" cy="160" rx="75" ry="22" fill="none" stroke="hsl(var(--chart-2))" strokeWidth="1.5" strokeDasharray="3,3" opacity="0.5"/>
+        
+        {/* L* axis (vertical through center) */}
+        <line x1="150" y1="50" x2="150" y2="265" stroke="hsl(var(--foreground))" strokeWidth="2" opacity="0.7" />
+        <polygon points="150,48 146,56 154,56" fill="hsl(var(--foreground))" opacity="0.7"/>
+        <text x="165" y="45" fill="hsl(var(--foreground))" fontSize="14" fontWeight="600" opacity="0.85">L*</text>
+        <text x="155" y="280" fill="hsl(var(--muted-foreground))" fontSize="11" fontWeight="500" opacity="0.7">(Lightness)</text>
+        
+        {/* a* axis (red-green, horizontal) */}
+        <line x1="70" y1="160" x2="230" y2="160" stroke="hsl(var(--chart-2))" strokeWidth="1.8" opacity="0.6" />
+        <polygon points="232,160 224,157 224,163" fill="hsl(var(--chart-2))" opacity="0.6"/>
+        <text x="235" y="165" fill="hsl(var(--chart-2))" fontSize="13" fontWeight="600" opacity="0.8">a*</text>
+        <text x="235" y="177" fill="hsl(var(--muted-foreground))" fontSize="9" fontWeight="500" opacity="0.65">(red↔green)</text>
+        
+        {/* b* axis (yellow-blue, depth perspective) */}
+        <line x1="150" y1="138" x2="150" y2="182" stroke="hsl(var(--chart-3))" strokeWidth="1.8" opacity="0.5" />
+        <ellipse cx="150" cy="138" rx="3" ry="2" fill="hsl(var(--chart-3))" opacity="0.5"/>
+        <polygon points="150,184 147,178 153,178" fill="hsl(var(--chart-3))" opacity="0.5"/>
+        <text x="155" y="135" fill="hsl(var(--chart-3))" fontSize="13" fontWeight="600" opacity="0.8">b*</text>
+        <text x="155" y="145" fill="hsl(var(--muted-foreground))" fontSize="9" fontWeight="500" opacity="0.65">(yellow↔blue)</text>
+        
+        {/* Dimension labels */}
+        <text x="10" y="80" fill="hsl(var(--muted-foreground))" fontSize="10" opacity="0.6">100</text>
+        <text x="10" y="160" fill="hsl(var(--muted-foreground))" fontSize="10" opacity="0.6">50</text>
+        <text x="10" y="240" fill="hsl(var(--muted-foreground))" fontSize="10" opacity="0.6">0</text>
       </svg>
     ),
     details: [
