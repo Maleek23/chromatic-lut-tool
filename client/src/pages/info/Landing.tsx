@@ -15,7 +15,7 @@ export default function Landing() {
       <HeroSection />
 
       {/* Gradient blending: Hero to Six-Stage */}
-      <div className="relative -mt-20 h-32 pointer-events-none z-20">
+      <div className="relative -mt-12 h-20 pointer-events-none z-20">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background" />
       </div>
 
@@ -23,19 +23,19 @@ export default function Landing() {
       <SixStageArchitecture />
 
       {/* Gradient blending: Six-Stage to Features */}
-      <div className="relative -mt-16 h-32 pointer-events-none z-20">
+      <div className="relative -mt-8 h-16 pointer-events-none z-20">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background" />
       </div>
 
       {/* Features Overview */}
-      <section className="relative z-10 py-16 px-4">
+      <section className="relative z-10 py-10 px-4">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold mb-3">Professional LUT Tools</h2>
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold mb-2">Professional LUT Tools</h2>
             <p className="text-muted-foreground">Everything you need for cinema-grade color grading</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 p-8 border-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 p-6 border-0">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center shrink-0">
                   <Sparkles className="w-6 h-6 text-primary" />
@@ -49,7 +49,7 @@ export default function Landing() {
               </div>
             </Card>
 
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 p-8 border-0">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 p-6 border-0">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-chart-2/20 to-chart-3/20 flex items-center justify-center shrink-0">
                   <ArrowRight className="w-6 h-6 text-chart-2" />
@@ -63,7 +63,7 @@ export default function Landing() {
               </div>
             </Card>
 
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 p-8 border-0">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 p-6 border-0">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-chart-3/20 to-primary/20 flex items-center justify-center shrink-0">
                   <TrendingUp className="w-6 h-6 text-chart-3" />
@@ -77,7 +77,7 @@ export default function Landing() {
               </div>
             </Card>
 
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 p-8 border-0">
+            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 p-6 border-0">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center shrink-0">
                   <Check className="w-6 h-6 text-primary" />
@@ -95,13 +95,13 @@ export default function Landing() {
       </section>
 
       {/* Gradient blending: Features to Pricing */}
-      <div className="relative -mt-8 h-40 pointer-events-none z-20">
+      <div className="relative -mt-4 h-20 pointer-events-none z-20">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background" />
       </div>
 
       {/* Pricing Section */}
-      <section className="relative z-10 py-16 px-4">
-        <div className="w-full mx-auto space-y-10 max-w-6xl">
+      <section className="relative z-10 py-10 px-4">
+        <div className="w-full mx-auto space-y-8 max-w-6xl">
           {/* Section Header */}
           <div className="text-center space-y-3">
             <h2 className="text-3xl sm:text-4xl font-bold">
@@ -195,9 +195,9 @@ export default function Landing() {
             </Card>
 
             {/* Pro Tier */}
-            <Card className="hover-elevate backdrop-blur-sm transition-all duration-300 flex flex-col border-0 relative h-[520px] lg:w-72 overflow-hidden bg-gradient-to-br from-primary/25 via-chart-2/15 to-background/95 shadow-xl shadow-primary/20 pt-8">
-              <div className="absolute top-2 left-1/2 -translate-x-1/2 z-20">
-                <Badge className="bg-gradient-to-r from-primary to-chart-2 text-white text-[10px] px-2 py-0.5 border-0 shadow-lg shadow-primary/50">
+            <Card className="hover-elevate backdrop-blur-sm transition-all duration-300 flex flex-col border-0 relative h-[520px] lg:w-72 bg-gradient-to-br from-primary/25 via-chart-2/15 to-background/95 shadow-xl shadow-primary/20">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20">
+                <Badge className="bg-gradient-to-r from-primary to-chart-2 text-white text-xs px-3 py-1 border-0 shadow-lg shadow-primary/50">
                   Popular
                 </Badge>
               </div>
@@ -244,9 +244,9 @@ export default function Landing() {
             </Card>
 
             {/* Studio Tier */}
-            <Card className="hover-elevate backdrop-blur-sm transition-all duration-300 flex flex-col border-0 opacity-90 relative h-[600px] lg:w-64 overflow-hidden bg-gradient-to-br from-chart-3/25 via-primary/15 to-background/95 pt-8">
-              <div className="absolute top-2 left-1/2 -translate-x-1/2 z-20">
-                <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-[10px] px-2 py-0.5 border-0 shadow-lg shadow-orange-500/50">
+            <Card className="hover-elevate backdrop-blur-sm transition-all duration-300 flex flex-col border-0 opacity-90 relative h-[600px] lg:w-64 bg-gradient-to-br from-chart-3/25 via-primary/15 to-background/95">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20">
+                <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs px-3 py-1 border-0 shadow-lg shadow-orange-500/50">
                   Soon
                 </Badge>
               </div>
@@ -292,7 +292,7 @@ export default function Landing() {
       </section>
 
       {/* Gradient blending: Pricing to Footer */}
-      <div className="relative h-16 pointer-events-none z-20">
+      <div className="relative h-12 pointer-events-none z-20">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/70 to-background" />
       </div>
 
