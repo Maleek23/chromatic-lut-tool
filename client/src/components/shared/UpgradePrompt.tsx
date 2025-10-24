@@ -43,9 +43,9 @@ export function UpgradePrompt({
   const getTierColor = (tier: TierType): string => {
     switch (tier) {
       case "creator":
-        return "text-blue-500";
+        return "text-primary";
       case "pro":
-        return "text-purple-500";
+        return "text-chart-2";
       case "studio":
         return "text-yellow-500";
       default:

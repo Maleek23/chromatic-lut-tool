@@ -4,6 +4,7 @@
 CHROMA is a professional toolkit for cinematographers and colorists, offering comprehensive LUT (Look-Up Table) conversion, generation, and analysis. It provides industry-standard support for all major LUT formats with a freemium pricing model. The project aims to provide an essential tool for creators and professionals in the color grading industry, featuring an Image-to-LUT generator that authentically extracts color science from reference images, and robust tools for LUT conversion and analysis.
 
 ## Recent Changes
+- **2025-10-24**: Completed comprehensive color consistency audit across entire application - systematically replaced ALL hardcoded color values (purple-500, cyan-500, blue-500, pink-500, hex colors in SVGs) with semantic tokens (primary, chart-2, chart-3) in 9 files: AuthPage, Upgrade, Convert, InstallLuts, LutFormats, SixStageArchitecture, UpgradePrompt, ColorCube3D, PreviewGallery. Warm coral pink aesthetic now consistently applied throughout app.
 - **2025-10-24**: Added subtle technical grid pattern (24px) to main background extending across entire app including header/footer for professional blueprint aesthetic. Added centered ambient coral pink/blue-purple/red glow to hero section.
 - **2025-10-24**: Updated color palette to cinematic warmth spectrum - coral salmon pink accent (12°), matching logo's brightest colors. Blue-purple primary (240°) → coral pink (12°) → red (0°) gradient for warm, inviting aesthetic.
 - **2025-10-24**: Enlarged logo to h-32/h-40, centered layout with "By UN/TITLD" below, reduced headline size for better visual hierarchy. UN/TITLD animation speed increased to 300ms for snappier interaction.
@@ -17,7 +18,7 @@ CHROMA is a professional toolkit for cinematographers and colorists, offering co
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
-Color Scheme: Cinematic warmth spectrum - blue-purple primary (brand identity), vibrant orange accent, amber/golden chart-2, red chart-3. Warm, inviting, high-contrast colors for better readability.
+Color Scheme: Cinematic warmth spectrum - blue-purple primary (240° brand identity), coral salmon pink chart-2 (12° matching logo), red chart-3 (0°). Warm, inviting, high-contrast gradient. ALL pages use semantic tokens consistently.
 Design: Cinema-grade professional aesthetic with translucent cards, minimal layout, no childish or overly decorative elements
 
 ## System Architecture

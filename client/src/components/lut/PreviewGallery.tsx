@@ -120,7 +120,7 @@ export function PreviewGallery({ lutData, format, intensity }: PreviewGalleryPro
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <span>LUT Preview on Reference Footage</span>
-          <Badge variant="outline" className="bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20">
+          <Badge variant="outline" className="bg-chart-2/10 text-chart-2 border-chart-2/20">
             Real-World Test
           </Badge>
         </CardTitle>
