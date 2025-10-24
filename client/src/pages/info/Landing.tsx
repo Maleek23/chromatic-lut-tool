@@ -113,10 +113,9 @@ export default function Landing() {
           </div>
           
           {/* Pricing Cards */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:flex lg:items-end lg:justify-center gap-6 max-w-6xl mx-auto">
             {/* Free Tier */}
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col border-0 min-h-[420px] relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <Card className="hover-elevate backdrop-blur-sm transition-all duration-300 flex flex-col border-0 h-[360px] lg:w-64 relative overflow-hidden bg-gradient-to-br from-background via-background to-background/95">
               <CardHeader className="space-y-2 pb-4 relative z-10">
                 <CardTitle className="text-xl flex items-center gap-2">
                   <span className="w-3 h-3 rounded-full bg-gradient-to-r from-primary to-chart-2 shadow-lg shadow-primary/50"></span>
@@ -156,8 +155,7 @@ export default function Landing() {
             </Card>
 
             {/* Creator Tier */}
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col border-0 min-h-[460px] relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-chart-2/8 via-transparent to-chart-3/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <Card className="hover-elevate backdrop-blur-sm transition-all duration-300 flex flex-col border-0 h-[440px] lg:w-64 relative overflow-hidden bg-gradient-to-br from-chart-2/20 via-background to-background/95">
               <CardHeader className="space-y-2 pb-4 relative z-10">
                 <CardTitle className="text-xl flex items-center gap-2">
                   <span className="w-3 h-3 rounded-full bg-gradient-to-r from-chart-2 to-chart-3 shadow-lg shadow-chart-2/50"></span>
@@ -197,8 +195,7 @@ export default function Landing() {
             </Card>
 
             {/* Pro Tier */}
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col border-0 relative min-h-[500px] overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-chart-3/10 via-primary/8 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <Card className="hover-elevate backdrop-blur-sm transition-all duration-300 flex flex-col border-0 relative h-[520px] lg:w-72 overflow-hidden bg-gradient-to-br from-primary/25 via-chart-2/15 to-background/95 shadow-xl shadow-primary/20">
               <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-20">
                 <Badge className="bg-gradient-to-r from-primary to-chart-2 text-white text-[10px] px-2 py-0.5 border-0 shadow-lg shadow-primary/50">
                   Popular
@@ -247,8 +244,7 @@ export default function Landing() {
             </Card>
 
             {/* Studio Tier */}
-            <Card className="hover-elevate bg-background/80 backdrop-blur-sm transition-all duration-300 flex flex-col border-0 opacity-75 relative min-h-[540px] overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/12 via-chart-3/8 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <Card className="hover-elevate backdrop-blur-sm transition-all duration-300 flex flex-col border-0 opacity-90 relative h-[600px] lg:w-64 overflow-hidden bg-gradient-to-br from-chart-3/25 via-primary/15 to-background/95">
               <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-20">
                 <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-[10px] px-2 py-0.5 border-0 shadow-lg shadow-orange-500/50">
                   Soon
