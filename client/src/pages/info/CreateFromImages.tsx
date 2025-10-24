@@ -6,7 +6,7 @@ import { ColorCube3D } from "@/components/visual/ColorCube3D";
 
 export default function CreateFromImages() {
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen bg-background relative">
 
       {/* Hero Section */}
       <section className="relative z-10 pt-24 pb-16 px-4 sm:px-6 lg:px-8">
