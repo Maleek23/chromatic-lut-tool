@@ -23,8 +23,8 @@ export function HeroSection() {
       </div>
       <div className="container mx-auto px-4 py-12 relative z-10">
         <div className="max-w-4xl mx-auto text-center space-y-6">
-          {/* Logo centered with By UN/TITLD below */}
-          <div className="flex flex-col items-center justify-center gap-2">
+          {/* Logo centered */}
+          <div className="flex flex-col items-center justify-center">
             <Link href="/">
               <img 
                 src={logoImage} 
@@ -32,9 +32,6 @@ export function HeroSection() {
                 className="h-32 sm:h-40 w-auto hover:scale-105 transition-transform duration-300 cursor-pointer animate-in fade-in duration-700" 
               />
             </Link>
-            <div className="text-xs text-foreground/90 animate-in fade-in duration-700 delay-150 whitespace-nowrap">
-              By <span className="font-semibold bg-gradient-to-r from-primary via-chart-2 to-chart-3 bg-clip-text text-transparent"><AnimatedUntitld /></span>
-            </div>
           </div>
 
           {/* Trust badges */}

@@ -68,7 +68,7 @@ export function Footer() {
 
           {/* Copyright */}
           <div className="text-xs text-muted-foreground/60 whitespace-nowrap">
-            © {currentYear} UN/TITLD
+            © {currentYear} <AnimatedUntitld />
           </div>
         </div>
       </div>
