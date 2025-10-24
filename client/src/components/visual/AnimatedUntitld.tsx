@@ -30,7 +30,7 @@ export function AnimatedUntitld({
     >
       {/* UN text - slides into the slash from the left */}
       <span 
-        className={`inline-block transition-all duration-700 ease-in-out ${
+        className={`inline-block transition-all duration-300 ease-in-out ${
           isCollapsed 
             ? 'opacity-0 scale-50 translate-x-4' 
             : 'opacity-100 scale-100 translate-x-0'
@@ -45,7 +45,7 @@ export function AnimatedUntitld({
       
       {/* The "/" portal - standalone gradient color with pulse effect */}
       <span 
-        className={`inline-block font-semibold relative z-10 bg-gradient-to-r from-primary via-chart-2 to-chart-3 bg-clip-text text-transparent transition-all duration-700 mx-1 ${
+        className={`inline-block font-semibold relative z-10 bg-gradient-to-r from-primary via-chart-2 to-chart-3 bg-clip-text text-transparent transition-all duration-300 mx-1 ${
           isCollapsed ? 'scale-125' : 'scale-100'
         }`}
       >
@@ -54,7 +54,7 @@ export function AnimatedUntitld({
       
       {/* TITLD text - slides into the slash from the right */}
       <span 
-        className={`inline-block transition-all duration-700 ease-in-out ${
+        className={`inline-block transition-all duration-300 ease-in-out ${
           isCollapsed 
             ? 'opacity-0 scale-50 -translate-x-4' 
             : 'opacity-100 scale-100 translate-x-0'
