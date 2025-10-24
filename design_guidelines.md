@@ -8,8 +8,8 @@ Minimal, professional interface focused on color science tools. No decorative el
 ### Color Palette
 **Primary Colors** (cinematic warmth spectrum):
 - Primary: #6B7CED (blue-purple) - Brand identity
-- Accent: #FF9500 (vibrant orange) - High contrast, warm energy
-- Chart 2: #FFBA08 (amber/golden) - Warm transition
+- Accent: #FFA394 (coral pink) - Warm, inviting energy
+- Chart 2: #FFA899 (coral salmon) - Orangy coral transition
 - Chart 3: #FF3B30 (red) - Energy pop
 - Background: #0a0a0a (deep black)
 

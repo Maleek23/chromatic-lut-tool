@@ -62,7 +62,7 @@
 
   --muted-foreground: 240 4% 46%;
 
-  --accent: 30 100% 52%;
+  --accent: 12 100% 65%;
 
   --accent-foreground: 0 0% 100%;
 
@@ -73,16 +73,16 @@
   --input: 240 6% 90%;
   --ring: 240 85% 58%;
   
-  /* Color Science Spectrum - Blue → Amber → Red gradient (Cinematic warmth) */
+  /* Color Science Spectrum - Blue → Coral → Red gradient (Cinematic warmth) */
   --chart-1: 240 85% 58%;
-  --chart-2: 45 100% 52%;
+  --chart-2: 12 100% 65%;
   --chart-3: 0 95% 58%;
   --chart-4: 42 100% 52%;
   --chart-5: 153 72% 51%;
   
   /* RGB values for gradient effects */
   --primary-rgb: 77, 97, 237;
-  --chart-2-rgb: 255, 186, 8;
+  --chart-2-rgb: 255, 163, 148;
   --chart-3-rgb: 255, 59, 48;
 
   --font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -188,7 +188,7 @@
 
   --muted-foreground: 240 4% 63%;
 
-  --accent: 30 100% 56%;
+  --accent: 12 100% 68%;
 
   --accent-foreground: 0 0% 100%;
 
@@ -199,16 +199,16 @@
   --input: 240 6% 18%;
   --ring: 240 85% 62%;
   
-  /* Color Science Spectrum - Blue → Amber → Red gradient (Cinematic warmth) */
+  /* Color Science Spectrum - Blue → Coral → Red gradient (Cinematic warmth) */
   --chart-1: 240 85% 62%;
-  --chart-2: 45 100% 56%;
+  --chart-2: 12 100% 68%;
   --chart-3: 0 95% 62%;
   --chart-4: 42 100% 56%;
   --chart-5: 153 72% 56%;
   
   /* RGB values for gradient effects */
   --primary-rgb: 95, 118, 245;
-  --chart-2-rgb: 255, 186, 8;
+  --chart-2-rgb: 255, 168, 153;
   --chart-3-rgb: 255, 59, 48;
 
   --shadow-2xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.20);
