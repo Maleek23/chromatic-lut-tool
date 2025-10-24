@@ -63,7 +63,7 @@ const stages: Stage[] = [
           {['hsl(var(--primary))', 'hsl(var(--chart-2))', 'hsl(var(--chart-3))', 'hsl(var(--primary) / 0.6)', 'hsl(var(--chart-2) / 0.7)', 'hsl(var(--chart-3) / 0.8)', 'hsl(var(--muted-foreground))', 'hsl(var(--foreground))'].map((color, i) => (
             <div
               key={i}
-              className="w-full aspect-square rounded-lg border-2 border-border shadow-md"
+              className="w-full aspect-square rounded-lg"
               style={{ backgroundColor: color }}
             />
           ))}
@@ -140,7 +140,7 @@ const stages: Stage[] = [
               <stop offset="100%" stopColor="#8d5524" />
             </radialGradient>
           </defs>
-          <circle cx="100" cy="100" r="80" fill="none" stroke="hsl(var(--border))" strokeWidth="2" />
+          <circle cx="100" cy="100" r="80" fill="none" stroke="hsl(var(--border))" strokeWidth="1" opacity="0.3" />
           {/* Skin tone protected arc */}
           <path
             d="M 140 40 A 80 80 0 0 1 160 100"
@@ -172,15 +172,15 @@ const stages: Stage[] = [
       <div className="space-y-2">
         <div className="flex gap-2 justify-center">
           <div className="text-center">
-            <div className="w-16 h-16 border-2 border-primary rounded-lg bg-gradient-to-br from-primary/30 to-chart-2/30" />
+            <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary/30 to-chart-2/30" />
             <p className="text-[10px] mt-1 text-muted-foreground">Rec.709</p>
           </div>
           <div className="text-center">
-            <div className="w-20 h-20 border-2 border-chart-2 rounded-lg bg-gradient-to-br from-primary/40 to-chart-3/40" />
+            <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-primary/40 to-chart-3/40" />
             <p className="text-[10px] mt-1 text-muted-foreground">P3</p>
           </div>
           <div className="text-center">
-            <div className="w-24 h-24 border-2 border-chart-3 rounded-lg bg-gradient-to-br from-primary/50 to-chart-3/50" />
+            <div className="w-24 h-24 rounded-lg bg-gradient-to-br from-primary/50 to-chart-3/50" />
             <p className="text-[10px] mt-1 text-muted-foreground">Rec.2020</p>
           </div>
         </div>
@@ -206,7 +206,7 @@ const stages: Stage[] = [
           { temp: '7500K', color: 'from-blue-300 to-blue-500', label: 'Cool' }
         ].map(({ temp, color, label }) => (
           <div key={temp} className="text-center">
-            <div className={`w-full aspect-square rounded-lg bg-gradient-to-br ${color} border border-border`} />
+            <div className={`w-full aspect-square rounded-lg bg-gradient-to-br ${color}`} />
             <p className="text-[9px] mt-1 text-muted-foreground font-mono">{temp}</p>
             <p className="text-[8px] text-muted-foreground">{label}</p>
           </div>
@@ -344,10 +344,10 @@ export function SixStageArchitecture() {
             <button
               key={index}
               onClick={() => goToStage(index)}
-              className={`p-3 rounded-lg border transition-all text-left hover-elevate ${
+              className={`p-3 rounded-lg border-0 transition-all text-left hover-elevate ${
                 index === currentStage
-                  ? 'border-primary bg-primary/10 shadow-sm'
-                  : 'border-border/50 bg-background/60 backdrop-blur-sm'
+                  ? 'bg-primary/10'
+                  : 'bg-background/60 backdrop-blur-sm'
               }`}
               data-testid={`button-minimap-stage-${index + 1}`}
             >
