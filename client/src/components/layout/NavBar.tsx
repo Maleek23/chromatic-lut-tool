@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import logoImage from "@assets/logo-full-transparent-v2.png";
-import { AnimatedUntitld } from "@/components/visual/AnimatedUntitld";
 
 export function NavBar() {
   const [location] = useLocation();
@@ -150,23 +149,17 @@ export function NavBar() {
   );
 
   return (
-    <nav className="border-b border-border/10 sticky top-0 bg-background/80 backdrop-blur-sm z-50">
+    <nav className="border-b border-border/10 sticky top-0 bg-background/30 backdrop-blur-sm z-50">
       <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
-        {/* Logo with by UN/TITLD */}
-        <div className="flex items-center gap-2.5">
-          <Link href="/">
-            <img 
-              src={logoImage} 
-              alt="Chroma" 
-              className="h-8 w-auto hover:scale-105 transition-transform duration-300 cursor-pointer" 
-              data-testid="button-home"
-            />
-          </Link>
-          <div className="flex flex-col gap-1 hidden sm:flex">
-            <span className="text-[8px] text-muted-foreground/50 leading-none">by</span>
-            <span className="text-[9px] font-semibold text-muted-foreground/70 leading-none"><AnimatedUntitld /></span>
-          </div>
-        </div>
+        {/* Logo */}
+        <Link href="/">
+          <img 
+            src={logoImage} 
+            alt="Chroma" 
+            className="h-8 w-auto hover:scale-105 transition-transform duration-300 cursor-pointer" 
+            data-testid="button-home"
+          />
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-1 flex-1 justify-end">
