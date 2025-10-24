@@ -150,7 +150,7 @@ export function NavBar() {
 
   return (
     <nav 
-      className="border-b border-border/10 sticky top-0 bg-background/20 z-50 relative overflow-hidden"
+      className="sticky top-0 bg-background/20 z-50 relative overflow-hidden"
       style={{ backdropFilter: 'blur(20px)' }}
     >
       {/* Subtle grid overlay that shows through */}
@@ -196,7 +196,7 @@ export function NavBar() {
             <SheetContent side="right" className="w-[250px]">
               <div className="flex flex-col gap-4 mt-8">
                 <NavLinks mobile />
-                <div className="border-t pt-4">
+                <div className="pt-4 mt-4 relative before:absolute before:top-0 before:left-0 before:right-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-border/20 before:to-transparent">
                   <UserSection mobile />
                 </div>
               </div>

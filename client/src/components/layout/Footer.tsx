@@ -7,7 +7,7 @@ export function Footer() {
 
   return (
     <footer 
-      className="border-t border-border/10 mt-20 py-6 bg-background/20 relative overflow-hidden"
+      className="mt-20 py-6 bg-background/20 relative overflow-hidden"
       style={{ backdropFilter: 'blur(20px)' }}
     >
       {/* Subtle grid overlay with fade mask */}
@@ -53,7 +53,7 @@ export function Footer() {
               </Link>
             </div>
             
-            <div className="h-3 w-px bg-border/40 hidden md:block" />
+            <div className="h-3 w-px bg-gradient-to-b from-transparent via-border/20 to-transparent hidden md:block" />
             
             <div className="flex items-center gap-3">
               <span className="text-muted-foreground/50 font-medium text-[11px]">Company</span>
@@ -65,7 +65,7 @@ export function Footer() {
               </Link>
             </div>
             
-            <div className="h-3 w-px bg-border/40 hidden md:block" />
+            <div className="h-3 w-px bg-gradient-to-b from-transparent via-border/20 to-transparent hidden md:block" />
             
             <div className="flex items-center gap-3">
               <span className="text-muted-foreground/50 font-medium text-[11px]">Legal</span>
