@@ -12,11 +12,11 @@ export function Footer() {
     >
       {/* Subtle grid overlay with fade mask */}
       <div 
-        className="absolute inset-0 pointer-events-none opacity-50"
+        className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(107, 124, 237, 0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(107, 124, 237, 0.04) 1px, transparent 1px)
+            linear-gradient(rgba(107, 124, 237, 0.08) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(107, 124, 237, 0.08) 1px, transparent 1px)
           `,
           backgroundSize: '24px 24px',
           imageRendering: 'pixelated',
