@@ -6,10 +6,11 @@ Minimal, professional interface focused on color science tools. No decorative el
 ## Core Design Elements
 
 ### Color Palette
-**Primary Colors** (color science spectrum):
-- Primary: #6b2dd9 (purple)
-- Chart 2: #00d4ff (cyan)  
-- Chart 3: #ff0080 (magenta)
+**Primary Colors** (cinematic warmth spectrum):
+- Primary: #6B7CED (blue-purple) - Brand identity
+- Accent: #FF9500 (vibrant orange) - High contrast, warm energy
+- Chart 2: #FFBA08 (amber/golden) - Warm transition
+- Chart 3: #FF3B30 (red) - Energy pop
 - Background: #0a0a0a (deep black)
 
 **Neutral Scale**:
