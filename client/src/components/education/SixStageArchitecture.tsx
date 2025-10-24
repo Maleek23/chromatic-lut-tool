@@ -22,47 +22,46 @@ const stages: Stage[] = [
     visualization: (
       <svg viewBox="0 0 300 280" className="w-full mx-auto">
         <defs>
-          {/* 3D sphere gradient - hemisphere effect */}
-          <radialGradient id="labSphereGradient" cx="50%" cy="40%">
-            <stop offset="0%" stopColor="#90EE90" stopOpacity="0.9" />
-            <stop offset="25%" stopColor="#87CEEB" stopOpacity="0.8" />
-            <stop offset="50%" stopColor="#DDA0DD" stopOpacity="0.7" />
-            <stop offset="75%" stopColor="#FFB6C1" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="#2F4F4F" stopOpacity="0.9" />
+          {/* Sophisticated 3D hemisphere gradient using brand colors */}
+          <radialGradient id="labSphereGradient" cx="50%" cy="35%">
+            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.4" />
+            <stop offset="40%" stopColor="hsl(var(--chart-2))" stopOpacity="0.35" />
+            <stop offset="70%" stopColor="hsl(var(--chart-3))" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="hsl(var(--muted))" stopOpacity="0.2" />
           </radialGradient>
-          {/* Contour lines gradient */}
+          {/* Contour lines */}
           <linearGradient id="contourGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="hsl(var(--chart-2))" stopOpacity="0.4" />
+            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="hsl(var(--chart-2))" stopOpacity="0.2" />
           </linearGradient>
         </defs>
         
-        {/* 3D Hemisphere */}
-        <ellipse cx="150" cy="160" rx="90" ry="40" fill="#1a1a2e" opacity="0.3" />
-        <path d="M 60 160 Q 150 80, 240 160" fill="url(#labSphereGradient)" stroke="none" />
+        {/* 3D Hemisphere with subtle shadow */}
+        <ellipse cx="150" cy="160" rx="90" ry="40" fill="hsl(var(--muted))" opacity="0.15" />
+        <path d="M 60 160 Q 150 80, 240 160" fill="url(#labSphereGradient)" stroke="hsl(var(--primary))" strokeWidth="1" opacity="0.8" />
         
-        {/* Contour lines for 3D effect */}
-        <ellipse cx="150" cy="130" rx="70" ry="25" fill="none" stroke="url(#contourGrad)" strokeWidth="1.5" opacity="0.5" />
-        <ellipse cx="150" cy="145" rx="80" ry="32" fill="none" stroke="url(#contourGrad)" strokeWidth="1.5" opacity="0.4" />
-        <ellipse cx="150" cy="160" rx="90" ry="40" fill="none" stroke="url(#contourGrad)" strokeWidth="2" opacity="0.6" />
+        {/* Refined contour lines */}
+        <ellipse cx="150" cy="130" rx="70" ry="25" fill="none" stroke="url(#contourGrad)" strokeWidth="1" opacity="0.4" />
+        <ellipse cx="150" cy="145" rx="80" ry="32" fill="none" stroke="url(#contourGrad)" strokeWidth="1" opacity="0.35" />
+        <ellipse cx="150" cy="160" rx="90" ry="40" fill="none" stroke="url(#contourGrad)" strokeWidth="1.5" opacity="0.5" />
         
-        {/* L* axis (vertical) */}
-        <line x1="150" y1="40" x2="150" y2="240" stroke="hsl(var(--foreground))" strokeWidth="2.5" />
-        <polygon points="150,35 145,45 155,45" fill="hsl(var(--foreground))" />
-        <text x="150" y="25" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="16" fontWeight="700">+L*</text>
-        <text x="150" y="260" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="16" fontWeight="700">-L*</text>
+        {/* L* axis (vertical) - subtle */}
+        <line x1="150" y1="40" x2="150" y2="240" stroke="hsl(var(--muted-foreground))" strokeWidth="1.5" opacity="0.6" />
+        <polygon points="150,38 147,45 153,45" fill="hsl(var(--muted-foreground))" opacity="0.6" />
+        <text x="150" y="28" textAnchor="middle" fill="hsl(var(--muted-foreground))" fontSize="13" fontWeight="600" opacity="0.8">+L*</text>
+        <text x="150" y="260" textAnchor="middle" fill="hsl(var(--muted-foreground))" fontSize="13" fontWeight="600" opacity="0.8">-L*</text>
         
-        {/* a* axis (horizontal - red to green) */}
-        <line x1="40" y1="160" x2="260" y2="160" stroke="hsl(var(--foreground))" strokeWidth="2.5" />
-        <polygon points="265,160 255,155 255,165" fill="hsl(var(--foreground))" />
-        <text x="275" y="165" textAnchor="start" fill="hsl(var(--foreground))" fontSize="16" fontWeight="700">+a*</text>
-        <text x="25" y="165" textAnchor="end" fill="hsl(var(--foreground))" fontSize="16" fontWeight="700">-a*</text>
+        {/* a* axis (horizontal) - subtle */}
+        <line x1="40" y1="160" x2="260" y2="160" stroke="hsl(var(--muted-foreground))" strokeWidth="1.5" opacity="0.6" />
+        <polygon points="263,160 256,157 256,163" fill="hsl(var(--muted-foreground))" opacity="0.6" />
+        <text x="275" y="165" textAnchor="start" fill="hsl(var(--muted-foreground))" fontSize="13" fontWeight="600" opacity="0.8">+a*</text>
+        <text x="25" y="165" textAnchor="end" fill="hsl(var(--muted-foreground))" fontSize="13" fontWeight="600" opacity="0.8">-a*</text>
         
-        {/* b* axis (diagonal - yellow to blue) */}
-        <line x1="90" y1="100" x2="210" y2="220" stroke="hsl(var(--foreground))" strokeWidth="2.5" opacity="0.7" />
-        <polygon points="213,225 205,215 215,217" fill="hsl(var(--foreground))" opacity="0.7" />
-        <text x="220" y="235" textAnchor="start" fill="hsl(var(--foreground))" fontSize="16" fontWeight="700" opacity="0.9">+b*</text>
-        <text x="75" y="95" textAnchor="end" fill="hsl(var(--foreground))" fontSize="16" fontWeight="700" opacity="0.9">-b*</text>
+        {/* b* axis (diagonal) - subtle */}
+        <line x1="90" y1="100" x2="210" y2="220" stroke="hsl(var(--muted-foreground))" strokeWidth="1.5" opacity="0.5" />
+        <polygon points="212,222 206,216 210,220" fill="hsl(var(--muted-foreground))" opacity="0.5" />
+        <text x="220" y="235" textAnchor="start" fill="hsl(var(--muted-foreground))" fontSize="13" fontWeight="600" opacity="0.8">+b*</text>
+        <text x="75" y="95" textAnchor="end" fill="hsl(var(--muted-foreground))" fontSize="13" fontWeight="600" opacity="0.8">-b*</text>
       </svg>
     ),
     details: [
