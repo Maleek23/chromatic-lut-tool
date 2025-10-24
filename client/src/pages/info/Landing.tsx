@@ -14,8 +14,18 @@ export default function Landing() {
       {/* Cinema-Grade Hero Section */}
       <HeroSection />
 
+      {/* Gradient blending: Hero to Six-Stage */}
+      <div className="relative -mt-32 h-32 pointer-events-none z-20">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background" />
+      </div>
+
       {/* Six-Stage Architecture Educational Section */}
       <SixStageArchitecture />
+
+      {/* Gradient blending: Six-Stage to Features */}
+      <div className="relative -mt-24 h-32 pointer-events-none z-20">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background" />
+      </div>
 
       {/* Features Overview */}
       <section className="relative z-10 py-16 px-4">
@@ -84,9 +94,9 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Divider */}
-      <div className="relative z-10 max-w-4xl mx-auto px-6">
-        <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+      {/* Gradient blending: Features to Pricing */}
+      <div className="relative h-40 pointer-events-none z-20">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background" />
       </div>
 
       {/* Pricing Section */}
@@ -280,6 +290,11 @@ export default function Landing() {
           </div>
         </div>
       </section>
+
+      {/* Gradient blending: Pricing to Footer */}
+      <div className="relative h-40 pointer-events-none z-20">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/70 to-background" />
+      </div>
 
       <Footer />
     </>
