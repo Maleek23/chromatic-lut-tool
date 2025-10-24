@@ -79,14 +79,16 @@ function App() {
           <TooltipProvider>
             <div className="min-h-screen bg-background relative">
               {/* Technical grid pattern - extends everywhere including header/footer */}
-              <svg className="fixed inset-0 w-full h-full opacity-20 pointer-events-none z-0" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <pattern id="tech-grid" width="24" height="24" patternUnits="userSpaceOnUse">
-                    <path d="M 24 0 L 0 0 0 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" shapeRendering="crispEdges" />
-                  </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill="url(#tech-grid)" />
-              </svg>
+              <div 
+                className="fixed inset-0 pointer-events-none z-0 opacity-20"
+                style={{
+                  backgroundImage: `
+                    linear-gradient(to right, hsl(var(--primary)) 1px, transparent 1px),
+                    linear-gradient(to bottom, hsl(var(--primary)) 1px, transparent 1px)
+                  `,
+                  backgroundSize: '24px 24px'
+                }}
+              />
               
               <div className="relative z-10">
                 <Toaster />
