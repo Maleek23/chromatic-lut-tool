@@ -195,8 +195,8 @@ export default function Landing() {
             </Card>
 
             {/* Pro Tier */}
-            <Card className="hover-elevate backdrop-blur-sm transition-all duration-300 flex flex-col border-0 relative h-[520px] lg:w-72 overflow-hidden bg-gradient-to-br from-primary/25 via-chart-2/15 to-background/95 shadow-xl shadow-primary/20">
-              <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-20">
+            <Card className="hover-elevate backdrop-blur-sm transition-all duration-300 flex flex-col border-0 relative h-[520px] lg:w-72 overflow-hidden bg-gradient-to-br from-primary/25 via-chart-2/15 to-background/95 shadow-xl shadow-primary/20 pt-8">
+              <div className="absolute top-2 left-1/2 -translate-x-1/2 z-20">
                 <Badge className="bg-gradient-to-r from-primary to-chart-2 text-white text-[10px] px-2 py-0.5 border-0 shadow-lg shadow-primary/50">
                   Popular
                 </Badge>
@@ -244,8 +244,8 @@ export default function Landing() {
             </Card>
 
             {/* Studio Tier */}
-            <Card className="hover-elevate backdrop-blur-sm transition-all duration-300 flex flex-col border-0 opacity-90 relative h-[600px] lg:w-64 overflow-hidden bg-gradient-to-br from-chart-3/25 via-primary/15 to-background/95">
-              <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-20">
+            <Card className="hover-elevate backdrop-blur-sm transition-all duration-300 flex flex-col border-0 opacity-90 relative h-[600px] lg:w-64 overflow-hidden bg-gradient-to-br from-chart-3/25 via-primary/15 to-background/95 pt-8">
+              <div className="absolute top-2 left-1/2 -translate-x-1/2 z-20">
                 <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-[10px] px-2 py-0.5 border-0 shadow-lg shadow-orange-500/50">
                   Soon
                 </Badge>
