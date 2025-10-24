@@ -2,7 +2,6 @@ import { useState, useRef } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ColorCube3D } from '@/components/visual/ColorCube3D';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Stage {
@@ -20,7 +19,32 @@ const stages: Stage[] = [
     name: "CIE L*a*b* Transform",
     technical: "Perceptually Uniform Color Space",
     description: "Transforms RGB colors into the CIE L*a*b* color space, ensuring perceptually uniform color processing.",
-    visualization: <ColorCube3D size={180} rotating={true} />,
+    visualization: (
+      <svg viewBox="0 0 200 200" className="w-full max-w-[220px] mx-auto">
+        <defs>
+          <linearGradient id="labGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="hsl(var(--primary))" />
+            <stop offset="50%" stopColor="hsl(var(--chart-2))" />
+            <stop offset="100%" stopColor="hsl(var(--chart-3))" />
+          </linearGradient>
+        </defs>
+        {/* L* axis (vertical) */}
+        <line x1="100" y1="20" x2="100" y2="180" stroke="hsl(var(--muted-foreground))" strokeWidth="2" strokeDasharray="4" />
+        {/* a* axis (red-green) */}
+        <line x1="30" y1="100" x2="170" y2="100" stroke="hsl(var(--muted-foreground))" strokeWidth="2" strokeDasharray="4" />
+        {/* b* axis (yellow-blue) */}
+        <line x1="70" y1="50" x2="130" y2="150" stroke="hsl(var(--muted-foreground))" strokeWidth="2" strokeDasharray="4" />
+        
+        {/* Center sphere with gradient */}
+        <circle cx="100" cy="100" r="50" fill="url(#labGradient)" opacity="0.3" />
+        <circle cx="100" cy="100" r="50" fill="none" stroke="url(#labGradient)" strokeWidth="3" />
+        
+        {/* Axis labels */}
+        <text x="100" y="15" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="600">L*</text>
+        <text x="175" y="105" textAnchor="start" fill="hsl(var(--foreground))" fontSize="12" fontWeight="600">a*</text>
+        <text x="135" y="155" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="600">b*</text>
+      </svg>
+    ),
     details: [
       "Converts from device-dependent RGB to perceptual L*a*b*",
       "Lightness (L*) separated from color (a*, b*)",
