@@ -80,13 +80,14 @@ function App() {
             <div className="min-h-screen bg-background relative">
               {/* Technical grid pattern - extends everywhere including header/footer */}
               <div 
-                className="fixed inset-0 pointer-events-none z-0 opacity-20"
+                className="fixed inset-0 pointer-events-none z-0"
                 style={{
                   backgroundImage: `
-                    linear-gradient(to right, hsl(var(--primary)) 1px, transparent 1px),
-                    linear-gradient(to bottom, hsl(var(--primary)) 1px, transparent 1px)
+                    linear-gradient(rgba(107, 124, 237, 0.15) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(107, 124, 237, 0.15) 1px, transparent 1px)
                   `,
-                  backgroundSize: '24px 24px'
+                  backgroundSize: '24px 24px',
+                  imageRendering: 'pixelated'
                 }}
               />
               
