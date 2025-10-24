@@ -17,16 +17,16 @@ export function HeroSection() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
       <div className="container mx-auto px-4 py-12 relative z-10">
         <div className="max-w-4xl mx-auto text-center space-y-6">
-          {/* Logo centered with By UN/TITLD next to it */}
-          <div className="flex items-center justify-center gap-4">
+          {/* Logo centered with By UN/TITLD below */}
+          <div className="flex flex-col items-center justify-center gap-2">
             <Link href="/">
               <img 
                 src={logoImage} 
                 alt="CHROMA" 
-                className="h-20 sm:h-24 w-auto hover:scale-105 transition-transform duration-300 cursor-pointer animate-in fade-in duration-700" 
+                className="h-32 sm:h-40 w-auto hover:scale-105 transition-transform duration-300 cursor-pointer animate-in fade-in duration-700" 
               />
             </Link>
-            <div className="text-[11px] text-muted-foreground/70 animate-in fade-in duration-700 delay-150 whitespace-nowrap">
+            <div className="text-xs text-muted-foreground/70 animate-in fade-in duration-700 delay-150 whitespace-nowrap">
               By <span className="font-semibold"><AnimatedUntitld /></span>
             </div>
           </div>
@@ -45,7 +45,7 @@ export function HeroSection() {
 
           {/* Hero headline */}
           <div className="space-y-4">
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
               <span className="block">Cinema-Grade</span>
               <span className="block bg-gradient-to-r from-primary via-chart-2 to-chart-3 bg-clip-text text-transparent">
                 Color Science.
