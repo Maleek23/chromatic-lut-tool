@@ -149,7 +149,22 @@ export function NavBar() {
   );
 
   return (
-    <nav className="border-b border-border/10 sticky top-0 bg-background/30 backdrop-blur-sm z-50">
+    <nav 
+      className="border-b border-border/10 sticky top-0 bg-background/20 z-50 relative overflow-hidden"
+      style={{ backdropFilter: 'blur(20px)' }}
+    >
+      {/* Subtle grid overlay that shows through */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-50"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(107, 124, 237, 0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(107, 124, 237, 0.04) 1px, transparent 1px)
+          `,
+          backgroundSize: '24px 24px',
+          imageRendering: 'pixelated'
+        }}
+      />
       <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
         {/* Logo */}
         <Link href="/">

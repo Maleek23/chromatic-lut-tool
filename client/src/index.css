@@ -387,6 +387,34 @@
     }
   }
 
+  /* Cinema-grade glow breathing animation - subtle 8s cycle */
+  @keyframes glow-breathe {
+    0%, 100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  .animate-glow-breathe {
+    animation: glow-breathe 8s ease-in-out infinite;
+  }
+
+  /* Optional grid shimmer animation - very subtle 6s cycle */
+  @keyframes grid-shimmer {
+    0%, 100% {
+      opacity: 0.03;
+    }
+    50% {
+      opacity: 0.05;
+    }
+  }
+
+  .animate-grid-shimmer {
+    animation: grid-shimmer 6s ease-in-out infinite;
+  }
+
   /* Mobile First - Design for 375px (iPhone SE) */
   
   /* Prevent horizontal overflow on ALL devices */

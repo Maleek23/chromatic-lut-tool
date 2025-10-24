@@ -6,7 +6,24 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border/10 mt-20 py-6 bg-background/30 backdrop-blur-sm">
+    <footer 
+      className="border-t border-border/10 mt-20 py-6 bg-background/20 relative overflow-hidden"
+      style={{ backdropFilter: 'blur(20px)' }}
+    >
+      {/* Subtle grid overlay with fade mask */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-50"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(107, 124, 237, 0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(107, 124, 237, 0.04) 1px, transparent 1px)
+          `,
+          backgroundSize: '24px 24px',
+          imageRendering: 'pixelated',
+          maskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)'
+        }}
+      />
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Logo + Tagline */}

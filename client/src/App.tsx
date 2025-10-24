@@ -78,7 +78,7 @@ function App() {
         <AuthProvider>
           <TooltipProvider>
             <div className="min-h-screen bg-background relative">
-              {/* Technical grid pattern - subtle aesthetic pouring into header/footer */}
+              {/* Technical grid pattern - subtle aesthetic with natural edge fade */}
               <div 
                 className="fixed inset-0 pointer-events-none z-0"
                 style={{
@@ -87,7 +87,23 @@ function App() {
                     linear-gradient(90deg, rgba(107, 124, 237, 0.08) 1px, transparent 1px)
                   `,
                   backgroundSize: '24px 24px',
-                  imageRendering: 'pixelated'
+                  imageRendering: 'pixelated',
+                  maskImage: `
+                    linear-gradient(to bottom, 
+                      transparent 0%,
+                      black 10%,
+                      black 90%,
+                      transparent 100%
+                    )
+                  `,
+                  WebkitMaskImage: `
+                    linear-gradient(to bottom, 
+                      transparent 0%,
+                      black 10%,
+                      black 90%,
+                      transparent 100%
+                    )
+                  `
                 }}
               />
               
