@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen relative">
 
       <div className="container mx-auto px-4 py-20 max-w-6xl relative z-10">
         {/* Header */}

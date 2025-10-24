@@ -15,7 +15,7 @@ export default function Landing() {
       <HeroSection />
 
       {/* Gradient blending: Hero to Six-Stage */}
-      <div className="relative -mt-32 h-32 pointer-events-none z-20">
+      <div className="relative -mt-20 h-32 pointer-events-none z-20">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background" />
       </div>
 
@@ -23,7 +23,7 @@ export default function Landing() {
       <SixStageArchitecture />
 
       {/* Gradient blending: Six-Stage to Features */}
-      <div className="relative -mt-24 h-32 pointer-events-none z-20">
+      <div className="relative -mt-16 h-32 pointer-events-none z-20">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background" />
       </div>
 
@@ -95,7 +95,7 @@ export default function Landing() {
       </section>
 
       {/* Gradient blending: Features to Pricing */}
-      <div className="relative h-40 pointer-events-none z-20">
+      <div className="relative -mt-8 h-40 pointer-events-none z-20">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background" />
       </div>
 

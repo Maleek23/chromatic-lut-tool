@@ -7,7 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 
 export default function InstallLuts() {
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen relative">
 
       {/* Hero Section */}
       <section className="relative z-10 pt-20 pb-8 px-4 sm:px-6 lg:px-8">
