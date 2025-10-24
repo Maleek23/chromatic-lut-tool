@@ -20,29 +20,49 @@ const stages: Stage[] = [
     technical: "Perceptually Uniform Color Space",
     description: "Transforms RGB colors into the CIE L*a*b* color space, ensuring perceptually uniform color processing.",
     visualization: (
-      <svg viewBox="0 0 200 200" className="w-full max-w-[220px] mx-auto">
+      <svg viewBox="0 0 300 280" className="w-full mx-auto">
         <defs>
-          <linearGradient id="labGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="hsl(var(--primary))" />
-            <stop offset="50%" stopColor="hsl(var(--chart-2))" />
-            <stop offset="100%" stopColor="hsl(var(--chart-3))" />
+          {/* 3D sphere gradient - hemisphere effect */}
+          <radialGradient id="labSphereGradient" cx="50%" cy="40%">
+            <stop offset="0%" stopColor="#90EE90" stopOpacity="0.9" />
+            <stop offset="25%" stopColor="#87CEEB" stopOpacity="0.8" />
+            <stop offset="50%" stopColor="#DDA0DD" stopOpacity="0.7" />
+            <stop offset="75%" stopColor="#FFB6C1" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#2F4F4F" stopOpacity="0.9" />
+          </radialGradient>
+          {/* Contour lines gradient */}
+          <linearGradient id="contourGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="hsl(var(--chart-2))" stopOpacity="0.4" />
           </linearGradient>
         </defs>
+        
+        {/* 3D Hemisphere */}
+        <ellipse cx="150" cy="160" rx="90" ry="40" fill="#1a1a2e" opacity="0.3" />
+        <path d="M 60 160 Q 150 80, 240 160" fill="url(#labSphereGradient)" stroke="none" />
+        
+        {/* Contour lines for 3D effect */}
+        <ellipse cx="150" cy="130" rx="70" ry="25" fill="none" stroke="url(#contourGrad)" strokeWidth="1.5" opacity="0.5" />
+        <ellipse cx="150" cy="145" rx="80" ry="32" fill="none" stroke="url(#contourGrad)" strokeWidth="1.5" opacity="0.4" />
+        <ellipse cx="150" cy="160" rx="90" ry="40" fill="none" stroke="url(#contourGrad)" strokeWidth="2" opacity="0.6" />
+        
         {/* L* axis (vertical) */}
-        <line x1="100" y1="20" x2="100" y2="180" stroke="hsl(var(--muted-foreground))" strokeWidth="2" strokeDasharray="4" />
-        {/* a* axis (red-green) */}
-        <line x1="30" y1="100" x2="170" y2="100" stroke="hsl(var(--muted-foreground))" strokeWidth="2" strokeDasharray="4" />
-        {/* b* axis (yellow-blue) */}
-        <line x1="70" y1="50" x2="130" y2="150" stroke="hsl(var(--muted-foreground))" strokeWidth="2" strokeDasharray="4" />
+        <line x1="150" y1="40" x2="150" y2="240" stroke="hsl(var(--foreground))" strokeWidth="2.5" />
+        <polygon points="150,35 145,45 155,45" fill="hsl(var(--foreground))" />
+        <text x="150" y="25" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="16" fontWeight="700">+L*</text>
+        <text x="150" y="260" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="16" fontWeight="700">-L*</text>
         
-        {/* Center sphere with gradient */}
-        <circle cx="100" cy="100" r="50" fill="url(#labGradient)" opacity="0.3" />
-        <circle cx="100" cy="100" r="50" fill="none" stroke="url(#labGradient)" strokeWidth="3" />
+        {/* a* axis (horizontal - red to green) */}
+        <line x1="40" y1="160" x2="260" y2="160" stroke="hsl(var(--foreground))" strokeWidth="2.5" />
+        <polygon points="265,160 255,155 255,165" fill="hsl(var(--foreground))" />
+        <text x="275" y="165" textAnchor="start" fill="hsl(var(--foreground))" fontSize="16" fontWeight="700">+a*</text>
+        <text x="25" y="165" textAnchor="end" fill="hsl(var(--foreground))" fontSize="16" fontWeight="700">-a*</text>
         
-        {/* Axis labels */}
-        <text x="100" y="15" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="600">L*</text>
-        <text x="175" y="105" textAnchor="start" fill="hsl(var(--foreground))" fontSize="12" fontWeight="600">a*</text>
-        <text x="135" y="155" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="12" fontWeight="600">b*</text>
+        {/* b* axis (diagonal - yellow to blue) */}
+        <line x1="90" y1="100" x2="210" y2="220" stroke="hsl(var(--foreground))" strokeWidth="2.5" opacity="0.7" />
+        <polygon points="213,225 205,215 215,217" fill="hsl(var(--foreground))" opacity="0.7" />
+        <text x="220" y="235" textAnchor="start" fill="hsl(var(--foreground))" fontSize="16" fontWeight="700" opacity="0.9">+b*</text>
+        <text x="75" y="95" textAnchor="end" fill="hsl(var(--foreground))" fontSize="16" fontWeight="700" opacity="0.9">-b*</text>
       </svg>
     ),
     details: [
@@ -84,7 +104,7 @@ const stages: Stage[] = [
     technical: "Cinema S-Curve Application",
     description: "Applies professional film-style tone curves for natural highlight rolloff and shadow detail preservation.",
     visualization: (
-      <svg viewBox="0 0 200 200" className="w-full max-w-[220px] mx-auto">
+      <svg viewBox="0 0 200 200" className="w-full mx-auto">
         <defs>
           <linearGradient id="curveGradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="hsl(var(--primary))" />
@@ -131,7 +151,7 @@ const stages: Stage[] = [
     technical: "Selective Color Preservation",
     description: "Detects and protects skin tone ranges to prevent unnatural color shifts in portraits and people.",
     visualization: (
-      <div className="relative w-full max-w-[220px] mx-auto aspect-square">
+      <div className="relative w-full mx-auto aspect-square">
         <svg viewBox="0 0 200 200" className="w-full h-full">
           {/* Color wheel */}
           <defs>
@@ -302,7 +322,7 @@ export function SixStageArchitecture() {
 
             {/* Right: Visualization */}
             <div className="flex flex-col items-center justify-center" data-testid={`section-stage-${stage.number}-visualization`}>
-              <div className="w-full flex items-center justify-center min-h-[280px] py-6">
+              <div className="w-full flex items-center justify-center min-h-[320px] py-6">
                 {stage.visualization}
               </div>
             </div>
