@@ -4,20 +4,18 @@
 CHROMA is a professional toolkit for cinematographers and colorists, offering comprehensive LUT (Look-Up Table) conversion, generation, and analysis. It provides industry-standard support for all major LUT formats with a freemium pricing model. The project aims to provide an essential tool for creators and professionals in the color grading industry, featuring an Image-to-LUT generator that authentically extracts color science from reference images, and robust tools for LUT conversion and analysis.
 
 ## Recent Changes
+- **2025-10-24**: Updated color palette to cinematic warmth spectrum for better readability and professional appeal - vibrant orange accent (30°), amber chart-2 (45°), red chart-3 (0°) while keeping blue-purple primary (240°). Creates warm, inviting aesthetic perfect for cinematography professionals.
+- **2025-10-24**: Fixed 5 production-critical LUT generator bugs: NaN propagation in gamma correction, division by zero in tonemap/clustering/image preprocessing, floating-point precision in gamut mapping, silent failures on corrupted images.
 - **2025-10-22**: Substantially improved Settings, Generate, and Tools pages with director-level UI/UX enhancements - refined layouts, better spacing, improved visual hierarchy, cleaner cards, professional aesthetics using CHROMA gradient colors throughout.
 - **2025-10-22**: Director-level UI/UX enhancements to header and footer - reduced header height (h-14), refined active states with gradient bottom borders, compact footer with single-row layout, improved tier badge design, tighter spacing throughout.
-- **2025-10-22**: Fixed Landing and How It Works pages to use CHROMA blue→purple→red gradient palette consistently - replaced all literal color gradients (green/emerald, blue/cyan, purple/pink, yellow/orange) with semantic tokens (primary, chart-2, chart-3).
-- **2025-10-22**: Completed systematic page consistency audit - fixed all pages to use correct blue→purple→red gradient colors and removed all nested CinemaBackground wrappers for optimal performance.
-- **2025-10-22**: Updated page title gradients across Resources, InstallLuts, LutFormats, and Optimize pages from old purple/blue/cyan to correct `from-foreground via-primary to-foreground` gradient.
-- **2025-10-22**: Removed nested CinemaBackground wrappers from Settings, Privacy, Terms, Tool, Optimize, Analyze, and Convert pages (App.tsx provides single global instance).
-- **2025-10-22**: Applied translucent card styling (`bg-background/80 backdrop-blur-sm`) to all Privacy and Terms legal page cards for cinema-grade aesthetic.
-- **2025-10-22**: Updated color palette from purple-heavy to blue→purple→red gradient matching CHROMA logo (primary: 240° blue-purple, accent: 210° bright blue, chart-3: 330° red-magenta)
+- **2025-10-22**: Fixed Landing and How It Works pages to use CHROMA gradient palette consistently - replaced all literal color gradients with semantic tokens (primary, chart-2, chart-3).
+- **2025-10-22**: Completed systematic page consistency audit - fixed all pages to use correct gradient colors and removed all nested CinemaBackground wrappers for optimal performance.
 - **2025-10-22**: Simplified Dashboard layout - removed Color Scopes histogram section and Live Preview workspace. Dashboard now features only Quick Actions (4 cards), Recent Activity, and Usage Stats.
 - **2025-10-22**: Reduced UploadZone height from 500px to 280px with smaller icons (48px) and more compact typography for professional, space-efficient design.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
-Color Scheme: Blue/purple/red gradient hues matching the CHROMA logo (not purple-heavy)
+Color Scheme: Cinematic warmth spectrum - blue-purple primary (brand identity), vibrant orange accent, amber/golden chart-2, red chart-3. Warm, inviting, high-contrast colors for better readability.
 Design: Cinema-grade professional aesthetic with translucent cards, minimal layout, no childish or overly decorative elements
 
 ## System Architecture
