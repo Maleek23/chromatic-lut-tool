@@ -150,7 +150,7 @@ export function NavBar() {
   );
 
   return (
-    <nav className="border-b border-border/40 sticky top-0 bg-background/80 backdrop-blur-sm z-50">
+    <nav className="border-b border-border/10 sticky top-0 bg-background/80 backdrop-blur-sm z-50">
       <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
         {/* Logo with by UN/TITLD */}
         <div className="flex items-center gap-2.5">
