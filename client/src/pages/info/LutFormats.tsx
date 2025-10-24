@@ -32,16 +32,16 @@ export default function LutFormats() {
               <svg viewBox="0 0 800 420" className="hidden md:block w-full h-auto">
                 <defs>
                   <linearGradient id="cubeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style={{ stopColor: '#a855f7', stopOpacity: 0.2 }} />
-                    <stop offset="100%" style={{ stopColor: '#ec4899', stopOpacity: 0.1 }} />
+                    <stop offset="0%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 0.2 }} />
+                    <stop offset="100%" style={{ stopColor: 'hsl(var(--chart-2))', stopOpacity: 0.1 }} />
                   </linearGradient>
                   <linearGradient id="3dlGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style={{ stopColor: '#3b82f6', stopOpacity: 0.2 }} />
-                    <stop offset="100%" style={{ stopColor: '#06b6d4', stopOpacity: 0.1 }} />
+                    <stop offset="0%" style={{ stopColor: 'hsl(var(--chart-2))', stopOpacity: 0.2 }} />
+                    <stop offset="100%" style={{ stopColor: 'hsl(var(--chart-3))', stopOpacity: 0.1 }} />
                   </linearGradient>
                   <linearGradient id="lutGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style={{ stopColor: '#10b981', stopOpacity: 0.2 }} />
-                    <stop offset="100%" style={{ stopColor: '#059669', stopOpacity: 0.1 }} />
+                    <stop offset="0%" style={{ stopColor: 'hsl(var(--chart-3))', stopOpacity: 0.2 }} />
+                    <stop offset="100%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 0.1 }} />
                   </linearGradient>
                 </defs>
                 
@@ -116,21 +116,21 @@ export default function LutFormats() {
               
               {/* Mobile-friendly list */}
               <div className="md:hidden space-y-4">
-                <div className="p-4 rounded-lg border-2 border-primary/40 bg-gradient-to-br from-primary/10 to-pink-500/5">
+                <div className="p-4 rounded-lg border-2 border-primary/40 bg-gradient-to-br from-primary/10 to-chart-3/5">
                   <p className="font-bold text-sm mb-1">.cube Format</p>
                   <p className="text-xs text-muted-foreground mb-2">DaVinci, Premiere, Final Cut</p>
                   <div className="px-2 py-1 rounded bg-primary/20 border border-primary/40 text-xs text-primary font-semibold text-center">
                     RECOMMENDED FOR MOST
                   </div>
                 </div>
-                <div className="p-4 rounded-lg border border-chart-2/30 bg-gradient-to-br from-chart-2/10 to-cyan-400/5">
+                <div className="p-4 rounded-lg border border-chart-2/30 bg-gradient-to-br from-chart-2/10 to-primary/5">
                   <p className="font-bold text-sm mb-1">.3dl Format</p>
                   <p className="text-xs text-muted-foreground mb-2">Avid, Nuke, Broadcast</p>
                   <div className="px-2 py-1 rounded bg-muted border border-border text-xs text-muted-foreground font-semibold text-center">
                     HIGH-END PRO
                   </div>
                 </div>
-                <div className="p-4 rounded-lg border border-chart-3/30 bg-gradient-to-br from-chart-3/10 to-green-500/5">
+                <div className="p-4 rounded-lg border border-chart-3/30 bg-gradient-to-br from-chart-3/10 to-chart-2/5">
                   <p className="font-bold text-sm mb-1">.lut Format (1D)</p>
                   <p className="text-xs text-muted-foreground mb-2">Simple tone curves, gamma only</p>
                   <div className="px-2 py-1 rounded bg-muted border border-border text-xs text-muted-foreground font-semibold text-center">

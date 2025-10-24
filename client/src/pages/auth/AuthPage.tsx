@@ -171,20 +171,20 @@ export default function AuthPage() {
                             data-testid="tier-card-creator"
                             className={`group p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 hover:shadow-lg ${
                               registerData.tier === "creator"
-                                ? "border-blue-500 bg-blue-500/10 shadow-lg shadow-blue-500/20"
-                                : "border-muted hover:border-blue-500/50 hover-elevate"
+                                ? "border-primary bg-primary/10 shadow-lg shadow-primary/20"
+                                : "border-muted hover:border-primary/50 hover-elevate"
                             }`}
                           >
                             <div className="flex items-center gap-2 mb-3">
-                              <div className={`w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/10 flex items-center justify-center ${registerData.tier === "creator" ? "ring-2 ring-blue-500" : ""}`}>
-                                <Layers className="w-4 h-4 text-blue-500" />
+                              <div className={`w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-chart-2/10 flex items-center justify-center ${registerData.tier === "creator" ? "ring-2 ring-primary" : ""}`}>
+                                <Layers className="w-4 h-4 text-primary" />
                               </div>
                               <span className="font-bold text-base">Creator</span>
                             </div>
                             <div className="space-y-1">
                               <p className="text-xs text-muted-foreground leading-tight">Unlimited generations</p>
                               <p className="text-xs text-muted-foreground leading-tight">3 export formats</p>
-                              <p className="text-xs font-semibold text-blue-500 mt-2">$7/month</p>
+                              <p className="text-xs font-semibold text-primary mt-2">$7/month</p>
                             </div>
                           </div>
 
@@ -194,24 +194,24 @@ export default function AuthPage() {
                             data-testid="tier-card-pro"
                             className={`group p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 hover:shadow-lg relative ${
                               registerData.tier === "pro"
-                                ? "border-purple-500 bg-purple-500/10 shadow-lg shadow-purple-500/20"
-                                : "border-muted hover:border-purple-500/50 hover-elevate"
+                                ? "border-chart-2 bg-chart-2/10 shadow-lg shadow-chart-2/20"
+                                : "border-muted hover:border-chart-2/50 hover-elevate"
                             }`}
                           >
-                            <Badge className="absolute -top-2 -right-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-[10px] px-2 py-0.5 border-0">
+                            <Badge className="absolute -top-2 -right-2 bg-gradient-to-r from-chart-2 to-chart-3 text-white text-[10px] px-2 py-0.5 border-0">
                               <Star className="w-2.5 h-2.5 mr-1" />
                               Popular
                             </Badge>
                             <div className="flex items-center gap-2 mb-3">
-                              <div className={`w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/10 flex items-center justify-center ${registerData.tier === "pro" ? "ring-2 ring-purple-500" : ""}`}>
-                                <Zap className="w-4 h-4 text-purple-500" />
+                              <div className={`w-8 h-8 rounded-lg bg-gradient-to-br from-chart-2/20 to-chart-3/10 flex items-center justify-center ${registerData.tier === "pro" ? "ring-2 ring-chart-2" : ""}`}>
+                                <Zap className="w-4 h-4 text-chart-2" />
                               </div>
                               <span className="font-bold text-base">Pro</span>
                             </div>
                             <div className="space-y-1">
                               <p className="text-xs text-muted-foreground leading-tight">All tools & formats</p>
                               <p className="text-xs text-muted-foreground leading-tight">Batch processing</p>
-                              <p className="text-xs font-semibold text-purple-500 mt-2">$12/month</p>
+                              <p className="text-xs font-semibold text-chart-2 mt-2">$12/month</p>
                             </div>
                           </div>
 

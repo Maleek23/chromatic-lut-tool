@@ -60,13 +60,13 @@ export default function Upgrade() {
   const getTierColor = (tier: TierType) => {
     switch (tier) {
       case "free":
-        return "from-green-500/20 to-emerald-500/20 text-green-500";
+        return "from-primary/20 to-chart-2/20 text-primary";
       case "creator":
-        return "from-blue-500/20 to-cyan-500/20 text-blue-500";
+        return "from-primary/20 to-chart-2/20 text-primary";
       case "pro":
-        return "from-purple-500/20 to-pink-500/20 text-purple-500";
+        return "from-chart-2/20 to-chart-3/20 text-chart-2";
       case "studio":
-        return "from-yellow-500/20 to-orange-500/20 text-yellow-500";
+        return "from-chart-3/20 to-chart-2/20 text-chart-3";
     }
   };
 
@@ -133,7 +133,7 @@ export default function Upgrade() {
 
           {/* Creator Tier */}
           <Card 
-            className={`relative border-blue-500/30 bg-gradient-to-br from-card/80 to-blue-500/5 backdrop-blur-sm flex flex-col h-full ${currentTier === "creator" ? "ring-2 ring-blue-500" : ""}`}
+            className={`relative border-primary/30 bg-gradient-to-br from-card/80 to-primary/5 backdrop-blur-sm flex flex-col h-full ${currentTier === "creator" ? "ring-2 ring-primary" : ""}`}
             data-testid="card-tier-creator"
           >
             {currentTier === "creator" && (
@@ -162,7 +162,7 @@ export default function Upgrade() {
                   const featureText = feature.replace(" (coming soon)", "");
                   return (
                     <li key={i} className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
+                      <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                       <span className="font-medium flex-1">
                         {featureText}
                         {isComingSoon && (
@@ -178,7 +178,7 @@ export default function Upgrade() {
             </CardContent>
             <CardFooter className="mt-auto">
               <Button 
-                className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:opacity-90"
+                className="w-full bg-gradient-to-r from-primary to-chart-2 hover:opacity-90"
                 onClick={() => handleUpgrade("creator")}
                 disabled={isLoading !== null || currentTier === "creator"}
                 data-testid="button-subscribe-creator"
@@ -202,12 +202,12 @@ export default function Upgrade() {
 
           {/* Pro Tier */}
           <Card 
-            className={`relative border-purple-500/30 shadow-lg shadow-purple-500/10 bg-gradient-to-br from-card/80 to-purple-500/5 backdrop-blur-sm flex flex-col h-full ${currentTier === "pro" ? "ring-2 ring-purple-500" : ""}`}
+            className={`relative border-chart-2/30 shadow-lg shadow-chart-2/10 bg-gradient-to-br from-card/80 to-chart-2/5 backdrop-blur-sm flex flex-col h-full ${currentTier === "pro" ? "ring-2 ring-chart-2" : ""}`}
             data-testid="card-tier-pro"
           >
             {currentTier !== "pro" && currentTier !== "studio" && (
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0" data-testid="badge-recommended">
+                <Badge className="bg-gradient-to-r from-chart-2 to-chart-3 text-white border-0" data-testid="badge-recommended">
                   <Sparkles className="w-3 h-3 mr-1" />
                   Most Popular
                 </Badge>
@@ -218,7 +218,7 @@ export default function Upgrade() {
                 <Badge variant="default" data-testid="badge-current-tier-pro">Current Plan</Badge>
               </div>
             )}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500" />
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-chart-2 via-chart-3 to-chart-2" />
             <CardHeader>
               <div className="flex items-center gap-2 mb-2">
                 <div className={`w-7 h-7 rounded-lg bg-gradient-to-br ${getTierColor("pro")} flex items-center justify-center`}>
@@ -241,7 +241,7 @@ export default function Upgrade() {
                   const featureText = feature.replace(" (coming soon)", "");
                   return (
                     <li key={i} className="flex items-start gap-2">
-                      <Zap className="w-4 h-4 text-purple-500 shrink-0 mt-0.5" />
+                      <Zap className="w-4 h-4 text-chart-2 shrink-0 mt-0.5" />
                       <span className="font-semibold flex-1">
                         {featureText}
                         {isComingSoon && (
@@ -257,7 +257,7 @@ export default function Upgrade() {
             </CardContent>
             <CardFooter className="mt-auto">
               <Button 
-                className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90"
+                className="w-full bg-gradient-to-r from-chart-2 to-chart-3 hover:opacity-90"
                 onClick={() => handleUpgrade("pro")}
                 disabled={isLoading !== null || currentTier === "pro"}
                 data-testid="button-subscribe-pro"
@@ -281,7 +281,7 @@ export default function Upgrade() {
 
           {/* Studio Tier */}
           <Card 
-            className={`relative border-yellow-500/30 bg-gradient-to-br from-card/80 to-yellow-500/5 backdrop-blur-sm flex flex-col h-full ${currentTier === "studio" ? "ring-2 ring-yellow-500" : ""}`}
+            className={`relative border-chart-3/30 bg-gradient-to-br from-card/80 to-chart-3/5 backdrop-blur-sm flex flex-col h-full ${currentTier === "studio" ? "ring-2 ring-chart-3" : ""}`}
             data-testid="card-tier-studio"
           >
             {currentTier === "studio" && (
@@ -307,7 +307,7 @@ export default function Upgrade() {
               <ul className="space-y-2 text-sm">
                 {TIER_CONFIG.studio.features.map((feature, i) => (
                   <li key={i} className="flex items-start gap-2">
-                    <Crown className="w-4 h-4 text-yellow-500 shrink-0 mt-0.5" />
+                    <Crown className="w-4 h-4 text-chart-3 shrink-0 mt-0.5" />
                     <span className="font-semibold">{feature}</span>
                   </li>
                 ))}
@@ -315,7 +315,7 @@ export default function Upgrade() {
             </CardContent>
             <CardFooter className="mt-auto">
               <Button 
-                className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:opacity-90"
+                className="w-full bg-gradient-to-r from-chart-3 to-chart-2 hover:opacity-90"
                 onClick={() => handleUpgrade("studio")}
                 disabled={isLoading !== null || currentTier === "studio"}
                 data-testid="button-subscribe-studio"
@@ -395,8 +395,8 @@ export default function Upgrade() {
             <div className="grid md:grid-cols-3 gap-6 text-center">
               <div className="space-y-2">
                 <div className="flex justify-center">
-                  <div className="p-2 rounded-lg bg-blue-500/10">
-                    <CreditCard className="w-5 h-5 text-blue-500" />
+                  <div className="p-2 rounded-lg bg-primary/10">
+                    <CreditCard className="w-5 h-5 text-primary" />
                   </div>
                 </div>
                 <h4 className="font-semibold text-sm">Stripe Payments</h4>
@@ -417,8 +417,8 @@ export default function Upgrade() {
               </div>
               <div className="space-y-2">
                 <div className="flex justify-center">
-                  <div className="p-2 rounded-lg bg-purple-500/10">
-                    <Shield className="w-5 h-5 text-purple-500" />
+                  <div className="p-2 rounded-lg bg-chart-2/10">
+                    <Shield className="w-5 h-5 text-chart-2" />
                   </div>
                 </div>
                 <h4 className="font-semibold text-sm">Privacy First</h4>

@@ -373,7 +373,7 @@ export default function Convert() {
                       <Crown className="w-3 h-3 mr-1" />Pro
                     </Badge>
                   ) : isCreatorOrHigher ? (
-                    <Badge className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white border-0">
+                    <Badge className="bg-gradient-to-r from-primary to-chart-2 text-white border-0">
                       <Sparkles className="w-3 h-3 mr-1" />Creator
                     </Badge>
                   ) : (
@@ -456,7 +456,7 @@ export default function Convert() {
                   </CardDescription>
                 </div>
                 {isCreatorOrHigher && (
-                  <Badge className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white border-0">
+                  <Badge className="bg-gradient-to-r from-primary to-chart-2 text-white border-0">
                     <Sparkles className="w-3 h-3 mr-1" />Creator+
                   </Badge>
                 )}

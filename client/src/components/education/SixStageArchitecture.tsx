@@ -60,7 +60,7 @@ const stages: Stage[] = [
     visualization: (
       <div className="space-y-3">
         <div className="grid grid-cols-4 gap-2">
-          {['#6b2dd9', '#00d4ff', '#ff0080', '#00ff88', '#ffb800', '#ff3366', '#a0a0a0', '#ffffff'].map((color, i) => (
+          {['hsl(var(--primary))', 'hsl(var(--chart-2))', 'hsl(var(--chart-3))', 'hsl(var(--primary) / 0.6)', 'hsl(var(--chart-2) / 0.7)', 'hsl(var(--chart-3) / 0.8)', 'hsl(var(--muted-foreground))', 'hsl(var(--foreground))'].map((color, i) => (
             <div
               key={i}
               className="w-full aspect-square rounded-lg border-2 border-border shadow-md"

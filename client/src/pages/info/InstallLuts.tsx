@@ -351,7 +351,7 @@ export default function InstallLuts() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-4">
+                  <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 mb-4">
                     <p className="text-sm font-semibold mb-1">Lightroom Uses Presets, Not LUTs</p>
                     <p className="text-sm text-muted-foreground">
                       Unlike video editing software, Lightroom uses <strong>.xmp preset files</strong> that include tone curves, split toning, and HSL adjustments. CHROMA generates complete Lightroom presets for Pro+ tier users.
@@ -427,7 +427,7 @@ export default function InstallLuts() {
           </Tabs>
 
           {/* CTA */}
-          <Card className="mt-8 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border-blue-500/20">
+          <Card className="mt-8 bg-gradient-to-br from-primary/10 to-chart-2/10 border-primary/20">
             <CardContent className="p-6">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
@@ -437,7 +437,7 @@ export default function InstallLuts() {
                   </p>
                 </div>
                 <Link href="/auth">
-                  <Button className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:opacity-90" data-testid="button-start-creating">
+                  <Button className="bg-gradient-to-r from-primary to-chart-2 hover:opacity-90" data-testid="button-start-creating">
                     Start Creating
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
