@@ -78,6 +78,16 @@ function App() {
         <AuthProvider>
           <TooltipProvider>
             <div className="min-h-screen bg-background relative">
+              {/* Subtle technical grid pattern - extends everywhere */}
+              <svg className="fixed inset-0 w-full h-full opacity-[0.12] pointer-events-none z-0" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <pattern id="tech-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+                    <path d="M 24 0 L 0 0 0 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" />
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#tech-grid)" />
+              </svg>
+              
               <CinemaBackground variant="subtle" />
               <ColorParticles3D />
               <div className="relative z-10">
