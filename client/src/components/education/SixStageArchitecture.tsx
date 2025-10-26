@@ -359,7 +359,7 @@ export function SixStageArchitecture() {
 
             {/* Right: Visualization */}
             <div className="flex flex-col items-center justify-center" data-testid={`section-stage-${stage.number}-visualization`}>
-              <div className="w-full flex items-center justify-center h-[360px]">
+              <div className="w-full flex items-center justify-center h-[360px] rounded-xl border border-border/30 bg-background/20 backdrop-blur-sm p-6">
                 {stage.visualization}
               </div>
             </div>
