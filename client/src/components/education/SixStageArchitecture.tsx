@@ -111,17 +111,17 @@ const stages: Stage[] = [
     technical: "Dominant Color Extraction",
     description: "Analyzes image to extract 5-8 dominant color clusters, identifying the essential color palette.",
     visualization: (
-      <div className="space-y-3">
-        <div className="grid grid-cols-4 gap-2">
+      <div className="space-y-4 w-full max-w-[280px] mx-auto flex flex-col justify-center h-full">
+        <div className="grid grid-cols-4 gap-3">
           {['hsl(var(--primary))', 'hsl(var(--chart-2))', 'hsl(var(--chart-3))', 'hsl(var(--primary) / 0.6)', 'hsl(var(--chart-2) / 0.7)', 'hsl(var(--chart-3) / 0.8)', 'hsl(var(--muted-foreground))', 'hsl(var(--foreground))'].map((color, i) => (
             <div
               key={i}
-              className="w-full aspect-square rounded-lg"
+              className="w-full aspect-square rounded-lg shadow-lg"
               style={{ backgroundColor: color }}
             />
           ))}
         </div>
-        <p className="text-xs text-center text-muted-foreground font-mono">Extracted Color Palette</p>
+        <p className="text-xs text-center text-foreground/70 font-mono">Extracted Color Palette</p>
       </div>
     ),
     details: [
@@ -137,7 +137,8 @@ const stages: Stage[] = [
     technical: "Cinema S-Curve Application",
     description: "Applies professional film-style tone curves for natural highlight rolloff and shadow detail preservation.",
     visualization: (
-      <svg viewBox="0 0 200 200" className="w-full mx-auto">
+      <div className="w-full max-w-[240px] mx-auto flex items-center justify-center h-full">
+        <svg viewBox="0 0 200 200" className="w-full">
         <defs>
           <linearGradient id="curveGradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="hsl(var(--primary))" />
@@ -163,13 +164,14 @@ const stages: Stage[] = [
           strokeWidth="3"
           strokeLinecap="round"
         />
-        <text x="100" y="205" textAnchor="middle" fill="hsl(var(--muted-foreground))" fontSize="10">
+        <text x="100" y="205" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="10" opacity="0.7">
           Input →
         </text>
-        <text x="5" y="100" textAnchor="middle" fill="hsl(var(--muted-foreground))" fontSize="10" transform="rotate(-90 5 100)">
+        <text x="5" y="100" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="10" opacity="0.7" transform="rotate(-90 5 100)">
           Output →
         </text>
       </svg>
+      </div>
     ),
     details: [
       "Smooth highlight rolloff (prevents clipping)",
@@ -184,8 +186,8 @@ const stages: Stage[] = [
     technical: "Selective Color Preservation",
     description: "Detects and protects skin tone ranges to prevent unnatural color shifts in portraits and people.",
     visualization: (
-      <div className="relative w-full mx-auto aspect-square">
-        <svg viewBox="0 0 200 200" className="w-full h-full">
+      <div className="relative w-full max-w-[240px] mx-auto flex items-center justify-center h-full">
+        <svg viewBox="0 0 200 200" className="w-full">
           {/* Color wheel */}
           <defs>
             <radialGradient id="skinGradient">
@@ -203,7 +205,7 @@ const stages: Stage[] = [
             strokeLinecap="round"
           />
           <circle cx="100" cy="100" r="3" fill="hsl(var(--primary))" />
-          <text x="100" y="100" dy="20" textAnchor="middle" fill="hsl(var(--muted-foreground))" fontSize="10">
+          <text x="100" y="100" dy="20" textAnchor="middle" fill="hsl(var(--foreground))" fontSize="10" opacity="0.7">
             Protected Zone
           </text>
         </svg>
@@ -222,19 +224,19 @@ const stages: Stage[] = [
     technical: "Color Space Mapping",
     description: "Safely compresses out-of-gamut colors into target color space (Rec.709/P3/Rec.2020) while preserving hue.",
     visualization: (
-      <div className="space-y-2">
-        <div className="flex gap-2 justify-center">
+      <div className="w-full max-w-[280px] mx-auto flex items-center justify-center h-full">
+        <div className="flex gap-3 justify-center items-end">
           <div className="text-center">
-            <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary/30 to-chart-2/30" />
-            <p className="text-[10px] mt-1 text-muted-foreground">Rec.709</p>
+            <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary/30 to-chart-2/30 shadow-lg" />
+            <p className="text-[10px] mt-2 text-foreground/70 font-medium">Rec.709</p>
           </div>
           <div className="text-center">
-            <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-primary/40 to-chart-3/40" />
-            <p className="text-[10px] mt-1 text-muted-foreground">P3</p>
+            <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-primary/40 to-chart-3/40 shadow-lg" />
+            <p className="text-[10px] mt-2 text-foreground/70 font-medium">P3</p>
           </div>
           <div className="text-center">
-            <div className="w-24 h-24 rounded-lg bg-gradient-to-br from-primary/50 to-chart-3/50" />
-            <p className="text-[10px] mt-1 text-muted-foreground">Rec.2020</p>
+            <div className="w-24 h-24 rounded-lg bg-gradient-to-br from-primary/50 to-chart-3/50 shadow-lg" />
+            <p className="text-[10px] mt-2 text-foreground/70 font-medium">Rec.2020</p>
           </div>
         </div>
       </div>
@@ -252,18 +254,20 @@ const stages: Stage[] = [
     technical: "White Balance Correction",
     description: "Adapts colors to different lighting conditions, ensuring consistent look across varying white points.",
     visualization: (
-      <div className="grid grid-cols-3 gap-2">
-        {[
-          { temp: '3200K', color: 'from-orange-400 to-orange-600', label: 'Warm' },
-          { temp: '5500K', color: 'from-gray-200 to-gray-400', label: 'Neutral' },
-          { temp: '7500K', color: 'from-blue-300 to-blue-500', label: 'Cool' }
-        ].map(({ temp, color, label }) => (
-          <div key={temp} className="text-center">
-            <div className={`w-full aspect-square rounded-lg bg-gradient-to-br ${color}`} />
-            <p className="text-[9px] mt-1 text-muted-foreground font-mono">{temp}</p>
-            <p className="text-[8px] text-muted-foreground">{label}</p>
-          </div>
-        ))}
+      <div className="w-full max-w-[280px] mx-auto flex items-center justify-center h-full">
+        <div className="grid grid-cols-3 gap-3">
+          {[
+            { temp: '3200K', color: 'from-orange-400 to-orange-600', label: 'Warm' },
+            { temp: '5500K', color: 'from-gray-200 to-gray-400', label: 'Neutral' },
+            { temp: '7500K', color: 'from-blue-300 to-blue-500', label: 'Cool' }
+          ].map(({ temp, color, label }) => (
+            <div key={temp} className="text-center">
+              <div className={`w-full aspect-square rounded-lg bg-gradient-to-br ${color} shadow-lg`} />
+              <p className="text-[9px] mt-2 text-foreground/70 font-mono">{temp}</p>
+              <p className="text-[8px] text-foreground/60">{label}</p>
+            </div>
+          ))}
+        </div>
       </div>
     ),
     details: [
@@ -294,7 +298,7 @@ export function SixStageArchitecture() {
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Six-Stage Color Science Architecture
           </h2>
-          <p className="text-base text-muted-foreground">
+          <p className="text-base text-foreground/70">
             Professional color pipeline built on VES and CIE standards. Each stage is scientifically validated.
           </p>
         </div>
@@ -323,29 +327,29 @@ export function SixStageArchitecture() {
             <div className="space-y-6">
               {/* Stage Number & Title */}
               <div className="space-y-2">
-                <div className="text-sm font-mono text-muted-foreground" data-testid={`text-stage-${stage.number}-number`}>
+                <div className="text-sm font-mono text-foreground/60" data-testid={`text-stage-${stage.number}-number`}>
                   Stage {stage.number}
                 </div>
-                <h3 className="text-2xl font-bold" data-testid={`text-stage-${stage.number}-name`}>
+                <h3 className="text-2xl font-bold text-foreground" data-testid={`text-stage-${stage.number}-name`}>
                   {stage.name}
                 </h3>
-                <p className="text-sm text-muted-foreground" data-testid={`text-stage-${stage.number}-technical`}>
+                <p className="text-sm text-foreground/70" data-testid={`text-stage-${stage.number}-technical`}>
                   {stage.technical}
                 </p>
               </div>
 
               {/* Description */}
-              <p className="text-sm leading-relaxed" data-testid={`text-stage-${stage.number}-description`}>
+              <p className="text-sm leading-relaxed text-foreground/80" data-testid={`text-stage-${stage.number}-description`}>
                 {stage.description}
               </p>
 
               {/* Technical Details */}
               <div data-testid={`section-stage-${stage.number}-details`}>
-                <p className="text-xs font-medium mb-3 text-foreground">Technical Implementation</p>
+                <p className="text-xs font-semibold mb-3 text-foreground/90">Technical Implementation</p>
                 <ul className="space-y-2">
                   {stage.details.map((detail, i) => (
-                    <li key={i} className="text-xs text-muted-foreground flex items-start gap-2 leading-relaxed" data-testid={`text-stage-${stage.number}-detail-${i + 1}`}>
-                      <span className="text-muted-foreground mt-0.5">•</span>
+                    <li key={i} className="text-xs text-foreground/75 flex items-start gap-2 leading-relaxed" data-testid={`text-stage-${stage.number}-detail-${i + 1}`}>
+                      <span className="text-foreground/50 mt-0.5">•</span>
                       <span>{detail}</span>
                     </li>
                   ))}
@@ -355,7 +359,7 @@ export function SixStageArchitecture() {
 
             {/* Right: Visualization */}
             <div className="flex flex-col items-center justify-center" data-testid={`section-stage-${stage.number}-visualization`}>
-              <div className="w-full flex items-center justify-center min-h-[320px] py-6">
+              <div className="w-full flex items-center justify-center h-[360px]">
                 {stage.visualization}
               </div>
             </div>
@@ -375,7 +379,7 @@ export function SixStageArchitecture() {
             Previous
           </Button>
           
-          <div className="text-xs font-mono text-muted-foreground">
+          <div className="text-xs font-mono text-foreground/60">
             {currentStage + 1} / {stages.length}
           </div>
 
@@ -409,7 +413,9 @@ export function SixStageArchitecture() {
               }`}>
                 {s.number}
               </div>
-              <div className="text-[10px] font-semibold line-clamp-2">{s.name}</div>
+              <div className={`text-[10px] font-semibold line-clamp-2 ${
+                index === currentStage ? 'text-foreground' : 'text-foreground/60'
+              }`}>{s.name}</div>
             </button>
           ))}
         </div>
