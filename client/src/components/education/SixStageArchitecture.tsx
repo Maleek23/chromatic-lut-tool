@@ -292,7 +292,7 @@ export function SixStageArchitecture() {
 
   return (
     <section className="py-20 relative z-10" data-section="six-stage">
-      <div className="container mx-auto px-4 max-w-5xl">
+      <div className="container mx-auto px-4 max-w-5xl rounded-2xl border border-border/20 bg-background/10 backdrop-blur-sm p-8 md:p-12">
         {/* Header */}
         <div className="mb-12 max-w-3xl">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
