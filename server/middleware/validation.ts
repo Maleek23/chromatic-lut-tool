@@ -97,7 +97,7 @@ export const TIER_FEATURES = {
   pro: {
     // LUT Generation
     gridSizes: ["17", "33", "65"], // All grid sizes
-    outputFormats: [".cube", ".3dl", ".lut", ".look", ".xmp"], // All 5 formats
+    outputFormats: [".cube", ".3dl", ".lut", ".look", ".xmp", ".dctl"], // All formats
     precision: ["8", "10", "12"],
     
     // Conversion - Bidirectional (note: .xmp is export-only, not convertible)
@@ -128,7 +128,7 @@ export const TIER_FEATURES = {
   studio: {
     // Everything in Pro, plus enterprise features
     gridSizes: ["17", "33", "65"],
-    outputFormats: [".cube", ".3dl", ".lut", ".look", ".xmp"], // All 5 formats
+    outputFormats: [".cube", ".3dl", ".lut", ".look", ".xmp", ".dctl"], // All formats
     precision: ["8", "10", "12"],
     conversionSourceFormats: [".cube", ".3dl", ".lut", ".look"], // .xmp is export-only
     conversionDestFormats: [".cube", ".3dl", ".lut", ".look"], // .xmp is export-only

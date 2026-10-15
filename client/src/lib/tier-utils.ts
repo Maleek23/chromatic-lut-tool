@@ -31,7 +31,7 @@ export function isGridSizeAllowed(tier: TierType, gridSize: number): boolean {
 }
 
 // Format helpers
-export function getAvailableFormats(tier: TierType): Array<"cube" | "3dl" | "lut"> {
+export function getAvailableFormats(tier: TierType): Array<"cube" | "3dl" | "lut" | "look" | "xmp" | "dctl"> {
   return getTierLimits(tier).formats;
 }
 

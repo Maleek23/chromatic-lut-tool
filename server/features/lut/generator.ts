@@ -12,7 +12,7 @@ import {
   lchToLab,
   gamutMapToRec709,
 } from "./color-science";
-import { generateLookLUT, generateXmpPreset } from "./format-exporters";
+import { generateLookLUT, generateXmpPreset, generateDCTL } from "./format-exporters";
 import { buildLUTFromColorScience, type LUTPoint } from "./professional-lut-builder";
 
 interface HSL {
@@ -106,7 +106,7 @@ export async function generateLUT(
   imageBuffer: Buffer,
   gridSize: number,
   intensity: number,
-  format: ".cube" | ".3dl" | ".lut" | ".look" | ".xmp",
+  format: ".cube" | ".3dl" | ".lut" | ".look" | ".xmp" | ".dctl",
   advancedControls?: AdvancedControls,
   precision: string = "10",
   metadata?: { name?: string; description?: string }
@@ -133,6 +133,8 @@ export async function generateLUT(
     return generateLookLUT(lutMap, gridSize, precision);
   } else if (format === ".xmp") {
     return generateXmpPreset(lutMap, gridSize, metadata);
+  } else if (format === ".dctl") {
+    return generateDCTL(lutMap, gridSize, precision);
   } else {
     throw new Error(`Unsupported format: ${format}`);
   }

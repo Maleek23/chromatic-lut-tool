@@ -19,15 +19,6 @@ import { checkUsageLimit, incrementUsage, getUsageLimits } from "../features/usa
 import { sendLutEmail } from "../features/email/sender";
 import { logger } from "../utils/logger";
 
-// Helper to normalize format strings for file extensions
-const EXTENSION_MAP = {
-  cube: ".cube",
-  "3dl": ".3dl",
-  lut: ".lut",
-  look: ".look",
-  xmp: ".xmp"
-} as const;
-
 // Configure multer with file validation
 const upload = multer({ 
   storage: multer.memoryStorage(),
@@ -585,11 +576,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Generate LUT from image analysis (no manual controls)
+      // Normalize the requested format to a dotted extension (".cube", ".dctl", ...).
+      // The schema already provides a leading dot, but we accept both shapes.
+      const requestedFormat = (format.startsWith(".") ? format : `.${format}`) as
+        | ".cube" | ".3dl" | ".lut" | ".look" | ".xmp" | ".dctl";
+
       const lutData = await generateLUT(
         imageBuffer,
         parseInt(gridSize),
         intensity,
-        EXTENSION_MAP[format as keyof typeof EXTENSION_MAP] || ".cube",
+        requestedFormat,
         undefined, // No advanced controls - extract from image
         precision
       );
@@ -742,11 +738,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
             const base64Data = img.imageData.replace(/^data:image\/\w+;base64,/, "");
             const imageBuffer = Buffer.from(base64Data, "base64");
 
+            const requestedFormat = (format.startsWith(".") ? format : `.${format}`) as
+              | ".cube" | ".3dl" | ".lut" | ".look" | ".xmp" | ".dctl";
+
             const lutData = await generateLUT(
               imageBuffer,
               parseInt(gridSize),
               intensity,
-              EXTENSION_MAP[format as keyof typeof EXTENSION_MAP] || ".cube",
+              requestedFormat,
               controls,
               precision
             );

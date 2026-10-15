@@ -289,6 +289,99 @@ function createIdentityLUT(gridSize: number): LUTPoint[] {
 }
 
 /**
+ * Generate a self-contained DaVinci Resolve DCTL (.dctl) that embeds the
+ * generated 3D LUT and runs trilinear interpolation at render time.
+ *
+ * Why: a DCTL is a first-class Resolve Studio effect. It needs no LUT install
+ * folder and no LUT browser entry - drop it in and apply "Chroma LUT" as an
+ * effect. This is the "professional Resolve" export.
+ *
+ * Requires DaVinci Resolve Studio. Max 33x33x33 (65 is too large to embed).
+ */
+export function generateDCTL(lutMap: LUTPoint[], gridSize: number, precision: string = "10"): string {
+  if (gridSize > 33) {
+    throw new Error("DCTL export supports up to a 33x33x33 grid. Use 17 or 33 for DCTL, or export .cube for 65.");
+  }
+
+  const n = gridSize;
+  const decimals = Math.max(4, Math.min(parseInt(precision) || 10, 10));
+  const timestamp = new Date().toISOString();
+
+  const values = lutMap.map((p) => `${p.r.toFixed(decimals)}f, ${p.g.toFixed(decimals)}f, ${p.b.toFixed(decimals)}f`);
+
+  // Chunk the array so no single line is absurdly long.
+  const chunkSize = 6;
+  const lines: string[] = [];
+  for (let i = 0; i < values.length; i += chunkSize) {
+    lines.push("  " + values.slice(i, i + chunkSize).join(", ") + ",");
+  }
+
+  return `// CHROMA - Professional 3D LUT as DaVinci Resolve DCTL
+// Generated: ${timestamp}
+// Grid: ${n}x${n}x${n} (${n <= 17 ? "Preview/Proxy" : "Production"})
+// Requires: DaVinci Resolve Studio (DCTL/Fusion)
+// Color pipeline: sRGB input - Lab perceptual transforms - filmic tone curve - gamut map
+//
+// Install: copy to your Resolve LUT/DCTL folder, then add a ResolveFX/effect
+// or use it via the Resolve DCTL plugin path and apply "Chroma LUT".
+// The LUT is embedded, so no separate .cube is required.
+
+__CONSTANT__ int CHROMA_N = ${n};
+
+__CONSTANT__ float CHROMA_LUT[] = {
+${lines.join("\n")}
+};
+
+__DEVICE__ float3 _chroma_fetch(int r, int g, int b) {
+  int idx = ((b * CHROMA_N + g) * CHROMA_N + r) * 3;
+  return make_float3(CHROMA_LUT[idx], CHROMA_LUT[idx + 1], CHROMA_LUT[idx + 2]);
+}
+
+__DEVICE__ float3 _chroma_lerp(float3 a, float3 b, float t) {
+  return make_float3(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t, a.z + (b.z - a.z) * t);
+}
+
+__DEVICE__ float3 _chroma_sample(float r, float g, float b) {
+  float nmax = (float)(CHROMA_N - 1);
+  float fr = r * nmax;
+  float fg = g * nmax;
+  float fb = b * nmax;
+
+  int r0 = (int)_floor(fr), g0 = (int)_floor(fg), b0 = (int)_floor(fb);
+  int r1 = _min(r0 + 1, CHROMA_N - 1), g1 = _min(g0 + 1, CHROMA_N - 1), b1 = _min(b0 + 1, CHROMA_N - 1);
+
+  float dr = fr - (float)r0, dg = fg - (float)g0, db = fb - (float)b0;
+
+  float3 c000 = _chroma_fetch(r0, g0, b0);
+  float3 c100 = _chroma_fetch(r1, g0, b0);
+  float3 c010 = _chroma_fetch(r0, g1, b0);
+  float3 c110 = _chroma_fetch(r1, g1, b0);
+  float3 c001 = _chroma_fetch(r0, g0, b1);
+  float3 c101 = _chroma_fetch(r1, g0, b1);
+  float3 c011 = _chroma_fetch(r0, g1, b1);
+  float3 c111 = _chroma_fetch(r1, g1, b1);
+
+  float3 c00 = _chroma_lerp(c000, c100, dr);
+  float3 c10 = _chroma_lerp(c010, c110, dr);
+  float3 c01 = _chroma_lerp(c001, c101, dr);
+  float3 c11 = _chroma_lerp(c011, c111, dr);
+
+  float3 c0 = _chroma_lerp(c00, c10, dg);
+  float3 c1 = _chroma_lerp(c01, c11, dg);
+
+  return _chroma_lerp(c0, c1, db);
+}
+
+__DEVICE__ float3 transform(int p_Width, int p_Height, int p_X, int p_Y, float p_R, float p_G, float p_B) {
+  float r = _clampf(p_R, 0.0f, 1.0f);
+  float g = _clampf(p_G, 0.0f, 1.0f);
+  float b = _clampf(p_B, 0.0f, 1.0f);
+  return _chroma_sample(r, g, b);
+}
+`;
+}
+
+/**
  * Escape XML special characters
  */
 function escapeXml(text: string): string {

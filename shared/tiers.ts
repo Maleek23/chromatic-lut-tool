@@ -7,7 +7,7 @@ export interface TierLimits {
   priceMonthly?: number;
   priceYearly?: number;
   gridSizes: Array<17 | 33 | 65>;
-  formats: Array<"cube" | "3dl" | "lut" | "look" | "xmp">;
+  formats: Array<"cube" | "3dl" | "lut" | "look" | "xmp" | "dctl">;
   maxPresets: number;
   hasAnalyzer: boolean;
   hasOptimizer: boolean;
@@ -96,7 +96,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     priceMonthly: 12,
     priceYearly: 99,
     gridSizes: [17, 33, 65],
-    formats: ["cube", "3dl", "lut", "look", "xmp"], // Pro gets all formats
+    formats: ["cube", "3dl", "lut", "look", "xmp", "dctl"], // Pro gets all formats
     maxPresets: -1, // Unlimited
     hasAnalyzer: true,
     hasOptimizer: true,
@@ -130,7 +130,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     price: "$25/mo",
     priceMonthly: 25,
     gridSizes: [17, 33, 65],
-    formats: ["cube", "3dl", "lut", "look", "xmp"], // Studio gets all formats
+    formats: ["cube", "3dl", "lut", "look", "xmp", "dctl"], // Studio gets all formats
     maxPresets: -1, // Unlimited
     hasAnalyzer: true,
     hasOptimizer: true,
@@ -166,7 +166,7 @@ export function canUseGridSize(tier: TierType, gridSize: number): boolean {
 
 export function canUseFormat(tier: TierType, format: string): boolean {
   const limits = getTierLimits(tier);
-  return limits.formats.includes(format as "cube" | "3dl" | "lut" | "look" | "xmp");
+  return limits.formats.includes(format as "cube" | "3dl" | "lut" | "look" | "xmp" | "dctl");
 }
 
 export function canUseBatchProcessing(tier: TierType): boolean {

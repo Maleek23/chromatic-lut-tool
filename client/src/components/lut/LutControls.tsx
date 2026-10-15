@@ -17,8 +17,8 @@ interface LutControlsProps {
   onIntensityChange: (value: number) => void;
   gridSize: "17" | "33" | "65";
   onGridSizeChange: (value: "17" | "33" | "65") => void;
-  format: "cube" | "3dl" | "lut" | "look" | "xmp";
-  onFormatChange: (value: "cube" | "3dl" | "lut" | "look" | "xmp") => void;
+  format: "cube" | "3dl" | "lut" | "look" | "xmp" | "dctl";
+  onFormatChange: (value: "cube" | "3dl" | "lut" | "look" | "xmp" | "dctl") => void;
   precision: "8" | "10" | "12";
   onPrecisionChange: (value: "8" | "10" | "12") => void;
   exportPreview: boolean;
@@ -52,6 +52,7 @@ export function LutControls({
   const hasFormatLut = useHasFormat('lut');
   const hasFormatLook = useHasFormat('look');
   const hasFormatXmp = useHasFormat('xmp');
+  const hasFormatDctl = useHasFormat('dctl');
 
   return (
     <Card>
@@ -182,7 +183,7 @@ export function LutControls({
               </TooltipContent>
             </Tooltip>
           </div>
-          <Select value={format} onValueChange={(value) => onFormatChange(value as "cube" | "3dl" | "lut" | "look" | "xmp")}>
+          <Select value={format} onValueChange={(value) => onFormatChange(value as "cube" | "3dl" | "lut" | "look" | "xmp" | "dctl")}>
             <SelectTrigger id="format" data-testid="select-format">
               <SelectValue />
             </SelectTrigger>
@@ -192,6 +193,7 @@ export function LutControls({
               {hasFormatLook && <SelectItem value="look">.look (Creator+ - Nuke)</SelectItem>}
               {hasFormatLut && <SelectItem value="lut">.lut (Pro - 1D LUT)</SelectItem>}
               {hasFormatXmp && <SelectItem value="xmp">.xmp (Pro - Lightroom)</SelectItem>}
+              {hasFormatDctl && <SelectItem value="dctl">.dctl (Pro - DaVinci Resolve Studio)</SelectItem>}
             </SelectContent>
           </Select>
           {!isCreator && (
