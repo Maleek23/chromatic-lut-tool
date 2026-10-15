@@ -13,6 +13,27 @@
 
 import sharp from "sharp";
 
+/**
+ * Color-science pipeline version, stamped into every generated LUT header so
+ * outputs are reproducible and traceable to the exact code that made them.
+ */
+export const LUT_PIPELINE_VERSION = "chroma-color-science/v1";
+
+/** Default seed. The pipeline is deterministic unless a caller passes another. */
+export const DEFAULT_SEED = 1337;
+
+/** Mulberry32 — tiny seeded PRNG so analysis is reproducible run to run. */
+export function createSeededRandom(seed: number): () => number {
+  let a = seed >>> 0;
+  return () => {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
 // Color space definitions
 export interface RGB {
   r: number;
@@ -122,15 +143,20 @@ export interface ColorAnalysis {
 /**
  * Main color analysis function - extracts professional color science from image
  */
-export async function analyzeImageColorScience(imageBuffer: Buffer): Promise<ColorAnalysis> {
+export async function analyzeImageColorScience(
+  imageBuffer: Buffer,
+  seed: number = DEFAULT_SEED
+): Promise<ColorAnalysis> {
+  const rand = createSeededRandom(seed);
+
   // Step 1: Preprocess image
   const preprocessed = await preprocessImage(imageBuffer);
-  
+
   // Step 2: Convert to Lab color space for perceptual analysis
   const labPixels = await extractLabPixels(preprocessed.buffer);
-  
+
   // Step 3: K-means clustering for intelligent color sampling
-  const clusters = performKMeansClustering(labPixels, 12); // 12 clusters for good color coverage
+  const clusters = performKMeansClustering(labPixels, 12, 10, rand); // 12 clusters for good color coverage
   
   // Step 4: Analyze luminance distribution for tone curve
   const toneCurve = deriveToneCurve(labPixels);
@@ -211,22 +237,27 @@ async function extractLabPixels(imageBuffer: Buffer): Promise<Lab[]> {
 /**
  * K-means clustering for intelligent color grouping
  */
-function performKMeansClustering(pixels: Lab[], k: number = 12, maxIterations: number = 10): ColorCluster[] {
+function performKMeansClustering(
+  pixels: Lab[],
+  k: number = 12,
+  maxIterations: number = 10,
+  rand: () => number = Math.random
+): ColorCluster[] {
   if (pixels.length === 0) {
     return [];
   }
-  
+
   // Initialize centroids using k-means++ for better initial distribution
   const centroids: Lab[] = [];
-  centroids.push(pixels[Math.floor(Math.random() * pixels.length)]);
-  
+  centroids.push(pixels[Math.floor(rand() * pixels.length)]);
+
   while (centroids.length < k) {
     const distances = pixels.map(pixel => {
       return Math.min(...centroids.map(c => labDistance(pixel, c)));
     });
-    
+
     const sum = distances.reduce((a, b) => a + b, 0);
-    let random = Math.random() * sum;
+    let random = rand() * sum;
     
     for (let i = 0; i < distances.length; i++) {
       random -= distances[i];

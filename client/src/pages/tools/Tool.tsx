@@ -23,6 +23,9 @@ import {
   ArrowLeft,
   ArrowRight,
   Check,
+  Image as ImageIcon,
+  Film,
+  GitCompare,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -38,12 +41,23 @@ type FlowStep = "source" | "analyze" | "refine" | "preview" | "export";
 const STEP_ORDER: FlowStep[] = ["source", "analyze", "refine", "preview", "export"];
 
 const STEPS: Array<{ id: FlowStep; label: string; hint: string; icon: LucideIcon }> = [
-  { id: "source", label: "Source", hint: "Upload image or video", icon: Upload },
+  { id: "source", label: "Source", hint: "Image, video, or pair", icon: Upload },
   { id: "analyze", label: "Analyze", hint: "Extract color science", icon: BarChart3 },
   { id: "refine", label: "Refine", hint: "Intensity, grid, format", icon: SlidersHorizontal },
   { id: "preview", label: "Preview", hint: "Before / after", icon: Eye },
   { id: "export", label: "Export", hint: "Download & deliver", icon: Download },
 ];
+
+/** Human rating for the measured ΔE fidelity of a solved pair LUT. */
+function fidelityRating(meanDeltaE: number): { label: string; detail: string } {
+  if (meanDeltaE < 2)
+    return { label: "Excellent", detail: "Near-indistinguishable from the graded frame." };
+  if (meanDeltaE < 5)
+    return { label: "Good", detail: "Faithful match; minor smoothing in sparse colors." };
+  if (meanDeltaE < 10)
+    return { label: "Approximate", detail: "Captures the look; check sparse or extreme colors." };
+  return { label: "Rough", detail: "The pair may be mismatched — verify same shot and framing." };
+}
 
 function StepNav({
   onBack,
@@ -83,8 +97,12 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
   const [, navigate] = useLocation();
   
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-  const [mediaType, setMediaType] = useState<"image" | "video">("image");
+  const [mediaType, setMediaType] = useState<"image" | "video" | "pair">("image");
   const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [beforeFile, setBeforeFile] = useState<File | null>(null);
+  const [afterFile, setAfterFile] = useState<File | null>(null);
+  const [beforeURL, setBeforeURL] = useState<string | null>(null);
+  const [afterURL, setAfterURL] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState<LutAnalysis | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -235,6 +253,97 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
     reader.readAsDataURL(file);
   };
 
+  const clearSourceFiles = () => {
+    if (uploadedImage?.startsWith("blob:")) URL.revokeObjectURL(uploadedImage);
+    if (beforeURL?.startsWith("blob:")) URL.revokeObjectURL(beforeURL);
+    if (afterURL?.startsWith("blob:")) URL.revokeObjectURL(afterURL);
+    setUploadedImage(null);
+    setVideoFile(null);
+    setBeforeFile(null);
+    setAfterFile(null);
+    setBeforeURL(null);
+    setAfterURL(null);
+    setAnalysis(null);
+    setPreviewImage(null);
+    setLutResult(null);
+  };
+
+  const setSourceType = (next: "image" | "video" | "pair") => {
+    if (next === mediaType) return;
+    clearSourceFiles();
+    setMediaType(next);
+    setStep("source");
+  };
+
+  const handlePairUpload = (slot: "before" | "after", file: File) => {
+    const FILE_SIZE_LIMITS: Record<string, number> = {
+      free: 10 * 1024 * 1024,
+      creator: 50 * 1024 * 1024,
+      pro: 100 * 1024 * 1024,
+      studio: 200 * 1024 * 1024,
+    };
+    const maxFileSize = FILE_SIZE_LIMITS[user.tier] || FILE_SIZE_LIMITS.free;
+    if (file.size > maxFileSize) {
+      toast({
+        title: "File Too Large",
+        description: `Your ${user.tier} tier allows files up to ${Math.floor(maxFileSize / (1024 * 1024))}MB.`,
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!file.type.startsWith("image/")) {
+      toast({
+        title: "Invalid File Type",
+        description: "Pair frames must be still images (JPG, PNG, WEBP, ...).",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (user.tier === "free") {
+      toast({
+        title: "Before/after extraction is a paid feature",
+        description: "Upgrade to Creator to solve a LUT from a frame pair.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const url = URL.createObjectURL(file);
+    const nextBeforeFile = slot === "before" ? file : beforeFile;
+    const nextAfterFile = slot === "after" ? file : afterFile;
+    const nextBeforeURL = slot === "before" ? url : beforeURL;
+    const nextAfterURL = slot === "after" ? url : afterURL;
+    // Revoke a replaced blob URL for the same slot.
+    const prevURL = slot === "before" ? beforeURL : afterURL;
+    if (prevURL?.startsWith("blob:")) URL.revokeObjectURL(prevURL);
+
+    setLutResult(null);
+    setPreviewImage(null);
+    if (slot === "before") {
+      setBeforeFile(file);
+      setBeforeURL(url);
+    } else {
+      setAfterFile(file);
+      setAfterURL(url);
+    }
+
+    if (nextBeforeFile && nextAfterFile && nextBeforeURL && nextAfterURL) {
+      // Both frames present — unlocks analyze/refine/generate. Stats panels
+      // stay hidden for pairs; correspondence replaces them.
+      setAnalysis({ source: "pair" } as unknown as LutAnalysis);
+      toast({
+        title: "Frame pair ready",
+        description: "The exact grade will be solved from before → after.",
+      });
+    } else {
+      setAnalysis(null);
+      toast({
+        title: slot === "before" ? "Before frame loaded" : "After frame loaded",
+        description: "Upload the other frame of the same shot.",
+      });
+    }
+  };
+
   // Auto-update preview when controls change
   useEffect(() => {
     // Video previews come from the generation response, not this live image preview.
@@ -270,7 +379,8 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
     return () => clearTimeout(debounce);
   }, [intensity, uploadedImage, analysis, gridSize, mediaType]);
 
-  const hasSource = !!uploadedImage;
+  const pairReady = mediaType === "pair" && !!beforeURL && !!afterURL;
+  const hasSource = !!uploadedImage || pairReady;
   const analysisReady = !!analysis && !isAnalyzing;
   // Clamp the visible step so the flow can never show a step without its input.
   const activeStep: FlowStep = !hasSource ? "source" : step;
@@ -320,10 +430,10 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
   };
 
   const handleGenerateLut = async () => {
-    if (!uploadedImage || !analysis) {
+    if (!hasSource || !analysis) {
       toast({
         title: "Cannot Generate LUT",
-        description: "Please upload and analyze an image first.",
+        description: "Please provide a source first (image, video, or frame pair).",
         variant: "destructive",
       });
       return;
@@ -366,7 +476,23 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
     try {
       let response: Response;
 
-      if (mediaType === "video") {
+      if (mediaType === "pair") {
+        if (!beforeFile || !afterFile) {
+          throw new Error("Upload both the before and after frames first.");
+        }
+        const form = new FormData();
+        form.append("before", beforeFile);
+        form.append("after", afterFile);
+        form.append("intensity", String(intensity));
+        form.append("gridSize", gridSize);
+        form.append("format", `.${format}`);
+        form.append("precision", precision);
+        form.append("exportPreview", String(exportPreview));
+        response = await fetch("/api/generate-paired-lut", {
+          method: "POST",
+          body: form,
+        });
+      } else if (mediaType === "video") {
         if (!videoFile) {
           throw new Error("Video file is no longer available. Please re-upload.");
         }
@@ -427,15 +553,8 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
   };
 
   const handleReset = () => {
-    if (mediaType === "video" && uploadedImage?.startsWith("blob:")) {
-      URL.revokeObjectURL(uploadedImage);
-    }
+    clearSourceFiles();
     setMediaType("image");
-    setVideoFile(null);
-    setUploadedImage(null);
-    setAnalysis(null);
-    setPreviewImage(null);
-    setLutResult(null);
     setStep("source");
     setIntensity(100);
     setGridSize("17");
@@ -540,10 +659,83 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
                   <Sparkles className="w-3 h-3 mr-1.5" />
                   Video to LUT
                 </Badge>
+                <Badge variant="outline" className="px-3 py-1 bg-gradient-to-r from-chart-2/5 to-primary/5 border-chart-2/20 text-xs">
+                  <GitCompare className="w-3 h-3 mr-1.5" />
+                  Before / After Solve
+                </Badge>
               </div>
             </div>
-            
-            <UploadZone onImageUpload={handleImageUpload} isAnalyzing={isAnalyzing} />
+
+            {/* Source-type selector */}
+            <div className="mx-auto mt-6 grid max-w-2xl grid-cols-3 gap-2" data-testid="source-type-picker">
+              {(
+                [
+                  { id: "image", label: "Single image", hint: "Look-inspired", icon: ImageIcon },
+                  { id: "video", label: "Video clip", hint: "Averaged frames", icon: Film },
+                  { id: "pair", label: "Before / After", hint: "Exact solve", icon: GitCompare },
+                ] as const
+              ).map((opt) => {
+                const Icon = opt.icon;
+                const selected = mediaType === opt.id;
+                return (
+                  <button
+                    key={opt.id}
+                    type="button"
+                    onClick={() => setSourceType(opt.id)}
+                    data-testid={`source-type-${opt.id}`}
+                    className={`rounded-lg border px-3 py-2.5 text-center transition-colors ${
+                      selected
+                        ? "border-primary/50 bg-primary/10 text-foreground"
+                        : "border-border/60 bg-muted/20 text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <Icon className="mx-auto mb-1 h-4 w-4" />
+                    <span className="block text-xs font-semibold">{opt.label}</span>
+                    <span className="block text-[11px] text-muted-foreground">{opt.hint}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {mediaType === "pair" ? (
+              <div className="mt-6 grid gap-4 md:grid-cols-2">
+                {(
+                  [
+                    { slot: "before", title: "Before — ungraded", desc: "The flat/log frame, same shot.", url: beforeURL },
+                    { slot: "after", title: "After — graded", desc: "The final look of the same shot.", url: afterURL },
+                  ] as const
+                ).map(({ slot, title, desc, url }) => (
+                  <Card key={slot} className="bg-background/80 backdrop-blur-sm">
+                    <CardContent className="space-y-3 p-4">
+                      <div>
+                        <h3 className="text-sm font-semibold">{title}</h3>
+                        <p className="text-xs text-muted-foreground">{desc}</p>
+                      </div>
+                      {url ? (
+                        <div className="space-y-2">
+                          <img
+                            src={url}
+                            alt={title}
+                            className="max-h-56 w-full rounded-lg border object-contain"
+                          />
+                          <UploadZone
+                            onImageUpload={(file) => handlePairUpload(slot, file)}
+                            isAnalyzing={isAnalyzing}
+                          />
+                        </div>
+                      ) : (
+                        <UploadZone
+                          onImageUpload={(file) => handlePairUpload(slot, file)}
+                          isAnalyzing={isAnalyzing}
+                        />
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <UploadZone onImageUpload={handleImageUpload} isAnalyzing={isAnalyzing} />
+            )}
             
             {/* Quick info */}
             <Card className="mt-8 bg-background/80 backdrop-blur-sm">
@@ -571,26 +763,6 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
               </CardContent>
             </Card>
 
-            {hasSource && (
-              <Card className="border-primary/30 bg-primary/5">
-                <CardContent className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center">
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-sm font-semibold">
-                      {mediaType === "video" ? "Video clip ready" : "Reference image ready"}
-                    </h3>
-                    <p className="text-xs text-muted-foreground">
-                      {mediaType === "video"
-                        ? "Frames will be sampled across the clip and averaged into one LUT."
-                        : "Color science will be extracted from this image."}
-                    </p>
-                  </div>
-                  <Button onClick={() => goStep("analyze")} data-testid="button-continue-analyze">
-                    Continue to analyze
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
           </div>
         ) : (
           <div className="space-y-6">
@@ -647,6 +819,41 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
                   <Card className="bg-background/80 backdrop-blur-sm">
                     <CardContent className="p-5 text-sm text-muted-foreground">
                       Analysis is not available yet. Go back and re-upload your source.
+                    </CardContent>
+                  </Card>
+                ) : mediaType === "pair" ? (
+                  <Card className="bg-background/80 backdrop-blur-sm">
+                    <CardContent className="space-y-4 p-5">
+                      <div>
+                        <h3 className="text-sm font-semibold">Correspondence check</h3>
+                        <p className="text-sm text-muted-foreground">
+                          Both frames must show the <span className="font-medium text-foreground">same shot</span> —
+                          same framing, same moment. The solver measures the exact per-color
+                          mapping from left to right, so mismatched frames produce a wrong LUT.
+                        </p>
+                      </div>
+                      <div className="grid gap-4 sm:grid-cols-2">
+                        <div className="space-y-2">
+                          <p className="text-xs font-medium text-muted-foreground">BEFORE — UNGRADED</p>
+                          {beforeURL && (
+                            <img
+                              src={beforeURL}
+                              alt="Before frame"
+                              className="max-h-64 w-full rounded-lg border object-contain"
+                            />
+                          )}
+                        </div>
+                        <div className="space-y-2">
+                          <p className="text-xs font-medium text-muted-foreground">AFTER — GRADED</p>
+                          {afterURL && (
+                            <img
+                              src={afterURL}
+                              alt="After frame"
+                              className="max-h-64 w-full rounded-lg border object-contain"
+                            />
+                          )}
+                        </div>
+                      </div>
                     </CardContent>
                   </Card>
                 ) : mediaType === "video" ? (
@@ -712,7 +919,16 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
                           Pre-generation
                         </Badge>
                       </div>
-                      {mediaType === "video" ? (
+                      {mediaType === "pair" ? (
+                        beforeURL && (
+                          <img
+                            src={beforeURL}
+                            alt="Before frame"
+                            className="max-h-[480px] w-full rounded-lg border object-contain"
+                            data-testid="image-pair-before"
+                          />
+                        )
+                      ) : mediaType === "video" ? (
                         <video
                           src={uploadedImage ?? undefined}
                           controls
@@ -762,6 +978,77 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
                             className="max-h-[480px] w-full rounded-lg border object-contain"
                             data-testid="image-result"
                           />
+                        </CardContent>
+                      </Card>
+                    )}
+                    {mediaType === "pair" && lutResult.fidelity && (
+                      <Card className="border-primary/30 bg-primary/5" data-testid="fidelity-card">
+                        <CardContent className="space-y-3 p-5">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <h3 className="text-sm font-semibold">Measured accuracy</h3>
+                            <Badge
+                              variant="outline"
+                              className="border-primary/40 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold"
+                            >
+                              {fidelityRating(lutResult.fidelity.meanDeltaE).label}
+                            </Badge>
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            {fidelityRating(lutResult.fidelity.meanDeltaE).detail}
+                          </p>
+                          <div className="grid grid-cols-3 gap-3 text-center">
+                            <div className="rounded-lg border border-border/60 bg-background/60 p-2.5">
+                              <p className="text-lg font-bold" data-testid="fidelity-mean">
+                                {lutResult.fidelity.meanDeltaE.toFixed(2)}
+                              </p>
+                              <p className="text-[11px] text-muted-foreground">Mean ΔE</p>
+                            </div>
+                            <div className="rounded-lg border border-border/60 bg-background/60 p-2.5">
+                              <p className="text-lg font-bold" data-testid="fidelity-max">
+                                {lutResult.fidelity.maxDeltaE.toFixed(1)}
+                              </p>
+                              <p className="text-[11px] text-muted-foreground">Max ΔE</p>
+                            </div>
+                            <div className="rounded-lg border border-border/60 bg-background/60 p-2.5">
+                              <p className="text-lg font-bold" data-testid="fidelity-coverage">
+                                {(lutResult.fidelity.coverage * 100).toFixed(1)}%
+                              </p>
+                              <p className="text-[11px] text-muted-foreground">Cell coverage</p>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+                    {mediaType === "pair" && lutResult.sourcePreview && (
+                      <Card className="bg-background/80 backdrop-blur-sm">
+                        <CardContent className="space-y-3 p-5">
+                          <h3 className="text-sm font-semibold">Before vs solved grade</h3>
+                          <div className="grid gap-4 sm:grid-cols-2">
+                            <div className="space-y-2">
+                              <p className="text-xs font-medium text-muted-foreground">BEFORE</p>
+                              <img
+                                src={lutResult.sourcePreview}
+                                alt="Before frame"
+                                className="max-h-64 w-full rounded-lg border object-contain"
+                                data-testid="image-pair-result-before"
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <p className="text-xs font-medium text-muted-foreground">LUT APPLIED</p>
+                              {lutResult.previewData ? (
+                                <img
+                                  src={lutResult.previewData}
+                                  alt="Solved grade applied"
+                                  className="max-h-64 w-full rounded-lg border object-contain"
+                                  data-testid="image-pair-result-after"
+                                />
+                              ) : (
+                                <p className="text-xs text-muted-foreground">
+                                  Enable “Export preview image” in Refine to see the graded frame here.
+                                </p>
+                              )}
+                            </div>
+                          </div>
                         </CardContent>
                       </Card>
                     )}

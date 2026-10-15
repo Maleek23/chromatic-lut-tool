@@ -3,6 +3,8 @@
  * Supports .look (Autodesk/Nuke) and .xmp (Adobe Lightroom) formats
  */
 
+import { LUT_PIPELINE_VERSION } from "./color-science";
+
 interface LUTPoint {
   r: number;
   g: number;
@@ -21,6 +23,7 @@ export function generateLookLUT(lutMap: LUTPoint[], gridSize: number, precision:
   
   // Autodesk .look format requires proper metadata blocks
   let lookContent = `# Created by CHROMA - Professional Cinema-Grade LUT
+# Pipeline: ${LUT_PIPELINE_VERSION} (deterministic)
 # Generated: ${timestamp}
 # Format: Autodesk/Nuke .look (Nuke, Flame, Lustre)
 # Grid Size: ${gridSize}x${gridSize}x${gridSize} (${qualityLevel})
@@ -79,6 +82,7 @@ export function generateXmpPreset(
   
   // Create XMP preset with extracted adjustments
   const xmpContent = `<?xml version="1.0" encoding="UTF-8"?>
+<!-- Pipeline: ${LUT_PIPELINE_VERSION} (deterministic) -->
 <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c140 79.160451, 2017/05/06-01:08:21">
   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
     <rdf:Description rdf:about=""
@@ -317,6 +321,7 @@ export function generateDCTL(lutMap: LUTPoint[], gridSize: number, precision: st
   }
 
   return `// CHROMA - Professional 3D LUT as DaVinci Resolve DCTL
+// Pipeline: ${LUT_PIPELINE_VERSION} (deterministic)
 // Generated: ${timestamp}
 // Grid: ${n}x${n}x${n} (${n <= 17 ? "Preview/Proxy" : "Production"})
 // Requires: DaVinci Resolve Studio (DCTL/Fusion)

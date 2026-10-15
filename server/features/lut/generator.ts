@@ -11,6 +11,8 @@ import {
   labToLch,
   lchToLab,
   gamutMapToRec709,
+  LUT_PIPELINE_VERSION,
+  DEFAULT_SEED,
 } from "./color-science";
 import { generateLookLUT, generateXmpPreset, generateDCTL } from "./format-exporters";
 import { buildLUTFromColorScience, type LUTPoint } from "./professional-lut-builder";
@@ -112,9 +114,10 @@ export async function buildLUTMapFromImage(
   imageBuffer: Buffer,
   gridSize: number,
   intensity: number,
-  advancedControls?: AdvancedControls
+  advancedControls?: AdvancedControls,
+  seed: number = DEFAULT_SEED
 ): Promise<LUTPoint[]> {
-  const colorAnalysis = await analyzeImageColorScience(imageBuffer);
+  const colorAnalysis = await analyzeImageColorScience(imageBuffer, seed);
   return buildLUTFromColorScience(colorAnalysis, gridSize, intensity / 100, advancedControls);
 }
 
@@ -152,9 +155,10 @@ export async function generateLUT(
   format: LUTFormat,
   advancedControls?: AdvancedControls,
   precision: string = "10",
-  metadata?: { name?: string; description?: string }
+  metadata?: { name?: string; description?: string },
+  seed: number = DEFAULT_SEED
 ): Promise<string> {
-  const lutMap = await buildLUTMapFromImage(imageBuffer, gridSize, intensity, advancedControls);
+  const lutMap = await buildLUTMapFromImage(imageBuffer, gridSize, intensity, advancedControls, seed);
   return exportLUT(lutMap, gridSize, format, precision, metadata);
 }
 
@@ -430,6 +434,7 @@ function generateCubeLUT(lutMap: LUTPoint[], gridSize: number, precision: string
   const qualityLevel = gridSize <= 17 ? "Preview/Proxy" : gridSize <= 33 ? "Production" : "Master Quality";
   
   let lut = `# Created by CHROMA - Professional Cinema-Grade LUT
+# Pipeline: ${LUT_PIPELINE_VERSION} (deterministic)
 # Generated: ${timestamp}
 # Precision: ${precision}-bit
 # Grid Size: ${gridSize}x${gridSize}x${gridSize} (${qualityLevel})
@@ -475,6 +480,7 @@ function generate3dlLUT(lutMap: LUTPoint[], gridSize: number, precision: string 
   const qualityLevel = gridSize <= 17 ? "Preview/Proxy" : gridSize <= 33 ? "Production" : "Master Quality";
   
   let lut = `# Created by CHROMA - Professional Cinema-Grade LUT
+# Pipeline: ${LUT_PIPELINE_VERSION} (deterministic)
 # Generated: ${timestamp}
 # Format: Autodesk .3dl (Flame, Lustre, Smoke)
 # Precision: 12-bit integers (0-4095) - REQUIRED for .3dl format
@@ -523,6 +529,7 @@ function generate1dLUT(lutMap: LUTPoint[], gridSize: number, precision: string =
   if (precision === "12") entriesPerChannel = 4096; // 12-bit
   
   let lut = `# Created by CHROMA - Professional Cinema-Grade LUT
+# Pipeline: ${LUT_PIPELINE_VERSION} (deterministic)
 # Generated: ${timestamp}
 # Format: 1D LUT (${entriesPerChannel} entries per channel)
 # Precision: ${precision}-bit

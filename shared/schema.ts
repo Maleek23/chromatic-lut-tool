@@ -127,6 +127,15 @@ export const lutResponseSchema = z.object({
   format: z.string(),
   gridSize: z.string(),
   previewData: z.string().optional(), // base64 preview image if exportPreview was true
+  sourcePreview: z.string().optional(), // base64 source frame (paired extraction)
+  // Paired before/after extraction reports measured fidelity (all optional).
+  fidelity: z
+    .object({
+      coverage: z.number(), // fraction of LUT cells with direct observations
+      meanDeltaE: z.number(), // mean CIE76 ΔE between LUT(before) and actual after
+      maxDeltaE: z.number(),
+    })
+    .optional(),
 });
 
 export type LutResponse = z.infer<typeof lutResponseSchema>;

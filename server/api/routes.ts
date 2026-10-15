@@ -9,6 +9,8 @@ import Stripe from "stripe";
 import { analyzeImage } from "../features/lut/analyzer";
 import { generateLUT, applyLUTToImage } from "../features/lut/generator";
 import { generateVideoLUT, lutPointsToMap } from "../features/lut/video";
+import { generatePairedLUT } from "../features/lut/paired";
+import { DEFAULT_SEED } from "../features/lut/color-science";
 import { parseLUT, convertLUT, type ParsedLUT } from "../features/lut/parser";
 import { lutGenerationSchema, extendedLutGenerationSchema, batchLutRequestSchema } from "@shared/schema";
 import { EDITOR_WORKFLOWS, EDITOR_TARGETS, buildEditorRecipe } from "@shared/resolve-workflows";
@@ -582,13 +584,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const requestedFormat = (format.startsWith(".") ? format : `.${format}`) as
         | ".cube" | ".3dl" | ".lut" | ".look" | ".xmp" | ".dctl";
 
+      // Optional seed for reproducibility; defaults to the deterministic pipeline seed.
+      const parsedSeed = parseInt((req.body as any)?.seed, 10);
+      const seed = Number.isFinite(parsedSeed) ? parsedSeed : DEFAULT_SEED;
+
       const lutData = await generateLUT(
         imageBuffer,
         parseInt(gridSize),
         intensity,
         requestedFormat,
         undefined, // No advanced controls - extract from image
-        precision
+        precision,
+        undefined,
+        seed
       );
 
       const timestamp = new Date().toISOString().split("T")[0];
@@ -700,6 +708,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      const parsedVideoSeed = parseInt(req.body.seed, 10);
+      const videoSeed = Number.isFinite(parsedVideoSeed) ? parsedVideoSeed : DEFAULT_SEED;
+
       const result = await generateVideoLUT(
         file.buffer,
         parseInt(gridSize),
@@ -707,7 +718,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         format,
         undefined,
         precision,
-        { frameCount }
+        { frameCount, seed: videoSeed }
       );
 
       const timestamp = new Date().toISOString().split("T")[0];
@@ -716,11 +727,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       let previewData: string | undefined;
       if (exportPreview) {
+        // The merged map already has intensity baked in — apply at 100% here
+        // so the preview matches the exported file instead of doubling it.
         const previewBuffer = await applyLUTToImage(
           result.sampleFrame,
           lutPointsToMap(result.lutMap, parseInt(gridSize)),
           parseInt(gridSize),
-          intensity
+          100
         );
         previewData = `data:image/jpeg;base64,${previewBuffer.toString("base64")}`;
       }
@@ -741,6 +754,131 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: "Failed to generate LUT from video" });
     }
   });
+
+  // Generate a LUT from a before/after frame pair: solve the exact mapping
+  // between the ungraded frame and the graded grade of the same frame.
+  app.post(
+    "/api/generate-paired-lut",
+    requireAuth,
+    upload.fields([
+      { name: "before", maxCount: 1 },
+      { name: "after", maxCount: 1 },
+    ]),
+    async (req, res) => {
+      try {
+        const files = req.files as
+          | { before?: Express.Multer.File[]; after?: Express.Multer.File[] }
+          | undefined;
+        const beforeFile = files?.before?.[0];
+        const afterFile = files?.after?.[0];
+        if (!beforeFile || !afterFile) {
+          return res.status(400).json({
+            error: "Upload both frames: the ungraded 'before' and the graded 'after' of the same shot.",
+          });
+        }
+        if (!beforeFile.mimetype.startsWith("image/") || !afterFile.mimetype.startsWith("image/")) {
+          return res.status(400).json({ error: "Both pair files must be images" });
+        }
+
+        const gridSize = String(req.body.gridSize || "33") as "17" | "33" | "65";
+        const intensity = parseInt(req.body.intensity ?? "100", 10);
+        const rawFormat = String(req.body.format || ".cube");
+        const format = (rawFormat.startsWith(".") ? rawFormat : `.${rawFormat}`) as
+          | ".cube" | ".3dl" | ".lut" | ".look" | ".xmp" | ".dctl";
+        const precision = String(req.body.precision || "10");
+        const exportPreview =
+          req.body.exportPreview === "true" || req.body.exportPreview === true;
+
+        if (!["17", "33", "65"].includes(gridSize)) {
+          return res.status(400).json({ error: "Invalid grid size" });
+        }
+        if (!Number.isFinite(intensity) || intensity < 0 || intensity > 100) {
+          return res.status(400).json({ error: "Invalid intensity" });
+        }
+
+        const userTier = req.user!.tier as "free" | "creator" | "pro" | "studio";
+
+        // Paired extraction is a paid feature (Creator and above).
+        if (userTier === "free") {
+          return res.status(403).json({
+            error: "Before/after extraction requires Creator tier or higher.",
+            upgradeRequired: true,
+            requiredTier: "creator",
+          });
+        }
+
+        const usageCheck = await checkUsageLimit(req.user!);
+        if (!usageCheck.allowed) {
+          return res.status(403).json({
+            error: usageCheck.reason,
+            upgradeRequired: true,
+            requiredTier: "creator",
+            requiresPayment: usageCheck.requiresPayment || false,
+          });
+        }
+
+        if (!hasFeature(userTier, "gridSize", gridSize)) {
+          return res.status(403).json({
+            error: `Grid size ${gridSize} requires a higher tier.`,
+            upgradeRequired: true,
+            requiredTier: "pro",
+          });
+        }
+
+        if (!hasFeature(userTier, "outputFormat", format)) {
+          return res.status(403).json({
+            error: `Export format ${format} requires a higher tier.`,
+            upgradeRequired: true,
+            requiredTier: "pro",
+          });
+        }
+
+        const result = await generatePairedLUT(
+          beforeFile.buffer,
+          afterFile.buffer,
+          parseInt(gridSize),
+          intensity,
+          format,
+          precision
+        );
+
+        const timestamp = new Date().toISOString().split("T")[0];
+        const formatExt = format.replace(/^\./, "");
+        const filename = `pair_grade_${timestamp}_${gridSize}x${gridSize}x${gridSize}.${formatExt}`;
+
+        let previewData: string | undefined;
+        if (exportPreview) {
+          // The solved map already has intensity baked in — preview at 100%.
+          const previewBuffer = await applyLUTToImage(
+            result.previewSource,
+            lutPointsToMap(result.map, parseInt(gridSize)),
+            parseInt(gridSize),
+            100
+          );
+          previewData = `data:image/jpeg;base64,${previewBuffer.toString("base64")}`;
+        }
+
+        await incrementUsage(req.user!.id);
+
+        res.json({
+          lutData: result.lutData,
+          filename,
+          format,
+          gridSize,
+          previewData,
+          sourcePreview: `data:image/jpeg;base64,${result.previewSource.toString("base64")}`,
+          fidelity: {
+            coverage: result.coverage,
+            meanDeltaE: result.meanDeltaE,
+            maxDeltaE: result.maxDeltaE,
+          },
+        });
+      } catch (error) {
+        console.error("Paired LUT generation error:", error);
+        res.status(500).json({ error: "Failed to solve LUT from frame pair" });
+      }
+    }
+  );
 
   // Batch preview endpoint
   app.post("/api/batch-preview", async (req, res) => {

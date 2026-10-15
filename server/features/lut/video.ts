@@ -20,7 +20,7 @@ import ffmpegPath from "ffmpeg-static";
 import type { AdvancedControls } from "@shared/schema";
 import type { LUTPoint } from "./professional-lut-builder";
 import { buildLUTMapFromImage, exportLUT, type LUTFormat } from "./generator";
-import type { RGB } from "./color-science";
+import { DEFAULT_SEED, type RGB } from "./color-science";
 
 const execFileAsync = promisify(execFile);
 
@@ -29,6 +29,8 @@ export interface VideoLUTOptions {
   frameCount?: number;
   /** Values trimmed from each end before averaging (outlier rejection). Default 1. */
   trim?: number;
+  /** Seed for deterministic per-frame analysis. Default DEFAULT_SEED. */
+  seed?: number;
 }
 
 export interface VideoLUTResult {
@@ -189,12 +191,14 @@ export async function generateVideoLUT(
   }
 
   // Analyze frames in small batches to keep memory/CPU sane.
+  // Each frame reuses the same seed so identical frames analyze identically.
+  const seed = options.seed ?? DEFAULT_SEED;
   const maps: LUTPoint[][] = [];
   const batchSize = 4;
   for (let i = 0; i < frames.length; i += batchSize) {
     const batch = frames.slice(i, i + batchSize);
     const batchMaps = await Promise.all(
-      batch.map((frame) => buildLUTMapFromImage(frame, gridSize, intensity, advancedControls))
+      batch.map((frame) => buildLUTMapFromImage(frame, gridSize, intensity, advancedControls, seed))
     );
     maps.push(...batchMaps);
   }
