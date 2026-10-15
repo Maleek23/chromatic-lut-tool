@@ -16,6 +16,7 @@ import Tools from "@/pages/tools/Tools";
 import Convert from "@/pages/tools/Convert";
 import Analyze from "@/pages/tools/Analyze";
 import Optimize from "@/pages/tools/Optimize";
+import Workflows from "@/pages/tools/Workflows";
 import AuthPage from "@/pages/auth/AuthPage";
 import ForgotPassword from "@/pages/auth/ForgotPassword";
 import ResetPassword from "@/pages/auth/ResetPassword";
@@ -47,6 +48,7 @@ function Router() {
         </Route>
         <Route path="/generate" component={Generate} />
         <Route path="/tools" component={Tools} />
+        <Route path="/workflows" component={Workflows} />
         <ProtectedRoute path="/convert" component={Convert} />
         <ProtectedRoute path="/analyze" component={Analyze} />
         <ProtectedRoute path="/optimize" component={Optimize} />

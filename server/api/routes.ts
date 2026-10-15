@@ -10,6 +10,7 @@ import { analyzeImage } from "../features/lut/analyzer";
 import { generateLUT, applyLUTToImage } from "../features/lut/generator";
 import { parseLUT, convertLUT, type ParsedLUT } from "../features/lut/parser";
 import { lutGenerationSchema, extendedLutGenerationSchema, batchLutRequestSchema } from "@shared/schema";
+import { EDITOR_WORKFLOWS, EDITOR_TARGETS, buildEditorRecipe } from "@shared/resolve-workflows";
 import { setupAuth } from "../core/auth";
 import { requireAuth, requireTier } from "../middleware/tierGuard";
 import { dynamicRateLimiter } from "../middleware/rateLimiter";
@@ -1487,6 +1488,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Get profile error:", error);
       res.status(500).json({ error: "Failed to get profile" });
+    }
+  });
+
+  // Editor Workflow Routes (Chroma LUTs across Resolve, Premiere, FCP, AE, Avid, CapCut)
+  app.get("/api/workflows", async (_req, res) => {
+    res.json({ workflows: EDITOR_WORKFLOWS, editors: EDITOR_TARGETS });
+  });
+
+  app.post("/api/workflows/recipe", async (req, res) => {
+    try {
+      const { editorId, lutFilename, intensity } = req.body ?? {};
+      if (!editorId || !lutFilename) {
+        return res.status(400).json({ error: "editorId and lutFilename are required" });
+      }
+      if (!EDITOR_TARGETS.some((e) => e.id === editorId)) {
+        return res.status(404).json({ error: `Unknown editor: ${editorId}` });
+      }
+      const recipe = buildEditorRecipe(editorId, String(lutFilename), Number(intensity) || 100);
+      res.json(recipe);
+    } catch (error) {
+      console.error("Workflow recipe error:", error);
+      res.status(500).json({ error: "Failed to build recipe" });
     }
   });
 

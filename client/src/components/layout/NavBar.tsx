@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { LogIn, LogOut, Settings, Crown, Menu } from "lucide-react";
+import { LogIn, LogOut, Settings, Crown, Menu, Clapperboard } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -54,6 +54,21 @@ export function NavBar() {
           }`}
         >
           Tools
+        </Button>
+      </Link>
+      <Link href="/workflows" onClick={() => mobile && setOpen(false)}>
+        <Button
+          variant="ghost"
+          size="sm"
+          data-testid="nav-workflows"
+          className={`${mobile ? "w-full justify-start" : "relative"} ${
+            location === "/workflows"
+              ? "text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-primary after:to-chart-2"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          <Clapperboard className="w-3.5 h-3.5 mr-1.5" />
+          Workflows
         </Button>
       </Link>
       <Link href="/color-science" onClick={() => mobile && setOpen(false)}>

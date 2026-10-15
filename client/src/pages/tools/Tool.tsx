@@ -6,6 +6,7 @@ import { ColorStatistics } from "@/components/lut/ColorStatistics";
 import { HistogramVisualization } from "@/components/lut/HistogramVisualization";
 import { LutControls } from "@/components/lut/LutControls";
 import { DownloadSection } from "@/components/lut/DownloadSection";
+import { EditorWorkflowCard } from "@/components/workflows/EditorWorkflowCard";
 import { UsageStatus } from "@/components/shared/UsageStatus";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -353,6 +354,11 @@ export default function Tool() {
                 </ol>
               </CardContent>
             </Card>
+
+            {/* Editor workflow preview (Resolve, Premiere, FCP, AE, Avid, CapCut) */}
+            <div className="mt-8">
+              <EditorWorkflowCard intensity={intensity} />
+            </div>
           </div>
         ) : (
           <div className="space-y-6">
@@ -410,6 +416,8 @@ export default function Tool() {
                         previewData={lutResult.previewData}
                         onReset={handleReset}
                       />
+
+                      <EditorWorkflowCard lutFilename={lutResult.filename} intensity={intensity} />
                     </>
                   )}
                 </div>
