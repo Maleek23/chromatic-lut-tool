@@ -63,6 +63,22 @@ export function PreviewGallery({ lutData, format, intensity }: PreviewGalleryPro
   const [previewImages, setPreviewImages] = useState<Record<string, string>>({});
   const [selectedRef, setSelectedRef] = useState(REFERENCE_IMAGES[0].id);
 
+  // Lightroom presets are slider stacks, not LUTs — nothing to render here.
+  const normalizedFormat = format.replace(/^\./, "").toLowerCase();
+  if (normalizedFormat === "xmp") {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>LUT Preview on Reference Footage</CardTitle>
+          <CardDescription>
+            Previews render actual LUT files. Your .xmp is a Lightroom preset — open it in
+            Lightroom to see it on your photos.
+          </CardDescription>
+        </CardHeader>
+      </Card>
+    );
+  }
+
   // Generate preview for a specific reference image
   const generatePreview = async (refImage: ReferenceImage) => {
     if (previewImages[refImage.id]) {

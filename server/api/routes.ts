@@ -444,22 +444,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Generate preview with LUT applied
+  // Unified preview endpoint. Two modes, both WYSIWYG:
+  // - LUT-file mode ({ imageData, lutData, format }): applies the actual
+  //   generated file content (used by the reference-footage gallery).
+  // - Live mode ({ imageData, gridSize, intensity }): rebuilds the exact
+  //   color-science map the download path uses (used pre-generation).
   app.post("/api/preview", async (req, res) => {
     try {
-      const { imageData, gridSize, intensity } = req.body;
+      const { imageData, gridSize, intensity, lutData, format } = req.body;
 
-      if (!imageData || !gridSize || intensity === undefined) {
-        return res.status(400).json({ error: "Missing required parameters: imageData, gridSize, and intensity are required" });
-      }
-
-      // Validate parameters
-      const validGridSizes = ["17", "33", "65"];
-      if (!validGridSizes.includes(String(gridSize))) {
-        return res.status(400).json({ error: "Invalid grid size. Must be 17, 33, or 65" });
+      if (!imageData || intensity === undefined) {
+        return res.status(400).json({ error: "Missing required parameters: imageData and intensity are required" });
       }
 
       if (intensity < 0 || intensity > 100) {
         return res.status(400).json({ error: "Invalid intensity. Must be between 0 and 100" });
+      }
+
+      if (!lutData) {
+        // Live mode needs a grid size to rebuild the identical map.
+        const validGridSizes = ["17", "33", "65"];
+        if (!validGridSizes.includes(String(gridSize))) {
+          return res.status(400).json({ error: "Invalid grid size. Must be 17, 33, or 65" });
+        }
+      } else {
+        // Slider-based presets have no LUT to apply — fail fast as a 400.
+        const previewable = ["cube", "3dl", "lut", "look", "dctl"];
+        if (!previewable.includes(String(format || "cube").replace(/^\./, "").toLowerCase())) {
+          return res.status(400).json({
+            error: "Previews render actual LUT files. This preset type needs its own editor to preview.",
+          });
+        }
       }
 
       // Convert base64 to buffer
@@ -481,24 +496,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid or corrupted image data" });
       }
 
-      // Check cache or generate new LUT map (no advanced controls for image-to-LUT)
-      const cacheKey = `${imageData.substring(0, 100)}_${gridSize}`;
-      let lutData = lutCache.get(cacheKey);
-
-      if (!lutData) {
-        const { getLUTMap } = await import("../features/lut/generator");
-        const lutMap = await getLUTMap(imageBuffer, parseInt(gridSize));
-        lutData = { map: lutMap, gridSize: parseInt(gridSize) };
-        lutCache.set(cacheKey, lutData);
-      }
-
-      // Apply LUT to create preview
-      const previewBuffer = await applyLUTToImage(
-        imageBuffer,
-        lutData.map,
-        lutData.gridSize,
-        parseInt(intensity)
-      );
+      // Render through the same code the downloads use — never the legacy path.
+      const { applyLUTFileToImage, buildLivePreview } = await import("../features/lut/apply");
+      const previewBuffer = lutData
+        ? await applyLUTFileToImage(imageBuffer, lutData, String(format || "cube"), parseInt(intensity))
+        : await buildLivePreview(imageBuffer, parseInt(gridSize), parseInt(intensity));
 
       // Return as base64
       const previewBase64 = `data:image/jpeg;base64,${previewBuffer.toString("base64")}`;
