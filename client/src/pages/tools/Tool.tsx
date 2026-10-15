@@ -151,7 +151,7 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
     
     if (file.size > maxFileSize) {
       toast({
-        title: "File Too Large",
+        title: "File too large",
         description: `Your ${user.tier} tier allows files up to ${maxFileSizeMB}MB. ${user.tier === 'free' ? 'Upgrade to Creator for 50MB.' : 'Upgrade for larger file sizes.'}`,
         variant: "destructive",
       });
@@ -189,7 +189,7 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
     const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/heic', 'image/heif', 'image/webp', 'image/tiff', 'image/tif', 'image/bmp', 'image/gif'];
     if (!validTypes.includes(file.type) && !validTypes.includes('image/' + file.name.split('.').pop()?.toLowerCase())) {
       toast({
-        title: "Invalid File Type",
+        title: "Invalid file type",
         description: "Please upload a valid image file (JPG, PNG, HEIC, WEBP, TIFF, BMP, or GIF).",
         variant: "destructive",
       });
@@ -204,7 +204,7 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
     
     reader.onerror = () => {
       toast({
-        title: "Upload Error",
+        title: "Upload error",
         description: "Failed to read the image file. Please try again.",
         variant: "destructive",
       });
@@ -232,14 +232,14 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
         const data = await response.json();
         setAnalysis(data);
         toast({
-          title: "Analysis Complete",
+          title: "Analysis complete",
           description: "Color profile extracted successfully from your image",
         });
       } catch (error) {
         console.error("Upload error:", error);
         const message = error instanceof Error ? error.message : "Failed to analyze image";
         toast({
-          title: "Analysis Failed",
+          title: "Analysis failed",
           description: message + ". Please try a different image or check your connection.",
           variant: "destructive",
         });
@@ -285,7 +285,7 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
     const maxFileSize = FILE_SIZE_LIMITS[user.tier] || FILE_SIZE_LIMITS.free;
     if (file.size > maxFileSize) {
       toast({
-        title: "File Too Large",
+        title: "File too large",
         description: `Your ${user.tier} tier allows files up to ${Math.floor(maxFileSize / (1024 * 1024))}MB.`,
         variant: "destructive",
       });
@@ -293,7 +293,7 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
     }
     if (!file.type.startsWith("image/")) {
       toast({
-        title: "Invalid File Type",
+        title: "Invalid file type",
         description: "Pair frames must be still images (JPG, PNG, WEBP, ...).",
         variant: "destructive",
       });
@@ -432,7 +432,7 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
   const handleGenerateLut = async () => {
     if (!hasSource || !analysis) {
       toast({
-        title: "Cannot Generate LUT",
+        title: "Cannot generate LUT",
         description: "Please provide a source first (image, video, or frame pair).",
         variant: "destructive",
       });
@@ -442,7 +442,7 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
     // Check if monthly limit reached (free tier) - payment required
     if (atMonthlyLimit) {
       toast({
-        title: "Payment Required",
+        title: "Payment required",
         description: "You've used all 3 free LUT generations this month. Pay $2.50 for this LUT, or upgrade to Creator ($7/mo) for unlimited generations.",
         variant: "destructive",
       });
@@ -455,7 +455,7 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
     
     if (!isGridSizeAllowed(userTier, requestedGridSize)) {
       toast({
-        title: "Grid Size Not Available",
+        title: "Grid size not available",
         description: `${gridSize}×${gridSize}×${gridSize} grid requires a higher tier. Please upgrade or select a smaller grid size.`,
         variant: "destructive",
       });
@@ -464,7 +464,7 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
     
     if (!isFormatAllowed(userTier, format)) {
       toast({
-        title: "Format Not Available",
+        title: "Format not available",
         description: `${format.toUpperCase()} format requires Pro tier. Please upgrade or select .cube format.`,
         variant: "destructive",
       });
@@ -536,14 +536,14 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
       await queryClient.invalidateQueries({ queryKey: ["/api/user"] });
       
       toast({
-        title: "LUT Generated Successfully",
+        title: "LUT generated",
         description: `Your ${gridSize}×${gridSize}×${gridSize} .${format} LUT is ready for download`,
       });
     } catch (error) {
       console.error("Generation error:", error);
       const message = error instanceof Error ? error.message : "Unknown error occurred";
       toast({
-        title: "Generation Failed",
+        title: "Generation failed",
         description: message + ". Please try again or adjust your settings.",
         variant: "destructive",
       });
@@ -625,7 +625,7 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
 
                   <div>
                     <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3" data-testid="heading-generator">
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
+                      <span className="text-foreground">
                         Image &amp; Video to LUT Generator
                       </span>
                     </h1>

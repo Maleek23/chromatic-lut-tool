@@ -28,17 +28,17 @@ export default function CreateFromImages() {
               <div className="hidden sm:block">
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex-1 text-center py-6 px-4 border border-border/50 rounded-md bg-gradient-to-br from-primary/5 to-chart-2/5">
-                    <div className="text-sm font-medium mb-1 bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent">1. Upload</div>
+                    <div className="text-sm font-semibold mb-1 text-foreground">1. Upload</div>
                     <div className="text-xs text-muted-foreground">Reference image</div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-primary flex-shrink-0" />
                   <div className="flex-1 text-center py-6 px-4 border border-border/50 rounded-md bg-gradient-to-br from-chart-2/5 to-chart-3/5">
-                    <div className="text-sm font-medium mb-1 bg-gradient-to-r from-chart-2 to-chart-3 bg-clip-text text-transparent">2. Configure</div>
+                    <div className="text-sm font-semibold mb-1 text-foreground">2. Configure</div>
                     <div className="text-xs text-muted-foreground">Grid & format</div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-primary flex-shrink-0" />
                   <div className="flex-1 text-center py-6 px-4 border border-border/50 rounded-md bg-gradient-to-br from-chart-3/5 to-primary/5">
-                    <div className="text-sm font-medium mb-1 bg-gradient-to-r from-chart-3 to-primary bg-clip-text text-transparent">3. Generate</div>
+                    <div className="text-sm font-semibold mb-1 text-foreground">3. Generate</div>
                     <div className="text-xs text-muted-foreground">Download LUT</div>
                   </div>
                 </div>
@@ -47,21 +47,21 @@ export default function CreateFromImages() {
               {/* Mobile flow */}
               <div className="sm:hidden space-y-4">
                 <div className="text-center py-6 px-4 border border-border/50 rounded-md bg-gradient-to-br from-primary/5 to-chart-2/5">
-                  <div className="text-sm font-medium mb-1 bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent">1. Upload</div>
+                  <div className="text-sm font-semibold mb-1 text-foreground">1. Upload</div>
                   <div className="text-xs text-muted-foreground">Reference image</div>
                 </div>
                 <div className="flex justify-center">
                   <ArrowRight className="w-4 h-4 text-primary rotate-90" />
                 </div>
                 <div className="text-center py-6 px-4 border border-border/50 rounded-md bg-gradient-to-br from-chart-2/5 to-chart-3/5">
-                  <div className="text-sm font-medium mb-1 bg-gradient-to-r from-chart-2 to-chart-3 bg-clip-text text-transparent">2. Configure</div>
+                  <div className="text-sm font-semibold mb-1 text-foreground">2. Configure</div>
                   <div className="text-xs text-muted-foreground">Grid & format</div>
                 </div>
                 <div className="flex justify-center">
                   <ArrowRight className="w-4 h-4 text-primary rotate-90" />
                 </div>
                 <div className="text-center py-6 px-4 border border-border/50 rounded-md bg-gradient-to-br from-chart-3/5 to-primary/5">
-                  <div className="text-sm font-medium mb-1 bg-gradient-to-r from-chart-3 to-primary bg-clip-text text-transparent">3. Generate</div>
+                  <div className="text-sm font-semibold mb-1 text-foreground">3. Generate</div>
                   <div className="text-xs text-muted-foreground">Download LUT</div>
                 </div>
               </div>

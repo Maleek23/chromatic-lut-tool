@@ -49,7 +49,7 @@ export default function Support() {
               <HelpCircle className="w-3 h-3 mr-1" />
               Support Center
             </Badge>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-foreground">
               How can we help?
             </h1>
             <p className="text-xl text-muted-foreground mb-8">

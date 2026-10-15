@@ -128,7 +128,7 @@ export default function Analyze() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <div className="space-y-1">
                   <p className="text-xs text-muted-foreground uppercase tracking-wider">Format</p>
-                  <p className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-chart-2">{analysisResult.format.toUpperCase()}</p>
+                  <p className="text-2xl font-bold tabular-nums text-foreground">{analysisResult.format.toUpperCase()}</p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-xs text-muted-foreground uppercase tracking-wider">Grid Size</p>

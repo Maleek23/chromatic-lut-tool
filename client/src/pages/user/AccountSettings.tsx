@@ -143,7 +143,7 @@ export default function AccountSettings() {
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
-            <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
+            <h1 className="text-4xl font-bold text-foreground">
               Account Settings
             </h1>
             <Badge 

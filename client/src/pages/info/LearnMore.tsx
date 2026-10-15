@@ -329,7 +329,7 @@ export default function LearnMore() {
                     <div className="flex items-center gap-2 mb-1">
                       <h3 className="font-bold text-lg">LUT Quality Analyzer</h3>
                       <Badge className="bg-gradient-to-r from-chart-3 to-primary text-white text-[10px] px-2 py-0 border-0">
-                        PRO
+                        Pro
                       </Badge>
                     </div>
                     <p className="text-sm text-muted-foreground">
@@ -399,7 +399,7 @@ export default function LearnMore() {
                     <div className="flex items-center gap-2 mb-1">
                       <h3 className="font-bold text-lg">LUT Optimizer</h3>
                       <Badge className="bg-gradient-to-r from-chart-3 to-primary text-white text-[10px] px-2 py-0 border-0">
-                        PRO
+                        Pro
                       </Badge>
                     </div>
                     <p className="text-sm text-muted-foreground">

@@ -145,7 +145,7 @@ export default function Dashboard() {
                               {!isPro && (
                                 <Badge variant="secondary" className="px-1.5 py-0.5 text-[10px]">
                                   <Crown className="w-2.5 h-2.5 mr-0.5" />
-                                  PRO
+                                  Pro
                                 </Badge>
                               )}
                             </div>

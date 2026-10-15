@@ -12,7 +12,7 @@ export default function LutFormats() {
       <section className="relative z-10 pt-20 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
+            <span className="text-foreground">
               LUT Format Selection
             </span>
           </h1>
@@ -77,7 +77,7 @@ export default function LutFormats() {
                   <text x="400" y="215" fill="hsl(var(--muted-foreground))" fontSize="11" textAnchor="middle">Broadcast</text>
                 </g>
                 <rect x="340" y="242" width="120" height="30" rx="4" fill="hsl(var(--muted))" stroke="hsl(var(--border))" strokeWidth="1"/>
-                <text x="400" y="262" fill="hsl(var(--muted-foreground))" fontSize="10" fontWeight="600" textAnchor="middle">HIGH-END PRO</text>
+                <text x="400" y="262" fill="hsl(var(--muted-foreground))" fontSize="10" fontWeight="600" textAnchor="middle">High-end Pro</text>
                 
                 {/* Branch 3: .lut (Simple) */}
                 <g>
@@ -127,7 +127,7 @@ export default function LutFormats() {
                   <p className="font-bold text-sm mb-1">.3dl Format</p>
                   <p className="text-xs text-muted-foreground mb-2">Avid, Nuke, Broadcast</p>
                   <div className="px-2 py-1 rounded bg-muted border border-border text-xs text-muted-foreground font-semibold text-center">
-                    HIGH-END PRO
+                    High-end Pro
                   </div>
                 </div>
                 <div className="p-4 rounded-lg border border-chart-3/30 bg-gradient-to-br from-chart-3/10 to-chart-2/5">

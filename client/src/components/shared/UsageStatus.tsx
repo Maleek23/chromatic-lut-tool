@@ -24,7 +24,7 @@ export function UsageStatus({ user }: UsageStatusProps) {
         <Infinity className="h-4 w-4" />
         <AlertDescription>
           <span className="text-sm font-medium">
-            Unlimited generations · {user.tier === "creator" ? "Creator" : user.tier === "pro" ? "Pro" : "Studio"} tier
+            Unlimited generations with the {user.tier === "creator" ? "Creator" : user.tier === "pro" ? "Pro" : "Studio"} plan
           </span>
         </AlertDescription>
       </Alert>
@@ -49,7 +49,7 @@ export function UsageStatus({ user }: UsageStatusProps) {
             <Progress value={usagePercentage} className="h-2" />
             <Link href="/upgrade">
               <Button variant="ghost" size="sm" className="h-auto p-0 text-xs hover:bg-transparent" data-testid="button-upgrade-usage">
-                Upgrade to Creator for unlimited generations →
+                Upgrade to Creator for unlimited generations
               </Button>
             </Link>
           </AlertDescription>

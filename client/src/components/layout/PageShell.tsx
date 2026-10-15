@@ -53,25 +53,23 @@ export function PageShell({
       />
 
       <main className={`relative z-10 mx-auto px-4 md:px-6 py-8 md:py-12 ${WIDTHS[width]} ${className}`}>
-        <header className="text-center mb-10 space-y-4">
-          {icon && (
-            <div className="inline-flex items-center justify-center">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-chart-2/10 border border-primary/20">
+        <header className="mb-10 max-w-3xl space-y-4">
+          <div className="flex items-start gap-4">
+            {icon && (
+              <div className="shrink-0 rounded-lg border border-border bg-muted/40 p-3 text-foreground">
                 {icon}
               </div>
-            </div>
-          )}
-          <div>
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
-                {title}
-              </span>
-            </h1>
-            {subtitle && (
-              <p className="text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">{subtitle}</p>
             )}
+            <div className="min-w-0">
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+                {title}
+              </h1>
+              {subtitle && (
+                <p className="mt-2 text-base text-muted-foreground leading-relaxed">{subtitle}</p>
+              )}
+            </div>
           </div>
-          {actions && <div className="flex flex-wrap items-center justify-center gap-3 pt-1">{actions}</div>}
+          {actions && <div className="flex flex-wrap items-center gap-3 pt-1">{actions}</div>}
           {aside && <div className="pt-2">{aside}</div>}
         </header>
         {children}

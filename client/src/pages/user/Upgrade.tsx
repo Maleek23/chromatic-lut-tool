@@ -75,7 +75,7 @@ export default function Upgrade() {
       <div className="container max-w-7xl mx-auto px-4 py-16">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
+            <span className="text-foreground">
               Choose Your Plan
             </span>
           </h1>

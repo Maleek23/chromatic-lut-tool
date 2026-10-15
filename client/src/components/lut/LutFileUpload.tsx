@@ -124,7 +124,7 @@ export function LutFileUpload({
             </>
           ) : (
             <>
-              <h3 className="text-2xl font-bold bg-gradient-to-r from-foreground to-chart-2/70 bg-clip-text text-transparent">
+              <h3 className="text-2xl font-bold text-foreground">
                 {isProcessing ? "Processing LUT..." : isDragging ? "Drop to Upload" : "Upload LUT File"}
               </h3>
               <p className="text-base text-muted-foreground max-w-sm">

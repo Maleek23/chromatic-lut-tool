@@ -97,7 +97,7 @@ export function AppShell({ title, description, children }: AppShellProps) {
       <nav className="mt-6 flex-1 space-y-6 overflow-y-auto">
         {SECTIONS.map((section) => (
           <div key={section.title}>
-            <p className="px-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <p className="px-2 text-xs font-medium text-muted-foreground">
               {section.title}
             </p>
             <div className="mt-2 space-y-1">
