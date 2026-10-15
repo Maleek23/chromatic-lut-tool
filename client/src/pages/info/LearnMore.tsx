@@ -233,7 +233,7 @@ export default function LearnMore() {
                         <h4 className="text-xs font-semibold">Format Support</h4>
                       </div>
                       <p className="text-xs text-muted-foreground leading-relaxed">
-                        Free: .cube • Creator: .cube/.3dl/.look • Pro: All 5 formats including .xmp
+                        Free: .cube • Creator: .cube/.3dl/.look • Pro: all 6 formats incl. .xmp + Resolve .dctl
                       </p>
                     </div>
                     <div className="p-3 rounded-lg bg-gradient-to-br from-chart-3/5 to-primary/5 border border-chart-3/10">

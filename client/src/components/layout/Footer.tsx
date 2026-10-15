@@ -42,11 +42,17 @@ export function Footer() {
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs">
             <div className="flex items-center gap-3">
               <span className="text-muted-foreground/50 font-medium text-[11px]">Product</span>
+              <Link href="/studio" className="text-muted-foreground hover:text-foreground transition-colors">
+                Studio
+              </Link>
+              <Link href="/workflows" className="text-muted-foreground hover:text-foreground transition-colors">
+                Workflows
+              </Link>
+              <Link href="/learn" className="text-muted-foreground hover:text-foreground transition-colors">
+                Learn
+              </Link>
               <Link href="/color-science" className="text-muted-foreground hover:text-foreground transition-colors">
                 Color Science
-              </Link>
-              <Link href="/resources" className="text-muted-foreground hover:text-foreground transition-colors">
-                Resources
               </Link>
               <Link href="/upgrade" className="text-muted-foreground hover:text-foreground transition-colors">
                 Pricing

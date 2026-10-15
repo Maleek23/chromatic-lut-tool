@@ -41,9 +41,9 @@ export default function Landing() {
                   <Sparkles className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold mb-2">Image to LUT</h3>
+                  <h3 className="text-xl font-semibold mb-2">Image, Video & Pair to LUT</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Extract cinema-grade color science from reference images using perceptual analysis
+                    Look-inspired grades from stills and clips, plus exact before/after frame-pair solving with measured ΔE accuracy
                   </p>
                 </div>
               </div>
@@ -228,7 +228,7 @@ export default function Landing() {
                   </div>
                   <div className="flex items-start gap-2">
                     <Check className="w-3.5 h-3.5 text-muted-foreground mt-0.5 shrink-0" />
-                    <span className="text-xs text-muted-foreground">All 5 formats</span>
+                    <span className="text-xs text-muted-foreground">All formats incl. Resolve .dctl</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <Check className="w-3.5 h-3.5 text-muted-foreground mt-0.5 shrink-0" />
@@ -244,12 +244,7 @@ export default function Landing() {
             </Card>
 
             {/* Studio Tier */}
-            <Card className="hover-elevate backdrop-blur-sm transition-all duration-300 flex flex-col border-0 opacity-90 relative h-[600px] lg:w-64 bg-gradient-to-br from-chart-3/25 via-primary/15 to-background/95">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20">
-                <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs px-3 py-1 border-0 shadow-lg shadow-orange-500/50">
-                  Soon
-                </Badge>
-              </div>
+            <Card className="hover-elevate backdrop-blur-sm transition-all duration-300 flex flex-col border-0 relative h-[600px] lg:w-64 bg-gradient-to-br from-chart-3/25 via-primary/15 to-background/95">
               <CardHeader className="space-y-2 pb-4 relative z-10">
                 <CardTitle className="text-xl flex items-center gap-2">
                   <span className="w-3 h-3 rounded-full bg-gradient-to-r from-primary to-chart-3 shadow-lg shadow-primary/50"></span>
@@ -282,8 +277,8 @@ export default function Landing() {
                 </div>
               </CardContent>
               <CardFooter className="px-6 pt-4 mt-auto">
-                <Button disabled size="sm" className="w-full" data-testid="button-studio-plan">
-                  Coming Soon
+                <Button size="sm" className="w-full" data-testid="button-studio-plan" asChild>
+                  <Link href="/upgrade">Upgrade</Link>
                 </Button>
               </CardFooter>
             </Card>

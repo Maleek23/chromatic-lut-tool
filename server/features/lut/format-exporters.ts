@@ -49,7 +49,7 @@ Components 3
 {
 `;
 
-  // Blue-fastest order (matches Nuke/Autodesk spec)
+  // Red-fastest order (R varies fastest, matches Nuke/Autodesk spec)
   for (const point of lutMap) {
     const r = point.r.toFixed(precisionValue);
     const g = point.g.toFixed(precisionValue);

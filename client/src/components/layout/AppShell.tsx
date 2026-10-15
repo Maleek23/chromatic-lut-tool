@@ -14,12 +14,15 @@ import {
   LogIn,
   Menu,
   Lock,
+  Sun,
+  Moon,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useAuth } from "@/hooks/use-auth";
+import { useTheme } from "@/components/layout/ThemeProvider";
 import { canUseAnalyzer, canUseOptimizer } from "@shared/tiers";
 import type { TierType } from "@shared/tiers";
 import logoImage from "@assets/logo-full-transparent-v2.png";
@@ -47,6 +50,7 @@ interface AppShellProps {
 export function AppShell({ title, description, children }: AppShellProps) {
   const [location] = useLocation();
   const { user, logoutMutation } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [open, setOpen] = useState(false);
 
   const tier = (user?.tier || "free") as TierType;
@@ -209,6 +213,15 @@ export function AppShell({ title, description, children }: AppShellProps) {
                 </Button>
               </Link>
             )}
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              data-testid="appnav-theme"
+              onClick={toggleTheme}
+            >
+              {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </Button>
             {user ? (
               <>
                 <Link href="/settings">

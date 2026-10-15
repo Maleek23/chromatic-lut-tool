@@ -112,21 +112,36 @@ export function parseCubeLUT(content: string): ParsedLUT {
 /**
  * Parse .3dl LUT file
  * Format specification:
- * - Always 33x33x33 grid (32 intervals)
+ * - Grid declared by the `Mesh R G B` line (commonly 33x33x33)
  * - RGB values are integers 0-4095 (12-bit)
- * - Data organized in Blue-fastest order
+ * - Data organized red-fastest (R varies fastest), like .cube
  */
 export function parse3dlLUT(content: string): ParsedLUT {
   const errors: string[] = [];
   const warnings: string[] = [];
   const lines = content.split('\n').map(l => l.trim());
-  
-  const size = 33; // .3dl always uses 33x33x33
+
+  let size = 33; // default when no Mesh line is present
   const data: number[][] = [];
 
   for (const line of lines) {
     // Skip empty lines and comments
     if (!line || line.startsWith('#')) continue;
+
+    // Grid declaration, e.g. "Mesh 17 17 17"
+    if (/^mesh\s/i.test(line)) {
+      const m = line.match(/^mesh\s+(\d+)\s+(\d+)\s+(\d+)/i);
+      if (m) {
+        const [, rs, gs, bs] = m;
+        if (rs === gs && gs === bs) {
+          size = parseInt(rs, 10);
+        } else {
+          errors.push(`Non-cubic .3dl mesh not supported: ${line}`);
+        }
+      }
+      continue;
+    }
+    if (/^3dmesh/i.test(line)) continue;
 
     // Parse RGB data (integers 0-4095)
     const values = line.split(/\s+/).map(Number);
@@ -212,8 +227,9 @@ export function to3dlFormat(lut: LUTData): string {
 }
 
 /**
- * Resample LUT to different grid size using trilinear interpolation
- * Maintains blue-fastest order (r slowest, g middle, b fastest)
+ * Resample LUT to different grid size using trilinear interpolation.
+ * Red-fastest order (R varies fastest), matching the .cube/.3dl spec and the
+ * layout our writers produce: index = (b * size + g) * size + r.
  */
 function resampleLUT(lut: LUTData, targetSize: number): number[][] {
   if (lut.size === targetSize) {
@@ -224,10 +240,10 @@ function resampleLUT(lut: LUTData, targetSize: number): number[][] {
   const sourceSize = lut.size;
   const scale = (sourceSize - 1) / (targetSize - 1);
 
-  // Generate new grid points in blue-fastest order
-  for (let r = 0; r < targetSize; r++) {
+  // Generate new grid points in red-fastest order
+  for (let b = 0; b < targetSize; b++) {
     for (let g = 0; g < targetSize; g++) {
-      for (let b = 0; b < targetSize; b++) {
+      for (let r = 0; r < targetSize; r++) {
         // Map target coordinates to source coordinates
         const sr = r * scale;
         const sg = g * scale;
@@ -244,12 +260,12 @@ function resampleLUT(lut: LUTData, targetSize: number): number[][] {
 }
 
 /**
- * Trilinear interpolation for LUT values
- * Note: LUT data is stored in blue-fastest order (index = r*size*size + g*size + b)
+ * Trilinear interpolation for LUT values.
+ * Red-fastest order (index = (b * size + g) * size + r), per .cube/.3dl spec.
  */
 function trilinearInterpolate(lut: LUTData, r: number, g: number, b: number): number[] {
   const size = lut.size;
-  
+
   // Get surrounding cube indices
   const r0 = Math.floor(r);
   const r1 = Math.min(r0 + 1, size - 1);
@@ -263,23 +279,25 @@ function trilinearInterpolate(lut: LUTData, r: number, g: number, b: number): nu
   const gFrac = g - g0;
   const bFrac = b - b0;
 
-  // Get 8 surrounding values (blue-fastest: index = r*size*size + g*size + b)
-  const c000 = lut.data[r0 * size * size + g0 * size + b0];
-  const c001 = lut.data[r0 * size * size + g0 * size + b1];
-  const c010 = lut.data[r0 * size * size + g1 * size + b0];
-  const c011 = lut.data[r0 * size * size + g1 * size + b1];
-  const c100 = lut.data[r1 * size * size + g0 * size + b0];
-  const c101 = lut.data[r1 * size * size + g0 * size + b1];
-  const c110 = lut.data[r1 * size * size + g1 * size + b0];
-  const c111 = lut.data[r1 * size * size + g1 * size + b1];
+  // Get 8 surrounding values (red-fastest: index = (b*size + g)*size + r)
+  const at = (rr: number, gg: number, bb: number): number[] =>
+    lut.data[(bb * size + gg) * size + rr];
+  const c000 = at(r0, g0, b0);
+  const c100 = at(r1, g0, b0);
+  const c010 = at(r0, g1, b0);
+  const c110 = at(r1, g1, b0);
+  const c001 = at(r0, g0, b1);
+  const c101 = at(r1, g0, b1);
+  const c011 = at(r0, g1, b1);
+  const c111 = at(r1, g1, b1);
 
   // Interpolate each channel
   const result: number[] = [];
   for (let channel = 0; channel < 3; channel++) {
     // Interpolate along r axis
     const c00 = c000[channel] * (1 - rFrac) + c100[channel] * rFrac;
-    const c01 = c001[channel] * (1 - rFrac) + c101[channel] * rFrac;
     const c10 = c010[channel] * (1 - rFrac) + c110[channel] * rFrac;
+    const c01 = c001[channel] * (1 - rFrac) + c101[channel] * rFrac;
     const c11 = c011[channel] * (1 - rFrac) + c111[channel] * rFrac;
 
     // Interpolate along g axis

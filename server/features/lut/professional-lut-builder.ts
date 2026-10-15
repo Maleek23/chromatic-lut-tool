@@ -40,7 +40,7 @@ export function buildLUTFromColorScience(
   const lutMap: LUTPoint[] = [];
   const step = 1.0 / (gridSize - 1);
   
-  // Build LUT using blue-fastest indexing
+  // Build LUT in red-fastest order (R varies fastest), per .cube/.3dl spec
   for (let b = 0; b < gridSize; b++) {
     for (let g = 0; g < gridSize; g++) {
       for (let r = 0; r < gridSize; r++) {

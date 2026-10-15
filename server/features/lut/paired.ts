@@ -57,7 +57,7 @@ async function decodeFrame(buffer: Buffer, width: number, height: number): Promi
 /** One separable box-blur pass (radius 1) over a gridSize³ volume, in place via temp. */
 function blurAxis(values: Float64Array, n: number, axis: 0 | 1 | 2): void {
   const tmp = new Float64Array(values.length);
-  // Layout is blue-fastest: idx = (b * n + g) * n + r
+  // Layout is red-fastest (R varies fastest): idx = (b * n + g) * n + r
   for (let b = 0; b < n; b++) {
     for (let g = 0; g < n; g++) {
       for (let r = 0; r < n; r++) {

@@ -998,19 +998,19 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
                           </p>
                           <div className="grid grid-cols-3 gap-3 text-center">
                             <div className="rounded-lg border border-border/60 bg-background/60 p-2.5">
-                              <p className="text-lg font-bold" data-testid="fidelity-mean">
+                              <p className="text-lg font-bold tabular-nums" data-testid="fidelity-mean">
                                 {lutResult.fidelity.meanDeltaE.toFixed(2)}
                               </p>
                               <p className="text-[11px] text-muted-foreground">Mean ΔE</p>
                             </div>
                             <div className="rounded-lg border border-border/60 bg-background/60 p-2.5">
-                              <p className="text-lg font-bold" data-testid="fidelity-max">
+                              <p className="text-lg font-bold tabular-nums" data-testid="fidelity-max">
                                 {lutResult.fidelity.maxDeltaE.toFixed(1)}
                               </p>
                               <p className="text-[11px] text-muted-foreground">Max ΔE</p>
                             </div>
                             <div className="rounded-lg border border-border/60 bg-background/60 p-2.5">
-                              <p className="text-lg font-bold" data-testid="fidelity-coverage">
+                              <p className="text-lg font-bold tabular-nums" data-testid="fidelity-coverage">
                                 {(lutResult.fidelity.coverage * 100).toFixed(1)}%
                               </p>
                               <p className="text-[11px] text-muted-foreground">Cell coverage</p>

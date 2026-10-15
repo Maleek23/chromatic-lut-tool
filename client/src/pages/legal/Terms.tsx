@@ -58,7 +58,7 @@ export default function Terms() {
                 <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
                   <li><strong>Free:</strong> 3 Image-to-LUT generations per month, then $2.50 per additional LUT</li>
                   <li><strong>Creator ($7/mo):</strong> Unlimited generations, 3 output formats, up to 33³ grid size</li>
-                  <li><strong>Pro ($12/mo or $99/yr):</strong> All features, 5 formats, 65³ grid, Analyzer/Optimizer tools</li>
+                  <li><strong>Pro ($12/mo or $99/yr):</strong> All features, 6 formats, 65³ grid, Analyzer/Optimizer tools</li>
                   <li><strong>Studio ($25/mo):</strong> Team features, custom branding (coming soon)</li>
                 </ul>
               </div>

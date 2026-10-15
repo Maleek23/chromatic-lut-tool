@@ -462,7 +462,7 @@ DOMAIN_MAX 1.0 1.0 1.0
 
 `;
 
-  // Blue-fastest order: already arranged in lutMap
+  // Red-fastest order (R varies fastest): already arranged in lutMap
   for (const color of lutMap) {
     const rNorm = color.r.toFixed(6);
     const gNorm = color.g.toFixed(6);
@@ -505,7 +505,7 @@ Mesh ${gridSize} ${gridSize} ${gridSize}
 
 `;
 
-  // Blue-fastest order: already arranged in lutMap
+  // Red-fastest order (R varies fastest): already arranged in lutMap
   // .3dl format REQUIRES 12-bit integers (0-4095), not floats or 8-bit
   for (const color of lutMap) {
     const rInt = Math.round(Math.max(0, Math.min(1, color.r)) * 4095);
@@ -561,7 +561,7 @@ function generate1dLUT(lutMap: LUTPoint[], gridSize: number, precision: string =
     const gridPos = inputValue * (gridSize - 1);
     const gridIdx = Math.round(gridPos);
     
-    // Calculate index in blue-fastest order: b * gridSize² + g * gridSize + r
+    // Red-fastest index: (b * gridSize + g) * gridSize + r
     const lutIdx = gridIdx * gridSize * gridSize + gridIdx * gridSize + gridIdx;
     const color = lutMap[lutIdx] || {
       r: inputValue,

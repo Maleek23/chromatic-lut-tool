@@ -1,8 +1,9 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { LogIn, LogOut, Settings, Crown, Menu, Clapperboard, Home, Wand2, BookOpen } from "lucide-react";
+import { LogIn, LogOut, Settings, Crown, Menu, Clapperboard, Home, Wand2, BookOpen, Sun, Moon } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
+import { useTheme } from "@/components/layout/ThemeProvider";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
@@ -12,6 +13,7 @@ import { isAppRoute } from "@/lib/app-routes";
 export function NavBar() {
   const [location] = useLocation();
   const { user, logoutMutation } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [open, setOpen] = useState(false);
 
   // App sections render inside AppShell (own sidebar + topbar); the marketing
@@ -144,6 +146,15 @@ export function NavBar() {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-1 flex-1 justify-end">
           <NavLinks />
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            data-testid="nav-theme"
+            onClick={toggleTheme}
+          >
+            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </Button>
           <div className="h-6 w-px bg-border/50 mx-2" />
           <div className="flex items-center gap-1.5">
             <UserSection />

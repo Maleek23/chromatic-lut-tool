@@ -79,6 +79,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     lightroomPresets: true,
     features: [
       "Unlimited Image-to-LUT generations",
+      "Video-to-LUT + before/after frame-pair solving",
       "Up to 33×33×33 grid size (Production quality)",
       "Export: .cube, .3dl, .look (3 formats)",
       "Convert between .cube, .3dl, and .look formats",
@@ -113,7 +114,7 @@ export const TIER_CONFIG: Record<TierType, TierLimits> = {
     features: [
       "Everything in Creator",
       "Up to 65×65×65 grid size (Master quality)",
-      "Export: All 5 formats (.cube, .3dl, .lut, .look, .xmp)",
+      "Export: all 6 formats incl. Resolve .dctl (.cube, .3dl, .lut, .look, .xmp, .dctl)",
       "Convert between any LUT formats",
       "100MB file size limit",
       "LUT Analyzer (quality scoring, banding detection)",
