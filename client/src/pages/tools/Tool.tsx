@@ -25,6 +25,8 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
   const [, navigate] = useLocation();
   
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [mediaType, setMediaType] = useState<"image" | "video">("image");
+  const [videoFile, setVideoFile] = useState<File | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState<LutAnalysis | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -75,6 +77,33 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
         title: "File Too Large",
         description: `Your ${user.tier} tier allows files up to ${maxFileSizeMB}MB. ${user.tier === 'free' ? 'Upgrade to Creator for 50MB.' : 'Upgrade for larger file sizes.'}`,
         variant: "destructive",
+      });
+      return;
+    }
+
+    // Video -> LUT path: frames are sampled across the clip and merged.
+    const isVideo =
+      file.type.startsWith("video/") ||
+      /\.(mp4|mov|webm|mkv|avi|m4v|mpeg|mpg)$/i.test(file.name);
+    if (isVideo) {
+      if (user.tier === "free") {
+        toast({
+          title: "Video-to-LUT is a paid feature",
+          description: "Upgrade to Creator to generate a LUT from a video clip.",
+          variant: "destructive",
+        });
+        return;
+      }
+      setLutResult(null);
+      setPreviewImage(null);
+      setMediaType("video");
+      setVideoFile(file);
+      setUploadedImage(URL.createObjectURL(file));
+      // Unlocks the controls/generate step; stats panels are hidden for video.
+      setAnalysis({ source: "video" } as unknown as LutAnalysis);
+      toast({
+        title: "Video loaded",
+        description: "Frames will be sampled across the clip and averaged into one LUT.",
       });
       return;
     }
@@ -149,7 +178,8 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
 
   // Auto-update preview when controls change
   useEffect(() => {
-    if (!uploadedImage || !analysis) return;
+    // Video previews come from the generation response, not this live image preview.
+    if (mediaType !== "image" || !uploadedImage || !analysis) return;
 
     const updatePreview = async () => {
       try {
@@ -226,20 +256,39 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
     setIsGenerating(true);
 
     try {
-      const response = await fetch("/api/generate-lut", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          imageData: uploadedImage,
-          intensity,
-          gridSize,
-          format: `.${format}`,
-          precision,
-          exportPreview,
-        }),
-      });
+      let response: Response;
+
+      if (mediaType === "video") {
+        if (!videoFile) {
+          throw new Error("Video file is no longer available. Please re-upload.");
+        }
+        const form = new FormData();
+        form.append("video", videoFile);
+        form.append("intensity", String(intensity));
+        form.append("gridSize", gridSize);
+        form.append("format", `.${format}`);
+        form.append("precision", precision);
+        form.append("exportPreview", String(exportPreview));
+        response = await fetch("/api/generate-video-lut", {
+          method: "POST",
+          body: form,
+        });
+      } else {
+        response = await fetch("/api/generate-lut", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            imageData: uploadedImage,
+            intensity,
+            gridSize,
+            format: `.${format}`,
+            precision,
+            exportPreview,
+          }),
+        });
+      }
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
@@ -270,6 +319,11 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
   };
 
   const handleReset = () => {
+    if (mediaType === "video" && uploadedImage?.startsWith("blob:")) {
+      URL.revokeObjectURL(uploadedImage);
+    }
+    setMediaType("image");
+    setVideoFile(null);
     setUploadedImage(null);
     setAnalysis(null);
     setPreviewImage(null);
@@ -296,11 +350,11 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
               <div>
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3" data-testid="heading-generator">
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
-                    Image to LUT Generator
+                    Image &amp; Video to LUT Generator
                   </span>
                 </h1>
                 <p className="text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                  Extract professional color grading from any image. Upload a reference image and our algorithm analyzes its color science to generate a cinema-grade LUT.
+                  Extract professional color grading from any image or video clip. Upload a reference and our algorithm analyzes its color science to generate a cinema-grade LUT.
                 </p>
               </div>
 
@@ -322,6 +376,10 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
                 <Badge variant="outline" className="px-3 py-1 bg-gradient-to-r from-chart-3/5 to-primary/5 border-chart-3/20 text-xs">
                   <Wand2 className="w-3 h-3 mr-1.5" />
                   Pro Export
+                </Badge>
+                <Badge variant="outline" className="px-3 py-1 bg-gradient-to-r from-primary/5 to-chart-3/5 border-primary/20 text-xs">
+                  <Sparkles className="w-3 h-3 mr-1.5" />
+                  Video to LUT
                 </Badge>
               </div>
             </div>
@@ -387,13 +445,24 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
                             </Badge>
                           </div>
                           <p className="text-xs text-muted-foreground">
-                            Color science will be extracted from this image
+                            {mediaType === "video"
+                              ? "Frames are sampled across this clip and averaged into one LUT"
+                              : "Color science will be extracted from this image"}
                           </p>
-                          <img 
-                            src={uploadedImage} 
-                            alt="Reference" 
-                            className="w-full rounded-lg border"
-                          />
+                          {mediaType === "video" ? (
+                            <video
+                              src={uploadedImage}
+                              controls
+                              className="w-full rounded-lg border"
+                              data-testid="video-reference"
+                            />
+                          ) : (
+                            <img
+                              src={uploadedImage}
+                              alt="Reference"
+                              className="w-full rounded-lg border"
+                            />
+                          )}
                         </div>
                       </CardContent>
                     </Card>
@@ -423,10 +492,14 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
 
                 {/* Sidebar */}
                 <div className="space-y-6">
-                  <ColorStatistics analysis={analysis} />
-                  
-                  <HistogramVisualization rgbHistogram={analysis.rgbHistogram} />
-                  
+                  {mediaType === "image" && (
+                    <>
+                      <ColorStatistics analysis={analysis} />
+
+                      <HistogramVisualization rgbHistogram={analysis.rgbHistogram} />
+                    </>
+                  )}
+
                   <LutControls
                     intensity={intensity}
                     onIntensityChange={setIntensity}

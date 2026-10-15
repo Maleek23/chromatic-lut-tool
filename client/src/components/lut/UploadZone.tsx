@@ -20,12 +20,14 @@ export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: Upl
       setIsDragging(false);
 
       const files = Array.from(e.dataTransfer.files);
-      const imageFiles = files.filter(file => file.type.startsWith("image/"));
-      
+      const mediaFiles = files.filter(
+        file => file.type.startsWith("image/") || file.type.startsWith("video/")
+      );
+
       if (multiple) {
-        imageFiles.forEach(file => onImageUpload(file));
-      } else if (imageFiles[0]) {
-        onImageUpload(imageFiles[0]);
+        mediaFiles.forEach(file => onImageUpload(file));
+      } else if (mediaFiles[0]) {
+        onImageUpload(mediaFiles[0]);
       }
     },
     [onImageUpload, multiple]
@@ -80,7 +82,7 @@ export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: Upl
         ref={inputRef}
         id={inputId}
         type="file"
-        accept="image/jpeg,image/jpg,image/png,image/heic,image/heif,image/webp,image/tiff,image/tif"
+        accept="image/jpeg,image/jpg,image/png,image/heic,image/heif,image/webp,image/tiff,image/tif,video/mp4,video/quicktime,video/webm,video/x-matroska,video/x-msvideo"
         onChange={handleFileSelect}
         className="hidden"
         disabled={isAnalyzing}

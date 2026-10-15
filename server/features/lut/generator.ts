@@ -101,43 +101,61 @@ function hexToRgb(hex: string): RGB {
     : { r: 0, g: 0, b: 0 };
 }
 
+export type LUTFormat = ".cube" | ".3dl" | ".lut" | ".look" | ".xmp" | ".dctl";
+
+/**
+ * Build the raw 3D LUT point map from a single image using the professional
+ * color-science pipeline. Exposed so multi-frame (video) workflows can build
+ * one map per frame and then merge them.
+ */
+export async function buildLUTMapFromImage(
+  imageBuffer: Buffer,
+  gridSize: number,
+  intensity: number,
+  advancedControls?: AdvancedControls
+): Promise<LUTPoint[]> {
+  const colorAnalysis = await analyzeImageColorScience(imageBuffer);
+  return buildLUTFromColorScience(colorAnalysis, gridSize, intensity / 100, advancedControls);
+}
+
+/** Serialize a raw LUT point map into the requested file format. */
+export function exportLUT(
+  lutMap: LUTPoint[],
+  gridSize: number,
+  format: LUTFormat,
+  precision: string = "10",
+  metadata?: { name?: string; description?: string }
+): string {
+  switch (format) {
+    case ".cube":
+      return generateCubeLUT(lutMap, gridSize, precision);
+    case ".3dl":
+      return generate3dlLUT(lutMap, gridSize, precision);
+    case ".lut":
+      return generate1dLUT(lutMap, gridSize, precision);
+    case ".look":
+      return generateLookLUT(lutMap, gridSize, precision);
+    case ".xmp":
+      return generateXmpPreset(lutMap, gridSize, metadata);
+    case ".dctl":
+      return generateDCTL(lutMap, gridSize, precision);
+    default:
+      throw new Error(`Unsupported format: ${format}`);
+  }
+}
+
 // Professional LUT generation with cinema-grade color science
 export async function generateLUT(
   imageBuffer: Buffer,
   gridSize: number,
   intensity: number,
-  format: ".cube" | ".3dl" | ".lut" | ".look" | ".xmp" | ".dctl",
+  format: LUTFormat,
   advancedControls?: AdvancedControls,
   precision: string = "10",
   metadata?: { name?: string; description?: string }
 ): Promise<string> {
-  // Use professional color science analysis
-  const colorAnalysis = await analyzeImageColorScience(imageBuffer);
-  
-  // Build LUT using advanced color science
-  const lutMap = buildLUTFromColorScience(
-    colorAnalysis,
-    gridSize,
-    intensity / 100,
-    advancedControls
-  );
-
-  // Export in requested format
-  if (format === ".cube") {
-    return generateCubeLUT(lutMap, gridSize, precision);
-  } else if (format === ".3dl") {
-    return generate3dlLUT(lutMap, gridSize, precision);
-  } else if (format === ".lut") {
-    return generate1dLUT(lutMap, gridSize, precision);
-  } else if (format === ".look") {
-    return generateLookLUT(lutMap, gridSize, precision);
-  } else if (format === ".xmp") {
-    return generateXmpPreset(lutMap, gridSize, metadata);
-  } else if (format === ".dctl") {
-    return generateDCTL(lutMap, gridSize, precision);
-  } else {
-    throw new Error(`Unsupported format: ${format}`);
-  }
+  const lutMap = await buildLUTMapFromImage(imageBuffer, gridSize, intensity, advancedControls);
+  return exportLUT(lutMap, gridSize, format, precision, metadata);
 }
 
 interface ZoneColorData {

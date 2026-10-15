@@ -8,6 +8,7 @@ import { promisify } from "util";
 import Stripe from "stripe";
 import { analyzeImage } from "../features/lut/analyzer";
 import { generateLUT, applyLUTToImage } from "../features/lut/generator";
+import { generateVideoLUT, lutPointsToMap } from "../features/lut/video";
 import { parseLUT, convertLUT, type ParsedLUT } from "../features/lut/parser";
 import { lutGenerationSchema, extendedLutGenerationSchema, batchLutRequestSchema } from "@shared/schema";
 import { EDITOR_WORKFLOWS, EDITOR_TARGETS, buildEditorRecipe } from "@shared/resolve-workflows";
@@ -631,6 +632,113 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("LUT generation error:", error);
       res.status(500).json({ error: "Failed to generate LUT" });
+    }
+  });
+
+  // Generate a LUT from a video clip: samples frames across the clip and merges them.
+  app.post("/api/generate-video-lut", requireAuth, upload.single("video"), async (req, res) => {
+    try {
+      const file = req.file;
+      if (!file) {
+        return res.status(400).json({ error: "No video uploaded" });
+      }
+      if (!file.mimetype.startsWith("video/")) {
+        return res.status(400).json({ error: "Uploaded file is not a video" });
+      }
+
+      const gridSize = String(req.body.gridSize || "33") as "17" | "33" | "65";
+      const intensity = parseInt(req.body.intensity ?? "100", 10);
+      const rawFormat = String(req.body.format || ".cube");
+      const format = (rawFormat.startsWith(".") ? rawFormat : `.${rawFormat}`) as
+        | ".cube" | ".3dl" | ".lut" | ".look" | ".xmp" | ".dctl";
+      const precision = String(req.body.precision || "10");
+      const exportPreview =
+        req.body.exportPreview === "true" || req.body.exportPreview === true;
+      const frameCount = parseInt(req.body.frameCount ?? "8", 10);
+
+      if (!["17", "33", "65"].includes(gridSize)) {
+        return res.status(400).json({ error: "Invalid grid size" });
+      }
+      if (!Number.isFinite(intensity) || intensity < 0 || intensity > 100) {
+        return res.status(400).json({ error: "Invalid intensity" });
+      }
+
+      const userTier = req.user!.tier as "free" | "creator" | "pro" | "studio";
+
+      // Video-to-LUT is a paid feature (Creator and above).
+      if (userTier === "free") {
+        return res.status(403).json({
+          error: "Video-to-LUT requires Creator tier or higher.",
+          upgradeRequired: true,
+          requiredTier: "creator",
+        });
+      }
+
+      const usageCheck = await checkUsageLimit(req.user!);
+      if (!usageCheck.allowed) {
+        return res.status(403).json({
+          error: usageCheck.reason,
+          upgradeRequired: true,
+          requiredTier: "creator",
+          requiresPayment: usageCheck.requiresPayment || false,
+        });
+      }
+
+      if (!hasFeature(userTier, "gridSize", gridSize)) {
+        return res.status(403).json({
+          error: `Grid size ${gridSize} requires a higher tier.`,
+          upgradeRequired: true,
+          requiredTier: "pro",
+        });
+      }
+
+      if (!hasFeature(userTier, "outputFormat", format)) {
+        return res.status(403).json({
+          error: `Export format ${format} requires a higher tier.`,
+          upgradeRequired: true,
+          requiredTier: "pro",
+        });
+      }
+
+      const result = await generateVideoLUT(
+        file.buffer,
+        parseInt(gridSize),
+        intensity,
+        format,
+        undefined,
+        precision,
+        { frameCount }
+      );
+
+      const timestamp = new Date().toISOString().split("T")[0];
+      const formatExt = format.replace(/^\./, "");
+      const filename = `video_grade_${timestamp}_${gridSize}x${gridSize}x${gridSize}.${formatExt}`;
+
+      let previewData: string | undefined;
+      if (exportPreview) {
+        const previewBuffer = await applyLUTToImage(
+          result.sampleFrame,
+          lutPointsToMap(result.lutMap, parseInt(gridSize)),
+          parseInt(gridSize),
+          intensity
+        );
+        previewData = `data:image/jpeg;base64,${previewBuffer.toString("base64")}`;
+      }
+
+      await incrementUsage(req.user!.id);
+
+      res.json({
+        lutData: result.lutData,
+        filename,
+        format,
+        gridSize,
+        previewData,
+        frameCount: result.frameCount,
+        durationSec: result.durationSec,
+      });
+    } catch (error) {
+      console.error("Video LUT generation error:", error);
+      res.status(500).json({ error: "Failed to generate LUT from video" });
     }
   });
 
