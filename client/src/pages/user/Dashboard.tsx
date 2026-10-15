@@ -98,7 +98,7 @@ export default function Dashboard() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   
                   {/* Generate New LUT */}
-                  <Link href="/generate">
+                  <Link href="/studio">
                     <Card className="overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer border-primary/30 bg-gradient-to-br from-primary/5 to-chart-2/5" data-testid="card-action-generate">
                       <CardContent className="p-4">
                         <div className="flex items-start gap-3">

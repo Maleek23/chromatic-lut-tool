@@ -45,15 +45,30 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     
-    <!-- Service Worker Registration -->
+    <!-- Service Worker Registration (production only; never in local dev) -->
     <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then(reg => console.log('Service Worker registered'))
-            .catch(err => console.log('Service Worker registration failed:', err));
-        });
-      }
+      (function () {
+        const isLocal = ['localhost', '127.0.0.1', '0.0.0.0'].includes(location.hostname);
+        if (isLocal) {
+          // Clean up any previously installed SW that is caching stale dev bundles.
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then((regs) => {
+              regs.forEach((reg) => reg.unregister());
+            });
+            if (window.caches) {
+              caches.keys().then((keys) => keys.forEach((k) => caches.delete(k)));
+            }
+          }
+          return;
+        }
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+              .then(() => console.log('Service Worker registered'))
+              .catch((err) => console.log('Service Worker registration failed:', err));
+          });
+        }
+      })();
     </script>
   </body>
 </html>

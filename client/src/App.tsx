@@ -1,5 +1,5 @@
 // Reference: blueprint:javascript_auth_all_persistance
-import { Switch, Route, useLocation } from "wouter";
+import { Switch, Route, Redirect, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -11,12 +11,12 @@ import { ProtectedRoute } from "@/lib/protected-route";
 import { CinemaBackground } from "@/components/visual/CinemaBackground";
 import { ColorParticles3D } from "@/components/visual/ColorParticles3D";
 import Home from "@/pages/Home";
-import Generate from "@/pages/tools/Tool";
-import Tools from "@/pages/tools/Tools";
 import Convert from "@/pages/tools/Convert";
 import Analyze from "@/pages/tools/Analyze";
 import Optimize from "@/pages/tools/Optimize";
 import Workflows from "@/pages/tools/Workflows";
+import Studio from "@/pages/studio/Studio";
+import Learn from "@/pages/info/Learn";
 import AuthPage from "@/pages/auth/AuthPage";
 import ForgotPassword from "@/pages/auth/ForgotPassword";
 import ResetPassword from "@/pages/auth/ResetPassword";
@@ -46,9 +46,17 @@ function Router() {
             return null;
           }}
         </Route>
-        <Route path="/generate" component={Generate} />
-        <Route path="/tools" component={Tools} />
+        {/* Unified studio workspace */}
+        <Route path="/studio" component={Studio} />
         <Route path="/workflows" component={Workflows} />
+        <Route path="/learn" component={Learn} />
+        {/* Legacy routes -> Studio (client-side, so auth state is preserved) */}
+        <Route path="/generate">
+          <Redirect to="/studio" />
+        </Route>
+        <Route path="/tools">
+          <Redirect to="/studio" />
+        </Route>
         <ProtectedRoute path="/convert" component={Convert} />
         <ProtectedRoute path="/analyze" component={Analyze} />
         <ProtectedRoute path="/optimize" component={Optimize} />

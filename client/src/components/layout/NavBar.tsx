@@ -1,6 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { LogIn, LogOut, Settings, Crown, Menu, Clapperboard } from "lucide-react";
+import { LogIn, LogOut, Settings, Crown, Menu, Clapperboard, Home, Wand2, BookOpen } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -12,93 +13,37 @@ export function NavBar() {
   const { user, logoutMutation } = useAuth();
   const [open, setOpen] = useState(false);
 
+  const NAV_ITEMS: Array<{ href: string; label: string; icon: LucideIcon; testid: string }> = [
+    { href: "/", label: user ? "Dashboard" : "Home", icon: Home, testid: "nav-home" },
+    { href: "/studio", label: "Studio", icon: Wand2, testid: "nav-studio" },
+    { href: "/workflows", label: "Workflows", icon: Clapperboard, testid: "nav-workflows" },
+    { href: "/learn", label: "Learn", icon: BookOpen, testid: "nav-learn" },
+    { href: "/upgrade", label: "Pricing", icon: Crown, testid: "nav-pricing" },
+  ];
+
   const NavLinks = ({ mobile = false }: { mobile?: boolean }) => (
     <>
-      <Link href="/" onClick={() => mobile && setOpen(false)}>
-        <Button 
-          variant="ghost"
-          size="sm"
-          data-testid="nav-home"
-          className={`${mobile ? "w-full justify-start" : "relative"} ${
-            location === "/" 
-              ? "text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-primary after:to-chart-2" 
-              : "text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          {user ? "Dashboard" : "Home"}
-        </Button>
-      </Link>
-      <Link href="/generate" onClick={() => mobile && setOpen(false)}>
-        <Button 
-          variant="ghost"
-          size="sm"
-          data-testid="nav-generate"
-          className={`${mobile ? "w-full justify-start" : "relative"} ${
-            location === "/generate" 
-              ? "text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-primary after:to-chart-2" 
-              : "text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          Generate
-        </Button>
-      </Link>
-      <Link href="/tools" onClick={() => mobile && setOpen(false)}>
-        <Button 
-          variant="ghost"
-          size="sm"
-          data-testid="nav-tools"
-          className={`${mobile ? "w-full justify-start" : "relative"} ${
-            location === "/tools" 
-              ? "text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-primary after:to-chart-2" 
-              : "text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          Tools
-        </Button>
-      </Link>
-      <Link href="/workflows" onClick={() => mobile && setOpen(false)}>
-        <Button
-          variant="ghost"
-          size="sm"
-          data-testid="nav-workflows"
-          className={`${mobile ? "w-full justify-start" : "relative"} ${
-            location === "/workflows"
-              ? "text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-primary after:to-chart-2"
-              : "text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          <Clapperboard className="w-3.5 h-3.5 mr-1.5" />
-          Workflows
-        </Button>
-      </Link>
-      <Link href="/color-science" onClick={() => mobile && setOpen(false)}>
-        <Button 
-          variant="ghost"
-          size="sm"
-          data-testid="nav-color-science"
-          className={`${mobile ? "w-full justify-start" : "relative"} ${
-            location === "/color-science" 
-              ? "text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-primary after:to-chart-2" 
-              : "text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          Science
-        </Button>
-      </Link>
-      <Link href="/resources/create-from-images" onClick={() => mobile && setOpen(false)}>
-        <Button 
-          variant="ghost"
-          size="sm"
-          data-testid="nav-how-it-works"
-          className={`${mobile ? "w-full justify-start" : "relative"} ${
-            location === "/resources/create-from-images" 
-              ? "text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-primary after:to-chart-2" 
-              : "text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          How It Works
-        </Button>
-      </Link>
+      {NAV_ITEMS.map((item) => {
+        const active = location === item.href;
+        const Icon = item.icon;
+        return (
+          <Link key={item.href} href={item.href} onClick={() => mobile && setOpen(false)}>
+            <Button
+              variant="ghost"
+              size="sm"
+              data-testid={item.testid}
+              className={`${mobile ? "w-full justify-start" : "relative"} ${
+                active
+                  ? "text-foreground after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-primary after:to-chart-2"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5 mr-1.5" />
+              {item.label}
+            </Button>
+          </Link>
+        );
+      })}
     </>
   );
 

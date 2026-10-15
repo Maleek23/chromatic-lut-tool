@@ -19,7 +19,7 @@ import { getUserTier, isGridSizeAllowed, isFormatAllowed } from "@/lib/tier-util
 import { queryClient } from "@/lib/queryClient";
 import { Footer } from "@/components/layout/Footer";
 
-export default function Tool() {
+export default function Tool({ embedded = false }: { embedded?: boolean } = {}) {
   const { toast } = useToast();
   const { user } = useAuth();
   const [, navigate] = useLocation();
@@ -281,9 +281,8 @@ export default function Tool() {
     setExportPreview(false);
   };
 
-  return (
-    <div className="relative min-h-screen">
-      <main className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12">
+  const panel = (
+    <>
         {!uploadedImage ? (
           <div className="max-w-4xl mx-auto">
             {/* Hero Section */}
@@ -447,8 +446,18 @@ export default function Tool() {
             ) : null}
           </div>
         )}
+    </>
+  );
+
+  if (embedded) {
+    return <div className="space-y-6">{panel}</div>;
+  }
+
+  return (
+    <div className="relative min-h-screen">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12">
+        {panel}
       </main>
-      
       <Footer />
     </div>
   );

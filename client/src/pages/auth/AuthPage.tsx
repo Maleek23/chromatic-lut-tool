@@ -64,7 +64,7 @@ export default function AuthPage() {
   }, []);
 
   if (user) {
-    return <Redirect to="/generate" />;
+    return <Redirect to="/studio" />;
   }
 
   const handleLogin = (e: React.FormEvent) => {
