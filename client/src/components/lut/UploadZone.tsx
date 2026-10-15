@@ -109,14 +109,14 @@ export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: Upl
         {/* Compact typography */}
         <div className="text-center space-y-2">
           <h3 className="text-xl font-bold">
-            {isAnalyzing ? "Analyzing Image" : isDragging ? "Drop to Analyze" : multiple ? "Upload Images" : "Upload Reference Image"}
+            {isAnalyzing ? "Analyzing Image" : isDragging ? "Drop to Analyze" : multiple ? "Upload Images" : "Upload Image or Video"}
           </h3>
           <p className="text-sm text-muted-foreground max-w-lg">
             {isAnalyzing 
               ? "Processing color science..." 
               : isDragging
               ? "Release to extract color grading"
-              : `Drag and drop ${multiple ? "images" : "your image"} here, or click to browse`
+              : `Drag and drop ${multiple ? "images" : "your image or video clip"} here, or click to browse`
             }
           </p>
         </div>
@@ -125,7 +125,7 @@ export function UploadZone({ onImageUpload, isAnalyzing, multiple = false }: Upl
         {!isAnalyzing && (
           <div className="flex flex-col items-center gap-3 w-full">
             <div className="flex flex-wrap gap-2 justify-center">
-              {['JPG', 'PNG', 'HEIC', 'WEBP', 'TIFF'].map((format) => (
+              {['JPG', 'PNG', 'HEIC', 'WEBP', 'TIFF', 'MP4', 'MOV'].map((format) => (
                 <Badge 
                   key={format}
                   variant="secondary" 

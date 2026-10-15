@@ -341,22 +341,28 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
           <div className="max-w-4xl mx-auto">
             {/* Hero Section */}
             <div className="text-center mb-10 space-y-5">
-              <div className="inline-flex items-center justify-center mb-3">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-chart-2/10 border border-primary/20">
-                  <Wand2 className="w-7 h-7 text-primary" />
-                </div>
-              </div>
-              
-              <div>
-                <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3" data-testid="heading-generator">
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
-                    Image &amp; Video to LUT Generator
-                  </span>
-                </h1>
-                <p className="text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                  Extract professional color grading from any image or video clip. Upload a reference and our algorithm analyzes its color science to generate a cinema-grade LUT.
-                </p>
-              </div>
+              {/* The page shell provides the hero in Studio; only show our own
+                  title block when this generator is used as a standalone page. */}
+              {!embedded && (
+                <>
+                  <div className="inline-flex items-center justify-center mb-3">
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-primary/10 to-chart-2/10 border border-primary/20">
+                      <Wand2 className="w-7 h-7 text-primary" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3" data-testid="heading-generator">
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-foreground">
+                        Image &amp; Video to LUT Generator
+                      </span>
+                    </h1>
+                    <p className="text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                      Extract professional color grading from any image or video clip. Upload a reference and our algorithm analyzes its color science to generate a cinema-grade LUT.
+                    </p>
+                  </div>
+                </>
+              )}
 
               {/* Usage Status */}
               <div className="pt-2">
