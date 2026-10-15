@@ -7,11 +7,16 @@ import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import logoImage from "@assets/logo-full-transparent-v2.png";
+import { isAppRoute } from "@/lib/app-routes";
 
 export function NavBar() {
   const [location] = useLocation();
   const { user, logoutMutation } = useAuth();
   const [open, setOpen] = useState(false);
+
+  // App sections render inside AppShell (own sidebar + topbar); the marketing
+  // nav stays out of the way there.
+  if (isAppRoute(location)) return null;
 
   const NAV_ITEMS: Array<{ href: string; label: string; icon: LucideIcon; testid: string }> = [
     { href: "/", label: user ? "Dashboard" : "Home", icon: Home, testid: "nav-home" },

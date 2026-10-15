@@ -158,7 +158,7 @@ export default function Dashboard() {
                   </Link>
 
                   {/* Browse Resources */}
-                  <Link href="/resources">
+                  <Link href="/learn">
                     <Card className="overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer border-border/50 bg-background/50" data-testid="card-action-resources">
                       <CardContent className="p-4">
                         <div className="flex items-start gap-3">

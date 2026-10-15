@@ -10,7 +10,21 @@ import { EditorWorkflowCard } from "@/components/workflows/EditorWorkflowCard";
 import { UsageStatus } from "@/components/shared/UsageStatus";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Sparkles, Wand2, CheckCircle2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Sparkles,
+  Wand2,
+  CheckCircle2,
+  Upload,
+  BarChart3,
+  SlidersHorizontal,
+  Eye,
+  Download,
+  ArrowLeft,
+  ArrowRight,
+  Check,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 import { useLocation } from "wouter";
@@ -18,6 +32,50 @@ import type { LutAnalysis, LutResponse } from "@shared/schema";
 import { getUserTier, isGridSizeAllowed, isFormatAllowed } from "@/lib/tier-utils";
 import { queryClient } from "@/lib/queryClient";
 import { Footer } from "@/components/layout/Footer";
+
+type FlowStep = "source" | "analyze" | "refine" | "preview" | "export";
+
+const STEP_ORDER: FlowStep[] = ["source", "analyze", "refine", "preview", "export"];
+
+const STEPS: Array<{ id: FlowStep; label: string; hint: string; icon: LucideIcon }> = [
+  { id: "source", label: "Source", hint: "Upload image or video", icon: Upload },
+  { id: "analyze", label: "Analyze", hint: "Extract color science", icon: BarChart3 },
+  { id: "refine", label: "Refine", hint: "Intensity, grid, format", icon: SlidersHorizontal },
+  { id: "preview", label: "Preview", hint: "Before / after", icon: Eye },
+  { id: "export", label: "Export", hint: "Download & deliver", icon: Download },
+];
+
+function StepNav({
+  onBack,
+  onNext,
+  nextLabel = "Continue",
+  nextDisabled = false,
+}: {
+  onBack?: () => void;
+  onNext?: () => void;
+  nextLabel?: string;
+  nextDisabled?: boolean;
+}) {
+  if (!onBack && !onNext) return null;
+  return (
+    <div className="flex items-center justify-between gap-3">
+      {onBack ? (
+        <Button variant="outline" onClick={onBack} data-testid="button-step-back">
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back
+        </Button>
+      ) : (
+        <span />
+      )}
+      {onNext && (
+        <Button onClick={onNext} disabled={nextDisabled} data-testid="button-step-next">
+          {nextLabel}
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </Button>
+      )}
+    </div>
+  );
+}
 
 export default function Tool({ embedded = false }: { embedded?: boolean } = {}) {
   const { toast } = useToast();
@@ -39,6 +97,7 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
   
   const [isGenerating, setIsGenerating] = useState(false);
   const [lutResult, setLutResult] = useState<LutResponse | null>(null);
+  const [step, setStep] = useState<FlowStep>("source");
 
   // Auth guard - redirect to auth page if not logged in
   useEffect(() => {
@@ -209,7 +268,56 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
     }, 300);
 
     return () => clearTimeout(debounce);
-  }, [intensity, uploadedImage, analysis, gridSize]);
+  }, [intensity, uploadedImage, analysis, gridSize, mediaType]);
+
+  const hasSource = !!uploadedImage;
+  const analysisReady = !!analysis && !isAnalyzing;
+  // Clamp the visible step so the flow can never show a step without its input.
+  const activeStep: FlowStep = !hasSource ? "source" : step;
+
+  // Move forward automatically once the source is analyzed / the LUT exists.
+  useEffect(() => {
+    if (!lutResult && analysisReady && step === "source") {
+      setStep("analyze");
+    }
+  }, [lutResult, analysisReady, step]);
+
+  useEffect(() => {
+    if (lutResult) {
+      setStep("preview");
+    }
+  }, [lutResult]);
+
+  const isStepLocked = (s: FlowStep): boolean => {
+    switch (s) {
+      case "source":
+        return false;
+      case "analyze":
+      case "refine":
+        return !hasSource;
+      case "preview":
+        return !analysisReady;
+      case "export":
+        return !lutResult;
+    }
+  };
+
+  const goStep = (next: FlowStep) => {
+    if (isStepLocked(next)) {
+      const missing =
+        next === "export"
+          ? "Generate a LUT first."
+          : next === "preview"
+            ? "Analyze a source first."
+            : "Upload a source first.";
+      toast({
+        title: "Step locked",
+        description: missing,
+      });
+      return;
+    }
+    setStep(next);
+  };
 
   const handleGenerateLut = async () => {
     if (!uploadedImage || !analysis) {
@@ -328,6 +436,7 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
     setAnalysis(null);
     setPreviewImage(null);
     setLutResult(null);
+    setStep("source");
     setIntensity(100);
     setGridSize("17");
     setFormat("cube");
@@ -337,7 +446,51 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
 
   const panel = (
     <>
-        {!uploadedImage ? (
+      {/* Guided step rail — always visible so the flow reads as one pipeline */}
+      <div className="mx-auto mb-6 max-w-4xl">
+        <ol className="flex items-start gap-1" data-testid="studio-steps">
+          {STEPS.map((s, i) => {
+            const activeIdx = STEP_ORDER.indexOf(activeStep);
+            const done = i < activeIdx;
+            const current = i === activeIdx;
+            const locked = isStepLocked(s.id);
+            const Icon = s.icon;
+            return (
+              <li key={s.id} className="min-w-0 flex-1">
+                <button
+                  type="button"
+                  onClick={() => goStep(s.id)}
+                  data-testid={`studio-step-${s.id}`}
+                  className={`flex w-full flex-col items-center gap-1.5 rounded-lg px-1 py-2 text-center transition-colors ${
+                    current
+                      ? "text-foreground"
+                      : locked
+                        ? "cursor-not-allowed text-muted-foreground/60"
+                        : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <span
+                    className={`flex h-8 w-8 items-center justify-center rounded-full border text-xs font-semibold ${
+                      done
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : current
+                          ? "border-primary/50 bg-primary/10 text-primary"
+                          : "border-border bg-muted/40"
+                    }`}
+                  >
+                    {done ? <Check className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
+                  </span>
+                  <span className="text-xs font-medium leading-none">{s.label}</span>
+                  <span className="hidden text-[11px] leading-tight text-muted-foreground sm:block">
+                    {s.hint}
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+        {!hasSource ? (
           <div className="max-w-4xl mx-auto">
             {/* Hero Section */}
             <div className="text-center mb-10 space-y-5">
@@ -418,111 +571,231 @@ export default function Tool({ embedded = false }: { embedded?: boolean } = {}) 
               </CardContent>
             </Card>
 
-            {/* Editor workflow preview (Resolve, Premiere, FCP, AE, Avid, CapCut) */}
-            <div className="mt-8">
-              <EditorWorkflowCard intensity={intensity} />
-            </div>
+            {hasSource && (
+              <Card className="border-primary/30 bg-primary/5">
+                <CardContent className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-sm font-semibold">
+                      {mediaType === "video" ? "Video clip ready" : "Reference image ready"}
+                    </h3>
+                    <p className="text-xs text-muted-foreground">
+                      {mediaType === "video"
+                        ? "Frames will be sampled across the clip and averaged into one LUT."
+                        : "Color science will be extracted from this image."}
+                    </p>
+                  </div>
+                  <Button onClick={() => goStep("analyze")} data-testid="button-continue-analyze">
+                    Continue to analyze
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
           </div>
         ) : (
           <div className="space-y-6">
-            {/* Usage Status - Persistent across both views */}
-            <div className="flex justify-center">
-              <UsageStatus user={user} />
-            </div>
-            
-            {/* Analysis Dashboard */}
-            {isAnalyzing ? (
-              <div className="max-w-4xl mx-auto">
-                <AnalysisProgress isActive={isAnalyzing} />
-              </div>
-            ) : analysis ? (
-              <div className="grid lg:grid-cols-3 gap-6">
-                {/* Main Preview */}
-                <div className="lg:col-span-2 space-y-6">
-                  {/* Show source image before LUT generation */}
-                  {!lutResult && (
-                    <Card className="bg-background/80 backdrop-blur-sm">
-                      <CardContent className="p-5">
-                        <div className="space-y-3">
-                          <div className="flex items-center justify-between">
-                            <h3 className="font-semibold text-sm">Reference Image</h3>
-                            <Badge variant="outline" className="text-[10px] px-2 py-0.5">
-                              Analyzed
-                            </Badge>
-                          </div>
-                          <p className="text-xs text-muted-foreground">
-                            {mediaType === "video"
-                              ? "Frames are sampled across this clip and averaged into one LUT"
-                              : "Color science will be extracted from this image"}
-                          </p>
-                          {mediaType === "video" ? (
-                            <video
-                              src={uploadedImage}
-                              controls
-                              className="w-full rounded-lg border"
-                              data-testid="video-reference"
-                            />
-                          ) : (
-                            <img
-                              src={uploadedImage}
-                              alt="Reference"
-                              className="w-full rounded-lg border"
-                            />
-                          )}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  )}
-                  
-                  {/* Show preview gallery after LUT generation */}
-                  {lutResult && (
-                    <>
-                      <PreviewGallery
-                        lutData={lutResult.lutData}
-                        format={lutResult.format}
-                        intensity={intensity}
+            {activeStep === "source" ? (
+              <div className="space-y-6">
+                <Card className="bg-background/80 backdrop-blur-sm">
+                  <CardContent className="space-y-3 p-5">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-sm font-semibold">
+                        {mediaType === "video" ? "Video clip" : "Reference image"}
+                      </h3>
+                      <Badge variant="outline" className="px-2 py-0.5 text-[10px]">
+                        {analysisReady ? "Analyzed" : "Uploaded"}
+                      </Badge>
+                    </div>
+                    {mediaType === "video" ? (
+                      <video
+                        src={uploadedImage ?? undefined}
+                        controls
+                        className="w-full rounded-lg border"
+                        data-testid="video-reference"
                       />
-                      
-                      <DownloadSection
-                        lutData={lutResult.lutData}
-                        defaultFilename={lutResult.filename}
-                        format={lutResult.format}
-                        previewData={lutResult.previewData}
-                        onReset={handleReset}
-                      />
-
-                      <EditorWorkflowCard lutFilename={lutResult.filename} intensity={intensity} />
-                    </>
-                  )}
-                </div>
-
-                {/* Sidebar */}
-                <div className="space-y-6">
-                  {mediaType === "image" && (
-                    <>
-                      <ColorStatistics analysis={analysis} />
-
-                      <HistogramVisualization rgbHistogram={analysis.rgbHistogram} />
-                    </>
-                  )}
-
-                  <LutControls
-                    intensity={intensity}
-                    onIntensityChange={setIntensity}
-                    gridSize={gridSize}
-                    onGridSizeChange={setGridSize}
-                    format={format}
-                    onFormatChange={setFormat}
-                    precision={precision}
-                    onPrecisionChange={setPrecision}
-                    exportPreview={exportPreview}
-                    onExportPreviewChange={setExportPreview}
-                    onGenerate={handleGenerateLut}
-                    isGenerating={isGenerating}
-                  />
-                </div>
+                    ) : (
+                      uploadedImage && (
+                        <img
+                          src={uploadedImage}
+                          alt="Reference"
+                          className="max-h-[420px] w-full rounded-lg border object-contain"
+                        />
+                      )
+                    )}
+                  </CardContent>
+                </Card>
+                <StepNav
+                  onBack={handleReset}
+                  onNext={() => goStep("analyze")}
+                  nextLabel="Continue to analyze"
+                  nextDisabled={!hasSource}
+                />
               </div>
-            ) : null}
+            ) : activeStep === "analyze" ? (
+              <div className="space-y-6">
+                <StepNav
+                  onBack={() => setStep("source")}
+                  onNext={() => goStep("refine")}
+                  nextLabel="Continue to refine"
+                  nextDisabled={!analysisReady}
+                />
+                {isAnalyzing ? (
+                  <div className="mx-auto max-w-4xl">
+                    <AnalysisProgress isActive={isAnalyzing} />
+                  </div>
+                ) : !analysis ? (
+                  <Card className="bg-background/80 backdrop-blur-sm">
+                    <CardContent className="p-5 text-sm text-muted-foreground">
+                      Analysis is not available yet. Go back and re-upload your source.
+                    </CardContent>
+                  </Card>
+                ) : mediaType === "video" ? (
+                  <Card className="bg-background/80 backdrop-blur-sm">
+                    <CardContent className="space-y-3 p-5">
+                      <h3 className="text-sm font-semibold">Frame sampling plan</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Frames are sampled evenly across the whole clip and merged with a
+                        trimmed mean, so a single dark or flashy frame cannot drag the grade
+                        around. Generation returns the frame count and clip duration.
+                      </p>
+                      <video
+                        src={uploadedImage ?? undefined}
+                        controls
+                        className="w-full rounded-lg border"
+                        data-testid="video-analyze"
+                      />
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <div className="grid gap-6 lg:grid-cols-2">
+                    <ColorStatistics analysis={analysis} />
+                    <HistogramVisualization rgbHistogram={analysis.rgbHistogram} />
+                  </div>
+                )}
+              </div>
+            ) : activeStep === "refine" ? (
+              <div className="mx-auto max-w-2xl space-y-6">
+                <StepNav
+                  onBack={() => setStep("analyze")}
+                  onNext={() => goStep("preview")}
+                  nextLabel="Continue to preview"
+                  nextDisabled={!analysisReady}
+                />
+                <LutControls
+                  intensity={intensity}
+                  onIntensityChange={setIntensity}
+                  gridSize={gridSize}
+                  onGridSizeChange={setGridSize}
+                  format={format}
+                  onFormatChange={setFormat}
+                  precision={precision}
+                  onPrecisionChange={setPrecision}
+                  exportPreview={exportPreview}
+                  onExportPreviewChange={setExportPreview}
+                  onGenerate={handleGenerateLut}
+                  isGenerating={isGenerating}
+                />
+              </div>
+            ) : activeStep === "preview" ? (
+              <div className="space-y-6">
+                <StepNav
+                  onBack={() => setStep("refine")}
+                  onNext={lutResult ? () => goStep("export") : undefined}
+                  nextLabel="Continue to export"
+                />
+                {!lutResult ? (
+                  <Card className="bg-background/80 backdrop-blur-sm">
+                    <CardContent className="space-y-4 p-5">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-sm font-semibold">Live preview</h3>
+                        <Badge variant="outline" className="px-2 py-0.5 text-[10px]">
+                          Pre-generation
+                        </Badge>
+                      </div>
+                      {mediaType === "video" ? (
+                        <video
+                          src={uploadedImage ?? undefined}
+                          controls
+                          className="w-full rounded-lg border"
+                          data-testid="video-preview"
+                        />
+                      ) : previewImage ? (
+                        <img
+                          src={previewImage}
+                          alt="Graded preview"
+                          className="max-h-[480px] w-full rounded-lg border object-contain"
+                          data-testid="image-preview"
+                        />
+                      ) : (
+                        uploadedImage && (
+                          <img
+                            src={uploadedImage}
+                            alt="Reference"
+                            className="max-h-[480px] w-full rounded-lg border object-contain"
+                          />
+                        )
+                      )}
+                      <p className="text-xs text-muted-foreground">
+                        Tune intensity and grid size in Refine, then generate the LUT to unlock
+                        export previews.
+                      </p>
+                      <Button
+                        className="w-full"
+                        size="lg"
+                        onClick={handleGenerateLut}
+                        disabled={isGenerating}
+                        data-testid="button-generate-preview"
+                      >
+                        {isGenerating ? "Generating LUT..." : "Generate LUT"}
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <>
+                    {lutResult.previewData && (
+                      <Card className="bg-background/80 backdrop-blur-sm">
+                        <CardContent className="space-y-3 p-5">
+                          <h3 className="text-sm font-semibold">Graded frame</h3>
+                          <img
+                            src={lutResult.previewData}
+                            alt="Graded result"
+                            className="max-h-[480px] w-full rounded-lg border object-contain"
+                            data-testid="image-result"
+                          />
+                        </CardContent>
+                      </Card>
+                    )}
+                    <PreviewGallery
+                      lutData={lutResult.lutData}
+                      format={lutResult.format}
+                      intensity={intensity}
+                    />
+                  </>
+                )}
+              </div>
+            ) : (
+              <div className="space-y-6">
+                <StepNav onBack={() => setStep("preview")} />
+                {lutResult ? (
+                  <>
+                    <DownloadSection
+                      lutData={lutResult.lutData}
+                      defaultFilename={lutResult.filename}
+                      format={lutResult.format}
+                      previewData={lutResult.previewData}
+                      onReset={handleReset}
+                    />
+                    <EditorWorkflowCard lutFilename={lutResult.filename} intensity={intensity} />
+                  </>
+                ) : (
+                  <Card className="bg-background/80 backdrop-blur-sm">
+                    <CardContent className="p-5 text-sm text-muted-foreground">
+                      Generate a LUT first — your download and editor recipes will appear here.
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+            )}
           </div>
         )}
     </>

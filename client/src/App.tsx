@@ -7,7 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { AuthProvider } from "@/hooks/use-auth";
 import { NavBar } from "@/components/layout/NavBar";
-import { ProtectedRoute } from "@/lib/protected-route";
+import { AppRoute } from "@/lib/protected-route";
 import { CinemaBackground } from "@/components/visual/CinemaBackground";
 import { ColorParticles3D } from "@/components/visual/ColorParticles3D";
 import Home from "@/pages/Home";
@@ -46,8 +46,43 @@ function Router() {
             return null;
           }}
         </Route>
-        {/* Unified studio workspace */}
-        <Route path="/studio" component={Studio} />
+        {/* Authenticated app sections share one persistent shell */}
+        <AppRoute
+          path="/studio"
+          component={Studio}
+          title="Studio"
+          description="Source → analyze → refine → preview → export"
+        />
+        <AppRoute
+          path="/dashboard"
+          component={Dashboard}
+          title="Dashboard"
+          description="Usage, saved LUTs and quick actions"
+        />
+        <AppRoute
+          path="/settings"
+          component={AccountSettings}
+          title="Settings"
+          description="Account, profile and preferences"
+        />
+        <AppRoute
+          path="/convert"
+          component={Convert}
+          title="Convert"
+          description="Reformat an existing LUT file"
+        />
+        <AppRoute
+          path="/analyze"
+          component={Analyze}
+          title="Analyze"
+          description="Scan a LUT for banding and quality issues"
+        />
+        <AppRoute
+          path="/optimize"
+          component={Optimize}
+          title="Optimize"
+          description="Remove invalid points and smooth gradients"
+        />
         <Route path="/workflows" component={Workflows} />
         <Route path="/learn" component={Learn} />
         {/* Legacy routes -> Studio (client-side, so auth state is preserved) */}
@@ -57,9 +92,6 @@ function Router() {
         <Route path="/tools">
           <Redirect to="/studio" />
         </Route>
-        <ProtectedRoute path="/convert" component={Convert} />
-        <ProtectedRoute path="/analyze" component={Analyze} />
-        <ProtectedRoute path="/optimize" component={Optimize} />
         <Route path="/color-science" component={LearnMore} />
         <Route path="/resources" component={Resources} />
         <Route path="/resources/install-luts" component={InstallLuts} />
@@ -69,8 +101,6 @@ function Router() {
         <Route path="/terms" component={Terms} />
         <Route path="/about" component={About} />
         <Route path="/support" component={Support} />
-        <ProtectedRoute path="/settings" component={AccountSettings} />
-        <ProtectedRoute path="/dashboard" component={Dashboard} />
         <Route path="/upgrade" component={Upgrade} />
         <Route path="/auth" component={AuthPage} />
         <Route path="/forgot-password" component={ForgotPassword} />
